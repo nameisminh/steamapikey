@@ -1,16 +1,38 @@
 {
-  "updated": "2026-10-17T14:20:00Z",
+  "updated": "2026-10-17T15:06:47.767Z",
   "name": "ming",
-  "avatar": "https://avatars.akamai.steamstatic.com/7d8c1937b7bf439198974eae0be807f4ea8cc2ac_full.jpg",
+  "avatar": "https://avatars.steamstatic.com/7d8c1937b7bf439198974eae0be807f4ea8cc2ac_full.jpg",
   "url": "https://steamcommunity.com/profiles/76561199474355109/",
   "level": 12,
-  "games": 85,
+  "games": 106,
   "badges": 7,
   "achievements": 6468,
-  "hours2w": 179.7,
+  "hours2w": 179.9,
   "recent": [
-    { "n": "ShareX", "h": 1518 },
-    { "n": "Mini Cozy Room: Lo-Fi", "h": 42 },
-    { "n": "Graveyard Keeper", "h": 0, "id": 599140 }
+    {
+      "n": "ShareX",
+      "h": 1518.8,
+      "id": 400040
+    },
+    {
+      "n": "Mini Cozy Room: Lo-Fi",
+      "h": 42.1,
+      "id": 3511030
+    },
+    {
+      "n": "Spacewar",
+      "h": 216.6,
+      "id": 480
+    },
+    {
+      "n": "Graveyard Keeper",
+      "h": 0,
+      "id": 599140
+    },
+    {
+      "n": "Borderlands 2",
+      "h": 0,
+      "id": 49520
+    }
   ]
 }
