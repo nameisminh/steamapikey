@@ -1,0 +1,28 @@
+name: steam-sync
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'   # mỗi 6 giờ
+  workflow_dispatch:         # hoặc bấm tay ở tab Actions
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Lấy dữ liệu steam
+        run: node tools/steam-sync.mjs
+        env:
+          STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
+      - name: Lưu steam.json nếu có thay đổi
+        run: |
+          git config user.name "steam-sync"
+          git config user.email "actions@users.noreply.github.com"
+          git add steam.json
+          git diff --cached --quiet || (git commit -m "cập nhật steam.json" && git push)
