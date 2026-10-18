@@ -8,23 +8,27 @@
 <title>Ming</title>
 <meta name="description" content="Trang nhỏ để mọi người biết dạo này mình đang làm gì.">
 <!-- XEM TRƯỚC KHI DÁN LINK (Discord, Facebook, Zalo, Messenger...).
-     og:title = dòng tiêu đề, og:image = ảnh lớn. Ảnh nằm ở images/og.jpg (1200x630), thay bằng ảnh của bạn nếu muốn.
-     QUAN TRỌNG: sau khi có tên miền thật, đổi 2 dòng ảnh thành link đầy đủ, ví dụ https://ten-mien-cua-ban/images/og.jpg
-     (nhiều app chỉ nhận link đầy đủ). Sau khi đổi ảnh, dùng Facebook Sharing Debugger để xoá bộ nhớ đệm của link. -->
+     Discord đọc các thẻ og: này ở đầu trang. Cần 3 thứ để hiện thẻ có ảnh lớn như mẫu:
+       1) og:title = tiêu đề màu xanh, og:description = đoạn mô tả bên dưới (xuống dòng được, thêm emoji được).
+       2) og:image PHẢI là link đầy đủ bắt đầu bằng https:// (Discord không nhận đường dẫn kiểu images/og.jpg). Ảnh ngang 1200x630, dưới 8 MB, mở được công khai.
+       3) Thay chữ TEN-MIEN-CUA-BAN ở 4 chỗ bên dưới bằng tên miền thật của bạn (ví dụ xxxx.workers.dev).
+     Discord nhớ link rất lâu: sau khi sửa, dán link kèm đuôi ?v=2 (hoặc ?v=3...) để nó đọc lại. -->
 <meta property="og:site_name" content="Ming">
+<meta property="og:url" content="https://TEN-MIEN-CUA-BAN/">
 <meta property="og:title" content="Một trang web nhỏ chia sẻ mọi thứ về Ming">
-<meta property="og:description" content="Trang nhỏ để mọi người biết dạo này mình đang làm gì: chơi gì, dịch gì, nghe gì.">
+<meta property="og:description" content="🎮 Ghé xem trang nhỏ của mình nhé&#10;🎵 nghe nhạc 📖 đọc truyện và chơi game của Ming">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="vi_VN">
-<meta property="og:image" content="images/og.jpg">
+<meta property="og:image" content="https://TEN-MIEN-CUA-BAN/images/og.jpg">
+<meta property="og:image:secure_url" content="https://TEN-MIEN-CUA-BAN/images/og.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Ming: một trang web nhỏ chia sẻ mọi thứ về Ming">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Một trang web nhỏ chia sẻ mọi thứ về Ming">
-<meta name="twitter:description" content="Trang nhỏ để mọi người biết dạo này mình đang làm gì: chơi gì, dịch gì, nghe gì.">
-<meta name="twitter:image" content="images/og.jpg">
+<meta name="twitter:description" content="🎮 Ghé xem trang nhỏ của mình nhé&#10;🎵 nghe nhạc 📖 đọc truyện và chơi game của Ming">
+<meta name="twitter:image" content="https://TEN-MIEN-CUA-BAN/images/og.jpg">
 <script>/* GIỚI HẠN FPS: mọi hiệu ứng chạy bằng JavaScript (requestAnimationFrame) được giữ tối đa khoảng FPS_CAP khung hình mỗi giây.
    Cách làm: bỏ bớt khung hình thừa trên màn hình có tần số quét cao (120Hz, 144Hz, 240Hz đều về trung bình 60). Màn hình 60Hz trở xuống không bị ảnh hưởng.
    Cuộn trang và hiệu ứng CSS do trình duyệt tự vẽ nên vẫn theo tần số quét của màn hình. Đổi số ở dòng dưới nếu muốn. */
@@ -1165,6 +1169,25 @@ a,button,summary,.btn{-webkit-tap-highlight-color:transparent;touch-action:manip
   /* thẻ câu ngẫu nhiên: hẹp lại, nằm sát bên trái nút xúc xắc, không tràn sang tận mép trái */
   .rndt{width:min(15rem,calc(100vw - 5.2rem));font-size:.78rem;line-height:1.45}
 }
+
+/* ===== X tắt câu ngẫu nhiên (mọi thiết bị) + FPS ở góc trên bên phải ===== */
+.rndt{padding-right:2.1rem!important}
+.rndt::after{content:none!important}
+.rndx{position:absolute;right:.3rem;top:50%;transform:translateY(-50%);width:1.6rem;height:1.6rem;display:grid;place-items:center;border-radius:50%;color:var(--muted);font-size:1.2rem;line-height:1;transition:color .2s,background-color .2s}
+.rndx:hover{color:var(--white);background:rgba(var(--fx,255,255,255),.14)}
+.fpsb{top:calc(max(12px,env(safe-area-inset-top,0px)) + 0px)!important;bottom:auto!important;right:max(16px,env(safe-area-inset-right,0px))!important;z-index:70}
+.fpsn{top:calc(max(12px,env(safe-area-inset-top,0px)) + 0px)!important;bottom:auto!important;right:calc(max(16px,env(safe-area-inset-right,0px)) + 52px)!important;z-index:70}
+@media (max-width:40rem){
+  .fpsb{right:calc(12px + env(safe-area-inset-right,0px))!important;top:calc(12px + env(safe-area-inset-top,0px))!important}
+  .fpsn{right:calc(64px + env(safe-area-inset-right,0px))!important;top:calc(12px + env(safe-area-inset-top,0px))!important}
+}
+.fpsb{transition:color .2s,border-color .2s,opacity .25s,visibility .25s}
+.fpsn{transition:opacity .25s,visibility .25s}
+/* FPS luôn hiện, kể cả lúc đang lướt hoặc đang mở bảng nhạc (giờ không còn đè nhau) */
+.scrolling2 .fpsb,.scrolling2 .fpsn,body:has(#bgmp:not([hidden])) :is(.fpsb,.fpsn){opacity:1;visibility:visible;pointer-events:auto}
+.fpsn[hidden]{display:none}
+/* thanh trên chừa chỗ bên phải cho nút FPS ở góc (màn hình trung bình; điện thoại thì nút tự nằm ở dòng trống, màn rất rộng thì còn lề) */
+@media (min-width:40.01rem) and (max-width:80rem){.bar .wrap{padding-right:calc(max(16px,env(safe-area-inset-right,0px)) + 44px + 14px)}}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Ming","inLanguage":"vi","description":"Trang nhỏ để mọi người biết dạo này mình đang làm gì."}</script>
 </head>
@@ -2593,7 +2616,8 @@ a,button,summary,.btn{-webkit-tap-highlight-color:transparent;touch-action:manip
     t.addEventListener('pointerenter',function(){hov=true});
     t.addEventListener('pointerleave',function(){hov=false});
     /* điện thoại: bấm vào câu để TẮT hẳn (nhớ cho lần sau, bấm nút xúc xắc để bật lại). Máy tính: bấm để tới chỗ liên quan */
-    t.addEventListener('click',function(){var h=cur&&cur.h;stop();hide();if(touch)pref('0');else goTo(h)});
+    var xb=document.createElement('span');xb.className='rndx';xb.setAttribute('aria-hidden','true');xb.textContent='\u00d7';xb.title=T('Tắt')+' (Esc)';t.appendChild(xb);
+    t.addEventListener('click',function(e){var h=cur&&cur.h,onX=!!(e.target&&e.target.closest&&e.target.closest('.rndx'));stop();hide();if(touch||onX)pref('0');else goTo(h)});
     document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!t.hidden){stop();hide();pref('0');b.focus()}});
     if(!calm&&!off()){if(document.readyState==='complete')setTimeout(start,2500);else addEventListener('load',function(){setTimeout(start,2500)})}
     document.addEventListener('langchange',function(){if(cur&&!t.hidden){tx.textContent=T(cur.t);t.title=touch?T('Bấm để tắt'):(cur.h?T('Bấm để tới chỗ này'):'')}});
