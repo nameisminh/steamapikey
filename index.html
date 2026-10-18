@@ -27,7 +27,7 @@
 <meta name="twitter:image" content="images/og.jpg">
 <script>document.documentElement.classList.add('js');try{var _n=navigator,_c=_n.connection;if((_n.hardwareConcurrency||8)<=4||(_n.deviceMemory||8)<=4||(_c&&_c.saveData))document.documentElement.classList.add('lite')}catch(e){}</script>
 <script>try{var _t=localStorage.getItem('theme');if(_t==='light'||_t==='dark')document.documentElement.setAttribute('data-theme',_t);var _m=localStorage.getItem('motion');if(_m==='off')document.documentElement.setAttribute('data-motion','off')}catch(e){}try{if(_m!=='off'&&!sessionStorage.getItem('seen')&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('pre-on')}catch(e){}</script>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='white'/><text x='50' y='68' font-size='56' text-anchor='middle' fill='black' font-family='sans-serif' font-weight='700'>T</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='white'/><text x='50' y='68' font-size='56' text-anchor='middle' fill='black' font-family='sans-serif' font-weight='700'>M</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="dns-prefetch" href="https://ddragon.leagueoflegends.com">
@@ -810,7 +810,7 @@ section.s,section.intro{position:relative}
 .ql{display:inline-flex;align-items:center;gap:.5rem;padding:.4rem .9rem .4rem .7rem;border:1px solid var(--line);border-radius:999px;background:var(--card);font-size:.85rem;transition:border-color .2s,color .2s,transform .2s}
 .ql:hover{border-color:var(--acc);color:var(--acc);transform:translateY(-2px)}
 .ql .ic2{width:1.05rem;height:1.05rem}
-.lgroup{display:grid;gap:.8rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,16rem),1fr))} .lgroup+.lgroup{margin-top:.8rem} .shot:has(img),.gallery .ph:has(img),.avf .me:has(img),.detail .ph:has(img){cursor:zoom-in}
+.lgroup{display:grid;gap:.8rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,16rem),1fr))} .lgroup+.lgroup{margin-top:.8rem} .log .lgph{display:block;width:min(100%,22rem);margin-top:.7rem;border:1px solid var(--line);border-radius:.8rem;overflow:hidden;cursor:zoom-in} .log .lgph img{display:block;width:100%;height:auto} .log .lgl{display:inline-block;margin-top:.6rem;font-size:.85rem;color:var(--muted);border-bottom:1px solid var(--line-hi)} .log .lgl:hover{color:var(--white)} .shot:has(img),.gallery .ph:has(img),.avf .me:has(img),.detail .ph:has(img){cursor:zoom-in}
 .lk{display:flex;align-items:center;gap:.9rem;min-width:0;padding:.9rem 1rem;border:1px solid var(--line);border-radius:1rem;background:var(--card);transition:border-color .25s,transform .25s,background .25s}
 .lk:hover{border-color:var(--acc);transform:translateY(-3px);background:linear-gradient(180deg,var(--card2),var(--card))}
 .lk .li{flex:none;display:grid;place-items:center;width:2.7rem;height:2.7rem;border:1px solid var(--line-hi);border-radius:.8rem;background:var(--bg)}
@@ -915,7 +915,16 @@ body{overscroll-behavior-y:none}
 .tkb-list li.now time{color:var(--white)}
 .tkb-list .nw{display:inline-flex;align-items:center;gap:.4rem;margin-top:.35rem;font:400 .72rem var(--mono);color:var(--muted)}
 @media (max-width:34rem){.tkb-list li{grid-template-columns:1fr;gap:.15rem}}
+
+#totop{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));width:44px;height:44px;border-radius:50%;border:1px solid var(--line-hi);background:var(--card);color:var(--white);font:600 18px/1 var(--body);cursor:pointer;opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .25s,transform .25s,visibility .25s;z-index:50}
+#totop.show{opacity:1;visibility:visible;transform:none}
+#totop:hover{background:var(--card2)}
+#totop:focus-visible{outline:2px solid var(--white);outline-offset:2px}
+@media print{#totop{display:none}}
+#rp{position:fixed;top:0;left:0;height:2px;width:100%;background:var(--white);transform:scaleX(0);transform-origin:0 50%;z-index:60;pointer-events:none;will-change:transform}
+@media print{#rp{display:none}}
 </style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Ming","inLanguage":"vi","description":"Trang nhỏ để mọi người biết dạo này mình đang làm gì."}</script>
 </head>
 <body>
 <a class="skip" href="#main">Bỏ qua tới nội dung</a>
@@ -972,7 +981,7 @@ body{overscroll-behavior-y:none}
     <div class="wrap">
       <div class="rv pcol">
         <div class="pc">
-          <div class="avf"><div class="avin"><div class="ph me" data-i="M"><img src="images/avatar.jpg" alt="Ảnh của Ming" onerror="this.remove()"></div></div><span class="avdot" id="avdot" data-st="offline"></span></div>
+          <div class="avf"><div class="avin"><div class="ph me" data-i="M"><img src="images/avatar.jpg" alt="Ảnh của Ming" fetchpriority="high" decoding="async" onerror="this.remove()"></div></div><span class="avdot" id="avdot" data-st="offline"></span></div>
           <div class="pci">
             <b>Ming</b><small>( ming#0811 )</small>
             <span class="pst" id="pst" data-st="offline">Ngoại tuyến</span>
@@ -993,7 +1002,7 @@ body{overscroll-behavior-y:none}
 <span class="k">Đang chơi:</span><span class="c">LoL, Delta Force, Path of Exile 2</span>
 <span class="k">Đang dịch:</span><span class="c">Minecraft, Stardew Valley</span>
 <span class="k">Đang đọc:</span><span class="c">Manhwa, manhua</span>
-<span class="k">Đang nghe:</span><span class="c">Nhạc chill</span>
+<span class="k">Đang nghe:</span><span class="c" id="nowlisten">Nhạc chill</span>
 
 <span class="p">$</span> <span class="caret"></span></pre>
         </div>
@@ -1077,7 +1086,7 @@ body{overscroll-behavior-y:none}
           <div class="head"><i></i><i></i><i></i><span>Steam · <span id="steamname">ming</span></span><em class="sync" id="steamsync"></em></div>
           <div class="bd">
             <div class="who">
-              <div class="ph avatar on" data-i="M"><img id="steamav" src="https://avatars.akamai.steamstatic.com/7d8c1937b7bf439198974eae0be807f4ea8cc2ac_full.jpg" alt="" onerror="this.remove()"></div>
+              <div class="ph avatar on" data-i="M"><img id="steamav" loading="lazy" decoding="async" src="https://avatars.akamai.steamstatic.com/7d8c1937b7bf439198974eae0be807f4ea8cc2ac_full.jpg" alt="" onerror="this.remove()"></div>
               <div><b id="steamn">ming</b><small>Hồ sơ công khai</small></div>
             </div>
             <ul class="kv" style="margin-top:1.2rem">
@@ -1231,6 +1240,7 @@ body{overscroll-behavior-y:none}
       <p class="mini rv">Năm 2026 của mình</p>
       <div class="yr rv" id="yr"></div>
       <ol class="log rv">
+        <!-- Muốn thêm ảnh hoặc link cho một mục: <li data-img="images/log/2026-10.jpg" data-link="https://..."> (cả hai đều tuỳ chọn) -->
         <li><time>Tháng 10, 2026</time><b>Làm trang web này</b><p>Đây là lần thứ 3 mình làm trang web này.</p></li>
         <li><time>Tháng 9, 2026</time><b>Thực tập tại công ty</b><p>Vẫn đang đi thực tập, vừa làm vừa học thêm.</p></li>
         <li><time>Tháng 8, 2026</time><b>Thực tập tại công ty</b><p>Đi thực tập và làm quen với môi trường làm việc.</p></li>
@@ -1334,7 +1344,7 @@ body{overscroll-behavior-y:none}
         <li><kbd>P</kbd><span>Bật hoặc tắt nhạc</span></li>
       </ul></div>
     </div>
-    <div class="copy"><span>© <span id="year">2026</span> Ming</span><span id="visits"></span><span>Cập nhật lần cuối: tháng 10/2026</span></div>
+    <div class="copy"><span>© <span id="year">2026</span> Ming</span><span id="visits"></span><span id="upd">Cập nhật lần cuối: tháng 10/2026</span></div>
   </div>
 </footer>
 
@@ -1411,6 +1421,15 @@ body{overscroll-behavior-y:none}
   Object.assign(EN,{"Xem hồ sơ":"View profile","Lịch sử đấu":"Match history","Đăng ký":"Subscribe","Xem ảnh":"View image"});
   function T(s){return (LANG==='en'&&typeof s==='string'&&Object.prototype.hasOwnProperty.call(EN,s))?EN[s]:s}
   function LOC(){return LANG==='en'?'en-US':'vi-VN'}
+  /* Nội dung còn để mẫu thì trang tự ẩn đi, điền thật vào là hiện ra:
+     PH: chữ nằm trong [ngoặc vuông]. GEN: link chưa điền (để trống, ban@example.com, hoặc chỉ là trang chủ như https://facebook.com/) */
+  function PH(s){s=String(s==null?'':s).trim();return /^\[[^\]]*\]$/.test(s)}
+  function GEN(u){
+    if(typeof ME!=='undefined'&&ME.hideEmpty===false)return false; /* công tắc: hideEmpty:false thì hiện hết, kể cả link mẫu */
+    u=String(u||'').trim();if(!u)return true;
+    if(/^mailto:/i.test(u))return /example\.(com|org)|ban@/i.test(u);
+    try{var x=new URL(u);return (x.pathname==='/'||x.pathname==='')&&!x.search&&!x.hash}catch(e){return true}
+  }
   var hh=document.getElementById('hh'),mm=document.getElementById('mm'),ss=document.getElementById('ss'),dt=document.getElementById('date');
   function setv(el,v){
     if(el.textContent==='--'){el.textContent=v;return}
@@ -1551,6 +1570,13 @@ body{overscroll-behavior-y:none}
       });
     })(root);
   }
+  /* khung terminal: dòng nào còn để mẫu [..] thì ẩn */
+  document.querySelectorAll('.panel pre .c').forEach(function(c){
+    if(!PH(c.textContent))return;
+    var k=c.previousElementSibling,n=c.nextSibling;
+    if(n&&n.nodeType===3)n.nodeValue=n.nodeValue.replace(/^\n/,'');
+    c.remove();if(k&&k.classList.contains('k'))k.remove();
+  });
   if(!calm){
     document.querySelectorAll('.rv h2,.intro h1').forEach(splitWords);
     /* khung terminal: mỗi dòng một nhịp */
@@ -1929,6 +1955,17 @@ body{overscroll-behavior-y:none}
       {id:'phim-2',t:'Tên phim 2',m:'DC · Hành động',s:'Mới xem',img:'images/phim/phim-2.jpg',d:'Giới thiệu ngắn về phim thứ hai.',w:'Cảm nhận của mình.',tags:['DC'],link:''}
     ]}
   };
+  /* mục còn để mẫu thì ẩn: tên bắt đầu bằng "Tên bộ truyện/phim/bài hát", hoặc chữ trong [ngoặc vuông].
+     Danh mục nào hết mục thì ẩn luôn thẻ của nó. Đổi tên thật vào là tự hiện lại. */
+  Object.keys(DATA).forEach(function(k){
+    var c=DATA[k];
+    c.items=c.items.filter(function(x){return !/^(Tên (bộ truyện|phim|bài hát)|\[)/.test(x.t||'')});
+    c.items.forEach(function(x){['d','w','m','s'].forEach(function(f){if(PH(x[f]))x[f]=''})});
+    if(!c.items.length){
+      delete DATA[k];
+      document.querySelectorAll('a[href="#/'+k+'"]').forEach(function(a){if(a.classList.contains('hob'))a.remove();else a.setAttribute('href','#hobby')});
+    }
+  });
 
   /* ============ BỘ CHUYỂN TRANG (không cần sửa) ============ */
   var home=document.getElementById('home'),view=document.getElementById('view'),base=document.title;
@@ -1948,7 +1985,7 @@ body{overscroll-behavior-y:none}
     return '<a class="back" href="#/'+k+'">'+T('← Tất cả')+' '+esc(c.label).toLowerCase()+'</a>'+
       '<div class="detail '+c.shape+'"><div>'+ph(x.img,x.t,x.t,x.fb)+'</div><div>'+
       (x.s?'<span class="pill">'+esc(x.s)+'</span>':'')+'<h1>'+esc(x.t)+'</h1><p class="meta">'+esc(x.m)+'</p>'+
-      (x.p!=null?'<p class="rows" style="border:0"><span class="pg" style="margin:.4rem 0 .3rem;flex:none;width:12rem"><i style="--v:'+x.p+'%"></i></span><em style="font:400 .78rem var(--mono);font-style:normal;color:var(--muted)">'+T('Tiến độ')+' '+x.p+'%</em></p>':'')+'<h4>'+T('Giới thiệu')+'</h4><p>'+esc(x.d)+'</p><h4>'+esc(c.wl||'Vì sao mình thích')+'</h4><p>'+esc(x.w)+'</p>'+
+      (x.p!=null?'<p class="rows" style="border:0"><span class="pg" style="margin:.4rem 0 .3rem;flex:none;width:12rem"><i style="--v:'+x.p+'%"></i></span><em style="font:400 .78rem var(--mono);font-style:normal;color:var(--muted)">'+T('Tiến độ')+' '+x.p+'%</em></p>':'')+(x.d?'<h4>'+T('Giới thiệu')+'</h4><p>'+esc(x.d)+'</p>':'')+(x.w?'<h4>'+esc(c.wl||'Vì sao mình thích')+'</h4><p>'+esc(x.w)+'</p>':'')+
       ((x.tags&&x.tags.length)?'<ul class="chips">'+x.tags.map(function(t){return '<li>'+esc(t)+'</li>'}).join('')+'</ul>':'')+
       (ok?'<p style="margin-top:1.5rem"><a class="btn line" href="'+esc(x.link)+'" target="_blank" rel="noopener">'+T('Xem thêm')+'</a></p>':'')+
       (x.yt?'<div class="embed"><iframe title="'+esc(x.t)+'" loading="lazy" decoding="async" allow="encrypted-media; picture-in-picture" allowfullscreen src="https://www.youtube-nocookie.com/embed/'+encodeURIComponent(x.yt)+'"></iframe></div>':'')+
@@ -1956,6 +1993,7 @@ body{overscroll-behavior-y:none}
   }
   function routeApply(){
     var h=location.hash,m=h.match(/^#\/([a-z]+)(?:\/([^\/]+))?$/);
+    if(m&&!DATA[m[1]]){location.replace('#hobby');return}
     if(m&&DATA[m[1]]){
       var k=m[1];
       view.innerHTML=m[2]?detail(k,decodeURIComponent(m[2])):list(k);
@@ -1973,7 +2011,20 @@ body{overscroll-behavior-y:none}
   });
   /* ===== hồ sơ game: sửa ở đây =====
      champs: tên tướng viết liền, đúng tên trong Data Dragon (ví dụ MissFortune, KaiSa, LeeSin) */
-  var ME={steam:'https://steamcommunity.com/profiles/76561199474355109/',steamName:'ming',discordId:'873073921589661698' /* ID Discord (dãy số) để hiện trạng thái trực tiếp ở mục "Mình đang làm gì lúc này". Bật Developer Mode > chuột phải vào tên mình > Copy User ID, rồi vào server discord.gg/lanyard */,address:'263 Nguyễn Như Quế, Lê Tảo, Phù Liễn, Hải Phòng, Việt Nam' /* địa chỉ hiện ở bản đồ cuối trang */,discordUser:'ming' /* tên Discord hiển thị trên trang */,discordInvite:'' /* link mời vào server hoặc link kết bạn, dạng https://discord.gg/xxxx. Để trống thì nút Discord mở discord.com */,hideRecent:[],riot:'ming#0811',opgg:'https://www.op.gg/summoners/vn/ming-0811',champs:['LeeSin','Zed','Yasuo']};
+  var ME={steam:'https://steamcommunity.com/profiles/76561199474355109/',steamName:'ming',discordId:'873073921589661698' /* ID Discord (dãy số) để hiện trạng thái trực tiếp ở mục "Mình đang làm gì lúc này". Bật Developer Mode > chuột phải vào tên mình > Copy User ID, rồi vào server discord.gg/lanyard */,address:'Hải Phòng, Việt Nam' /* vị trí hiện ở bản đồ cuối trang: chỉ để thành phố cho riêng tư */,discordUser:'ming' /* tên Discord hiển thị trên trang */,discordInvite:'' /* link mời vào server hoặc link kết bạn, dạng https://discord.gg/xxxx. Để trống thì nút Discord mở discord.com */,hideRecent:[],riot:'ming#0811',opgg:'https://www.op.gg/summoners/vn/ming-0811',champs:['LeeSin','Zed','Yasuo'],hideEmpty:false /* true: tự ẩn link chưa điền. false: hiện hết các link mẫu */,updated:'2026-10-18' /* ngày bạn sửa trang lần cuối (năm-tháng-ngày), hiện ở chân trang */,goatcounter:'' /* tên tài khoản GoatCounter (goatcounter.com) để đếm lượt xem thật. Để trống thì không đếm */,cfBeacon:'' /* hoặc token Cloudflare Web Analytics */};
+  (function(){
+    var e=document.getElementById('upd');
+    if(e){
+      var MN=['January','February','March','April','May','June','July','August','September','October','November','December'];
+      var r=function(){var p=String(ME.updated||'').split('-'),y=p[0],m=+p[1];if(!y||!m)return;e.textContent=LANG==='en'?'Last updated: '+MN[m-1]+' '+y:'Cập nhật lần cuối: tháng '+m+'/'+y};
+      r();document.addEventListener('langchange',r);
+    }
+    /* thống kê lượt xem thật: mặc định tắt, không gọi gì ra ngoài. Tôn trọng chế độ Do Not Track */
+    function add(src,at){var t=document.createElement('script');t.async=true;t.src=src;for(var k in at)t.setAttribute(k,at[k]);document.head.appendChild(t)}
+    if(location.protocol==='file:'||navigator.doNotTrack==='1')return;
+    if(ME.goatcounter)add('https://gc.zgo.at/count.js',{'data-goatcounter':'https://'+ME.goatcounter+'.goatcounter.com/count'});
+    if(ME.cfBeacon)add('https://static.cloudflareinsights.com/beacon.min.js',{'data-cf-beacon':JSON.stringify({token:ME.cfBeacon})});
+  })();
   /* ===== bộ icon: thêm <i data-ic="tên"></i> ở bất cứ đâu là có icon ===== */
   var ICONS={
     gamepad:'<rect x="2.5" y="7" width="19" height="11" rx="5.5"/><path d="M7.5 10.5v4M5.5 12.5h4"/><path d="M15.5 11.5h.01M18 13.5h.01"/>',
@@ -2311,9 +2362,11 @@ body{overscroll-behavior-y:none}
       ph.innerHTML='<img src="'+esc(x.img)+'" alt="'+esc(x.n)+'" onerror="this.remove()">';
       document.getElementById('idmt').textContent=x.n;
       document.getElementById('idtag').textContent=T(x.tag);
-      document.getElementById('idwhy').textContent=T(x.why);
-      document.getElementById('idtr').innerHTML=x.traits.map(function(t){return '<li>'+esc(t)+'</li>'}).join('');
-      document.getElementById('idsg').textContent=x.songs.join(' · ');
+      var why=PH(x.why)?'':x.why,tr=x.traits.filter(function(t){return !PH(t)}),sg=x.songs.filter(function(t){return !PH(t)});
+      function sec(id,on){var e=document.getElementById(id),h=e.previousElementSibling;e.style.display=on?'':'none';if(h)h.style.display=on?'':'none'}
+      document.getElementById('idwhy').textContent=T(why);sec('idwhy',!!why);
+      document.getElementById('idtr').innerHTML=tr.map(function(t){return '<li>'+esc(t)+'</li>'}).join('');sec('idtr',tr.length>0);
+      document.getElementById('idsg').textContent=sg.join(' · ');sec('idsg',sg.length>0);
       box.hidden=false;document.body.style.overflow='hidden';closeB.focus();
     }
     function close(){box.hidden=true;document.body.style.overflow='';if(opener)opener.focus()}
@@ -2349,6 +2402,8 @@ body{overscroll-behavior-y:none}
     [['08:00','12:00','[Việc buổi sáng cuối tuần]',''],['14:00','18:00','[Việc buổi chiều cuối tuần]',''],['20:00','23:30','[Chơi game, nghe nhạc]','']],
     [['08:00','12:00','[Việc buổi sáng chủ nhật]',''],['14:00','18:00','[Việc buổi chiều chủ nhật]',''],['20:00','22:30','[Chuẩn bị cho tuần mới]','']]
   ];
+  /* dòng còn để mẫu [..] thì ẩn */
+  TKB=TKB.map(function(d){return d.filter(function(r){return !PH(r[2])}).map(function(r){return [r[0],r[1],r[2],PH(r[3])?'':r[3]]})});
   var TKB_D=[['Thứ 2','T2'],['Thứ 3','T3'],['Thứ 4','T4'],['Thứ 5','T5'],['Thứ 6','T6'],['Thứ 7','T7'],['Chủ nhật','CN']];
   (function(){
     var tabs=document.getElementById('tkbtabs'),list=document.getElementById('tkblist'),cap=document.getElementById('tkbcap');
@@ -2409,6 +2464,7 @@ body{overscroll-behavior-y:none}
       document.getElementById('gmtags').innerHTML=(x.tags||[]).map(function(t){return '<span class="gtag">'+esc(t)+'</span>'}).join('');
       document.getElementById('gmd').textContent=T(x.d||'');
       document.getElementById('gmw').textContent=T(x.w||'');
+      ['gmd','gmw'].forEach(function(id){var e=document.getElementById(id),h=e.previousElementSibling,on=!!e.textContent;e.style.display=on?'':'none';if(h)h.style.display=on?'':'none'});
       var l=document.getElementById('gml');if(x.link){l.href=x.link;l.hidden=false}else l.hidden=true;
       document.getElementById('gmv').href='#/game/'+x.id;
       box.hidden=false;document.body.style.overflow='hidden';closeB.focus();
@@ -2446,6 +2502,12 @@ body{overscroll-behavior-y:none}
   ];
   (function(){
     var box=document.getElementById('plgrid');if(!box)return;
+    if(!PLAYLISTS.some(function(x){return !GEN(x.u)})){ /* chưa có playlist nào: ẩn cả mục, điền u ở PLAYLISTS là hiện lại */
+      var ps=document.getElementById('playlist');if(ps)ps.style.display='none';
+      document.querySelectorAll('a[href="#playlist"]').forEach(function(a){a.remove()});
+      for(var si=SECS.length-1;si>=0;si--)if(SECS[si][0]==='playlist')SECS.splice(si,1);
+      return;
+    }
     function info(u){
       try{
         var x=new URL(u),h=x.hostname.replace(/^www\./,''),p=x.pathname.split('/').filter(Boolean),i;
@@ -2536,6 +2598,8 @@ body{overscroll-behavior-y:none}
     if(img.complete&&img.naturalWidth)go();else img.addEventListener('load',go,{once:true});
   }
   (function(){
+    var LK=LINKS.filter(function(x){return !GEN(x.u)}); /* link chưa điền thì ẩn */
+    document.querySelectorAll('#contact .cta a').forEach(function(a){if(a.id!=='ctdc'&&GEN(a.getAttribute('href')))a.style.display='none'});
     function lk(x){
       var ext=x.k!=='mail';
       return '<a class="lk" href="'+esc(x.u)+'"'+(ext?' target="_blank" rel="noopener"':'')+'><span class="li">'+icn(x.k)+'</span><span class="lt"><b>'+esc(x.n)+'</b><small>'+esc(x.h)+'</small></span><span class="la">'+esc(x.a)+'</span></a>';
@@ -2544,13 +2608,13 @@ body{overscroll-behavior-y:none}
     function build(){
       var box=document.getElementById('linkbox');
       if(box){
-        box.innerHTML='<div class="lgroup">'+LINKS.slice(0,3).map(lk).join('')+'</div>'+ban(1)+'<div class="lgroup">'+LINKS.slice(3).map(lk).join('')+'</div>'+ban(2);
+        box.innerHTML='<div class="lgroup">'+LK.slice(0,3).map(lk).join('')+'</div>'+ban(1)+(LK.length>3?'<div class="lgroup">'+LK.slice(3).map(lk).join('')+'</div>'+ban(2):'');
         if(calm)box.querySelectorAll('img').forEach(still);
       }
       var q=document.getElementById('qlinks');
-      if(q)q.innerHTML=LINKS.filter(function(x){return x.k!=='mail'}).map(function(x){return '<a class="ql" role="listitem" href="'+esc(x.u)+'" target="_blank" rel="noopener">'+icn(x.k)+esc(x.n)+'</a>'}).join('');
+      if(q)q.innerHTML=LK.filter(function(x){return x.k!=='mail'}).map(function(x){return '<a class="ql" role="listitem" href="'+esc(x.u)+'" target="_blank" rel="noopener">'+icn(x.k)+esc(x.n)+'</a>'}).join('');
       var f=document.getElementById('fconn');
-      if(f)f.innerHTML=LINKS.map(function(x){return '<li><a href="'+esc(x.u)+'"'+(x.k==='mail'?'':' target="_blank" rel="noopener"')+'>'+esc(x.n)+'</a></li>'}).join('');
+      if(f)f.innerHTML=LK.map(function(x){return '<li><a href="'+esc(x.u)+'"'+(x.k==='mail'?'':' target="_blank" rel="noopener"')+'>'+esc(x.n)+'</a></li>'}).join('');
     }
     build();
     document.addEventListener('langchange',build);
@@ -2583,7 +2647,7 @@ body{overscroll-behavior-y:none}
       prev=b;li.src=m.dataset.gif||m.src;lc.textContent='';lb.hidden=false;document.body.style.overflow='hidden';
     });
     /* bấm vào ảnh (ảnh LoL, ảnh của mình, "Vài tấm ảnh", ảnh ở trang chi tiết) thì xem lớn ngay tại trang, không nhảy link */
-    var ZSEL='.shot,.gallery .ph,.avf .me,.detail .ph';
+    var ZSEL='.shot,.gallery .ph,.avf .me,.detail .ph,.log .lgph';
     function zoomable(){document.querySelectorAll(ZSEL).forEach(function(el){
       if(el.__z||!el.querySelector('img'))return;el.__z=1;
       if(!/^(A|BUTTON)$/.test(el.tagName)){el.tabIndex=0;el.setAttribute('role','button')}
@@ -2613,7 +2677,7 @@ body{overscroll-behavior-y:none}
   /* Discord trực tiếp qua Lanyard (API công khai). Cần: vào server discord.gg/lanyard bằng tài khoản của bạn, rồi điền ID ở ME.discordId */
   (function(){
     var bd=document.getElementById('presbd');if(!bd)return;
-    var ID=ME.discordId,D=null,ws=null,hb=0,retry=0;
+    var ID=ME.discordId,D=null,ws=null,hb=0,retry=0,NJ=false,DEV=/[?&]dev(=|&|$)/.test(location.search);
     var STL={online:'Trực tuyến',idle:'Vắng mặt',dnd:'Đừng làm phiền',offline:'Ngoại tuyến'};
     function hms(ms){var s=Math.max(0,Math.floor(ms/1000)),h=Math.floor(s/3600),m=Math.floor(s%3600/60);s%=60;return (h?h+':'+('0'+m).slice(-2):m)+':'+('0'+s).slice(-2)}
     function asset(a){
@@ -2629,6 +2693,9 @@ body{overscroll-behavior-y:none}
       var d=D,st=d&&STL[d.discord_status]?d.discord_status:'offline',u=d&&d.discord_user,acts=(d&&d.activities)||[],game=null,custom=null;
       acts.forEach(function(a){if(a.type===0&&!game)game=a;if(a.type===4)custom=a});
       var sp=d&&d.listening_to_spotify&&d.spotify?d.spotify:null;
+      /* dòng "Đang nghe" ở khung terminal: đang nghe Spotify thì hiện bài đó, không thì về chữ mặc định */
+      var nl=document.getElementById('nowlisten');
+      if(nl){if(sp){if(!nl.hasAttribute('data-def'))nl.setAttribute('data-def',nl.textContent);nl.textContent=sp.song+' · '+sp.artist}else if(nl.hasAttribute('data-def')){nl.textContent=T(nl.getAttribute('data-def'));nl.removeAttribute('data-def')}}
       var name=u?(u.global_name||u.display_name||u.username):ME.steamName,tag=u?'@'+u.username:'';
       var av=u&&u.avatar?'https://cdn.discordapp.com/avatars/'+u.id+'/'+u.avatar+'.'+(u.avatar.indexOf('a_')===0?'gif':'png')+'?size=128':'';
       var h='<div class="pw"><div><div class="pu"><div class="pav"><div class="ph" data-i="'+esc(name.charAt(0))+'">'+(av?'<img src="'+esc(av)+'" alt="" onerror="this.remove()">':'')+'</div><span class="avdot" data-st="'+st+'"></span></div><div><b>'+esc(name)+'</b><small>'+(tag?esc(tag)+' · ':'')+esc(STL[st])+'</small></div></div>';
@@ -2638,7 +2705,7 @@ body{overscroll-behavior-y:none}
       if(sp)h+=card('music',sp.album_art_url,'Đang nghe Spotify',sp.song,'<p>'+esc(sp.artist)+'</p>',sp.timestamps?'<div class="sbar"><i data-s="'+sp.timestamps.start+'" data-e="'+sp.timestamps.end+'"></i></div>':'');
       if(!game&&!sp)h+=card('pulse','','Ngay lúc này',st==='offline'?STL.offline:'Không làm gì cả','');
       h+='</div></div>';
-      if(!ID)h+='<p class="note">'+esc('Chưa kết nối Discord. Điền Discord ID ở biến ME.discordId và vào server Lanyard (discord.gg/lanyard).')+'</p>';
+      if((!ID||(NJ&&!D))&&DEV)h+='<p class="note">'+esc('Chưa kết nối Discord. Điền Discord ID ở biến ME.discordId và vào server Lanyard (discord.gg/lanyard).')+'</p>';
       bd.innerHTML=h;tickP();
       /* thẻ người chơi ở đầu trang */
       var dot=document.getElementById('avdot'),ps=document.getElementById('pst');
@@ -2666,7 +2733,7 @@ body{overscroll-behavior-y:none}
     }
     render();
     if(ID){
-      fetch('https://api.lanyard.rest/v1/users/'+encodeURIComponent(ID)).then(function(r){return r.json()}).then(function(j){if(j&&j.success&&!D){D=j.data;render()}}).catch(function(){});
+      fetch('https://api.lanyard.rest/v1/users/'+encodeURIComponent(ID)).then(function(r){return r.json()}).then(function(j){if(j&&j.success&&!D){D=j.data;render()}else if(j&&j.success===false){NJ=true;try{console.warn('Lanyard chưa thấy tài khoản Discord này. Vào discord.gg/lanyard bằng chính tài khoản đó rồi tải lại trang. Thêm ?dev vào link để thấy ghi chú trên trang.')}catch(e){}render()}}).catch(function(){});
       connect();
     }
     setInterval(function(){if(!document.hidden)tickP()},1000);
@@ -2728,6 +2795,12 @@ body{overscroll-behavior-y:none}
     dots.querySelectorAll('a').forEach(function(a,i){a.setAttribute('data-l',T(SECS[i][1]));a.setAttribute('aria-label',T(SECS[i][1]))});
     if(!view.hidden){var y=window.scrollY;routeApply();window.scrollTo({top:y,behavior:'instant'})}
   });
+  /* nhật ký: mục nào có data-img / data-link thì thêm ảnh (bấm xem lớn) và nút "Xem thêm" */
+  document.querySelectorAll('.log li').forEach(function(li){
+    var im=li.getAttribute('data-img'),ln=li.getAttribute('data-link');
+    if(im){var w=document.createElement('span'),g=document.createElement('img');w.className='lgph';g.src=im;g.alt=(li.querySelector('b')||{}).textContent||'';g.loading='lazy';g.decoding='async';g.onerror=function(){w.remove()};w.appendChild(g);li.appendChild(w)}
+    if(ln&&/^https?:\/\//.test(ln)){var a=document.createElement('a');a.className='lgl';a.href=ln;a.target='_blank';a.rel='noopener';a.textContent=T('Xem thêm');li.appendChild(a)}
+  });
   route();
   applyLang(LANG,false);
 })();
@@ -2741,5 +2814,14 @@ body{overscroll-behavior-y:none}
   addEventListener('hashchange',function(){setTimeout(scan,150)});
   document.addEventListener('langchange',function(){setTimeout(scan,150)});
 })();</script>
+<div id="rp" aria-hidden="true"></div>
+<button id="totop" type="button" aria-label="Lên đầu trang" title="Lên đầu trang">↑</button>
+<script>(function(){var b=document.getElementById('totop');if(!b)return;
+var rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+var rp=document.getElementById('rp'),tk=false;
+function t(){var y=window.scrollY||0;b.classList.toggle('show',y>600);if(rp){var h=document.documentElement.scrollHeight-innerHeight;rp.style.transform='scaleX('+(h>0?Math.min(1,y/h):0)+')'}tk=false}
+function q(){if(!tk){tk=true;requestAnimationFrame(t)}}
+addEventListener('scroll',q,{passive:true});addEventListener('resize',q);t();
+b.addEventListener('click',function(){window.scrollTo({top:0,behavior:rm?'auto':'smooth'})});})();</script>
 </body>
 </html>
