@@ -267,9 +267,9 @@ footer{border-top:1px solid var(--line);padding:3rem 0 6rem;color:var(--muted);f
 
 /* ảnh nhỏ chạy theo chuột */
 .trail{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
-.drop{position:absolute;width:9rem;height:11.5rem;border-radius:.7rem;overflow:hidden;background:linear-gradient(135deg,var(--ph1),var(--ph2));border:1px solid var(--line-hi);opacity:0;will-change:transform,opacity}
+.drop{position:absolute;width:250px;height:170px;border-radius:.7rem;overflow:hidden;background:linear-gradient(135deg,var(--ph1),var(--ph2));border:1px solid var(--line-hi);opacity:0;will-change:transform,opacity}
 .drop img{width:100%;height:100%;object-fit:cover;display:block}
-@media (max-width:40rem){.drop{width:6.5rem;height:8.5rem}}
+@media (max-width:40rem){.drop{width:170px;height:116px}}
 .clk .in,.cue{z-index:1}
 
 /* nút đổi sáng/tối và nút lên đầu trang */
@@ -923,6 +923,30 @@ body{overscroll-behavior-y:none}
 @media print{#totop{display:none}}
 #rp{position:fixed;top:0;left:0;height:2px;width:100%;background:var(--white);transform:scaleX(0);transform-origin:0 50%;z-index:60;pointer-events:none;will-change:transform}
 @media print{#rp{display:none}}
+/* ảnh xám từ mục Nghệ sĩ trở xuống: rê chuột vào thì lên màu, sáng dần và phóng nhẹ. Điện thoại (không có chuột) giữ ảnh màu */
+@media (hover:hover){
+  .idc img,#playlist .th img,.lgph img{filter:grayscale(1) contrast(1.05) brightness(.9);transform:scale(1);transition:filter .7s ease,transform .9s cubic-bezier(.2,.7,.2,1)}
+  .idc:hover img,.idc:focus-visible img,#playlist :is(a,button,li):hover .th img,#playlist .th:hover img,.lgph:hover img{filter:none;transform:scale(1.06)}
+}
+@media (prefers-reduced-motion:reduce){
+  .idc img,#playlist .th img,.lgph img{transition:filter .2s!important;transform:none!important}
+}
+/* thanh đầu trang khi cuộn xuống (màn hình rộng từ 80rem): thu gọn thành viên thuốc, các mục menu dời ra cột dọc bên trái */
+.bar{transition:border-color .4s,background-color .4s}
+.bar .wrap{transition:max-width .5s cubic-bezier(.2,.8,.2,1),padding .4s,margin .4s,border-radius .5s,background-color .4s,border-color .4s,box-shadow .4s;border:1px solid transparent}
+@keyframes dockin{from{opacity:0;transform:translate(-16px,-50%)}to{opacity:1;transform:translate(0,-50%)}}
+@media (min-width:80rem){
+  .bar.mini{background:transparent;border-bottom-color:transparent;pointer-events:none}
+  .bar.mini .prog{opacity:0}
+  .bar.mini .wrap{max-width:36rem;margin-top:.5rem;padding:.35rem .6rem .35rem .5rem;border-color:var(--line-hi);border-radius:999px;background:rgba(var(--bgrgb),.92);box-shadow:0 8px 28px rgba(0,0,0,.28);pointer-events:auto}
+  .bar.mini .brand .badge{display:none}
+  .bar.mini nav{position:fixed;left:1rem;top:50%;transform:translateY(-50%);z-index:11;width:auto;flex-direction:column;align-items:stretch;gap:.1rem;padding:.55rem .45rem;max-height:calc(100vh - 7rem);overflow:hidden auto;border:1px solid var(--line-hi);border-radius:1.2rem;background:rgba(var(--bgrgb),.92);box-shadow:0 8px 28px rgba(0,0,0,.28);pointer-events:auto;animation:dockin .5s cubic-bezier(.2,.8,.2,1) both}
+  .bar.mini nav a{padding:.32rem .75rem;border-radius:.6rem;background-position:.75rem calc(100% - .2rem);background-size:0 1px}
+  .bar.mini nav a:hover,.bar.mini nav a.on{background-size:calc(100% - 1.5rem) 1px;background-color:rgba(var(--fx),.07)}
+}
+@media (prefers-reduced-motion:reduce){.bar,.bar .wrap{transition:none}.bar.mini nav{animation:none}}
+:root[data-motion="off"] :is(.bar,.bar .wrap){transition:none}
+:root[data-motion="off"] .bar.mini nav{animation:none}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Ming","inLanguage":"vi","description":"Trang nhỏ để mọi người biết dạo này mình đang làm gì."}</script>
 </head>
@@ -1485,7 +1509,7 @@ body{overscroll-behavior-y:none}
        Chuột đi nhanh thì lấp thêm ảnh dọc đường để không bị hở. */
     var small=matchMedia('(max-width:40rem)');
     var OVERLAP=0.5; /* mỗi ảnh đè lên ảnh trước 2/3 bề rộng. 0 = chỉ chạm cạnh, 0.8 = đè nhiều hơn */
-    function gap(){return (small.matches?6.5:9)*parseFloat(getComputedStyle(document.documentElement).fontSize)*(1-OVERLAP)}
+    function gap(){return (small.matches?170:250)*(1-OVERLAP)} /* bằng bề rộng ảnh (.drop trong CSS) nhân (1-OVERLAP) */
     clk.addEventListener('pointermove',function(e){
       if(e.pointerType==='touch')return;
       if(lx===null){lx=e.clientX;ly=e.clientY;return}
@@ -2823,5 +2847,13 @@ function t(){var y=window.scrollY||0;b.classList.toggle('show',y>600);if(rp){var
 function q(){if(!tk){tk=true;requestAnimationFrame(t)}}
 addEventListener('scroll',q,{passive:true});addEventListener('resize',q);t();
 b.addEventListener('click',function(){window.scrollTo({top:0,behavior:rm?'auto':'smooth'})});})();</script>
+<script>(function(){var bar=document.querySelector('.bar');if(!bar)return;
+var mq=matchMedia('(min-width:80rem)'),on=false,tk=false;
+function hold(){if(on)return;bar.style.minHeight='';if(mq.matches)bar.style.minHeight=bar.offsetHeight+'px'}
+function t(){tk=false;var y=window.scrollY||0,w=mq.matches&&(on?y>60:y>160);if(w!==on){on=w;bar.classList.toggle('mini',on)}}
+function q(){if(!tk){tk=true;requestAnimationFrame(t)}}
+addEventListener('scroll',q,{passive:true});
+addEventListener('resize',function(){if(!mq.matches&&on){on=false;bar.classList.remove('mini')}hold();q()});
+addEventListener('load',hold);hold();t();})();</script>
 </body>
 </html>
