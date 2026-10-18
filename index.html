@@ -2144,14 +2144,22 @@ body{overscroll-behavior-y:none}
   })();
   /* ===== nhạc nền: sửa danh sách bài ở TRACKS =====
      Cách thêm một bài:
-       1) Bỏ file .mp3 vào thư mục music/ (đặt tên không dấu, không khoảng trắng, ví dụ music/lac-troi.mp3).
-       2) Thêm một dòng: {t:'Tên bài',a:'Ca sĩ',src:'music/lac-troi.mp3'},   (dòng nào cũng có dấu phẩy, trừ dòng cuối)
+       1) Bỏ file .mp3 vào thư mục music/ (đặt tên không dấu, không khoảng trắng, ví dụ music/bai-01.mp3).
+       2) Có sẵn 10 chỗ: sửa t (tên bài), a (ca sĩ) và src (tên file) của dòng tương ứng. Chỗ nào chưa có file thì tự bị bỏ qua.
+       Muốn thêm nhiều hơn 10 bài: chép một dòng, đổi số (dòng nào cũng có dấu phẩy, trừ dòng cuối)
      Nên dùng mp3 128 đến 192 kbps, mỗi file dưới khoảng 6 MB. Dùng nhạc bạn có quyền dùng.
      Trang KHÔNG tự phát nhạc: chỉ phát khi người xem bấm nút, và file chỉ tải khi bấm nghe. File nào thiếu thì tự bỏ qua. */
   var TRACKS=[
-    {t:'Nhạc mẫu 1',a:'Tạo bằng code',src:'music/chill.mp3'},
-    {t:'Nhạc mẫu 2',a:'Tạo bằng code',src:'music/track2.mp3'},
-    {t:'Nhạc mẫu 3',a:'Tạo bằng code',src:'music/track3.mp3'}
+    {t:'Bài 1',a:'Tên ca sĩ',src:'music/bai-01.mp3'},
+    {t:'Bài 2',a:'Tên ca sĩ',src:'music/bai-02.mp3'},
+    {t:'Bài 3',a:'Tên ca sĩ',src:'music/bai-03.mp3'},
+    {t:'Bài 4',a:'Tên ca sĩ',src:'music/bai-04.mp3'},
+    {t:'Bài 5',a:'Tên ca sĩ',src:'music/bai-05.mp3'},
+    {t:'Bài 6',a:'Tên ca sĩ',src:'music/bai-06.mp3'},
+    {t:'Bài 7',a:'Tên ca sĩ',src:'music/bai-07.mp3'},
+    {t:'Bài 8',a:'Tên ca sĩ',src:'music/bai-08.mp3'},
+    {t:'Bài 9',a:'Tên ca sĩ',src:'music/bai-09.mp3'},
+    {t:'Bài 10',a:'Tên ca sĩ',src:'music/bai-10.mp3'}
   ];
   (function(){
     var au=document.getElementById('bgmau'),btn=document.getElementById('bgm'),top=document.getElementById('bgmtop'),lst=document.getElementById('bgmlist'),pan=document.getElementById('bgmp');
