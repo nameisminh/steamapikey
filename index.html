@@ -1067,6 +1067,9 @@ body{overscroll-behavior-y:none}
 #bgmq{left:calc(max(16px,env(safe-area-inset-left,0px)) + 54px)}
 #bgmn{left:calc(max(16px,env(safe-area-inset-left,0px)) + 108px)}
 .bgmp{left:max(16px,env(safe-area-inset-left,0px));bottom:calc(max(16px,env(safe-area-inset-bottom,0px)) + 54px)}
+/* câu ngẫu nhiên nằm lơ lửng cạnh nút xúc xắc, không làm khung nút cao thêm (trước đây câu 2 dòng đẩy nút xúc xắc lên sát nút FPS) */
+.rndf{align-items:flex-end}
+.rndt{position:absolute;right:calc(100% + .8rem);top:50%;transform:translateY(-50%)}
 /* ===== ĐIỆN THOẠI: bố cục gọn, nút nổi xếp gọn, chạm dễ hơn. Đặt cuối cùng để ghi đè. ===== */
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{overflow-x:clip;overflow-wrap:break-word}
@@ -1099,22 +1102,22 @@ a,button,summary,.btn{-webkit-tap-highlight-color:transparent;touch-action:manip
   /* nút nổi bên phải: cùng cỡ, cách đều, tránh thanh home của điện thoại */
   #totop,.rndb,.fpsb{width:40px;height:40px}
   #totop{right:calc(12px + env(safe-area-inset-right,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px))}
-  .rndf{right:calc(12px + env(safe-area-inset-right,0px));bottom:calc(60px + env(safe-area-inset-bottom,0px));gap:.5rem}
-  .fpsb{right:calc(12px + env(safe-area-inset-right,0px));bottom:calc(108px + env(safe-area-inset-bottom,0px))}
-  .fpsn{right:calc(60px + env(safe-area-inset-right,0px));bottom:calc(108px + env(safe-area-inset-bottom,0px));width:min(16rem,calc(100vw - 5rem))}
+  .rndf{right:calc(12px + env(safe-area-inset-right,0px));bottom:calc(64px + env(safe-area-inset-bottom,0px))}
+  .fpsb{right:calc(12px + env(safe-area-inset-right,0px));bottom:calc(116px + env(safe-area-inset-bottom,0px))}
+  .fpsn{right:calc(64px + env(safe-area-inset-right,0px));bottom:calc(116px + env(safe-area-inset-bottom,0px));width:min(16rem,calc(100vw - 5rem))}
   /* câu ngẫu nhiên: thành thẻ có nền để dễ đọc, không đè lên nút nhạc bên trái */
-  .rndt{width:min(20rem,calc(100vw - 4.5rem));padding:.55rem .8rem;border:1px solid var(--line-hi);border-radius:.9rem;background:var(--card);text-align:left;font-size:.82rem;text-shadow:none;box-shadow:0 10px 26px -14px rgba(0,0,0,.5)}
+  .rndt{top:auto;bottom:0;transform:none;right:calc(100% + 12px);width:min(20rem,calc(100vw - 4.5rem));padding:.55rem .8rem;border:1px solid var(--line-hi);border-radius:.9rem;background:var(--card);text-align:left;font-size:.82rem;text-shadow:none;box-shadow:0 10px 26px -14px rgba(0,0,0,.5)}
   /* chân trang: hai cột, phần giới thiệu chiếm cả hàng, chừa chỗ cho các nút nổi */
   footer{padding-bottom:7rem}
   .fgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:1.6rem 1rem}
   .fgrid>:first-child{grid-column:1/-1}
-  /* hàng nút nhạc bên trái cùng cỡ 40px, cùng lề 12px và ngang đúng với nút lên đầu trang bên phải */
+  /* khoảng cách giữa các nút nổi 12px (nút 40px, bước 52px). Hàng nút nhạc bên trái cùng cỡ 40px, cùng lề 12px và ngang đúng với nút lên đầu trang bên phải */
   .bgm,.bgq{width:40px;height:40px}
   .bgm{left:calc(12px + env(safe-area-inset-left,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px))}
   .bgq{bottom:calc(12px + env(safe-area-inset-bottom,0px))}
-  #bgmq{left:calc(60px + env(safe-area-inset-left,0px))}
-  #bgmn{left:calc(108px + env(safe-area-inset-left,0px))}
-  .bgmp{left:calc(12px + env(safe-area-inset-left,0px));bottom:calc(60px + env(safe-area-inset-bottom,0px));width:min(19rem,calc(100vw - 1.5rem))}
+  #bgmq{left:calc(64px + env(safe-area-inset-left,0px))}
+  #bgmn{left:calc(116px + env(safe-area-inset-left,0px))}
+  .bgmp{left:calc(12px + env(safe-area-inset-left,0px));bottom:calc(64px + env(safe-area-inset-bottom,0px));width:min(19rem,calc(100vw - 1.5rem))}
   /* mở bảng nhạc thì tạm ẩn các nút bên phải để không đè nhau */
   body:has(#bgmp:not([hidden])) :is(.rndf,.fpsb,.fpsn){opacity:0;visibility:hidden;pointer-events:none}
 }
@@ -1135,8 +1138,32 @@ a,button,summary,.btn{-webkit-tap-highlight-color:transparent;touch-action:manip
 }
 @media (max-width:40rem) and (prefers-reduced-motion:reduce){.bar{transition:none}}
 @media (hover:none){
-  .rndt{position:relative;padding-right:1.9rem}
+  .rndt{padding-right:1.9rem}
   .rndt::after{content:"×";position:absolute;right:.65rem;top:50%;transform:translateY(-50%);color:var(--muted);font-size:1.15rem;line-height:1}
+}
+
+/* ===== SỬA LỆCH TRÊN ĐIỆN THOẠI (đặt sau cùng để ghi đè) ===== */
+@media (hover:none){
+  /* cảm ứng không có con trỏ: tắt vòng tròn/gợn sóng khi chạm, tránh vòng bị kẹt giữa màn hình và đỡ giật */
+  .rip,.pt,.ring{display:none!important}
+}
+@media (max-width:40rem){
+  /* dòng thời gian: lề trái gọn hơn để chữ rộng ra, chấm tròn luôn nằm đúng giữa đường kẻ */
+  .log{--tlp:1.1rem;padding-left:var(--tlp)}
+  .log li{padding-bottom:1.6rem}
+  .log li::before{left:calc(-1 * var(--tlp) - 5px)}
+  .log time{font-size:.74rem}
+  .log b{font-size:1rem;line-height:1.35}
+  .log p{font-size:.92rem;line-height:1.55}
+  /* ô tháng: 4 cột, không ngắt chữ giữa từ */
+  .yr{grid-template-columns:repeat(4,minmax(0,1fr));gap:.45rem}
+  .yr small{word-break:normal;overflow-wrap:normal;hyphens:none;font-size:.6rem;min-height:2.5em}
+  /* chừa chỗ cuối trang để nút nổi không che chữ */
+  body{padding-bottom:calc(4.5rem + env(safe-area-inset-bottom,0px))}
+  /* cụm nút nổi: nền mờ, nhỏ gọn hơn để đỡ che nội dung */
+  .bgm,.bgq,#totop,.rndb,.fpsb{background:rgba(var(--bgrgb),.88);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+  /* thẻ câu ngẫu nhiên: hẹp lại, nằm sát bên trái nút xúc xắc, không tràn sang tận mép trái */
+  .rndt{width:min(15rem,calc(100vw - 5.2rem));font-size:.78rem;line-height:1.45}
 }
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Ming","inLanguage":"vi","description":"Trang nhỏ để mọi người biết dạo này mình đang làm gì."}</script>
