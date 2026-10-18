@@ -1061,6 +1061,12 @@ body{overscroll-behavior-y:none}
 .mpads{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;max-width:22rem;margin:0 auto 1rem}
 .mpads button{height:4.2rem;border:1px solid var(--line-hi);border-radius:.8rem;background:var(--card);color:var(--muted);font:800 1.4rem var(--body);cursor:pointer;touch-action:manipulation}
 .mpads button.on{background:var(--acc);border-color:var(--acc);color:#000}
+/* căn lại các nút nổi: cùng cỡ 44px, cùng lề 16px, cách nhau 10px; hàng nút nhạc bên trái ngang đúng với nút lên đầu trang bên phải */
+.bgm{left:max(16px,env(safe-area-inset-left,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));width:44px;height:44px}
+.bgq{bottom:max(16px,env(safe-area-inset-bottom,0px));width:44px;height:44px}
+#bgmq{left:calc(max(16px,env(safe-area-inset-left,0px)) + 54px)}
+#bgmn{left:calc(max(16px,env(safe-area-inset-left,0px)) + 108px)}
+.bgmp{left:max(16px,env(safe-area-inset-left,0px));bottom:calc(max(16px,env(safe-area-inset-bottom,0px)) + 54px)}
 /* ===== ĐIỆN THOẠI: bố cục gọn, nút nổi xếp gọn, chạm dễ hơn. Đặt cuối cùng để ghi đè. ===== */
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{overflow-x:clip;overflow-wrap:break-word}
@@ -1097,11 +1103,20 @@ a,button,summary,.btn{-webkit-tap-highlight-color:transparent;touch-action:manip
   .fpsb{right:calc(12px + env(safe-area-inset-right,0px));bottom:calc(108px + env(safe-area-inset-bottom,0px))}
   .fpsn{right:calc(60px + env(safe-area-inset-right,0px));bottom:calc(108px + env(safe-area-inset-bottom,0px));width:min(16rem,calc(100vw - 5rem))}
   /* câu ngẫu nhiên: thành thẻ có nền để dễ đọc, không đè lên nút nhạc bên trái */
-  .rndt{width:min(20rem,calc(100vw - 8.5rem));padding:.55rem .8rem;border:1px solid var(--line-hi);border-radius:.9rem;background:var(--card);text-align:left;font-size:.82rem;text-shadow:none;box-shadow:0 10px 26px -14px rgba(0,0,0,.5)}
+  .rndt{width:min(20rem,calc(100vw - 4.5rem));padding:.55rem .8rem;border:1px solid var(--line-hi);border-radius:.9rem;background:var(--card);text-align:left;font-size:.82rem;text-shadow:none;box-shadow:0 10px 26px -14px rgba(0,0,0,.5)}
   /* chân trang: hai cột, phần giới thiệu chiếm cả hàng, chừa chỗ cho các nút nổi */
   footer{padding-bottom:7rem}
   .fgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:1.6rem 1rem}
   .fgrid>:first-child{grid-column:1/-1}
+  /* hàng nút nhạc bên trái cùng cỡ 40px, cùng lề 12px và ngang đúng với nút lên đầu trang bên phải */
+  .bgm,.bgq{width:40px;height:40px}
+  .bgm{left:calc(12px + env(safe-area-inset-left,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px))}
+  .bgq{bottom:calc(12px + env(safe-area-inset-bottom,0px))}
+  #bgmq{left:calc(60px + env(safe-area-inset-left,0px))}
+  #bgmn{left:calc(108px + env(safe-area-inset-left,0px))}
+  .bgmp{left:calc(12px + env(safe-area-inset-left,0px));bottom:calc(60px + env(safe-area-inset-bottom,0px));width:min(19rem,calc(100vw - 1.5rem))}
+  /* mở bảng nhạc thì tạm ẩn các nút bên phải để không đè nhau */
+  body:has(#bgmp:not([hidden])) :is(.rndf,.fpsb,.fpsn){opacity:0;visibility:hidden;pointer-events:none}
 }
 /* màn hình cảm ứng: bỏ phím tắt (không có bàn phím) và hiệu ứng rê chuột dễ bị kẹt sau khi chạm */
 @media (hover:none){
