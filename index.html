@@ -799,14 +799,14 @@ kbd{display:inline-block;min-width:1.8rem;padding:.1rem .5rem;text-align:center;
 .pbadges .ic2{width:.9rem;height:.9rem}
 /* ảnh động rải ngẫu nhiên vào từng mục */
 section.s,section.intro{position:relative}
-.gsk{position:absolute;z-index:4;top:calc(var(--gw,5rem) / -2);left:calc((100% - var(--gw,5rem) - 2rem) * var(--gx,.5) + 1rem);width:var(--gw,5rem);aspect-ratio:1;padding:0;border:1px solid var(--line-hi);border-radius:.9rem;overflow:hidden;background:var(--card);box-shadow:0 12px 30px -14px rgba(0,0,0,.55);cursor:zoom-in;transform:rotate(var(--gr,0deg));transition:opacity .5s,transform .5s cubic-bezier(.3,1.5,.5,1),border-color .2s}
+.gsk{position:absolute;z-index:4;top:calc(var(--gw,8rem) * -.28);right:max(1.25rem,calc((100% - 68rem) / 2 + 1.25rem));width:var(--gw,8rem);height:auto;line-height:0;padding:0;border:1px solid var(--line-hi);border-radius:.9rem;overflow:hidden;background:var(--card);box-shadow:0 12px 30px -14px rgba(0,0,0,.55);cursor:zoom-in;transform:rotate(var(--gr,0deg));transition:opacity .5s,transform .5s cubic-bezier(.3,1.5,.5,1),border-color .2s}
 .js .gsk:not(.in){opacity:0;transform:rotate(var(--gr,0deg)) scale(.3)}
 .gsk.in{animation:gfloat 6s ease-in-out infinite;animation-delay:var(--gd,0s)}
 .gsk:hover{transform:rotate(0deg) scale(1.12);border-color:var(--acc);z-index:6}
-.gsk img,.gsk canvas{width:100%;height:100%;object-fit:cover;display:block}
+.gsk img,.gsk canvas{width:100%;height:auto;display:block}
 @keyframes gfloat{50%{translate:0 -6px}}
 .gsk.gb{top:auto;bottom:.4rem}
-@media (max-width:48rem){.gsk{--gw:3.4rem!important}}
+@media (max-width:48rem){.gsk{--gw:5.6rem!important}}
 @media (prefers-reduced-motion:reduce){.avf::before,.avf::after,.ptitle b,.gsk.in{animation:none!important}.gsk,.pbadges li{transition:none}}
 :root[data-motion="off"] .avf::before,:root[data-motion="off"] .avf::after,:root[data-motion="off"] .ptitle b,:root[data-motion="off"] .gsk.in{animation:none!important}
 :root[data-motion="off"] .gsk,:root[data-motion="off"] .pbadges li{transition:none}
@@ -839,8 +839,14 @@ section.s,section.intro{position:relative}
 .lk .lt small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted);font:400 .75rem var(--mono)}
 .lk .la{flex:none;padding:.12rem .65rem;border:1px solid var(--line-hi);border-radius:999px;color:var(--muted);font-size:.72rem;transition:color .2s,border-color .2s}
 .lk:hover .la{color:var(--acc);border-color:var(--acc)}
-.banner{aspect-ratio:21/6;margin:.8rem 0;border:1px solid var(--line);border-radius:1rem;overflow:hidden;background:var(--card)}
-.banner img,.banner canvas{width:100%;height:100%;object-fit:cover;display:block}
+.gban{padding-top:0;padding-bottom:3.5rem}.gban:not(:has(.gbn)){display:none}
+.gbg{display:grid;gap:1rem;grid-template-columns:repeat(2,minmax(0,1fr))}
+.gbn{border:1px solid var(--line);border-radius:1rem;overflow:hidden;background:var(--card);cursor:zoom-in;transition:border-color .2s,transform .3s}
+.gbn:hover{border-color:var(--acc);transform:translateY(-3px)}
+.gbn img,.gbn canvas{display:block;width:100%;height:auto}
+@media (max-width:40rem){.gbg{grid-template-columns:1fr}}
+.banner{max-width:38rem;margin:.8rem auto;border:1px solid var(--line);border-radius:1rem;overflow:hidden;background:var(--card)}
+.banner img,.banner canvas{width:100%;height:auto;display:block}
 @media (max-width:30rem){.lk .la{display:none}}
 
 /* Discord trực tiếp */
@@ -1594,7 +1600,15 @@ a,button,summary,.btn{-webkit-tap-highlight-color:transparent;touch-action:manip
     </div>
   </section>
 
-  <!-- ẢNH ĐỘNG -->
+  <!-- ẢNH ĐỘNG: banner GIF 16:9, bỏ file vào images/gif/banner-1.gif và banner-2.gif -->
+  <div class="wrap gban">
+    <p class="mini rv">Ảnh động</p>
+    <div class="gbg rv">
+      <div class="gbn"><img src="images/gif/banner-1.gif" alt="Ảnh động 1" loading="lazy" decoding="async" onerror="this.parentNode.remove()"></div>
+      <div class="gbn"><img src="images/gif/banner-2.gif" alt="Ảnh động 2" loading="lazy" decoding="async" onerror="this.parentNode.remove()"></div>
+    </div>
+  </div>
+
   <!-- DẢI CHỮ THỨ HAI -->
   <div class="band alt" aria-hidden="true">
     <div class="run">
@@ -1839,8 +1853,8 @@ a,button,summary,.btn{-webkit-tap-highlight-color:transparent;touch-action:manip
   var clk=document.getElementById('hero'),trail=document.getElementById('trail');
   var calm=(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)||document.documentElement.getAttribute('data-motion')==='off';
   if(clk&&trail&&!calm&&trail.animate){
-    var TRAIL=['images/trail-1.jpg','images/trail-2.jpg','images/trail-3.jpg','images/trail-4.jpg','images/trail-5.jpg','images/trail-6.jpg'];
-    var MAX=6; /* số ảnh tối đa cùng lúc */
+    var TRAIL=['images/trail-1.jpg','images/trail-2.jpg','images/trail-3.jpg','images/trail-4.jpg','images/trail-5.jpg','images/trail-6.jpg','images/trail-7.jpg','images/trail-8.jpg','images/trail-9.jpg','images/trail-10.jpg','images/trail-11.jpg','images/trail-12.jpg','images/trail-13.jpg','images/trail-14.jpg','images/trail-15.jpg'];
+    var MAX=10; /* số ảnh tối đa cùng lúc */
     /* nạp sẵn khi trình duyệt rảnh để lần rê chuột đầu tiên không bị khựng. Điện thoại và máy yếu thì bỏ qua */
     if(matchMedia('(pointer:fine)').matches&&!document.documentElement.classList.contains('lite'))
       (window.requestIdleCallback||function(f){setTimeout(f,2000)})(function(){TRAIL.forEach(function(u){var im=new Image();im.decoding='async';im.src=u})});
@@ -1859,7 +1873,7 @@ a,button,summary,.btn{-webkit-tap-highlight-color:transparent;touch-action:manip
         {opacity:1,transform:base+'scale(1) '+tr,offset:.18},
         {opacity:1,transform:base+'scale(1) '+tr,offset:.65},
         {opacity:0,transform:'translate(-50%,-58%) scale(.9) '+tr}
-      ],{duration:1200,easing:'ease-out',fill:'forwards'});
+      ],{duration:1600,easing:'ease-out',fill:'forwards'});
       q.push(a);
       a.onfinish=function(){el.remove();live--;var i=q.indexOf(a);if(i>-1)q.splice(i,1)};
       /* quá MAX thì ảnh cũ nhất mờ đi nhanh hơn để nhường chỗ */
@@ -3060,7 +3074,7 @@ a,button,summary,.btn{-webkit-tap-highlight-color:transparent;touch-action:manip
     function build(){
       var box=document.getElementById('linkbox');
       if(box){
-        box.innerHTML='<div class="lgroup">'+LK.slice(0,3).map(lk).join('')+'</div>'+ban(1)+(LK.length>3?'<div class="lgroup">'+LK.slice(3).map(lk).join('')+'</div>'+ban(2):'');
+        box.innerHTML='<div class="lgroup">'+LK.slice(0,3).map(lk).join('')+'</div>'+(LK.length>3?'<div class="lgroup">'+LK.slice(3).map(lk).join('')+'</div>':'');
         if(calm)box.querySelectorAll('img').forEach(still);
       }
       var q=document.getElementById('qlinks');
@@ -3083,23 +3097,23 @@ a,button,summary,.btn{-webkit-tap-highlight-color:transparent;touch-action:manip
       var b=document.createElement('button'),im=document.createElement('img');
       b.type='button';b.className='gsk';b.setAttribute('aria-label',T('Xem ảnh động'));
       var bottom=sec.classList.contains('intro');
-      b.style.setProperty('--gw',(bottom?4+Math.random()*.6:4.2+Math.random()*1.4).toFixed(1)+'rem');
-      b.style.setProperty('--gr',(Math.random()*18-9).toFixed(1)+'deg');
+      b.style.setProperty('--gw','8rem');
+      b.style.setProperty('--gr',(k%2?3:-3)+'deg');
       b.style.setProperty('--gd','-'+(Math.random()*6).toFixed(1)+'s');
-      b.style.setProperty('--gx',Math.random().toFixed(3));
-      if(bottom)b.classList.add('gb');
+            if(bottom)b.classList.add('gb');
       im.alt='GIF';im.loading='lazy';im.decoding='async';im.src=pool[k++%pool.length];
       im.onerror=function(){b.remove()};
       b.appendChild(im);sec.appendChild(b);
       if(calm)still(im);
     });
+    if(calm)document.querySelectorAll('.gbn img').forEach(still);
     once('.gsk',.3,function(el){el.classList.add('in')});
     document.addEventListener('click',function(e){
       var b=e.target.closest&&e.target.closest('.gsk'),m=b&&b.querySelector('img');if(!m)return;
       prev=b;li.src=m.dataset.gif||m.src;lc.textContent='';lb.hidden=false;document.body.style.overflow='hidden';
     });
     /* bấm vào ảnh (ảnh LoL, ảnh của mình, "Vài tấm ảnh", ảnh ở trang chi tiết) thì xem lớn ngay tại trang, không nhảy link */
-    var ZSEL='.shot,.gallery .ph,.avf .me,.detail .ph,.log .lgph';
+    var ZSEL='.shot,.gallery .ph,.avf .me,.detail .ph,.log .lgph,.gbn';
     function zoomable(){document.querySelectorAll(ZSEL).forEach(function(el){
       if(el.__z||!el.querySelector('img'))return;el.__z=1;
       if(!/^(A|BUTTON)$/.test(el.tagName)){el.tabIndex=0;el.setAttribute('role','button')}
