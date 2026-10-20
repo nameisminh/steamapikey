@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-19T18:03:39.688Z",
+  "updated": "2026-10-20T02:49:59.168Z",
   "name": "ming",
   "avatar": "https://avatars.steamstatic.com/7d8c1937b7bf439198974eae0be807f4ea8cc2ac_full.jpg",
   "url": "https://steamcommunity.com/profiles/76561199474355109/",
@@ -7,22 +7,17 @@
   "games": 106,
   "badges": 7,
   "achievements": 6468,
-  "hours2w": 184.2,
+  "hours2w": 181.7,
   "recent": [
     {
       "n": "ShareX",
-      "h": 1541.4,
+      "h": 1542.4,
       "id": 400040
     },
     {
       "n": "Mini Cozy Room: Lo-Fi",
       "h": 42.1,
       "id": 3511030
-    },
-    {
-      "n": "Spacewar",
-      "h": 216.6,
-      "id": 480
     },
     {
       "n": "Graveyard Keeper",
@@ -33,6 +28,11 @@
       "n": "Borderlands 2",
       "h": 0,
       "id": 49520
+    },
+    {
+      "n": "The Forest",
+      "h": 0,
+      "id": 242760
     }
   ]
 }
