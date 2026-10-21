@@ -1113,8 +1113,9 @@ body:has(#bgmp.playing) :is(.bgm,.bgq,.bgmp){opacity:1;visibility:visible;pointe
 .bgmp .np{margin-bottom:0}
 .bgmp .seek{margin:0 0 .25rem;gap:.4rem;font-size:.68rem}
 .bgmp .seek span{min-width:2rem}
-.bgml{padding-top:.25rem;max-height:3rem}
-.bgml button{padding:.28rem .2rem;font-size:.78rem}
+.bgml{padding-top:.25rem;max-height:7.5rem;min-height:4.5rem;overflow-x:hidden;flex:none}
+.bgml button{padding:.28rem .2rem;font-size:.78rem;min-width:0}
+.bgml li{min-width:0}
 .lyr{margin:.25rem 0 0;padding-top:.45rem}
 .lyh{font-size:.68rem}
 .lyr button{font-size:.66rem;padding:.1rem .4rem}
@@ -1126,7 +1127,7 @@ body:has(#bgmp.playing) :is(.bgm,.bgq,.bgmp){opacity:1;visibility:visible;pointe
 .lyb p{padding:.22rem .3rem;font-size:.84rem;line-height:1.35}
 .lyb p.past{opacity:.5}
 @media (min-width:48rem){
-  .bgmp{width:min(28rem,calc(100vw - 2.5rem));display:grid;grid-template-columns:minmax(0,11.5rem) minmax(0,1fr);column-gap:.75rem;align-content:start;max-height:min(14rem,calc(100dvh - 7rem))}
+  .bgmp{width:min(28rem,calc(100vw - 2.5rem));display:grid;grid-template-columns:minmax(0,11.5rem) minmax(0,1fr);column-gap:.75rem;align-content:start;max-height:min(20rem,calc(100dvh - 7rem))}
   .bgmp[hidden]{display:none}
   .bgmp>.np,.bgmp>.ctl,.bgmp>.seek,.bgmp>.vol,.bgmp>.bgmmsg,.bgmp>.bgml{grid-column:1}
   .bgmp>.lyr{grid-column:2;grid-row:1/span 6;margin:0;padding:0 0 0 .75rem;border-top:0;border-left:1px solid var(--line);min-width:0}
@@ -1135,7 +1136,7 @@ body:has(#bgmp.playing) :is(.bgm,.bgq,.bgmp){opacity:1;visibility:visible;pointe
 /* màn hình rộng có thanh dock bên trái: khi mở trình phát thì dock dịch lên và thu chiều cao, không đè nhau */
 @media (min-width:80rem){
   .bar.mini nav{transition:top .35s cubic-bezier(.2,.8,.2,1),max-height .35s}
-  body:has(#bgmp:not([hidden])) .bar.mini nav{top:calc(50% - 7.5rem);max-height:calc(100vh - 23rem);max-height:calc(100dvh - 23rem)}
+  body:has(#bgmp:not([hidden])) .bar.mini nav{top:calc(50% - 9rem);max-height:calc(100vh - 27rem);max-height:calc(100dvh - 27rem)}
 }
 .gbar .gbn{aspect-ratio:21/9;max-height:26rem}
 @media (max-width:40rem){.gbar .gbn{aspect-ratio:16/9}}
