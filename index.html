@@ -1069,14 +1069,14 @@ body:has(#bgmp.playing) :is(.bgm,.bgq,.bgmp),body:has(#bgmp:not([hidden])) :is(.
 .lyh b{font-weight:400;color:var(--text);margin-right:auto}
 .lyr button{border:1px solid var(--line-hi);background:none;color:var(--muted);border-radius:.4rem;font:400 .72rem var(--mono);padding:.15rem .5rem;cursor:pointer;transition:color .2s,border-color .2s}
 .lyr button:hover{color:var(--text);border-color:var(--white)}
-.lyb{margin-top:.5rem;height:8.5rem;overflow-y:auto;scrollbar-width:none;overscroll-behavior:contain;text-align:center;-webkit-mask-image:linear-gradient(transparent,#000 20%,#000 80%,transparent);mask-image:linear-gradient(transparent,#000 20%,#000 80%,transparent)}
+.lyb{margin-top:.5rem;height:8.5rem;overflow:hidden;scrollbar-width:none;overscroll-behavior:contain;text-align:center;-webkit-mask-image:linear-gradient(transparent,#000 20%,#000 80%,transparent);mask-image:linear-gradient(transparent,#000 20%,#000 80%,transparent)}
 .lyb::-webkit-scrollbar{display:none}
 .lyb .pad{height:4.3rem}
 .lyb p{margin:0;padding:.3rem .4rem;font-size:.9rem;line-height:1.4;color:var(--muted);transition:color .25s,opacity .25s}
 .lyb p[data-t]{cursor:pointer}
 .lyb p.past{opacity:.55}
 .lyb p.on{color:var(--white);font-weight:600;opacity:1}
-.lyb.plain{-webkit-mask-image:none;mask-image:none;text-align:left}
+.lyb.plain{overflow-y:auto;-webkit-mask-image:none;mask-image:none;text-align:left}
 .lyb.plain .pad{height:.2rem}
 .lyb.plain p{color:var(--text);padding:.15rem .2rem}
 .lyn{margin:.5rem 0 0;color:var(--muted);font-size:.78rem;line-height:1.5;text-align:center}
@@ -1131,7 +1131,7 @@ body:has(#bgmp.playing) :is(.bgm,.bgq,.bgmp),body:has(#bgmp:not([hidden])) :is(.
   .bgmp[hidden]{display:none}
   .bgmp>.np,.bgmp>.ctl,.bgmp>.seek,.bgmp>.vol,.bgmp>.bgmmsg,.bgmp>.bgml{grid-column:1}
   .bgmp>.lyr{grid-column:2;grid-row:1/span 6;margin:0;padding:0 0 0 .75rem;border-top:0;border-left:1px solid var(--line);min-width:0}
-  .bgmp>.lyr{display:flex;flex-direction:column}
+  .bgmp>.lyr{display:flex;flex-direction:column;contain:size}
   .bgmp>.lyr #lyw{flex:1;min-height:0;display:flex;flex-direction:column}
   .bgmp .lyb{flex:1;height:auto;min-height:6rem}
 }
@@ -2765,7 +2765,7 @@ body:has(#bgmp.playing) :is(.bgm,.bgq,.bgmp),body:has(#bgmp:not([hidden])) :is(.
        Lời tìm được được nhớ trong trình duyệt nên lần sau không phải tìm lại. */
     function g(id){return document.getElementById(id)}
     var lyb=g('lyb'),lyn=g('lyn'),lys=g('lys'),lyx=g('lyx'),lyw=g('lyw');
-    var LY={lines:null,plain:false,idx:-1,tok:0,manual:0,timer:0,show:true};
+    var LY={lines:null,plain:false,idx:-1,tok:0,timer:0,show:true};
     try{if(localStorage.getItem('lyshow')==='0')LY.show=false}catch(e){}
     function lnorm(x){return String(x||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/đ/g,'d').replace(/[^a-z0-9]+/g,' ').trim()}
     function parseLRC(txt){
@@ -2818,7 +2818,7 @@ body:has(#bgmp.playing) :is(.bgm,.bgq,.bgmp),body:has(#bgmp:not([hidden])) :is(.
       lyb.hidden=!LY.show;lyb.scrollTop=0;
       lys.textContent=plain?T('lời thường'):'';
       lyStatus(plain?T('Bài này chưa có lời chạy theo nhạc, đây là lời thường.'):'');
-      tickLy(true);
+      tickLy(true,true);
     }
     function lyFind(){
       var i=cur,tr=TRACKS[i],tok=++LY.tok,key='ly1:'+tr.src;
@@ -2861,7 +2861,7 @@ body:has(#bgmp.playing) :is(.bgm,.bgq,.bgmp),body:has(#bgmp:not([hidden])) :is(.
       while(lo<=hi){var m=(lo+hi)>>1;if(a[m].t<=t){r=m;lo=m+1}else hi=m-1}
       return r;
     }
-    function tickLy(force){
+    function tickLy(force,instant){
       if(!LY.lines||LY.plain||pan.hidden||!LY.show)return;
       var i=lyBsearch(au.currentTime);
       if(i===LY.idx&&!force)return;
@@ -2869,13 +2869,13 @@ body:has(#bgmp.playing) :is(.bgm,.bgq,.bgmp),body:has(#bgmp:not([hidden])) :is(.
       if(LY.idx>=0&&ps[p0])ps[p0].classList.remove('on');
       for(var k=1;k<ps.length-1;k++){var el=ps[k];if(k-1<i){if(!el.classList.contains('past'))el.classList.add('past')}else if(el.classList.contains('past'))el.classList.remove('past')}
       LY.idx=i;
-      if(i<0||!ps[p1])return;
-      var el2=ps[p1];el2.classList.add('on');el2.classList.remove('past');
-      if(Date.now()-LY.manual>3500){
-        var rb=lyb.getBoundingClientRect(),re=el2.getBoundingClientRect(),top=lyb.scrollTop+(re.top-rb.top)-lyb.clientHeight/2+re.height/2;
-        var reduce=(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)||document.documentElement.getAttribute('data-motion')==='off';
-        try{lyb.scrollTo({top:top,behavior:reduce?'auto':'smooth'})}catch(e){lyb.scrollTop=top}
-      }
+      var el2=ps[Math.max(i,0)+1];
+      if(!el2)return;
+      if(i>=0){el2.classList.add('on');el2.classList.remove('past')}
+      /* dòng đang hát (hoặc dòng đầu tiên, khi chưa tới câu đầu) luôn nằm giữa khung */
+      var rb=lyb.getBoundingClientRect(),re=el2.getBoundingClientRect(),top=lyb.scrollTop+(re.top-rb.top)-lyb.clientHeight/2+re.height/2;
+      var reduce=instant||(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)||document.documentElement.getAttribute('data-motion')==='off';
+      try{lyb.scrollTo({top:top,behavior:reduce?'auto':'smooth'})}catch(e){lyb.scrollTop=top}
     }
     function lyLoop(on){clearInterval(LY.timer);LY.timer=0;if(on&&LY.show&&!pan.hidden)LY.timer=setInterval(function(){if(!document.hidden)tickLy()},200)}
     function lySetShow(v){
@@ -2884,9 +2884,7 @@ body:has(#bgmp.playing) :is(.bgm,.bgq,.bgmp),body:has(#bgmp:not([hidden])) :is(.
       if(v)tickLy(true);lyLoop(!au.paused);
     }
     lyx.addEventListener('click',function(){lySetShow(!LY.show)});
-    lyb.addEventListener('wheel',function(){LY.manual=Date.now()},{passive:true});
-    lyb.addEventListener('touchmove',function(){LY.manual=Date.now()},{passive:true});
-    lyb.addEventListener('click',function(e){var p=e.target.closest&&e.target.closest('p[data-t]');if(!p)return;LY.manual=0;try{au.currentTime=Math.max(0,parseFloat(p.getAttribute('data-t')))}catch(x){}tickLy(true)});
+    lyb.addEventListener('click',function(e){var p=e.target.closest&&e.target.closest('p[data-t]');if(!p)return;try{au.currentTime=Math.max(0,parseFloat(p.getAttribute('data-t')))}catch(x){}tickLy(true)});
     au.addEventListener('loadedmetadata',lyFind);
     au.addEventListener('play',function(){lyLoop(true);tickLy(true)});
     au.addEventListener('pause',function(){lyLoop(false)});
@@ -2895,7 +2893,7 @@ body:has(#bgmp.playing) :is(.bgm,.bgq,.bgmp),body:has(#bgmp:not([hidden])) :is(.
     document.addEventListener('langchange',function(){lyx.textContent=T(LY.show?'Ẩn':'Hiện')});
     lySetShow(LY.show);
     /* mở trình phát thì canh lại dòng đang hát */
-    new MutationObserver(function(){if(!pan.hidden){lyLoop(!au.paused);setTimeout(function(){tickLy(true)},60)}else lyLoop(false)}).observe(pan,{attributes:true,attributeFilter:['hidden']});
+    new MutationObserver(function(){if(!pan.hidden){lyLoop(!au.paused);setTimeout(function(){tickLy(true,true)},60)}else lyLoop(false)}).observe(pan,{attributes:true,attributeFilter:['hidden']});
     /* bật trình phát thì tắt nhạc mở đầu */
     au.addEventListener('play',function(){try{Intro.stop(.5)}catch(e){}});
 
@@ -2904,7 +2902,7 @@ body:has(#bgmp.playing) :is(.bgm,.bgq,.bgmp),body:has(#bgmp:not([hidden])) :is(.
       if(!au.getAttribute('src'))return;
       var t=au.currentTime+d,m=au.duration&&isFinite(au.duration)?au.duration-.2:1e9;
       try{au.currentTime=Math.min(Math.max(0,t),m)}catch(e){}
-      LY.manual=0;tickLy(true);
+      tickLy(true);
     }
     g('bgmback').addEventListener('click',function(){skipBy(-10)});
     g('bgmfwd').addEventListener('click',function(){skipBy(10)});
@@ -2931,7 +2929,7 @@ body:has(#bgmp.playing) :is(.bgm,.bgq,.bgmp),body:has(#bgmp:not([hidden])) :is(.
     sk.addEventListener('input',function(){skDrag=true;if(au.duration)skc.textContent=mmss(sk.value/1000*au.duration)});
     sk.addEventListener('change',function(){
       if(au.duration&&isFinite(au.duration)){try{au.currentTime=sk.value/1000*au.duration}catch(e){}}
-      skDrag=false;LY.manual=0;tickLy(true);skUpd();
+      skDrag=false;tickLy(true);skUpd();
     });
     sk.addEventListener('keydown',function(e){e.stopPropagation()});
     ['timeupdate','durationchange','loadedmetadata','emptied'].forEach(function(ev){au.addEventListener(ev,skUpd)});
