@@ -2702,7 +2702,7 @@ body:has(#bgmp.playing) :is(.bgm,.bgq,.bgmp){opacity:1;visibility:visible;pointe
     }
     function toggle(){
       if(allBad()){togglePanel(true);return}
-      if(au.paused){go(cur)}else{want=false;au.pause()}
+      if(au.paused){if(au.getAttribute('src')&&!bad[cur]){want=true;var rp=au.play();if(rp&&rp.catch)rp.catch(function(){})}else go(cur)}else{want=false;au.pause()}
     }
     var qb=document.getElementById('bgmq'),nb=document.getElementById('bgmn');
     function nextNow(){
