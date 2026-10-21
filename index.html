@@ -964,6 +964,8 @@ a,button,summary,.btn{-webkit-tap-highlight-color:transparent;touch-action:manip
 .rndf,.fpsn,.bgmp{transition:opacity .25s,visibility .25s}
 .fpsb,.bgm,.bgq{transition:color .2s,border-color .2s,transform .2s,opacity .25s,visibility .25s}
 .scrolling .bgm,.scrolling .bgq,.scrolling .bgmp,.scrolling2 .fpsb,.scrolling2 .fpsn,.scrolling2 .rndf{opacity:0;visibility:hidden;pointer-events:none}
+/* đang phát nhạc thì nút và khung trình phát không bị ẩn khi cuộn; dừng nhạc thì ẩn như bình thường */
+body:has(#bgmp.playing) :is(.bgm,.bgq,.bgmp){opacity:1;visibility:visible;pointer-events:auto}
 @media (max-width:40rem){
   .bar{transition:transform .28s ease}
   .bar.hide{transform:translateY(-100%)}
