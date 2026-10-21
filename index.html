@@ -1148,6 +1148,18 @@ body:has(#bgmp.playing) :is(.bgm,.bgq,.bgmp),body:has(#bgmp:not([hidden])) :is(.
 .avf::before,.avf::after{content:none;animation:none}
 .avin{padding:0;background:none}
 .avdec{position:absolute;left:-10%;top:-10%;width:120%;height:120%;max-width:none;pointer-events:none;user-select:none;z-index:2}
+/* sửa playlist: bấm "Nghe ngay" thì thẻ giãn ra, chữ không bị co lại và đè lên nhau */
+.pls .card{height:auto;align-self:start;min-width:0}
+.pls .card>*{flex:none;min-height:0}
+.pls .card.big{align-self:stretch}
+.pls .card.big .th{width:min(100%,11rem);aspect-ratio:1;flex:none}
+.pls .card .pn{align-self:flex-start;width:auto;max-width:100%;line-height:1.5;white-space:nowrap}
+.pls .card h3,.pls .card p{position:static;line-height:1.4;overflow-wrap:anywhere}
+.pls .card .pa{margin-top:1rem;padding-top:0}
+.pls .card .pa .btn{white-space:nowrap;line-height:1.2;overflow:hidden;text-overflow:ellipsis}
+.pls .card .plem{flex:none;height:auto;overflow:hidden;position:relative}
+.pls .card .plem iframe{position:static;max-width:100%}
+.pls .card .plem[hidden]{display:none}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Ming","inLanguage":"vi","description":"Trang nhỏ để mọi người biết dạo này tôi đang làm gì."}</script>
 </head>
