@@ -998,8 +998,9 @@ body:has(#bgmp.playing) :is(.bgm,.bgq,.bgmp),body:has(#bgmp:not([hidden])) :is(.
 .fpsb{top:calc(max(12px,env(safe-area-inset-top,0px)) + 0px)!important;bottom:auto!important;right:max(16px,env(safe-area-inset-right,0px))!important;z-index:70}
 .fpsn{top:calc(max(12px,env(safe-area-inset-top,0px)) + 0px)!important;bottom:auto!important;right:calc(max(16px,env(safe-area-inset-right,0px)) + 52px)!important;z-index:70}
 @media (max-width:40rem){
-  .fpsb{right:calc(12px + env(safe-area-inset-right,0px))!important;top:calc(12px + env(safe-area-inset-top,0px))!important}
-  .fpsn{right:calc(64px + env(safe-area-inset-right,0px))!important;top:calc(12px + env(safe-area-inset-top,0px))!important}
+  /* điện thoại: đưa nút FPS xuống góc phải dưới, nằm trên nút ngẫu nhiên, để không che nút trên thanh menu */
+  .fpsb{right:calc(12px + env(safe-area-inset-right,0px))!important;top:auto!important;bottom:calc(124px + env(safe-area-inset-bottom,0px))!important}
+  .fpsn{right:calc(64px + env(safe-area-inset-right,0px))!important;top:auto!important;bottom:calc(124px + env(safe-area-inset-bottom,0px))!important}
 }
 .fpsb{transition:color .2s,border-color .2s,opacity .25s,visibility .25s}
 .fpsn{transition:opacity .25s,visibility .25s}
