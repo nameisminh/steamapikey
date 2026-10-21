@@ -1092,37 +1092,48 @@ a,button,summary,.btn{-webkit-tap-highlight-color:transparent;touch-action:manip
 .seek{display:flex;align-items:center;gap:.5rem;margin:-.2rem 0 .7rem;font:400 .72rem var(--mono);color:var(--muted)}
 .seek input{flex:1;min-width:0;accent-color:var(--acc)}
 .seek span{min-width:2.4rem;text-align:center;font-variant-numeric:tabular-nums}
-/* trình phát: màn hình rộng thì xếp ngang, lời nằm bên cạnh */
-@media (min-width:48rem){
-  .bgmp{width:min(41rem,calc(100vw - 2.5rem));display:grid;grid-template-columns:minmax(0,17rem) minmax(0,1fr);column-gap:1.2rem;align-content:start}
-  .bgmp[hidden]{display:none}
-  .bgmp>.np,.bgmp>.ctl,.bgmp>.seek,.bgmp>.vol,.bgmp>.bgmmsg,.bgmp>.bgml{grid-column:1}
-  .bgmp>.lyr{grid-column:2;grid-row:1/span 6;margin:0;padding:0 0 0 1.2rem;border-top:0;border-left:1px solid var(--line);min-width:0}
-  .bgmp .lyb{height:14rem}
-  .bgmp .bgml{max-height:8rem}
-}
-.bgmp .ctl{justify-content:center;gap:.45rem;margin:.6rem 0 .4rem}
-.bgmp .ctl button{width:2rem;height:2rem}
-.bgmp .ctl .main{width:2.5rem;height:2.5rem}
-.bgmp .vol{display:flex;align-items:center;gap:.5rem;margin:.1rem 0 .5rem}
-.bgmp .vol button{width:1.8rem;height:1.8rem;flex:none;padding:0;border:0;border-radius:50%;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;transition:color .2s}
+/* ===== trình phát nhỏ gọn + lời bài hát luôn ở giữa ===== */
+.bgmp{padding:.65rem .75rem;max-height:calc(100vh - 7rem);max-height:calc(100dvh - 7rem);overflow-y:auto;overscroll-behavior:contain;contain:layout paint}
+.bgmp .np b{font-size:.86rem}
+.bgmp .np small{font-size:.72rem}
+.bgmp .ctl{justify-content:center;gap:.35rem;margin:.45rem 0 .25rem}
+.bgmp .ctl button{width:1.85rem;height:1.85rem}
+.bgmp .ctl .main{width:2.25rem;height:2.25rem}
+.bgmp .ctl svg{width:.9rem;height:.9rem}
+.bgmp .vol{display:flex;align-items:center;gap:.4rem;margin:0 0 .15rem}
+.bgmp .vol button{width:1.6rem;height:1.6rem;flex:none;padding:0;border:0;border-radius:50%;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;transition:color .2s}
 .bgmp .vol button:hover{color:var(--text)}
-.bgmp .vol svg{width:1.15rem;height:1.15rem;fill:currentColor;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.bgmp .vol svg{width:1.05rem;height:1.05rem;fill:currentColor;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .bgmp .vol .w,.bgmp .vol .x{fill:none}
 .bgmp .vol .x{display:none}
 .bgmp .vol.muted .w{display:none}
 .bgmp .vol.muted .x{display:block}
-.bgmp{padding:.8rem}
 .bgmp .np{margin-bottom:0}
-.bgmp .seek{margin:0 0 .4rem}
-.lyb{height:7rem}
-.lyb .pad{height:3.6rem}
+.bgmp .seek{margin:0 0 .25rem;gap:.4rem;font-size:.68rem}
+.bgmp .seek span{min-width:2rem}
+.bgml{padding-top:.25rem;max-height:3rem}
+.bgml button{padding:.28rem .2rem;font-size:.78rem}
+.lyr{margin:.25rem 0 0;padding-top:.45rem}
+.lyh{font-size:.68rem}
+.lyr button{font-size:.66rem;padding:.1rem .4rem}
+.lyt{margin-top:.35rem;gap:.3rem;font-size:.68rem}
+.lyt .lyo{min-width:2.6rem}
+/* khung lời: position:relative để offsetTop tính theo khung lời, nên dòng đang hát luôn nằm giữa */
+.lyb{position:relative;height:6.4rem;margin-top:.3rem}
+.lyb .pad{height:50%}
+.lyb p{padding:.22rem .3rem;font-size:.84rem;line-height:1.35}
+.lyb p.past{opacity:.5}
 @media (min-width:48rem){
-  .bgmp{width:min(37rem,calc(100vw - 2.5rem));max-height:min(15rem,calc(100dvh - 7rem));column-gap:1rem;grid-template-columns:minmax(0,15rem) minmax(0,1fr)}
-  .bgmp>.lyr{padding-left:1rem}
+  .bgmp{width:min(28rem,calc(100vw - 2.5rem));display:grid;grid-template-columns:minmax(0,11.5rem) minmax(0,1fr);column-gap:.75rem;align-content:start;max-height:min(14rem,calc(100dvh - 7rem))}
+  .bgmp[hidden]{display:none}
+  .bgmp>.np,.bgmp>.ctl,.bgmp>.seek,.bgmp>.vol,.bgmp>.bgmmsg,.bgmp>.bgml{grid-column:1}
+  .bgmp>.lyr{grid-column:2;grid-row:1/span 6;margin:0;padding:0 0 0 .75rem;border-top:0;border-left:1px solid var(--line);min-width:0}
   .bgmp .lyb{height:8.4rem}
-  .bgmp .lyb .pad{height:4.2rem}
-  .bgmp .bgml{max-height:4.5rem}
+}
+/* màn hình rộng có thanh dock bên trái: khi mở trình phát thì dock dịch lên và thu chiều cao, không đè nhau */
+@media (min-width:80rem){
+  .bar.mini nav{transition:top .35s cubic-bezier(.2,.8,.2,1),max-height .35s}
+  body:has(#bgmp:not([hidden])) .bar.mini nav{top:calc(50% - 7.5rem);max-height:calc(100vh - 23rem);max-height:calc(100dvh - 23rem)}
 }
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Ming","inLanguage":"vi","description":"Trang nhỏ để mọi người biết dạo này tôi đang làm gì."}</script>
@@ -2027,46 +2038,19 @@ a,button,summary,.btn{-webkit-tap-highlight-color:transparent;touch-action:manip
   var rootE=document.documentElement;
   /* ===== nhạc mở đầu: bé rồi to dần, hết sau khoảng 10 giây (không phải nhạc trong trình phát) =====
      Trình duyệt chỉ cho phát tiếng sau khi người xem bấm, nên màn chào có nút "Vào trang, có nhạc".
-     Muốn dùng nhạc của bạn: bỏ file vào audio/intro.mp3 (nên dưới 1 MB, dùng nhạc bạn có quyền dùng).
-     Không có file thì trang tự tạo một đoạn nhạc nền nhẹ bằng trình duyệt, không cần tải gì thêm. */
-  var INTRO_SRC='audio/intro.mp3',INTRO_MS=10000,INTRO_PEAK=.55,INTRO_UP=.82; /* INTRO_UP: phần trăm thời gian to dần, phần còn lại nhỏ dần về 0 */
+     Nhạc intro: audio/intro.mp3 (33 giây, to dần rồi giữ ở mức vừa; chỉnh INTRO_PEAK nếu muốn to/nhỏ hơn).
+     Không có file thì trang tự tạo một đoạn nhạc vui, hồi hộp rồi bùng nổ (160 BPM) bằng trình duyệt, không cần tải gì thêm. */
+  var INTRO_SRC='audio/intro.mp3',INTRO_MS=33000,INTRO_PEAK=.3,INTRO_IN=.45,INTRO_UP=.92; /* INTRO_PEAK: âm lượng tối đa (0 đến 1); INTRO_IN: phần đầu to dần; INTRO_UP: từ đó nhỏ dần về 0 */ /* INTRO_UP: phần trăm thời gian to dần, phần còn lại nhỏ dần về 0 */
   var Intro=(function(){
-    var ctx=null,master=null,au=null,nodes=[],endT=0,fileOK=false,probed=false,running=false;
-    function probe(){
-      if(probed)return;probed=true;
-      try{fetch(INTRO_SRC,{method:'HEAD'}).then(function(r){fileOK=r.ok&&/audio|ogg|mpeg|octet-stream/i.test(r.headers.get('content-type')||'')}).catch(function(){})}catch(e){}
-    }
-    function curve(){
+    var ctx=null,master=null,au=null,nodes=[],endT=0,running=false;
+    function probe(){}
+    function curve(inn){
       var n=240,a=new Float32Array(n);
       for(var i=0;i<n;i++){
-        var u=i/(n-1);
-        a[i]=INTRO_PEAK*(u<INTRO_UP?Math.pow(u/INTRO_UP,2.2):Math.cos((u-INTRO_UP)/(1-INTRO_UP)*Math.PI/2));
+        var u=i/(n-1),x=Math.min(1,u/inn),up=x*x*(3-2*x),rel=u>INTRO_UP?Math.cos((u-INTRO_UP)/(1-INTRO_UP)*Math.PI/2):1;
+        a[i]=INTRO_PEAK*up*rel;
       }
       return a;
-    }
-    function osc(type,f,det,t0,t1,g){
-      var o=ctx.createOscillator(),v=ctx.createGain();
-      o.type=type;o.frequency.value=f;o.detune.value=det;
-      v.gain.setValueAtTime(0,t0);v.gain.linearRampToValueAtTime(g,t0+1.6);v.gain.setValueAtTime(g,t1-1.2);v.gain.linearRampToValueAtTime(0,t1);
-      o.connect(v);v.connect(bus);o.start(t0);o.stop(t1+.1);nodes.push(o);return o;
-    }
-    var bus=null;
-    function synth(t0){
-      /* một hợp âm D trưởng 9 êm, vài nốt chuông thưa, thêm chút vang */
-      var lp=ctx.createBiquadFilter();lp.type='lowpass';lp.frequency.value=1500;lp.Q.value=.3;
-      var dl=ctx.createDelay(1);dl.delayTime.value=.34;var fb=ctx.createGain();fb.gain.value=.38;var wet=ctx.createGain();wet.gain.value=.4;
-      bus=ctx.createGain();bus.gain.value=1;
-      bus.connect(lp);bus.connect(dl);dl.connect(fb);fb.connect(dl);dl.connect(wet);wet.connect(lp);lp.connect(master);
-      var t1=t0+INTRO_MS/1000;
-      [[73.42,.34,'sine'],[220,.2,'triangle'],[293.66,.16,'sine'],[369.99,.14,'triangle'],[440,.12,'sine'],[554.37,.08,'sine'],[659.25,.07,'sine']].forEach(function(x,i){
-        var st=t0+i*.55;osc(x[2],x[0],-5,st,t1,x[1]*.55);osc(x[2],x[0],5,st,t1,x[1]*.55);
-      });
-      [[739.99,3.4],[880,4.6],[1108.7,5.8],[1318.5,7],[1108.7,8.1]].forEach(function(x){
-        var o=ctx.createOscillator(),v=ctx.createGain(),st=t0+x[1];
-        o.type='sine';o.frequency.value=x[0];
-        v.gain.setValueAtTime(0,st);v.gain.linearRampToValueAtTime(.16,st+.02);v.gain.exponentialRampToValueAtTime(.001,st+2.2);
-        o.connect(v);v.connect(bus);o.start(st);o.stop(st+2.3);nodes.push(o);
-      });
     }
     function start(){
       if(running)return;
@@ -2074,18 +2058,16 @@ a,button,summary,.btn{-webkit-tap-highlight-color:transparent;touch-action:manip
         var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
         ctx=new AC();if(ctx.resume)ctx.resume();
         master=ctx.createGain();master.gain.value=0;master.connect(ctx.destination);
-        var t0=ctx.currentTime+.05;
-        master.gain.setValueCurveAtTime(curve(),t0,INTRO_MS/1000);
+        master.gain.setValueCurveAtTime(curve(INTRO_IN),ctx.currentTime+.05,INTRO_MS/1000);
         running=true;
-        if(fileOK){
-          au=new Audio(INTRO_SRC);au.loop=false;
-          try{ctx.createMediaElementSource(au).connect(master)}catch(e){au.volume=INTRO_PEAK}
-          au.addEventListener('error',function(){if(running&&!nodes.length)synth(ctx.currentTime+.05)});
-          var p=au.play();if(p&&p.catch)p.catch(function(){if(running&&!nodes.length)synth(ctx.currentTime+.05)});
-        }else synth(t0);
+        au=new Audio(INTRO_SRC);au.loop=false;
+        try{ctx.createMediaElementSource(au).connect(master)}catch(e){au.volume=INTRO_PEAK}
+        au.addEventListener('error',function(){stop(0)});
+        var p=au.play();if(p&&p.catch)p.catch(function(){stop(0)});
         endT=setTimeout(function(){stop(0)},INTRO_MS+150);
       }catch(e){running=false}
     }
+
     /* dừng sớm: tắt dần trong fade giây (hoặc dừng ngay khi fade = 0) */
     function stop(fade){
       if(!running)return;running=false;clearTimeout(endT);
@@ -2866,12 +2848,12 @@ a,button,summary,.btn{-webkit-tap-highlight-color:transparent;touch-action:manip
       if(i<0||!ps[p1])return;
       var el2=ps[p1];el2.classList.add('on');el2.classList.remove('past');
       if(Date.now()-LY.manual>3500){
-        var top=el2.offsetTop-lyb.clientHeight/2+el2.offsetHeight/2;
+        var rb=lyb.getBoundingClientRect(),re=el2.getBoundingClientRect(),top=lyb.scrollTop+(re.top-rb.top)-lyb.clientHeight/2+re.height/2;
         var reduce=(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)||document.documentElement.getAttribute('data-motion')==='off';
         try{lyb.scrollTo({top:top,behavior:reduce?'auto':'smooth'})}catch(e){lyb.scrollTop=top}
       }
     }
-    function lyLoop(on){clearInterval(LY.timer);LY.timer=0;if(on&&LY.show)LY.timer=setInterval(function(){if(!document.hidden)tickLy()},150)}
+    function lyLoop(on){clearInterval(LY.timer);LY.timer=0;if(on&&LY.show&&!pan.hidden)LY.timer=setInterval(function(){if(!document.hidden)tickLy()},200)}
     function lySetShow(v){
       LY.show=v;try{localStorage.setItem('lyshow',v?'1':'0')}catch(e){}
       lyw.hidden=!v;lyx.textContent=T(v?'Ẩn':'Hiện');lyx.setAttribute('aria-expanded',v?'true':'false');
@@ -2898,7 +2880,7 @@ a,button,summary,.btn{-webkit-tap-highlight-color:transparent;touch-action:manip
     document.addEventListener('langchange',function(){lyx.textContent=T(LY.show?'Ẩn':'Hiện')});
     lySetShow(LY.show);
     /* mở trình phát thì canh lại dòng đang hát */
-    new MutationObserver(function(){if(!pan.hidden)setTimeout(function(){tickLy(true)},60)}).observe(pan,{attributes:true,attributeFilter:['hidden']});
+    new MutationObserver(function(){if(!pan.hidden){lyLoop(!au.paused);setTimeout(function(){tickLy(true)},60)}else lyLoop(false)}).observe(pan,{attributes:true,attributeFilter:['hidden']});
     /* bật trình phát thì tắt nhạc mở đầu */
     au.addEventListener('play',function(){try{Intro.stop(.5)}catch(e){}});
 
