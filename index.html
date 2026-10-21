@@ -1139,6 +1139,11 @@ body:has(#bgmp.playing) :is(.bgm,.bgq,.bgmp){opacity:1;visibility:visible;pointe
 }
 .gbar .gbn{aspect-ratio:21/9;max-height:26rem}
 @media (max-width:40rem){.gbar .gbn{aspect-ratio:16/9}}
+/* khung avatar: Discord avatar decoration "Hologram Dragon" (Zen Protocol), thay cho vòng tròn cũ */
+.avf{padding:0;background:none}
+.avf::before,.avf::after{content:none;animation:none}
+.avin{padding:0;background:none}
+.avdec{position:absolute;left:-10%;top:-10%;width:120%;height:120%;max-width:none;pointer-events:none;user-select:none;z-index:2}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Ming","inLanguage":"vi","description":"Trang nhỏ để mọi người biết dạo này tôi đang làm gì."}</script>
 </head>
@@ -1198,7 +1203,7 @@ body:has(#bgmp.playing) :is(.bgm,.bgq,.bgmp){opacity:1;visibility:visible;pointe
     <div class="wrap">
       <div class="rv pcol">
         <div class="pc">
-          <div class="avf"><div class="avin"><div class="ph me" data-i="M"><img src="images/avatar.jpg" alt="Ảnh của Ming" fetchpriority="high" decoding="async" onerror="this.remove()"></div></div><span class="avdot" id="avdot" data-st="offline"></span></div>
+          <div class="avf"><div class="avin"><div class="ph me" data-i="M"><img src="images/avatar.jpg" alt="Ảnh của Ming" fetchpriority="high" decoding="async" onerror="this.remove()"></div></div><img class="avdec" alt="" width="240" height="240" decoding="async" fetchpriority="low" referrerpolicy="no-referrer" onerror="this.remove()"><span class="avdot" id="avdot" data-st="offline"></span></div>
           <div class="pci">
             <b>Ming</b><small>( ming#0811 )</small>
             <span class="pst" id="pst" data-st="offline">Ngoại tuyến</span>
@@ -3827,5 +3832,12 @@ window.__combo={n:function(){return n},best:best,on:function(){return on},
   clearBest:function(){try{localStorage.removeItem('combo_best')}catch(e){}ping()}};
 })();</script>
 
+<script>/* ảnh khung avatar lấy từ CDN của Discord; bật chuyển động thì dùng bản động, tắt hiệu ứng thì dùng bản tĩnh */
+(function(){var d=document.querySelector('.avdec');if(!d)return;
+var B='https://cdn.discordapp.com/avatar-decoration-presets/a_94febf08c37b21ee5ed92c49ef98bf00.png?size=240',R=document.documentElement;
+function calm(){return (window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)||R.getAttribute('data-motion')==='off'}
+function set(){var u=B+'&passthrough='+(calm()?'false':'true');if(d.getAttribute('src')!==u)d.src=u}
+set();if(window.MutationObserver)new MutationObserver(set).observe(R,{attributes:true,attributeFilter:['data-motion']});
+})();</script>
 </body>
 </html>
