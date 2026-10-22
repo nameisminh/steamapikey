@@ -782,7 +782,6 @@ section.s,section.intro{position:relative}
 .pls .pa .btn{padding:.45rem 1rem;font-size:.85rem}
 .pls .plem{margin-top:1rem;border-radius:.8rem;overflow:hidden;background:var(--card2)}
 .pls .plem iframe{display:block;width:100%;border:0}
-.pls .card.big{grid-column:1/-1}
 .yr{display:grid;grid-template-columns:repeat(6,1fr);gap:.5rem;max-width:44rem;margin:0 0 2.2rem}
 @media (min-width:40rem){.yr{grid-template-columns:repeat(12,1fr)}}
 .yr div{min-width:0;padding:.5rem .2rem;border:1px solid var(--line);border-radius:.7rem;text-align:center;background:var(--card)}
@@ -1148,18 +1147,10 @@ body:has(#bgmp.playing) :is(.bgm,.bgq,.bgmp),body:has(#bgmp:not([hidden])) :is(.
 .avf::before,.avf::after{content:none;animation:none}
 .avin{padding:0;background:none}
 .avdec{position:absolute;left:-10%;top:-10%;width:120%;height:120%;max-width:none;pointer-events:none;user-select:none;z-index:2}
-/* sửa playlist: bấm "Nghe ngay" thì thẻ giãn ra, chữ không bị co lại và đè lên nhau */
-.pls .card{height:auto;align-self:start;min-width:0}
-.pls .card>*{flex:none;min-height:0}
-.pls .card.big{align-self:stretch}
-.pls .card.big .th{width:min(100%,11rem);aspect-ratio:1;flex:none}
-.pls .card .pn{align-self:flex-start;width:auto;max-width:100%;line-height:1.5;white-space:nowrap}
-.pls .card h3,.pls .card p{position:static;line-height:1.4;overflow-wrap:anywhere}
-.pls .card .pa{margin-top:1rem;padding-top:0}
-.pls .card .pa .btn{white-space:nowrap;line-height:1.2;overflow:hidden;text-overflow:ellipsis}
-.pls .card .plem{flex:none;height:auto;overflow:hidden;position:relative}
-.pls .card .plem iframe{position:static;max-width:100%}
-.pls .card .plem[hidden]{display:none}
+/* playlist: thẻ đang mở trình phát (class riêng, không dùng .big của đồng hồ) */
+.pls .card.open{grid-column:1/-1;height:auto}
+.pls .card.open .th{width:min(100%,12rem);margin-bottom:.9rem}
+.pls .card .pn{align-self:flex-start}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Ming","inLanguage":"vi","description":"Trang nhỏ để mọi người biết dạo này tôi đang làm gì."}</script>
 </head>
@@ -3254,11 +3245,11 @@ window.__autoLang=function(){
     box.addEventListener('click',function(e){
       var b=e.target.closest&&e.target.closest('[data-pl]');if(!b)return;
       var x=PLAYLISTS[+b.getAttribute('data-pl')],f=info(x.u),c=b.closest('.card'),em=c.querySelector('.plem');
-      if(!em.hidden){em.hidden=true;em.innerHTML='';b.textContent=T('Nghe ngay');c.classList.remove('big');return}
+      if(!em.hidden){em.hidden=true;em.innerHTML='';b.textContent=T('Nghe ngay');c.classList.remove('open');return}
       var fr=document.createElement('iframe');fr.title=x.t;fr.loading='lazy';fr.src=f.e;
       fr.allow='autoplay; encrypted-media; clipboard-write; fullscreen; picture-in-picture';
       if(f.r)fr.style.aspectRatio=f.r;else fr.style.height=(f.hh||152)+'px';
-      em.appendChild(fr);em.hidden=false;c.classList.add('big');b.textContent=T('Đóng');
+      em.appendChild(fr);em.hidden=false;c.classList.add('open');b.textContent=T('Đóng');
     });
   })();
 
