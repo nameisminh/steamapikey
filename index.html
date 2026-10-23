@@ -235,6 +235,9 @@ footer{border-top:1px solid var(--line);padding:3rem 0 6rem;color:var(--muted);f
 .bgmp .ctl button{width:2.2rem;height:2.2rem;flex:none;padding:0;border-radius:50%;border:1px solid var(--line-hi);background:transparent;color:var(--text);display:grid;place-items:center;cursor:pointer;transition:border-color .2s}
 .bgmp .ctl button:hover{border-color:var(--white)}
 .bgmp .ctl .main{width:2.6rem;height:2.6rem;background:var(--white);color:var(--bg);border-color:var(--white)}
+.bgmp .ctl .shuf{color:var(--muted);border-color:transparent}
+.bgmp .ctl .shuf:hover{color:var(--text);border-color:var(--line-hi)}
+.bgmp .ctl .shuf.on{color:var(--text);border-color:var(--white)}
 .bgmp .ctl svg{width:1.05rem;height:1.05rem;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .bgmp .main svg{fill:currentColor}
 .bgmp .main .pa{display:none}
@@ -1100,6 +1103,11 @@ body:has(#bgmp.playing) :is(.bgm,.bgq,.bgmp),body:has(#bgmp:not([hidden])) :is(.
 .bgmp .vol button{width:1.6rem;height:1.6rem;flex:none;padding:0;border:0;border-radius:50%;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;transition:color .2s}
 .bgmp .vol button:hover{color:var(--text)}
 .bgmp .vol svg{width:1.05rem;height:1.05rem;fill:currentColor;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.bgmp .vol input[type=range]{flex:1;min-width:0}
+.bgmp .vol input.vn{flex:none;width:2.6rem;height:1.5rem;padding:0 .2rem;box-sizing:border-box;text-align:center;font:inherit;font-size:.7rem;font-variant-numeric:tabular-nums;color:var(--text);background:transparent;border:1px solid var(--line-hi);border-radius:.4rem;outline:0;-moz-appearance:textfield;appearance:textfield;transition:opacity .2s,border-color .2s}
+.bgmp .vol input.vn::-webkit-outer-spin-button,.bgmp .vol input.vn::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.bgmp .vol input.vn:hover,.bgmp .vol input.vn:focus{border-color:var(--white)}
+.bgmp .vol.muted input.vn{opacity:.55}
 .bgmp .vol .w,.bgmp .vol .x{fill:none}
 .bgmp .vol .x{display:none}
 .bgmp .vol.muted .w{display:none}
@@ -1797,13 +1805,14 @@ window.__autoLang=function(){
 <div class="bgmp" id="bgmp" hidden role="region" aria-label="Trình phát nhạc">
   <div class="np"><b id="bgmt">Nhạc nền</b><small id="bgma"></small></div>
   <div class="ctl">
+    <button type="button" class="shuf" id="bgmshuf" aria-pressed="false" aria-label="Phát ngẫu nhiên" title="Phát ngẫu nhiên"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h3.5c5 0 6 10 11 10H21M3 17h3.5c1.8 0 3-1.2 4-2.6M13.5 9.6C14.5 8.2 15.7 7 17.5 7H21M18.5 4.5L21 7l-2.5 2.5M18.5 14.5L21 17l-2.5 2.5"/></svg></button>
     <button type="button" id="bgmprev" aria-label="Bài trước" title="Bài trước"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5v14M19 5l-9 7 9 7z"/></svg></button>
     <button type="button" id="bgmback" aria-label="Lùi 10 giây" title="Lùi 10 giây"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.4-5.5M4.5 4v4h4"/><text x="12" y="15.2" font-size="7" text-anchor="middle" fill="currentColor" stroke="none">10</text></svg></button>
     <button type="button" class="main" id="bgmplay" aria-label="Phát nhạc" title="Phát hoặc tạm dừng"><svg class="pl" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg><svg class="pa" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14M15 5v14"/></svg></button>
     <button type="button" id="bgmfwd" aria-label="Tua tới 10 giây" title="Tua tới 10 giây"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 12a7.5 7.5 0 1 1-2.4-5.5M19.5 4v4h-4"/><text x="12" y="15.2" font-size="7" text-anchor="middle" fill="currentColor" stroke="none">10</text></svg></button>
     <button type="button" id="bgmnext" aria-label="Bài tiếp theo" title="Bài tiếp theo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 5v14M5 5l9 7-9 7z"/></svg></button>
   </div>
-  <div class="vol"><button type="button" id="bgmmute" aria-label="Tắt tiếng" title="Bật hoặc tắt tiếng"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z"/><path class="w" d="M15.5 9a4 4 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11"/><path class="x" d="M16 9.5l5 5M21 9.5l-5 5"/></svg></button><input id="bgmvol" type="range" min="0" max="100" value="35" aria-label="Âm lượng"></div>
+  <div class="vol"><button type="button" id="bgmmute" aria-label="Tắt tiếng" title="Bật hoặc tắt tiếng"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z"/><path class="w" d="M15.5 9a4 4 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11"/><path class="x" d="M16 9.5l5 5M21 9.5l-5 5"/></svg></button><input id="bgmvol" type="range" min="0" max="100" value="35" aria-label="Âm lượng"><input class="vn" id="bgmvn" type="number" min="0" max="100" step="1" value="35" inputmode="numeric" aria-label="Nhập âm lượng (0-100)" title="Nhập âm lượng (0-100)"></div>
   <div class="seek"><span id="skc">0:00</span><input id="sk" type="range" min="0" max="1000" value="0" step="1" disabled aria-label="Tua nhạc"><span id="skd">0:00</span></div>
   <div class="lyr" id="lyr">
     <div class="lyh"><b>Lời bài hát</b><span id="lys"></span><button type="button" id="lyx" aria-expanded="true" aria-controls="lyb">Ẩn</button></div>
@@ -2777,11 +2786,13 @@ window.__autoLang=function(){
     {t:'Ta đã từng yêu nhau chưa',a:'Hào',src:'music/ta-da-tung-yeu-nhau-chua-official-audio-hao-hao.mp3'},
     {t:'Anh Sai Rồi',a:'Sơn Tùng M-TP',src:'music/anh-sai-roi-son-tung-m-tp.mp3'}
   ];
+  Object.assign(EN,{"Phát ngẫu nhiên":"Shuffle","Đang phát ngẫu nhiên":"Shuffle on"});
   (function(){
     var au=document.getElementById('bgmau'),btn=document.getElementById('bgm'),top=document.getElementById('bgmtop'),lst=document.getElementById('bgmlist'),pan=document.getElementById('bgmp');
     if(!au||!btn||!pan||!TRACKS.length)return;
     var tt=document.getElementById('bgmt'),ta=document.getElementById('bgma'),list=document.getElementById('bgml'),vol=document.getElementById('bgmvol'),msg=document.getElementById('bgmmsg');
-    var cur=0,bad={},want=false;
+    var cur=0,bad={},want=false,shuf=false,hist=[];
+    try{shuf=localStorage.getItem('shuf')==='1'}catch(e){}
     au.volume=.35;
     try{var sv=localStorage.getItem('vol');if(sv!==null&&!isNaN(+sv)){vol.value=sv;au.volume=sv/100}}catch(e){}
     function allBad(){return Object.keys(bad).length>=TRACKS.length}
@@ -2809,8 +2820,18 @@ window.__autoLang=function(){
       load(i);want=true;
       var p=au.play();if(p&&p.catch)p.catch(function(){});
     }
+    function pickRand(){
+      var c=[];for(var k=0;k<TRACKS.length;k++)if(k!==cur&&!bad[k])c.push(k);
+      return c.length?c[Math.floor(Math.random()*c.length)]:-1;
+    }
     function step(d){
       if(allBad())return;
+      if(shuf){
+        var r=-1;
+        if(d<0){while(hist.length){var h=hist.pop();if(h!==cur&&!bad[h]){r=h;break}}}
+        else{r=pickRand();if(r>=0){hist.push(cur);if(hist.length>100)hist.shift()}}
+        if(r>=0){if(want)go(r);else load(r);return}
+      }
       var n=TRACKS.length,i=cur;
       for(var k=0;k<n;k++){i=(i+d+n)%n;if(!bad[i])break}
       if(bad[i])return;
@@ -2853,6 +2874,17 @@ window.__autoLang=function(){
     if(qb)qb.addEventListener('click',toggle);
     if(nb)nb.addEventListener('click',nextNow);
     document.getElementById('bgmplay').addEventListener('click',toggle);
+    var sb=g('bgmshuf');
+    function shufUI(){
+      if(!sb)return;
+      sb.classList.toggle('on',shuf);sb.setAttribute('aria-pressed',shuf?'true':'false');
+      var l=T(shuf?'Đang phát ngẫu nhiên':'Phát ngẫu nhiên');sb.setAttribute('aria-label',l);sb.title=l;
+    }
+    if(sb)sb.addEventListener('click',function(){
+      shuf=!shuf;hist=[];shufUI();
+      try{localStorage.setItem('shuf',shuf?'1':'0')}catch(e){}
+    });
+    shufUI();
     document.getElementById('bgmprev').addEventListener('click',function(){step(-1)});
     document.getElementById('bgmnext').addEventListener('click',function(){step(1)});
     vol.addEventListener('input',function(){au.volume=vol.value/100;try{localStorage.setItem('vol',vol.value)}catch(e){}});
@@ -3017,8 +3049,10 @@ window.__autoLang=function(){
     g('bgmback').addEventListener('click',function(){skipBy(-10)});
     g('bgmfwd').addEventListener('click',function(){skipBy(10)});
     var mb=g('bgmmute'),vbox=mb.parentNode;
+    var vn=g('bgmvn');
+    function volNum(){if(vn&&document.activeElement!==vn)vn.value=Math.round(vol.value)}
     function muteUI(){
-      var m=au.muted||au.volume===0;vbox.classList.toggle('muted',m);
+      var m=au.muted||au.volume===0;vbox.classList.toggle('muted',m);volNum();
       mb.setAttribute('aria-label',T(m?'Bật tiếng':'Tắt tiếng'));
     }
     mb.addEventListener('click',function(){
@@ -3026,6 +3060,20 @@ window.__autoLang=function(){
       muteUI();
     });
     vol.addEventListener('input',function(){if(au.muted&&vol.value>0)au.muted=false;muteUI()});
+    if(vn){
+      vn.addEventListener('input',function(){
+        if(vn.value==='')return;
+        var n=Math.round(+vn.value);if(isNaN(n))return;
+        n=Math.max(0,Math.min(100,n));
+        vol.value=n;au.volume=n/100;
+        try{localStorage.setItem('vol',n)}catch(e){}
+        if(au.muted&&n>0)au.muted=false;
+        muteUI();
+      });
+      vn.addEventListener('change',function(){vn.value=Math.round(vol.value)});
+      vn.addEventListener('blur',function(){vn.value=Math.round(vol.value)});
+      vn.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();vn.blur()}});
+    }
     muteUI();
     /* ===== thanh tua nhạc ===== */
     var sk=g('sk'),skc=g('skc'),skd=g('skd'),skDrag=false;
