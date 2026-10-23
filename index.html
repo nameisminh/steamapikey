@@ -1193,6 +1193,28 @@ body:has(#bgmp.playing) :is(.bgm,.bgq,.bgmp),body:has(#bgmp:not([hidden])) :is(.
 .ddm-b .sc{font:400 .75rem var(--mono);color:var(--muted);white-space:nowrap}
 .ddm-b .sc b{color:var(--text);font-weight:600}
 .ddm-e{margin:1rem 0 0;font:400 .78rem/1.5 var(--mono);color:var(--muted)}
+.ddf{display:inline-flex;align-items:center;vertical-align:-.18em;color:var(--muted)}
+.ddf svg{width:1.05em;height:1.05em;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}
+.ddf svg+svg{margin-left:-.28em}
+.ddf.on svg{fill:currentColor;fill-opacity:.3;animation:flick .9s ease-in-out infinite;transform-origin:50% 90%}
+.ddf.on svg:nth-child(2){animation-delay:-.25s}
+.ddf.on svg:nth-child(3){animation-delay:-.5s}
+.ddf.on svg:nth-child(4){animation-delay:-.7s}
+.ddf.on svg:nth-child(5){animation-delay:-.15s}
+.ddf.t1{color:#f5b301}
+.ddf.t2{color:#ff8a2a}
+.ddf.t3{color:#ff4a2a}
+.ddf.t4{color:#2f9bff}
+.ddf.t5{color:#a05cff}
+.ddf.t5 svg,.ddf.t4 svg{fill-opacity:.4;filter:drop-shadow(0 0 3px currentColor)}
+.ddf.glow svg{filter:drop-shadow(0 0 5px currentColor)}
+.ddm-e .ddf,.ddm-b .sc .ddf{font-size:1.35em;margin-right:.25rem}
+@media(prefers-reduced-motion:reduce){.ddf.on svg{animation:none}}
+.ddtop small .ddf{margin-right:.3rem;font-size:1.35em}
+.dds b{display:flex;align-items:center;gap:.3rem}
+.dds b .ddf{font-size:.9em}
+.ddlb .ddm-b{margin-top:.4rem;max-width:30rem}
+.ddlb .ddm-b li{padding:.55rem .6rem}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Ming","inLanguage":"vi","description":"Trang nhỏ để mọi người biết dạo này tôi đang làm gì."}</script>
 </head>
@@ -1623,6 +1645,7 @@ window.__autoLang=function(){
         <p class="lead">Mới nhất ở trên cùng.</p>
       </div>
       <div class="ddbox rv" id="ddbox"></div>
+      <div class="ddbox ddlb rv" id="ddlb" hidden></div>
       <p class="mini rv">Năm 2026 của tôi</p>
       <div class="yr rv" id="yr"></div>
       <ol class="log rv">
@@ -3321,6 +3344,7 @@ window.__autoLang=function(){
   (function(){
     var box=document.getElementById('ddbox'),top=document.getElementById('ddtop'),tops=document.getElementById('ddtops');
     if(!box&&!top)return;
+    Object.assign(EN,{"Lửa vàng": "Yellow flame", "Lửa cam": "Orange flame", "Lửa đỏ": "Red flame", "Lửa xanh": "Blue flame", "Lửa tím": "Purple flame"});
     Object.assign(EN,{"Điểm danh": "Check-in", "ngày liên tiếp": "day streak", "ngày đã điểm danh": "days checked in", "lần gần nhất": "last check-in", "hôm nay": "today", "hôm qua": "yesterday", "Chưa có": "None yet", "Điểm danh hôm nay": "Check in today", "Hôm nay đã điểm danh rồi": "Already checked in today", "Xem xếp hạng": "See ranking", "Mỗi ô là một ngày, 20 tuần gần nhất. Ô sáng là ngày bạn có điểm danh. Chuỗi lưu ngay trong trình duyệt này, chỉ mình bạn thấy.": "Each square is a day, last 20 weeks. A lit square is a day you checked in. Your own grid is saved in this browser.", "Tên hiện trên bảng xếp hạng": "Name shown on the leaderboard", "Đóng": "Close", "Xếp hạng chuỗi ngày": "Streak leaderboard", "ngày": "days", "tổng": "total", "Bạn": "You", "Nhập tên từ 2 ký tự trở lên (chữ, số, dấu cách).": "Enter a name of at least 2 characters (letters, numbers, spaces).", "Chưa có ai điểm danh. Bạn có thể là người đầu tiên.": "No one has checked in yet. You could be the first.", "Đã điểm danh trên máy này, nhưng chưa nối được bảng xếp hạng.": "Checked in on this device, but the leaderboard could not be reached.", "Bảng xếp hạng chưa bật.": "The leaderboard isn't switched on yet.", "Điểm danh xong rồi, hẹn gặp lại ngày mai.": "Checked in, see you tomorrow.", "Đang tải xếp hạng...": "Loading the leaderboard...", "Chuỗi": "Streak", "hạng": "rank", "người chơi": "players", "Mỗi ngày điểm danh một lần. Bỏ lỡ một ngày thì chuỗi về 0. Ngày tính theo giờ Việt Nam.": "Check in once a day. Miss a day and your streak resets. Days follow Vietnam time."});
     var W=20,KEY='ddme',days=[],mem=[],last=null,modal=null,state={me:null,top:[],players:0,ok:false,date:''},msg='',busy=false,opener=null;
     function pad(n){return n<10?'0'+n:''+n}
@@ -3339,6 +3363,20 @@ window.__autoLang=function(){
       }
       return t;
     }
+    /* lửa đổi theo chuỗi: 1-2 vàng, 3-6 cam, 7-13 đỏ, 14-29 xanh, 30+ tím; càng lên bậc càng thêm lửa (tối đa 5) */
+    var TIERS=[[1,'Lửa vàng'],[3,'Lửa cam'],[7,'Lửa đỏ'],[14,'Lửa xanh'],[30,'Lửa tím']];
+    function tier(n){var t=0;for(var i=0;i<TIERS.length;i++)if(n>=TIERS[i][0])t=i+1;return t}
+    function fl(n){
+      n=+n||0;var t=tier(n),h='',i;
+      for(i=0;i<Math.max(t,1);i++)h+=icn('flame');
+      var ttl=t?(T('Chuỗi')+' '+n+' '+T('ngày')+' · '+T(TIERS[t-1][1])):'';
+      return '<span class="ddf'+(t?' on t'+t+(n>=100?' glow':''):'')+'"'+(ttl?' title="'+esc(ttl)+'"':'')+'>'+h+'</span>';
+    }
+    function nextTxt(n){
+      var t=tier(n);if(t>=TIERS.length)return LANG==='en'?'Top flame reached. Keep it burning.':'Đã lên lửa cao nhất, giữ cho nó cháy nhé.';
+      var need=TIERS[t][0]-n,nm=TIERS[t][1];
+      return LANG==='en'?need+' more day'+(need>1?'s':'')+' to reach '+T(nm).toLowerCase()+'.':'Thêm '+need+' ngày nữa để lên '+nm.toLowerCase()+'.';
+    }
     function cleanName(v){return String(v||'').normalize('NFC').replace(/[^\p{L}\p{N} _.\-]/gu,'').replace(/\s+/g,' ').trim().slice(0,16)}
     function stats(){
       var set={};days.forEach(function(k){set[k]=1});
@@ -3350,25 +3388,36 @@ window.__autoLang=function(){
       days=load();var st=stats(),set=st.set,i;
       if(top){
         top.textContent=T(st.done?'Xem xếp hạng':'Điểm danh hôm nay');
-        if(tops)tops.textContent=st.streak?(T('Chuỗi')+': '+st.streak+' '+T('ngày')):'';
+        if(tops)tops.innerHTML=st.streak?(fl(st.streak)+esc(T('Chuỗi'))+': '+st.streak+' '+esc(T('ngày'))):'';
       }
       if(!box)return;
       var now=new Date(),wd=(now.getDay()+6)%7,s0=st.tn-wd-(W-1)*7,lt='',lastd=days.length?days[days.length-1]:'';
       if(lastd){var d=st.tn-num(lastd);lt=d===0?T('hôm nay'):d===1?T('hôm qua'):(+lastd.slice(8)+'/'+ +lastd.slice(5,7))}else lt=T('Chưa có');
       var g='';for(i=0;i<W*7;i++){var n=s0+i,k=ymd(n);g+='<i class="'+(n>st.tn?'fu':(set[k]?'on':''))+(n===st.tn?' td':'')+'" title="'+k+'"></i>'}
-      box.innerHTML='<p class="mini">'+esc('Điểm danh')+'</p><div class="dds"><div><b>'+st.streak+'</b><span>'+esc('ngày liên tiếp')+'</span></div><div><b>'+days.length+'</b><span>'+esc('ngày đã điểm danh')+'</span></div><div><b>'+esc(lt)+'</b><span>'+esc('lần gần nhất')+'</span></div></div><div class="ddg" role="img" aria-label="'+esc('Điểm danh')+'">'+g+'</div><div class="ddown"><button class="btn" type="button" data-dd="1">'+esc(st.done?'Xem xếp hạng':'Điểm danh hôm nay')+'</button></div><p class="ddn">'+esc('Mỗi ô là một ngày, 20 tuần gần nhất. Ô sáng là ngày bạn có điểm danh. Chuỗi lưu ngay trong trình duyệt này, chỉ mình bạn thấy.')+'</p>';
+      box.innerHTML='<p class="mini">'+esc('Điểm danh')+'</p><div class="dds"><div><b>'+fl(st.streak)+st.streak+'</b><span>'+esc('ngày liên tiếp')+'</span></div><div><b>'+days.length+'</b><span>'+esc('ngày đã điểm danh')+'</span></div><div><b>'+esc(lt)+'</b><span>'+esc('lần gần nhất')+'</span></div></div><div class="ddg" role="img" aria-label="'+esc('Điểm danh')+'">'+g+'</div><div class="ddown"><button class="btn" type="button" data-dd="1">'+esc(st.done?'Xem xếp hạng':'Điểm danh hôm nay')+'</button></div><p class="ddn">'+esc('Mỗi ô là một ngày, 20 tuần gần nhất. Ô sáng là ngày bạn có điểm danh. Chuỗi lưu ngay trong trình duyệt này, chỉ mình bạn thấy.')+'</p>';
     }
     function api(body){
       var o=body?{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)}:{};
       return fetch('/api/checkin',o).then(function(r){return r.json().then(function(j){return {s:r.status,j:j}})});
     }
+    function row(p,mine){
+      return '<li class="'+(mine?'mine':'')+'"><span class="rk">#'+p.r+'</span><span class="nm">'+esc(p.n)+(mine?' ('+esc('Bạn')+')':'')+'</span><span class="sc">'+fl(p.s)+'<b>'+p.s+'</b> '+esc('ngày')+' · '+p.t+' '+esc('tổng')+'</span></li>';
+    }
+    function rowsHtml(){
+      var h='',me=state.me;
+      state.top.forEach(function(p){h+=row(p,p.me)});
+      if(me&&!state.top.some(function(p){return p.me}))h+=row(me,true);
+      return h;
+    }
+    function lb(){
+      var el=document.getElementById('ddlb');if(!el)return;
+      if(!state.ok){el.hidden=true;return}
+      el.hidden=false;
+      el.innerHTML='<p class="mini">'+esc('Xếp hạng chuỗi ngày')+'</p>'+(state.top.length?'<ol class="ddm-b">'+rowsHtml()+'</ol><p class="ddn">'+state.players+' '+esc('người chơi')+' · '+esc('Mỗi ngày điểm danh một lần. Bỏ lỡ một ngày thì chuỗi về 0. Ngày tính theo giờ Việt Nam.')+'</p>':'<p class="ddn">'+esc('Chưa có ai điểm danh. Bạn có thể là người đầu tiên.')+'</p>');
+    }
     function board(){
-      var el=modal.querySelector('#ddm-b'),h='',me=state.me;
-      state.top.forEach(function(p){
-        h+='<li class="'+(p.me?'mine':'')+'"><span class="rk">#'+p.r+'</span><span class="nm">'+esc(p.n)+(p.me?' ('+T('Bạn')+')':'')+'</span><span class="sc"><b>'+p.s+'</b> '+esc('ngày')+' · '+p.t+' '+esc('tổng')+'</span></li>';
-      });
-      if(me&&!state.top.some(function(p){return p.me}))h+='<li class="mine"><span class="rk">#'+me.r+'</span><span class="nm">'+esc(me.n)+' ('+esc('Bạn')+')</span><span class="sc"><b>'+me.s+'</b> '+esc('ngày')+' · '+me.t+' '+esc('tổng')+'</span></li>';
-      el.innerHTML=h;
+      var el=modal.querySelector('#ddm-b');
+      el.innerHTML=rowsHtml();
       var m=modal.querySelector('#ddm-msg'),t=msg;
       if(!t&&state.ok&&!state.top.length)t='Chưa có ai điểm danh. Bạn có thể là người đầu tiên.';
       m.textContent=T(t||'');
@@ -3376,12 +3425,13 @@ window.__autoLang=function(){
       go.disabled=busy||st.done;
       go.textContent=T(st.done?'Hôm nay đã điểm danh rồi':'Điểm danh hôm nay');
       modal.querySelector('#ddm-n').disabled=busy;
+      var nx=modal.querySelector('#ddm-next'),sx=stats();nx.innerHTML=sx.streak?fl(sx.streak)+' '+esc(nextTxt(sx.streak)):'';
       var meta=modal.querySelector('#ddm-meta');
       meta.textContent=state.ok&&state.players?(state.players+' '+T('người chơi')):'';
     }
     function build(){
       modal=document.createElement('div');modal.className='ddm';modal.hidden=true;
-      modal.innerHTML='<div class="ddm-bg" data-x="1"></div><div class="ddm-box" role="dialog" aria-modal="true" aria-labelledby="ddm-t"><button class="ddm-x" type="button" data-x="1" aria-label="Đóng">×</button><h3 id="ddm-t">Điểm danh</h3><label class="ddm-l"><span id="ddm-ln">Tên hiện trên bảng xếp hạng</span><input id="ddm-n" maxlength="16" autocomplete="nickname" spellcheck="false"></label><button class="btn" type="button" id="ddm-go">Điểm danh hôm nay</button><p class="ddm-e" id="ddm-msg" role="status"></p><p class="mini" style="margin:1rem 0 0" id="ddm-bt">Xếp hạng chuỗi ngày</p><ol class="ddm-b" id="ddm-b"></ol><p class="ddm-e" id="ddm-meta"></p><p class="ddm-e" id="ddm-rule">Mỗi ngày điểm danh một lần. Bỏ lỡ một ngày thì chuỗi về 0. Ngày tính theo giờ Việt Nam.</p></div>';
+      modal.innerHTML='<div class="ddm-bg" data-x="1"></div><div class="ddm-box" role="dialog" aria-modal="true" aria-labelledby="ddm-t"><button class="ddm-x" type="button" data-x="1" aria-label="Đóng">×</button><h3 id="ddm-t">Điểm danh</h3><label class="ddm-l"><span id="ddm-ln">Tên hiện trên bảng xếp hạng</span><input id="ddm-n" maxlength="16" autocomplete="nickname" spellcheck="false"></label><button class="btn" type="button" id="ddm-go">Điểm danh hôm nay</button><p class="ddm-e" id="ddm-msg" role="status"></p><p class="ddm-e" id="ddm-next"></p><p class="mini" style="margin:1rem 0 0" id="ddm-bt">Xếp hạng chuỗi ngày</p><ol class="ddm-b" id="ddm-b"></ol><p class="ddm-e" id="ddm-meta"></p><p class="ddm-e" id="ddm-rule">Mỗi ngày điểm danh một lần. Bỏ lỡ một ngày thì chuỗi về 0. Ngày tính theo giờ Việt Nam.</p></div>';
       document.body.appendChild(modal);
       modal.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('[data-x]'))close()});
       modal.querySelector('#ddm-go').addEventListener('click',go);
@@ -3402,7 +3452,7 @@ window.__autoLang=function(){
       modal.querySelector('.ddm-x').setAttribute('aria-label',T('Đóng'));
     }
     function apply(r){
-      if(r&&r.s===200&&r.j&&r.j.top){state={me:r.j.me||null,top:r.j.top,players:r.j.players||0,ok:true,date:r.j.date||''};return true}
+      if(r&&r.s===200&&r.j&&r.j.top){state={me:r.j.me||null,top:r.j.top,players:r.j.players||0,ok:true,date:r.j.date||''};lb();return true}
       state.ok=false;return false;
     }
     function open(from){
@@ -3438,7 +3488,11 @@ window.__autoLang=function(){
     if(top)top.addEventListener('click',function(){open(top)});
     if(box)box.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-dd]');if(b)open(b)});
     render();
-    document.addEventListener('langchange',function(){render();if(modal&&!modal.hidden){texts();board()}});
+    if(document.getElementById('ddlb')){
+      var had0=!!ls('ddname');
+      (had0?api({token:token(),check:false}):api()).then(apply).catch(function(){})
+    }
+    document.addEventListener('langchange',function(){render();lb();if(modal&&!modal.hidden){texts();board()}});
   })();
 
   /* ===== dải năm 2026: sửa MONTHS nếu muốn đổi. Tháng hiện tại được viền sáng ===== */
