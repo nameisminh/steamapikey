@@ -1095,16 +1095,16 @@ body:has(#bgmp.playing) :is(.bgm,.bgq,.bgmp),body:has(#bgmp:not([hidden])) :is(.
 .bgmp{padding:.65rem .75rem;max-height:calc(100vh - 7rem);max-height:calc(100dvh - 7rem);overflow-y:auto;overscroll-behavior:contain;contain:layout paint}
 .bgmp .np b{font-size:.86rem}
 .bgmp .np small{font-size:.72rem}
-.bgmp .ctl{justify-content:center;gap:.35rem;margin:.45rem 0 .25rem}
+.bgmp .ctl{justify-content:space-between;gap:.2rem;margin:.45rem 0 .25rem}
 .bgmp .ctl button{width:1.85rem;height:1.85rem}
 .bgmp .ctl .main{width:2.25rem;height:2.25rem}
 .bgmp .ctl svg{width:.9rem;height:.9rem}
 .bgmp .vol{display:flex;align-items:center;gap:.4rem;margin:0 0 .15rem}
-.bgmp .vol button{width:1.6rem;height:1.6rem;flex:none;padding:0;border:0;border-radius:50%;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;transition:color .2s}
+.bgmp .vol button{width:2rem;height:1.6rem;flex:none;padding:0;border:0;border-radius:50%;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;transition:color .2s}
 .bgmp .vol button:hover{color:var(--text)}
 .bgmp .vol svg{width:1.05rem;height:1.05rem;fill:currentColor;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .bgmp .vol input[type=range]{flex:1;min-width:0}
-.bgmp .vol input.vn{flex:none;width:2.6rem;height:1.5rem;padding:0 .2rem;box-sizing:border-box;text-align:center;font:inherit;font-size:.7rem;font-variant-numeric:tabular-nums;color:var(--text);background:transparent;border:1px solid var(--line-hi);border-radius:.4rem;outline:0;-moz-appearance:textfield;appearance:textfield;transition:opacity .2s,border-color .2s}
+.bgmp .vol input.vn{flex:none;width:2rem;height:1.4rem;padding:0;box-sizing:border-box;text-align:center;font:inherit;font-size:.68rem;font-variant-numeric:tabular-nums;color:var(--text);background:transparent;border:1px solid var(--line-hi);border-radius:.35rem;outline:0;-moz-appearance:textfield;appearance:textfield;transition:opacity .2s,border-color .2s}
 .bgmp .vol input.vn::-webkit-outer-spin-button,.bgmp .vol input.vn::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .bgmp .vol input.vn:hover,.bgmp .vol input.vn:focus{border-color:var(--white)}
 .bgmp .vol.muted input.vn{opacity:.55}
@@ -1135,7 +1135,7 @@ body:has(#bgmp.playing) :is(.bgm,.bgq,.bgmp),body:has(#bgmp:not([hidden])) :is(.
 .lyb p{padding:.22rem .3rem;font-size:.84rem;line-height:1.35}
 .lyb p.past{opacity:.5}
 @media (min-width:48rem){
-  .bgmp{width:min(28rem,calc(100vw - 2.5rem));display:grid;grid-template-columns:minmax(0,11.5rem) minmax(0,1fr);column-gap:.75rem;align-content:start;max-height:min(24rem,calc(100dvh - 7rem))}
+  .bgmp{width:min(30rem,calc(100vw - 2.5rem));display:grid;grid-template-columns:minmax(0,13.5rem) minmax(0,1fr);column-gap:.75rem;align-content:start;max-height:min(24rem,calc(100dvh - 7rem))}
   .bgmp[hidden]{display:none}
   .bgmp>.np,.bgmp>.ctl,.bgmp>.seek,.bgmp>.vol,.bgmp>.bgmmsg,.bgmp>.bgml{grid-column:1}
   .bgmp>.lyr{grid-column:2;grid-row:1/span 6;margin:0;padding:0 0 0 .75rem;border-top:0;border-left:1px solid var(--line);min-width:0}
@@ -2881,8 +2881,14 @@ window.__autoLang=function(){
       var l=T(shuf?'Đang phát ngẫu nhiên':'Phát ngẫu nhiên');sb.setAttribute('aria-label',l);sb.title=l;
     }
     if(sb)sb.addEventListener('click',function(){
+      if(allBad()){togglePanel(true);return}
+      var wasPlaying=!au.paused&&!au.ended;
       shuf=!shuf;hist=[];shufUI();
       try{localStorage.setItem('shuf',shuf?'1':'0')}catch(e){}
+      if(wasPlaying)return; /* đang phát: chỉ đổi chế độ, bài đang phát vẫn tiếp tục */
+      /* chưa phát: phát luôn. Bật ngẫu nhiên thì chọn một bài bất kỳ, tắt thì phát bài hiện tại */
+      if(shuf){var r=pickRand();if(r>=0){hist.push(cur);go(r);return}}
+      toggle();
     });
     shufUI();
     document.getElementById('bgmprev').addEventListener('click',function(){step(-1)});
