@@ -2089,7 +2089,7 @@ window.__autoLang=function(){
     function doScroll3(){
       s3=0;
       if(homeEl.hidden)return;
-      if(gal){
+      if(gal&&gal.style.display!=='none'){
         var gr=gal.getBoundingClientRect(),off=gr.top+gr.height/2-innerHeight/2;
         if(gr.bottom>-300&&gr.top<innerHeight+300)gp.forEach(function(el,i){el.style.translate='0 '+(off*pf[i%3]).toFixed(1)+'px'});
       }
@@ -2620,7 +2620,7 @@ window.__autoLang=function(){
   function icn(n){return ICONS[n]?'<svg class="ic2 '+n+'" viewBox="0 0 24 24" aria-hidden="true">'+ICONS[n]+'</svg>':''}
   document.querySelectorAll('[data-ic]').forEach(function(el){el.innerHTML=icn(el.getAttribute('data-ic'))});
   function thumb(x){
-    return '<span class="th ph" data-i="">'+(x.ic?icn(x.ic):'')+(x.img?'<img src="'+esc(x.img)+'" alt="'+esc(x.t)+'"'+(x.fb?' data-f="'+esc(x.fb)+'"':'')+' loading="lazy" decoding="async" onerror="'+FBERR+'">':'')+'</span>';
+    return '<span class="th ph" data-i="">'+(x.ic?icn(x.ic):'')+(x.img?'<img decoding="async" src="'+esc(x.img)+'" alt="'+esc(x.t)+'"'+(x.fb?' data-f="'+esc(x.fb)+'"':'')+' loading="lazy" decoding="async" onerror="'+FBERR+'">':'')+'</span>';
   }
   function fillRows(id,k){
     var el=document.getElementById(id);if(!el)return;
@@ -2881,6 +2881,7 @@ window.__autoLang=function(){
       return true;
     }
     function apply(){
+      lastKey='';
       lay=layout(cfg.mode);
       pan.style.transform='translateZ('+(-cfg.panZ).toFixed(1)+'px)';
       slots.forEach(function(el,k){
@@ -2901,8 +2902,11 @@ window.__autoLang=function(){
       return [lY,lZ];
     }
     /* độ sâu mặt trước của từng ô sau khi xoay => ô ở phía sau mờ đi và không bấm được */
+    var lastKey='';
     function render(){
       var a2=rigAngles(),rY=a2[0],rZ=a2[1];
+      var key=rx.toFixed(2)+'|'+rY.toFixed(2)+'|'+rZ.toFixed(2)+'|'+ry.toFixed(2);
+      if(key===lastKey)return;lastKey=key;
       rig.style.transform='rotateX('+rx.toFixed(2)+'deg) rotateY('+rY.toFixed(2)+'deg) rotateZ('+rZ.toFixed(2)+'deg)';
       if(cfg.mode==='helix'&&!morphing())helixStep();
       var sx=Math.sin(rad(rx)),cx=Math.cos(rad(rx)),sy=Math.sin(rad(rY)),cy=Math.cos(rad(rY)),sz=Math.sin(rad(rZ)),cz=Math.cos(rad(rZ));
@@ -3430,7 +3434,7 @@ window.__autoLang=function(){
     function open(i,from){
       var x=IDOLS[i];opener=from||null;
       var ph=document.getElementById('idph');ph.setAttribute('data-i',x.n.charAt(0));
-      ph.innerHTML='<img src="'+esc(x.img)+'" alt="'+esc(x.n)+'" onerror="this.remove()">';
+      ph.innerHTML='<img decoding="async" src="'+esc(x.img)+'" alt="'+esc(x.n)+'" onerror="this.remove()">';
       document.getElementById('idmt').textContent=x.n;
       document.getElementById('idtag').textContent=T(x.tag);
       var why=PH(x.why)?'':x.why,tr=x.traits.filter(function(t){return !PH(t)}),sg=x.songs.filter(function(t){return !PH(t)});
@@ -3558,7 +3562,7 @@ window.__autoLang=function(){
     function open(i,from){
       var x=G[i];opener=from||null;
       var ph=document.getElementById('gmph');
-      ph.innerHTML=(x.ic?icn(x.ic):'')+(x.img?'<img src="'+esc(x.img)+'" alt="'+esc(x.t)+'"'+(x.fb?' data-f="'+esc(x.fb)+'"':'')+' onerror="'+FBERR+'">':'');
+      ph.innerHTML=(x.ic?icn(x.ic):'')+(x.img?'<img decoding="async" src="'+esc(x.img)+'" alt="'+esc(x.t)+'"'+(x.fb?' data-f="'+esc(x.fb)+'"':'')+' onerror="'+FBERR+'">':'');
       document.getElementById('gmt').textContent=T(x.t);
       document.getElementById('gmm').textContent=T(x.m)+(x.s?' · '+T(x.s):'');
       document.getElementById('gmtags').innerHTML=(x.tags||[]).map(function(t){return '<span class="gtag">'+esc(t)+'</span>'}).join('');
@@ -3945,7 +3949,7 @@ window.__autoLang=function(){
       return a.application_id?'https://cdn.discordapp.com/app-assets/'+a.application_id+'/'+l+'.png':'';
     }
     function card(ic,img,kind,title,lines,extra){
-      return '<div class="act"><div class="ar2 ph" data-i="">'+icn(ic)+(img?'<img src="'+esc(img)+'" alt="" onerror="this.remove()">':'')+'</div><div class="ab"><span class="ak">'+esc(kind)+'</span><b>'+esc(title)+'</b>'+lines+(extra||'')+'</div></div>';
+      return '<div class="act"><div class="ar2 ph" data-i="">'+icn(ic)+(img?'<img decoding="async" src="'+esc(img)+'" alt="" onerror="this.remove()">':'')+'</div><div class="ab"><span class="ak">'+esc(kind)+'</span><b>'+esc(title)+'</b>'+lines+(extra||'')+'</div></div>';
     }
     function render(){
       var d=D,st=d&&STL[d.discord_status]?d.discord_status:'offline',u=d&&d.discord_user,acts=(d&&d.activities)||[],game=null,custom=null;
@@ -3959,7 +3963,7 @@ window.__autoLang=function(){
       if(nl){if(lt){if(!nl.hasAttribute('data-def'))nl.setAttribute('data-def',nl.textContent);nl.textContent=lt}else if(nl.hasAttribute('data-def')){nl.textContent=T(nl.getAttribute('data-def'));nl.removeAttribute('data-def')}}
       var name=u?(u.global_name||u.display_name||u.username):ME.steamName,tag=u?'@'+u.username:'';
       var av=u&&u.avatar?'https://cdn.discordapp.com/avatars/'+u.id+'/'+u.avatar+'.'+(u.avatar.indexOf('a_')===0?'gif':'png')+'?size=128':'';
-      var h='<div class="pw"><div><div class="pu"><div class="pav"><div class="ph" data-i="'+esc(name.charAt(0))+'">'+(av?'<img src="'+esc(av)+'" alt="" onerror="this.remove()">':'')+'</div><span class="avdot" data-st="'+st+'"></span></div><div><b>'+esc(name)+'</b><small>'+(tag?esc(tag)+' · ':'')+esc(STL[st])+'</small></div></div>';
+      var h='<div class="pw"><div><div class="pu"><div class="pav"><div class="ph" data-i="'+esc(name.charAt(0))+'">'+(av?'<img decoding="async" src="'+esc(av)+'" alt="" onerror="this.remove()">':'')+'</div><span class="avdot" data-st="'+st+'"></span></div><div><b>'+esc(name)+'</b><small>'+(tag?esc(tag)+' · ':'')+esc(STL[st])+'</small></div></div>';
       if(custom&&(custom.state||(custom.emoji&&custom.emoji.name)))h+='<p class="pcs">'+(custom.emoji&&custom.emoji.name?esc(custom.emoji.name)+' ':'')+esc(custom.state||'')+'</p>';
       h+='</div><div class="pacts">';
       others.forEach(function(a){
@@ -4264,7 +4268,6 @@ window.__autoLang=function(){
   document.addEventListener('langchange',function(){setTimeout(scan,150)});
 })();</script>
 <div id="rp" aria-hidden="true"></div>
-<button id="totop" type="button" aria-label="Lên đầu trang" title="Lên đầu trang">↑</button>
 <script>(function(){var b=document.getElementById('totop');if(!b)return;
 var rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
 var rp=document.getElementById('rp'),tk=false;
