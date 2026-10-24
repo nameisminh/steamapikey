@@ -1319,6 +1319,37 @@ section.s,section.intro{position:relative}
 .wxtr input[type=range]{width:min(12rem,45vw);accent-color:var(--white)}
 .wxtest small{display:block;margin-top:.6rem;color:var(--muted);font-size:.78rem}
 #wxfx{position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:8;display:none}
+/* GÓC CHƠI: test loa trái/phải, test micro */
+.lr{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:0 0 1rem}
+.lrb{--v:0;display:grid;place-items:center;gap:.2rem;padding:1.3rem .8rem;border:1px solid rgba(var(--fx),calc(.12 + var(--v)*.7));border-radius:.9rem;background:var(--bg);color:var(--muted);opacity:calc(.5 + var(--v)*.5);box-shadow:0 0 calc(var(--v)*1.8rem) rgba(var(--fx),calc(var(--v)*.25))}
+.lrb b{font:800 2.2rem/1 var(--body);color:var(--text)}
+.lrb span{font-size:.78rem}
+.sl label{display:flex;align-items:center;gap:.5rem;font-size:.85rem;color:var(--text)}
+.sl input[type=range]{width:min(11rem,40vw);accent-color:var(--white)}
+.mcm{position:relative;height:.9rem;border-radius:999px;background:var(--bg);border:1px solid var(--line);overflow:hidden;margin:0 0 .8rem}
+.mcm i{position:absolute;inset:0;background:linear-gradient(90deg,var(--acc),#e8e36a 75%,#ff6b5b);clip-path:inset(0 calc((1 - var(--lv,0))*100%) 0 0)}
+.mcm u{position:absolute;top:0;bottom:0;left:calc(var(--pk,0)*1%);width:2px;background:var(--white);text-decoration:none}
+.mcv{display:block;width:100%;height:7.5rem;border:1px solid var(--line);border-radius:.8rem;background:var(--bg)}
+#mcau{display:block;width:100%;margin:.8rem 0 0}
+#mcau[hidden]{display:none}
+/* BẦU TRỜI THEO GIỜ THẬT: đêm có sao và trăng, bình minh và hoàng hôn có màu nền ấm. Điều khiển bằng data-sky trên <html> */
+#skyfx{position:fixed;inset:0;pointer-events:none;z-index:6;opacity:0;transition:opacity 1.6s ease}
+:root[data-sky="night"] #skyfx,:root[data-sky="dawn"] #skyfx,:root[data-sky="dusk"] #skyfx{opacity:1}
+:root[data-sky="night"] #skyfx{background:linear-gradient(180deg,rgba(0,0,0,.5),rgba(0,0,0,.16) 55%,rgba(0,0,0,.34))}
+:root[data-sky="dawn"] #skyfx{background:linear-gradient(180deg,rgba(255,170,150,.14),rgba(255,214,170,.05) 45%,transparent 70%)}
+:root[data-sky="dusk"] #skyfx{background:linear-gradient(180deg,rgba(255,140,90,.14),rgba(120,70,160,.09) 60%,transparent)}
+:root[data-theme="light"][data-sky="night"] #skyfx{background:linear-gradient(180deg,rgba(0,0,0,.2),rgba(0,0,0,.06) 60%,rgba(0,0,0,.12))}
+#skyfx .st{position:absolute;left:0;top:0;background:transparent;border-radius:50%;opacity:0;transition:opacity 1.6s ease}
+#skyfx .st.a{width:1px;height:1px}
+#skyfx .st.b{width:2px;height:2px}
+#skyfx .moon{position:absolute;top:5.2rem;right:1.4rem;width:2.2rem;height:2.2rem;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fffbe8,#e9e4c9 60%,#cfc8a8);box-shadow:0 0 2.2rem rgba(255,248,210,.32);opacity:0;transition:opacity 1.6s ease}
+:root[data-sky="night"] #skyfx .st,:root[data-sky="night"] #skyfx .moon{opacity:.9}
+:root[data-theme="light"] #skyfx .st{display:none}
+@media (max-width:40rem){#skyfx .moon{display:none}}
+@media (hover:hover) and (pointer:fine) and (min-width:40.01rem){:root[data-sky="night"] #skyfx .st.a{animation:twk 5s ease-in-out infinite alternate}:root[data-sky="night"] #skyfx .st.b{animation:twk 7s -2s ease-in-out infinite alternate}}
+@keyframes twk{from{opacity:.35}to{opacity:1}}
+:root[data-motion="off"] #skyfx .st{animation:none!important}
+@media (prefers-reduced-motion:reduce){#skyfx .st{animation:none!important}}
 #sunfx{position:fixed;inset:0;pointer-events:none;z-index:7;opacity:0;transition:opacity 1.4s ease;background:radial-gradient(46rem 32rem at 100% -6%,rgba(255,222,150,.24),rgba(255,200,120,.07) 48%,transparent 72%),radial-gradient(13rem 13rem at 90% 5%,rgba(255,246,220,.15),transparent 70%)}
 :root[data-theme="light"] #sunfx{background:radial-gradient(46rem 32rem at 100% -6%,rgba(255,196,90,.30),rgba(255,210,130,.09) 48%,transparent 72%),radial-gradient(13rem 13rem at 90% 5%,rgba(255,255,255,.35),transparent 70%)}
 :root[data-wx="sun"] #sunfx{opacity:1}
@@ -2058,13 +2089,15 @@ window.__autoLang=function(){
       <div class="rv">
         <p class="eyebrow ei"><i data-ic="zap"></i><span>Góc chơi</span></p>
         <h2>Thử tay một chút</h2>
-        <p class="lead">Test bàn phím, test chuột, thử tốc độ gõ chữ và xem combo mỗi khi bạn bấm. Mọi thứ chạy ngay trên máy bạn, không gửi đi đâu.</p>
+        <p class="lead">Test bàn phím, test chuột, test loa, test micro, thử tốc độ gõ chữ và xem combo mỗi khi bạn bấm. Mọi thứ chạy ngay trên máy bạn, không gửi đi đâu.</p>
       </div>
       <div class="labbox rv">
         <div class="labtabs" role="tablist" aria-label="Chọn công cụ">
           <button type="button" role="tab" id="labt-kb" data-t="kb" aria-selected="true" aria-controls="lab-kb"><i data-ic="keyboard"></i>Test bàn phím</button>
           <button type="button" role="tab" id="labt-mouse" data-t="mouse" aria-selected="false" aria-controls="lab-mouse"><i data-ic="mouse"></i>Test chuột</button>
           <button type="button" role="tab" id="labt-combo" data-t="combo" aria-selected="false" aria-controls="lab-combo"><i data-ic="zap"></i>Combo</button>
+          <button type="button" role="tab" id="labt-spk" data-t="spk" aria-selected="false" aria-controls="lab-spk"><i data-ic="headphones"></i>Test loa</button>
+          <button type="button" role="tab" id="labt-mic" data-t="mic" aria-selected="false" aria-controls="lab-mic"><i data-ic="mic"></i>Test micro</button>
         </div>
 
         <div class="labp" id="lab-kb" role="tabpanel" aria-labelledby="labt-kb">
@@ -2135,6 +2168,44 @@ window.__autoLang=function(){
           </div>
           <button class="cpad" id="cbpad" type="button">Bấm chuột, chạm hoặc gõ phím liên tục vào đây để thử combo</button>
           <p class="cmsg" id="cbmsg">Bấm bất kỳ đâu trên trang (chuột, chạm hoặc bàn phím) là chữ COMBO hiện ra. Ngừng bấm khoảng 1,5 giây thì combo về 0. Từ chuỗi 10 chữ bắt đầu to dần, đổi màu và rung mạnh hơn, tối đa 9999.</p>
+        </div>
+
+        <div class="labp" id="lab-spk" role="tabpanel" aria-labelledby="labt-spk" hidden>
+          <div class="lr" aria-hidden="true">
+            <div class="lrb" id="lrL"><b>L</b><span>Loa trái</span></div>
+            <div class="lrb" id="lrR"><b>R</b><span>Loa phải</span></div>
+          </div>
+          <div class="lrow">
+            <button class="btn" id="spl" type="button">Phát loa trái</button>
+            <button class="btn" id="spr" type="button">Phát loa phải</button>
+            <button class="btn line" id="spb" type="button">Cả hai loa</button>
+            <button class="btn line" id="sps" type="button">Quét trái → phải</button>
+            <button class="btn line" id="spx" type="button">Dừng</button>
+          </div>
+          <div class="lrow sl">
+            <label>Âm lượng <b id="spvv">15%</b><input id="spv" type="range" min="1" max="60" value="15" aria-label="Âm lượng"></label>
+            <label>Tần số <b id="spfv">440 Hz</b><input id="spf" type="range" min="200" max="1200" step="10" value="440" aria-label="Tần số"></label>
+          </div>
+          <p class="cmsg" id="spmsg">Hạ âm lượng máy xuống thấp trước, rồi bấm từng nút. Bấm "Phát loa trái" thì chỉ loa trái được kêu, loa phải thì ngược lại.</p>
+          <p class="note">Tai nghe hay loa nào bị đảo bên (bấm trái mà kêu bên phải) thì đổi lại cho đúng, nhất là khi chơi game bắn súng cần nghe hướng bước chân. "Quét" cho tiếng chạy từ trái sang phải rồi quay lại, nghe có mượt và đều hai bên không. Mọi thứ chạy ngay trên máy bạn.</p>
+        </div>
+
+        <div class="labp" id="lab-mic" role="tabpanel" aria-labelledby="labt-mic" hidden>
+          <div class="lstats">
+            <div><b id="mcdb">—</b><span>Mức hiện tại (dB)</span></div>
+            <div><b id="mcpk">—</b><span>Đỉnh cao nhất (dB)</span></div>
+            <div><b id="mcsr">—</b><span>Tần số lấy mẫu</span></div>
+          </div>
+          <div class="lrow">
+            <button class="btn" id="mcgo" type="button">Bật micro</button>
+            <button class="btn line" id="mcrec" type="button" disabled>Ghi 5 giây rồi nghe lại</button>
+            <button class="btn line" id="mcreset" type="button">Đặt lại đỉnh</button>
+          </div>
+          <div class="mcm" aria-hidden="true"><i></i><u></u></div>
+          <canvas class="mcv" id="mcv" width="720" height="150" aria-hidden="true"></canvas>
+          <audio id="mcau" controls hidden></audio>
+          <p class="cmsg" id="mcmsg">Bấm "Bật micro" rồi nói thử. Thanh phía trên nhảy theo giọng của bạn là micro hoạt động.</p>
+          <p class="note">Trình duyệt sẽ hỏi quyền dùng micro. Âm thanh chỉ được xử lý ngay trên máy bạn, không gửi đi đâu, và micro tắt ngay khi bạn chuyển tab hoặc bấm "Tắt micro". Cần mở trang qua HTTPS. Mình tắt tự động chỉnh âm và khử ồn của trình duyệt để bạn thấy đúng tín hiệu thô của micro.</p>
         </div>
       </div>
     </div>
@@ -2279,7 +2350,7 @@ window.__autoLang=function(){
               <label class="ck"><input type="checkbox" id="wxtr"> Đang mưa</label>
               <label class="ck"><input type="checkbox" id="wxtd" checked> Ban ngày</label>
             </div>
-            <small>Kéo thanh nhiệt độ để thử luật: dưới 26° có tuyết, từ 26° trở lên (ban ngày) có nắng chói, tick "Đang mưa" thì có mưa. Bấm "Thời tiết thật" để quay lại.</small>
+            <small>Kéo thanh nhiệt độ để thử luật: dưới 26° có tuyết, từ 26° trở lên (ban ngày) có nắng chói, tick "Đang mưa" thì có mưa. Bỏ tick "Ban ngày" để xem ban đêm có sao và trăng. Bấm "Thời tiết thật" để quay lại.</small>
           </details>
         </div>
       </div>
@@ -4530,7 +4601,7 @@ window.__autoLang=function(){
   /* ===== góc chơi: test chuột, test bàn phím, combo ===== */
   (function(){
     function $(id){return document.getElementById(id)}
-    var tabs=document.querySelectorAll('.labtabs button'),P={mouse:$('lab-mouse'),kb:$('lab-kb'),combo:$('lab-combo')},stops=[];
+    var tabs=document.querySelectorAll('.labtabs button'),P={mouse:$('lab-mouse'),kb:$('lab-kb'),combo:$('lab-combo'),spk:$('lab-spk'),mic:$('lab-mic')},stops=[];
     if(!tabs.length||!P.mouse)return;
     function stopAll(){stops.forEach(function(f){f()})}
     document.addEventListener('visibilitychange',function(){if(document.hidden)stopAll()});
@@ -4706,6 +4777,136 @@ window.__autoLang=function(){
       document.addEventListener('combo',upd);setTimeout(upd,0);
     })();
 
+    /* --- test loa trái/phải và test micro (Web Audio). Tắt hết khi đổi tab, ẩn trang hoặc rời trang --- */
+    (function(){
+      var AC=window.AudioContext||window.webkitAudioContext;
+      var spk={pl:$('spl'),pr:$('spr'),pb:$('spb'),ps:$('sps'),px:$('spx'),v:$('spv'),vv:$('spvv'),f:$('spf'),fv:$('spfv'),msg:$('spmsg'),L:$('lrL'),R:$('lrR')};
+      var mic={go:$('mcgo'),rec:$('mcrec'),rs:$('mcreset'),db:$('mcdb'),pk:$('mcpk'),sr:$('mcsr'),cv:$('mcv'),au:$('mcau'),msg:$('mcmsg'),pn:$('lab-mic')};
+      if(!spk.pl||!mic.go)return;
+      var SM0=spk.msg.textContent,MM0=mic.msg.textContent;
+      /* ---------- loa ---------- */
+      var ac=null,cur=null,timers=[],lraf=0;
+      function light(l,r){spk.L.style.setProperty('--v',l);spk.R.style.setProperty('--v',r)}
+      function stopSpk(){
+        timers.forEach(clearTimeout);timers=[];cancelAnimationFrame(lraf);lraf=0;
+        if(cur){try{cur.o.stop()}catch(e){}try{cur.o.disconnect();cur.g.disconnect();cur.p.disconnect()}catch(e){}cur=null}
+        light(0,0);
+        if(ac){try{ac.close()}catch(e){}ac=null}
+      }
+      function mk(){
+        if(!AC||!AC.prototype.createStereoPanner){spk.msg.textContent=T('Trình duyệt này chưa hỗ trợ chia loa trái/phải.');return null}
+        stopSpk();ac=new AC();
+        var o=ac.createOscillator(),g=ac.createGain(),p=ac.createStereoPanner();
+        o.type='sine';o.frequency.value=+spk.f.value;g.gain.value=0;o.connect(g);g.connect(p);p.connect(ac.destination);
+        cur={o:o,g:g,p:p};return cur;
+      }
+      function vol(){return spk.v.value/100}
+      function beeps(pan){
+        var c=mk();if(!c)return;var t=ac.currentTime+.06,v=vol(),i,a;
+        c.p.pan.value=pan;
+        for(i=0;i<3;i++){a=t+i*.55;c.g.gain.setValueAtTime(0,a);c.g.gain.linearRampToValueAtTime(v,a+.02);c.g.gain.setValueAtTime(v,a+.35);c.g.gain.linearRampToValueAtTime(0,a+.4)}
+        c.o.start(t);c.o.stop(t+3*.55+.05);
+        var l=pan<=0?1:(pan===0?1:0),r=pan>=0?1:0;if(pan===0){l=1;r=1}
+        for(i=0;i<3;i++){(function(k){timers.push(setTimeout(function(){light(l,r)},60+k*550));timers.push(setTimeout(function(){light(0,0)},60+k*550+400))})(i)}
+        timers.push(setTimeout(function(){stopSpk();spk.msg.textContent=T('Xong. Bạn nghe đúng bên chưa? Bấm lại để thử tiếp.')},60+3*550+120));
+        spk.msg.textContent=pan<0?T('Đang phát ở loa TRÁI. Nếu tiếng kêu bên phải thì loa hoặc tai nghe đang bị đảo bên.'):pan>0?T('Đang phát ở loa PHẢI. Nếu tiếng kêu bên trái thì loa hoặc tai nghe đang bị đảo bên.'):T('Đang phát cả hai loa. Tiếng nên nằm chính giữa, đều hai bên.');
+      }
+      function sweep(){
+        var c=mk();if(!c)return;var t=ac.currentTime+.06,v=vol(),D=3;
+        c.p.pan.setValueAtTime(-1,t);c.p.pan.linearRampToValueAtTime(1,t+D);c.p.pan.linearRampToValueAtTime(-1,t+2*D);
+        c.g.gain.setValueAtTime(0,t);c.g.gain.linearRampToValueAtTime(v,t+.05);c.g.gain.setValueAtTime(v,t+2*D-.05);c.g.gain.linearRampToValueAtTime(0,t+2*D);
+        c.o.start(t);c.o.stop(t+2*D+.05);
+        spk.msg.textContent=T('Tiếng chạy từ trái sang phải rồi quay lại. Nghe có liền mạch, không bị đứt hay lệch một bên không?');
+        (function loop(){
+          lraf=requestAnimationFrame(loop);if(!ac)return;
+          var x=(ac.currentTime-t)/D;if(x<0)return;
+          if(x>=2){stopSpk();spk.msg.textContent=T('Xong. Bạn nghe đúng bên chưa? Bấm lại để thử tiếp.');return}
+          var pan=x<1?-1+2*x:1-2*(x-1);light((1-pan)/2,(1+pan)/2);
+        })();
+      }
+      spk.pl.addEventListener('click',function(){beeps(-1)});
+      spk.pr.addEventListener('click',function(){beeps(1)});
+      spk.pb.addEventListener('click',function(){beeps(0)});
+      spk.ps.addEventListener('click',sweep);
+      spk.px.addEventListener('click',function(){stopSpk();spk.msg.textContent=SM0});
+      spk.v.addEventListener('input',function(){spk.vv.textContent=spk.v.value+'%'});
+      spk.f.addEventListener('input',function(){spk.fv.textContent=spk.f.value+' Hz';if(cur)cur.o.frequency.value=+spk.f.value});
+      /* ---------- micro ---------- */
+      var st=null,mctx=null,an=null,buf=null,mraf=0,peak=-Infinity,heard=false,t0=0,mr=null,mchunks=[],mtimer=0,aurl='',g2=mic.cv.getContext('2d'),acc='#8bf0a8';
+      function dbOf(x){return x>1e-5?Math.max(-90,20*Math.log10(x)):-90}
+      function setP(k,v){mic.pn.style.setProperty(k,v)}
+      function resetPeak(){peak=-Infinity;mic.pk.textContent='—';setP('--pk',0)}
+      function stopRec(){clearInterval(mtimer);if(mr&&mr.state!=='inactive'){try{mr.stop()}catch(e){}}mr=null}
+      function stopMic(){
+        cancelAnimationFrame(mraf);mraf=0;stopRec();
+        if(st){st.getTracks().forEach(function(x){x.stop()});st=null}
+        if(mctx){try{mctx.close()}catch(e){}mctx=null}
+        an=null;mic.go.textContent=T('Bật micro');mic.rec.disabled=true;mic.rec.textContent=T('Ghi 5 giây rồi nghe lại');
+        mic.db.textContent='—';setP('--lv',0);g2.clearRect(0,0,mic.cv.width,mic.cv.height);
+      }
+      function draw(){
+        mraf=requestAnimationFrame(draw);if(!an)return;
+        an.getFloatTimeDomainData(buf);
+        var i,s=0,mx=0,v,W=mic.cv.width,H=mic.cv.height;
+        for(i=0;i<buf.length;i++){v=buf[i];s+=v*v;if(v<0)v=-v;if(v>mx)mx=v}
+        var rms=Math.sqrt(s/buf.length),db=dbOf(rms),pdb=dbOf(mx);
+        mic.db.textContent=db<=-90?'-∞':db.toFixed(0);
+        setP('--lv',Math.max(0,Math.min(1,(db+70)/70)).toFixed(3));
+        if(pdb>peak){peak=pdb;mic.pk.textContent=peak<=-90?'—':peak.toFixed(0);setP('--pk',Math.max(0,Math.min(100,(peak+70)/70*100)).toFixed(1))}
+        if(peak>-45&&!heard){heard=true;mic.msg.textContent=T('Micro đang nhận được tiếng. Bấm "Ghi 5 giây rồi nghe lại" để nghe giọng mình.')}
+        else if(!heard&&performance.now()-t0>4000&&peak<-60)mic.msg.textContent=T('Chưa thấy tín hiệu từ micro. Thử nói to hơn, kiểm tra micro đã bị tắt tiếng chưa, hoặc đã chọn đúng micro trong cài đặt trình duyệt và hệ điều hành chưa.');
+        g2.clearRect(0,0,W,H);g2.beginPath();g2.lineWidth=2;g2.strokeStyle=acc;
+        for(i=0;i<buf.length;i+=2){var x=i/(buf.length-1)*W,y=H/2-buf[i]*H*.9;if(i)g2.lineTo(x,y);else g2.moveTo(x,y)}
+        g2.stroke();
+      }
+      function err(e){
+        var n=e&&e.name,m;
+        if(n==='NotAllowedError'||n==='SecurityError')m='Bạn chưa cho phép dùng micro. Bấm vào biểu tượng ổ khoá cạnh địa chỉ trang để bật lại quyền micro.';
+        else if(n==='NotFoundError'||n==='OverconstrainedError')m='Không tìm thấy micro nào trên máy này.';
+        else if(n==='NotReadableError')m='Micro đang bị ứng dụng khác chiếm dùng, hãy tắt ứng dụng đó rồi thử lại.';
+        else m='Không bật được micro.';
+        mic.msg.textContent=T(m);stopMic();
+      }
+      function startMic(){
+        if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia||!AC){mic.msg.textContent=T('Trình duyệt hoặc địa chỉ trang này không cho dùng micro (cần mở bằng HTTPS).');return}
+        mic.go.disabled=true;mic.msg.textContent=T('Đang chờ bạn cho phép dùng micro...');
+        navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}}).then(function(s){
+          mic.go.disabled=false;
+          if(!mic.pn||mic.pn.hidden){s.getTracks().forEach(function(x){x.stop()});return}
+          st=s;mctx=new AC();var src=mctx.createMediaStreamSource(s);an=mctx.createAnalyser();an.fftSize=2048;an.smoothingTimeConstant=0;src.connect(an);
+          buf=new Float32Array(an.fftSize);heard=false;t0=performance.now();resetPeak();
+          try{acc=getComputedStyle(document.documentElement).getPropertyValue('--acc').trim()||acc}catch(e){}
+          mic.sr.textContent=mctx.sampleRate+' Hz';mic.go.textContent=T('Tắt micro');mic.rec.disabled=!window.MediaRecorder;
+          var tr=s.getAudioTracks()[0];mic.msg.textContent=T('Đang nghe')+(tr&&tr.label?' ('+tr.label+')':'')+'. '+T('Hãy nói hoặc vỗ tay thử.');
+          draw();
+        }).catch(function(e){mic.go.disabled=false;err(e)});
+      }
+      mic.go.addEventListener('click',function(){if(st){stopMic();mic.msg.textContent=MM0}else startMic()});
+      mic.rs.addEventListener('click',resetPeak);
+      mic.rec.addEventListener('click',function(){
+        if(!st||!window.MediaRecorder)return;
+        if(mr){stopRec();return}
+        var left=5;mchunks=[];
+        try{mr=new MediaRecorder(st)}catch(e){mic.msg.textContent=T('Trình duyệt này chưa hỗ trợ ghi âm.');mr=null;return}
+        var me=mr;
+        me.ondataavailable=function(e){if(e.data&&e.data.size)mchunks.push(e.data)};
+        me.onstop=function(){
+          clearInterval(mtimer);mic.rec.textContent=T('Ghi 5 giây rồi nghe lại');
+          if(!mchunks.length)return;
+          if(aurl)URL.revokeObjectURL(aurl);
+          aurl=URL.createObjectURL(new Blob(mchunks,{type:me.mimeType||'audio/webm'}));
+          mic.au.src=aurl;mic.au.hidden=false;var pp=mic.au.play();if(pp&&pp.catch)pp.catch(function(){});
+          mic.msg.textContent=T('Đang phát lại đoạn vừa ghi. Giọng nghe có rõ, không rè hay nhỏ quá không?');
+        };
+        me.start();mic.rec.textContent=T('Đang ghi')+'... '+left+'s (bấm để dừng)';
+        mtimer=setInterval(function(){left--;if(left<=0){stopRec();return}mic.rec.textContent=T('Đang ghi')+'... '+left+'s (bấm để dừng)'},1000);
+      });
+      function stopTools(){stopSpk();stopMic();if(mic.au){try{mic.au.pause()}catch(e){}}}
+      stops.push(stopTools);
+      addEventListener('pagehide',stopTools);
+    })();
+
+    Object.assign(EN,{"Test loa":"Speaker test","Test micro":"Mic test","Phát loa trái":"Play left","Phát loa phải":"Play right","Cả hai loa":"Both speakers","Quét trái → phải":"Sweep left → right","Dừng":"Stop","Loa trái":"Left speaker","Loa phải":"Right speaker","Âm lượng":"Volume","Tần số":"Frequency","Bật micro":"Turn on mic","Tắt micro":"Turn off mic","Ghi 5 giây rồi nghe lại":"Record 5 s and play back","Đặt lại đỉnh":"Reset peak","Mức hiện tại (dB)":"Current level (dB)","Đỉnh cao nhất (dB)":"Peak level (dB)","Tần số lấy mẫu":"Sample rate","Đang ghi":"Recording","Đang nghe":"Listening","Hãy nói hoặc vỗ tay thử.":"Try talking or clapping.","Trình duyệt này chưa hỗ trợ chia loa trái/phải.":"This browser does not support left/right panning.","Xong. Bạn nghe đúng bên chưa? Bấm lại để thử tiếp.":"Done. Did you hear the right side? Press again to retry.","Đang phát ở loa TRÁI. Nếu tiếng kêu bên phải thì loa hoặc tai nghe đang bị đảo bên.":"Playing on the LEFT speaker. If you hear it on the right, your speakers or headphones are swapped.","Đang phát ở loa PHẢI. Nếu tiếng kêu bên trái thì loa hoặc tai nghe đang bị đảo bên.":"Playing on the RIGHT speaker. If you hear it on the left, your speakers or headphones are swapped.","Đang phát cả hai loa. Tiếng nên nằm chính giữa, đều hai bên.":"Playing on both speakers. The sound should sit in the middle, even on both sides.","Tiếng chạy từ trái sang phải rồi quay lại. Nghe có liền mạch, không bị đứt hay lệch một bên không?":"The sound travels left to right and back. Is it smooth, with no dropouts or one-sided bias?","Micro đang nhận được tiếng. Bấm \"Ghi 5 giây rồi nghe lại\" để nghe giọng mình.":"The mic is picking up sound. Press \"Record 5 s and play back\" to hear yourself.","Chưa thấy tín hiệu từ micro. Thử nói to hơn, kiểm tra micro đã bị tắt tiếng chưa, hoặc đã chọn đúng micro trong cài đặt trình duyệt và hệ điều hành chưa.":"No signal from the mic yet. Try speaking louder, check that the mic is not muted, and that the right mic is selected in your browser and system settings.","Bạn chưa cho phép dùng micro. Bấm vào biểu tượng ổ khoá cạnh địa chỉ trang để bật lại quyền micro.":"Microphone access was not allowed. Click the lock icon next to the address bar to allow it again.","Không tìm thấy micro nào trên máy này.":"No microphone was found on this device.","Micro đang bị ứng dụng khác chiếm dùng, hãy tắt ứng dụng đó rồi thử lại.":"The mic is being used by another app. Close it and try again.","Không bật được micro.":"Could not turn on the mic.","Trình duyệt hoặc địa chỉ trang này không cho dùng micro (cần mở bằng HTTPS).":"This browser or page address does not allow the mic (the page must be opened over HTTPS).","Đang chờ bạn cho phép dùng micro...":"Waiting for you to allow the microphone...","Trình duyệt này chưa hỗ trợ ghi âm.":"This browser does not support recording.","Đang phát lại đoạn vừa ghi. Giọng nghe có rõ, không rè hay nhỏ quá không?":"Playing back the recording. Is it clear, without crackling or being too quiet?"});
     Object.assign(EN,{"Xem thêm của":"More by","Bài hát trên YouTube":"Songs on YouTube","Playlist tôi chia sẻ":"Playlists I share","Hết 1 phút":"Time is up","từ đúng":"correct words","Đang tính giờ... gõ từng từ, bấm cách để sang từ mới.":"Timer is running... type each word and press space for the next one.","Bấm Bắt đầu, đồng hồ chạy 60 giây. Gõ từng từ rồi bấm cách để sang từ tiếp theo, chữ cứ hiện tiếp cho tới khi đủ 1 phút.":"Press Start and the 60 second timer runs. Type each word and press space for the next; the text keeps coming until the minute is up.","Xong rồi":"Done","ký tự mỗi phút":"characters per minute","chính xác":"accuracy","Làm lại":"Restart","Hãy nhập đoạn chữ muốn gõ vào ô phía trên trước.":"Enter the text you want to type in the box above first.","Đang tính giờ... gõ đúng đoạn chữ phía trên.":"Timer is running... type the text above.","Bấm Bắt đầu, đồng hồ chạy ngay. Gõ hết đoạn chữ là xong và hiện tốc độ của bạn.":"Press Start and the timer runs. Finish the text to see your speed.","Đang bật combo":"Combo is on","Đang tắt combo":"Combo is off","Bấm bất kỳ đâu trên trang (chuột, chạm hoặc bàn phím) là chữ COMBO hiện ra. Ngừng bấm khoảng 1,5 giây thì combo về 0. Từ chuỗi 10 chữ bắt đầu to dần, đổi màu và rung mạnh hơn, tối đa 9999.":"Click, tap or press a key anywhere and COMBO appears. Stop for about 1.5 seconds and it resets. From 10 it grows, changes color and shakes harder, up to 9999.","Test tốc độ gõ chữ":"Typing speed test","Chữ mới":"New text","Tự nhập chữ":"Your own text"});
     Object.assign(EN,{"Trang này chỉ là một file index.html duy nhất.":"This page is just a single index.html file.","Trang web được đặt trên Cloudflare Workers, miễn phí.":"This site is hosted on Cloudflare Workers, for free.","Bấm phím T để đổi giao diện sáng hoặc tối.":"Press T to switch between light and dark.","Bấm phím M để tắt hiệu ứng nếu thấy trang bị giật.":"Press M to turn effects off if the page feels laggy.","Máy yếu thì trang tự tắt hiệu ứng cho đỡ giật.":"On weak devices the page turns effects off by itself.","Bấm phím F để xem FPS của trang, nút tròn nằm ngay trên nút này.":"Press F to see the page FPS, the round button sits right above this one.","Góc chơi có test bàn phím, test chuột, combo, phản xạ, bắn bia và nhớ dãy.":"The Playground has keyboard test, mouse test, combo, reaction, aim and memory.","Test chuột ở Góc chơi dùng để bắt lỗi double click.":"The mouse test in the Playground catches double-click faults.","Bảng xếp hạng ở Góc chơi chỉ lưu trên máy của bạn.":"Leaderboards in the Playground are saved only on your device.","Trang có hai ngôn ngữ, tiếng Việt và tiếng Anh, đổi bằng nút trên thanh menu.":"The page has two languages, Vietnamese and English, switched from the menu bar.","Gõ / hoặc Ctrl + K để tìm nhanh trong trang.":"Type / or Ctrl + K to search the page quickly.","Trang tôn trọng chế độ Do Not Track của trình duyệt.":"The page respects your browser's Do Not Track setting.","Trạng thái Discord ở mục Ngay lúc này được cập nhật trực tiếp.":"The Discord status in Right now is updated live.","Cuối trang có bản đồ để bạn tìm đường tới chỗ tôi.":"There is a map at the bottom of the page to find your way to me.","Bấm phím P để bật hoặc tắt nhạc nền.":"Press P to turn the background music on or off.","Bấm phím R để ra một điều ngẫu nhiên về tôi, như câu này.":"Press R for a random thing about me, like this one.","Rê chuột ở đầu trang sẽ thả ảnh nhỏ chạy theo chuột.":"Move your mouse at the top of the page to drop small photos.","Ảnh ở trang này trắng đen, rê chuột vào mới lên màu.":"Photos here are black and white until you hover over them.","Có một thanh tiến độ mỏng trên cùng cho biết bạn đã cuộn tới đâu.":"A thin progress bar at the top shows how far you have scrolled.","Đây là lần thứ 3 tôi làm trang web này.":"This is the third time I've built this website.","Hiện hoặc ẩn FPS":"Show or hide FPS","Hiện hoặc ẩn FPS (F)":"Show or hide FPS (F)","Lưu trên máy này":"Saved on this device","Càng thấp càng tốt. Lưu trên máy này":"Lower is better. Saved on this device","Combo · Thường":"Combo · Normal","Combo · Khó":"Combo · Hard","Phản xạ · Thường":"Reaction · Normal","Phản xạ · Khó (TB 5 lượt)":"Reaction · Hard (5-round avg)","Bắn bia · 30 giây":"Aim · 30 seconds","Nhớ dãy · Thường":"Memory · Normal","Nhớ dãy · Khó":"Memory · Hard","Độ khó":"Difficulty","Thường":"Normal","Khó: nhiều nút cùng lúc":"Hard: several keys at once","Khó: 5 lượt, có màu nhử":"Hard: 5 rounds, decoy color","Khó: đảo vị trí":"Hard: shuffled positions","Nghi bị double click":"Suspected double clicks","Khoảng cách ngắn nhất":"Shortest gap","Lần bấm gần nhất":"Latest gap","Dưới 50 ms":"Under 50 ms","Dưới 80 ms":"Under 80 ms","Dưới 120 ms":"Under 120 ms","Bấm vào đây, bấm chậm từng cái một":"Click here, slowly one at a time","Bấm chậm từng cái, mỗi lần một cái. Cần ít nhất 10 lần để kết luận.":"Click slowly, one at a time. At least 10 clicks are needed for a verdict.","Có dấu hiệu chuột bị double click":"Signs of a double-click fault","Chưa thấy dấu hiệu double click":"No double-click fault seen","Mỗi lần bấm hãy nhả hẳn tay rồi mới bấm tiếp. Nếu bạn chỉ bấm một lần mà trang ghi nhận hai lần cách nhau rất ngắn, nhiều khả năng nút chuột bị lỗi double click. Thử cả ba nút.":"Fully release between clicks. If you click once but two clicks are recorded a very short time apart, the mouse button likely has a double-click fault. Try all three buttons.","Khó: bấm tất cả mũi tên hiện ra cùng lúc (trong 0,45 giây). Từ combo 10 sẽ có 3 mũi tên.":"Hard: press all the arrows shown at once (within 0.45 s). From combo 10 there are 3 arrows.","Đừng bấm!":"Don't click!","Bấm để tiếp lượt":"Click for round","Trung bình":"Average","Khó: 5 lượt liên tiếp, tính trung bình. Có lúc màn hình chuyển vàng để nhử, đừng bấm.":"Hard: 5 rounds in a row, scored by average. Sometimes the screen turns yellow as a decoy, don't click.","Vị trí đã bị đảo! Bấm theo số.":"Positions shuffled! Press by number.","Khó: sau khi xem, các ô bị xáo trộn. Hãy nhớ theo số, không nhớ theo vị trí.":"Hard: after the preview the tiles get shuffled. Remember the numbers, not the positions."});
         Object.assign(EN,{"Tiếp tục test":"Resume test","Cứ gõ thử, không cần bấm gì cả. Khi phần này đang hiện trên màn hình, các phím tắt của trang tạm thời bị tắt (bấm \"Tạm dừng\" để dùng lại). Phím Windows và tổ hợp của hệ điều hành thì trình duyệt không bắt được. Cần bàn phím thật để thử.":"Just type, no need to click anything. While this section is on screen the page shortcuts are turned off (press \"Pause\" to get them back). The browser can't catch the Windows key or OS shortcuts. You need a real keyboard.","Bảng xếp hạng":"Leaderboard","Trên máy này":"On this device","Tên của bạn":"Your name","Xoá bảng":"Clear board","Chưa có ai. Chơi một ván đi!":"Nobody yet. Play a round!","Ẩn danh":"Anonymous","Phản xạ":"Reaction","Bắn bia":"Aim","Nhớ dãy":"Memory","Lần vừa rồi":"Last try","Nhanh nhất":"Fastest","Màn":"Level","Bấm để bắt đầu":"Click to start","Chờ màu xanh...":"Wait for green...","BẤM!":"CLICK!","Bấm sớm quá! Bấm để thử lại":"Too early! Click to retry","Đợi màn hình chuyển sang xanh rồi bấm thật nhanh. Bấm sớm là phải làm lại.":"Wait for the screen to turn green, then click as fast as you can. Too early and you start over.","Bấm trúng bia càng nhiều càng tốt trong 30 giây.":"Hit as many targets as you can in 30 seconds.","Bắt đầu":"Start","Xem các ô sáng lên rồi bấm lại đúng thứ tự. Mỗi màn thêm một ô.":"Watch the tiles light up, then repeat the order. Each level adds one tile.","Xem kỹ...":"Watch closely...","Tới lượt bạn":"Your turn","Sai rồi!":"Wrong!","Test bàn phím, test chuột, thử tốc độ gõ chữ và xem combo mỗi khi bạn bấm. Mọi thứ chạy ngay trên máy bạn, không gửi đi đâu.":"Test your mouse and keyboard, chain combos, check your reflexes, shoot targets or memorize sequences. High scores stay on your device and are not sent anywhere."});
@@ -5131,8 +5332,26 @@ function render(){
   }
   E.b.textContent=enabled?'Tắt hiệu ứng thời tiết':'Bật hiệu ứng thời tiết';E.b.setAttribute('aria-pressed',enabled?'true':'false');
 }
+/* ===== bầu trời theo giờ thật (giờ Việt Nam) + is_day của thời tiết: ban đêm có sao và trăng, bình minh/hoàng hôn có màu ấm. Xem thử: ?sky=night|dawn|dusk|day, hoặc bỏ tick "Ban ngày" ở bảng thử ===== */
+var sky=document.createElement('div');sky.id='skyfx';sky.setAttribute('aria-hidden','true');
+(function(){
+  function st(n,withSpread){var a=[],i;for(i=0;i<n;i++)a.push((Math.random()*100).toFixed(1)+'vw '+(Math.random()*100).toFixed(1)+'vh 0 '+(withSpread&&Math.random()<.2?'.5px ':'0 ')+'rgba(255,255,255,'+(.4+Math.random()*.6).toFixed(2)+')');return a.join(',')}
+  var a=document.createElement('i'),b=document.createElement('i');a.className='st a';b.className='st b';a.style.boxShadow=st(80,true);b.style.boxShadow=st(22,false);
+  var m=document.createElement('i');m.className='moon';sky.appendChild(a);sky.appendChild(b);sky.appendChild(m);document.body.appendChild(sky);
+})();
+function hourVN(){try{return +new Intl.DateTimeFormat('en-GB',{hour:'numeric',hourCycle:'h23',timeZone:'Asia/Ho_Chi_Minh'}).format(new Date())}catch(e){return new Date().getHours()}}
+function phase(){
+  if(calm()||!enabled)return 'day';
+  var q=/[?&]sky=(day|dawn|dusk|night)/.exec(location.search);if(q)return q[1];
+  var h=hourVN(),d=D(),night=d?!d.day:(h>=19||h<5);
+  if(night)return 'night';
+  if(h>=5&&h<7)return 'dawn';
+  if(h>=17&&h<19)return 'dusk';
+  return 'day';
+}
+function applySky(){R.setAttribute('data-sky',phase())}
 function apply(){
-  kind=decide();R.setAttribute('data-wx',kind);
+  kind=decide();R.setAttribute('data-wx',kind);applySky();
   if((kind==='rain'||kind==='snow')&&(desk.matches||PARTICLES_ON_MOBILE))startP(kind);else stopP();
   render();note();
 }
