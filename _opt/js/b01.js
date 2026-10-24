@@ -1,0 +1,1 @@
+document.documentElement.classList.add('js');try{var _n=navigator,_c=_n.connection;if((_n.hardwareConcurrency||8)<=4||(_n.deviceMemory||8)<=4||(_c&&_c.saveData))document.documentElement.classList.add('lite')}catch(e){}

@@ -801,6 +801,23 @@ html.pre-on:not(.ready) :is(.clock-label,.big,.clock-date,.cue){animation-play-s
 .mega{font:800 clamp(4rem,19vw,15rem)/.9 var(--body);letter-spacing:-.05em;text-align:center;padding:.28em .08em .22em;margin:-.28em 0 2.3rem;color:transparent;-webkit-text-stroke:1px var(--line-hi);background:linear-gradient(var(--white),var(--white)) 0 100%/100% 0 no-repeat;-webkit-background-clip:text;background-clip:text;user-select:none}
 .js .mega.rv{transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1),background-size 1.6s cubic-bezier(.7,0,.2,1) .3s}
 .mega.in{background-size:100% 100%}
+/* CHỮ MING Ở CUỐI TRANG: nước dâng đầy trong chữ, sóng chạy, bong bóng nổi; rê chuột thì nước nghiêng theo, bấm hoặc chạm thì sóng bắn lên. Không có JS thì nước đầy sẵn (--lv:1) */
+.liquid{margin:-.5rem 0 2.2rem;user-select:none;-webkit-user-select:none;line-height:0;-webkit-tap-highlight-color:transparent}
+.liquid svg{display:block;width:min(100%,50rem);height:auto;margin:0 auto;overflow:hidden}
+.liquid text{font:800 260px/1 var(--body)}
+.liquid .lo{fill:none;stroke:var(--line-hi);stroke-width:1.5;vector-effect:non-scaling-stroke}
+.liquid .lv{transform-origin:500px 150px;transform:translateY(calc(40px + (1 - var(--lv,1))*280px)) rotate(calc(var(--tl,0)*5deg))}
+.liquid path,.liquid .bub{fill:var(--white)}
+.liquid .b path{opacity:.4}
+.liquid .bub{fill:var(--bg);opacity:0}
+.liquid .wv{animation:liqa 6s linear infinite;animation-play-state:paused}
+.liquid .wv.b{animation-duration:9s;animation-direction:reverse}
+.liquid .bub{animation:liqb 5s ease-in infinite;animation-play-state:paused}
+.liquid.live .wv,.liquid.live .bub{animation-play-state:running}
+@keyframes liqa{to{transform:translateX(-500px)}}
+@keyframes liqb{0%{transform:translateY(120px);opacity:0}15%{opacity:.35}100%{transform:translateY(-60px);opacity:0}}
+:root[data-motion="off"] .liquid .wv,:root[data-motion="off"] .liquid .bub{animation:none}
+@media (prefers-reduced-motion:reduce){.liquid .wv,.liquid .bub{animation:none}}
 .ring::after{content:attr(data-l);position:absolute;inset:0;display:grid;place-items:center;color:var(--bg);font:600 .8rem var(--body)}
 .ring.lab{width:4.8rem;height:4.8rem;background:var(--white)}
 .toast{position:fixed;left:50%;bottom:calc(1.5rem + env(safe-area-inset-bottom,0px));transform:translate(-50%,16px);padding:.6rem 1.1rem;border-radius:999px;background:var(--white);color:var(--bg);font-size:.9rem;font-weight:500;opacity:0;visibility:hidden;pointer-events:none;z-index:60;transition:opacity .3s,transform .3s,visibility .3s;max-width:calc(100vw - 2rem);text-align:center}
@@ -1280,6 +1297,35 @@ section.s,section.intro{position:relative}
 .mapfr iframe{scale:calc(1.3 - var(--rev,1)*.3)}
 }
 .mapact{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.8rem}
+/* THỜI TIẾT dưới bản đồ + hiệu ứng theo thời tiết (mưa, tuyết, nắng chói) */
+.wx{display:flex;align-items:center;gap:1rem 1.4rem;flex-wrap:wrap;margin-top:1rem;padding:1rem 1.2rem;border:1px solid var(--line);border-radius:1rem;background:var(--card)}
+.wxm{display:flex;align-items:center;gap:.7rem}
+.wxi{font-size:2.2rem;line-height:1}
+.wxt{font:800 2.4rem/1 var(--body);letter-spacing:-.03em}
+.wxd{flex:1 1 12rem;min-width:0;display:grid;gap:.15rem}
+.wxd b{font-weight:600;color:var(--text)}
+.wxd small{color:var(--muted);font-size:.82rem}
+.wxd small:empty{display:none}
+.wx .btn{flex:none}
+@media (max-width:40rem){.wx .btn{width:100%;justify-content:center}}
+.wxtest{flex:1 1 100%;border-top:1px solid var(--line);padding-top:.7rem}
+.wxtest summary{cursor:pointer;color:var(--muted);font-size:.85rem;width:max-content}
+.wxtest summary:hover{color:var(--text)}
+.wxtr{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .9rem;margin-top:.7rem}
+.wxch{padding:.4rem .85rem;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--muted);font:inherit;font-size:.82rem;cursor:pointer;transition:border-color .2s,color .2s,background .2s}
+.wxch:hover{border-color:var(--line-hi);color:var(--text)}
+.wxch.on{background:var(--white);border-color:var(--white);color:var(--bg)}
+.wxtr label{display:flex;align-items:center;gap:.5rem;font-size:.85rem;color:var(--text)}
+.wxtr input[type=range]{width:min(12rem,45vw);accent-color:var(--white)}
+.wxtest small{display:block;margin-top:.6rem;color:var(--muted);font-size:.78rem}
+#wxfx{position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:8;display:none}
+#sunfx{position:fixed;inset:0;pointer-events:none;z-index:7;opacity:0;transition:opacity 1.4s ease;background:radial-gradient(46rem 32rem at 100% -6%,rgba(255,222,150,.24),rgba(255,200,120,.07) 48%,transparent 72%),radial-gradient(13rem 13rem at 90% 5%,rgba(255,246,220,.15),transparent 70%)}
+:root[data-theme="light"] #sunfx{background:radial-gradient(46rem 32rem at 100% -6%,rgba(255,196,90,.30),rgba(255,210,130,.09) 48%,transparent 72%),radial-gradient(13rem 13rem at 90% 5%,rgba(255,255,255,.35),transparent 70%)}
+:root[data-wx="sun"] #sunfx{opacity:1}
+@media (hover:hover) and (pointer:fine) and (min-width:40.01rem){:root[data-wx="sun"] #sunfx{animation:sunp 7s ease-in-out infinite alternate}}
+@keyframes sunp{from{opacity:.72}to{opacity:1}}
+:root[data-motion="off"] #sunfx,.lite #sunfx{display:none}
+@media (prefers-reduced-motion:reduce){#sunfx{animation:none!important}}
 @media (max-width:40rem){.mapfr{aspect-ratio:4/5;min-height:20rem}}
 section.s,footer{content-visibility:auto;contain-intrinsic-size:auto 42rem}
 #hero,#home>section:first-of-type{content-visibility:visible}
@@ -2220,6 +2266,22 @@ window.__autoLang=function(){
           <a class="btn line" id="mapopen" href="https://www.google.com/maps" target="_blank" rel="noopener">Mở Google Maps</a>
           <button class="btn line" id="maphome" type="button">Về chỗ của tôi</button>
         </div>
+        <div class="wx" id="wx" aria-live="polite">
+          <div class="wxm"><span class="wxi" id="wxi" aria-hidden="true">⛅</span><b class="wxt" id="wxt">--°</b></div>
+          <div class="wxd"><b id="wxc">Đang lấy thời tiết…</b><small id="wxp">Phù Liễn, Hải Phòng · cập nhật mỗi 15 phút</small><small id="wxx"></small><small id="wxe"></small></div>
+          <button class="btn line" id="wxb" type="button" aria-pressed="true">Tắt hiệu ứng thời tiết</button>
+          <details class="wxtest" id="wxtest"><summary>Thử thời tiết</summary>
+            <div class="wxtr" role="group" aria-label="Chọn hiệu ứng để thử">
+              <button type="button" class="wxch on" data-f="">Thời tiết thật</button><button type="button" class="wxch" data-f="rain">Mưa</button><button type="button" class="wxch" data-f="snow">Tuyết</button><button type="button" class="wxch" data-f="sun">Nắng chói</button><button type="button" class="wxch" data-f="none">Không có</button>
+            </div>
+            <div class="wxtr sim">
+              <label>Giả lập nhiệt độ <b id="wxtv">27°</b><input id="wxts" type="range" min="10" max="40" step="1" value="27"></label>
+              <label class="ck"><input type="checkbox" id="wxtr"> Đang mưa</label>
+              <label class="ck"><input type="checkbox" id="wxtd" checked> Ban ngày</label>
+            </div>
+            <small>Kéo thanh nhiệt độ để thử luật: dưới 26° có tuyết, từ 26° trở lên (ban ngày) có nắng chói, tick "Đang mưa" thì có mưa. Bấm "Thời tiết thật" để quay lại.</small>
+          </details>
+        </div>
       </div>
     </div>
   </section>
@@ -2230,7 +2292,7 @@ window.__autoLang=function(){
 
 <footer>
   <div class="wrap">
-    <div class="mega rv" aria-hidden="true">Ming</div>
+    <div class="liquid rv" id="liq" aria-hidden="true"><svg viewBox="0 0 1000 300" preserveAspectRatio="xMidYMid meet"><defs><clipPath id="liqc"><text x="500" y="238" text-anchor="middle" textLength="940" lengthAdjust="spacingAndGlyphs">Ming</text></clipPath></defs><g clip-path="url(#liqc)"><g class="lv"><g class="wv b"><path d="M0 0 q62.5 -22 125 0 t125 0 t125 0 t125 0 t125 0 t125 0 t125 0 t125 0 t125 0 t125 0 t125 0 t125 0 t125 0 t125 0 t125 0 t125 0 L2000 420 L0 420 Z"/></g><g class="wv f"><path d="M0 0 q62.5 -14 125 0 t125 0 t125 0 t125 0 t125 0 t125 0 t125 0 t125 0 t125 0 t125 0 t125 0 t125 0 t125 0 t125 0 t125 0 t125 0 L2000 420 L0 420 Z"/></g><circle class="bub" cx="250" cy="150" r="9"/><circle class="bub" cx="430" cy="190" r="6" style="animation-delay:-2s"/><circle class="bub" cx="600" cy="130" r="11" style="animation-delay:-4s"/><circle class="bub" cx="780" cy="180" r="7" style="animation-delay:-1s"/></g></g><text class="lo" x="500" y="238" text-anchor="middle" textLength="940" lengthAdjust="spacingAndGlyphs">Ming</text></svg></div>
     <div class="fgrid">
       <div><h4>Ming</h4><p style="margin:0">Một trang nhỏ để ghi lại dạo này tôi đang làm gì.</p></div>
       <div><h4>Trang</h4><ul><li><a href="#links">Liên kết</a></li><li><a href="#live">Ngay lúc này</a></li><li><a href="#now">Dạo này</a></li><li><a href="#play">Game</a></li><li><a href="#mod">Dự án</a></li><li><a href="#idol">Nghệ sĩ</a></li><li><a href="#playlist">Playlist</a></li><li><a href="#lab">Góc chơi</a></li><li><a href="#log">Nhật ký</a></li><li><a href="#tkb">Thời khoá biểu</a></li><li><a href="#faq">Hỏi đáp</a></li><li><a href="#map">Bản đồ</a></li></ul></div>
@@ -4934,6 +4996,172 @@ new MutationObserver(function(){if(calm())off();else on()}).observe(R,{attribute
 function rf(){if(window.ScrollTrigger)ScrollTrigger.refresh()}
 addEventListener('load',function(){setTimeout(rf,300)});
 addEventListener('hashchange',function(){setTimeout(rf,400)});
+})();</script>
+<script>(function(){
+/* CHỮ MING NƯỚC: lò xo (spring) cho mực nước và độ nghiêng nên có nhún nhảy; vòng rAF chỉ chạy khi đang có chuyển động, sóng chỉ chạy khi chữ nằm trong màn hình.
+   Điện thoại (không có chuột): sóng đứng yên, chỉ chạy khoảng 2,5 giây sau mỗi lần chạm. Tắt hiệu ứng / lite / giảm chuyển động: chữ đầy nước, đứng yên. */
+var el=document.getElementById('liq');if(!el)return;
+var R=document.documentElement,fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
+var S={lv:0,vl:0,tl:0,vt:0},T={lv:.72,tl:0},vis=false,run=0,sp=0;
+function calm(){return R.classList.contains('lite')||R.getAttribute('data-motion')==='off'||matchMedia('(prefers-reduced-motion: reduce)').matches}
+function put(){el.style.setProperty('--lv',S.lv.toFixed(3));el.style.setProperty('--tl',S.tl.toFixed(3))}
+function step(){
+  S.vl+=(T.lv-S.lv)*.08;S.vl*=.86;S.lv+=S.vl;
+  S.vt+=(T.tl-S.tl)*.1;S.vt*=.88;S.tl+=S.vt;put();
+  if(Math.abs(T.lv-S.lv)+Math.abs(S.vl)+Math.abs(T.tl-S.tl)+Math.abs(S.vt)>.002)requestAnimationFrame(step);else run=0;
+}
+function kick(){if(!run&&!calm()){run=1;requestAnimationFrame(step)}}
+function apply(){
+  if(calm()){el.classList.remove('live');el.style.removeProperty('--lv');el.style.removeProperty('--tl');return}
+  if(!run){put()}
+  if(vis){T.lv=.72;if(fine)el.classList.add('live');kick()}
+}
+function io(){
+  if(!('IntersectionObserver' in window)){vis=true;return}
+  new IntersectionObserver(function(es){
+    vis=es[es.length-1].isIntersecting;
+    if(vis)apply();else{el.classList.remove('live')}
+  },{threshold:.25}).observe(el);
+}
+if(!calm())put();
+io();
+new MutationObserver(apply).observe(R,{attributes:true,attributeFilter:['data-motion']});
+if(fine){
+  el.addEventListener('pointermove',function(e){if(calm())return;var r=el.getBoundingClientRect();T.tl=Math.max(-1,Math.min(1,((e.clientX-r.left)/r.width)*2-1));T.lv=.82;kick()},{passive:true});
+  el.addEventListener('pointerleave',function(){T.tl=0;T.lv=.72;kick()});
+}
+el.addEventListener('pointerdown',function(){
+  if(calm())return;
+  S.vl+=.04;S.vt+=(Math.random()<.5?-1:1)*(.1+Math.random()*.08);kick();
+  if(!fine){el.classList.add('live');clearTimeout(sp);sp=setTimeout(function(){if(!fine)el.classList.remove('live')},2500)}
+},{passive:true});
+})();</script>
+<script>(function(){
+/* THỜI TIẾT: lấy nhiệt độ thật ở Phù Liễn (Open-Meteo, miễn phí, không cần khoá) rồi quyết định hiệu ứng toàn trang:
+   đang mưa -> mưa; không mưa và dưới COLD độ -> tuyết; không mưa, từ COLD độ trở lên, trời quang hoặc ít mây ban ngày -> nắng chói nhẹ; còn lại không có gì.
+   Hạt (mưa/tuyết) chỉ chạy trên máy có chuột (đổi PARTICLES_ON_MOBILE nếu muốn bật cả trên điện thoại). Nắng chói là một lớp gradient tĩnh nên điện thoại vẫn có.
+   Xem thử không cần chờ thời tiết: thêm ?wx=rain, ?wx=snow hoặc ?wx=sun vào đường dẫn. Toạ độ ở LAT, LON là ước lượng khu Phù Liễn. */
+var LAT=20.81,LON=106.63,COLD=26,PARTICLES_ON_MOBILE=false,TTL=15*60e3;
+var R=document.documentElement,wx=document.getElementById('wx');if(!wx)return;
+function $(i){return document.getElementById(i)}
+var E={i:$('wxi'),t:$('wxt'),c:$('wxc'),x:$('wxx'),e:$('wxe'),b:$('wxb')};
+var desk=matchMedia('(hover:hover) and (pointer:fine) and (min-width:40.01rem)');
+var data=null,sim=null,enabled=true,kind='none',force=null,perfOff=false,fetched=0;
+function D(){return sim||data}
+try{enabled=localStorage.getItem('wxfx')!=='0'}catch(e){}
+try{var fm=/[?&]wx=(rain|snow|sun|none)/.exec(location.search);if(fm)force=fm[1]}catch(e){}
+function calm(){return R.classList.contains('lite')||R.getAttribute('data-motion')==='off'||matchMedia('(prefers-reduced-motion: reduce)').matches}
+var CODES={0:['Trời quang','☀️'],1:['Gần như quang mây','🌤️'],2:['Có mây rải rác','⛅'],3:['Nhiều mây','☁️'],45:['Sương mù','🌫️'],48:['Sương mù','🌫️'],51:['Mưa phùn nhẹ','🌦️'],53:['Mưa phùn','🌦️'],55:['Mưa phùn dày','🌦️'],56:['Mưa phùn lạnh','🌦️'],57:['Mưa phùn lạnh','🌦️'],61:['Mưa nhỏ','🌧️'],63:['Mưa vừa','🌧️'],65:['Mưa to','🌧️'],66:['Mưa lạnh','🌧️'],67:['Mưa lạnh','🌧️'],71:['Tuyết nhẹ','🌨️'],73:['Tuyết','🌨️'],75:['Tuyết dày','❄️'],77:['Hạt tuyết','🌨️'],80:['Mưa rào nhẹ','🌦️'],81:['Mưa rào','🌧️'],82:['Mưa rào rất to','⛈️'],85:['Tuyết rào','🌨️'],86:['Tuyết rào dày','🌨️'],95:['Dông','⛈️'],96:['Dông kèm mưa đá','⛈️'],99:['Dông kèm mưa đá','⛈️']};
+function isRain(d){var c=d.code;return (c>=51&&c<=67)||(c>=80&&c<=82)||c>=95||d.pr>0}
+function isSnowCode(c){return (c>=71&&c<=77)||c===85||c===86}
+function decide(){
+  var d=D();
+  if(calm())return 'none';
+  if(force)return force;
+  if(!enabled||!d)return 'none';
+  if(isRain(d))return 'rain';
+  if(isSnowCode(d.code)||Math.round(d.temp)<COLD)return 'snow';
+  if(d.day&&d.code<=2)return 'sun';
+  return 'none';
+}
+/* ===== hạt mưa / tuyết trên một canvas nhỏ (nửa độ phân giải), một path cho tất cả hạt ===== */
+var cv=null,cx=null,raf=0,ps=[],N=0,S=.5,W=0,H=0,last=0,acc=0,fc=0,cuts=0,cur='',col={},rt=0;
+function colors(){var l=R.getAttribute('data-theme')==='light';col.snow=l?'rgba(105,135,180,.85)':'rgba(255,255,255,.8)';col.rain=l?'rgba(70,100,150,.42)':'rgba(174,200,255,.36)'}
+function size(){W=cv.width=Math.ceil(innerWidth*S);H=cv.height=Math.ceil(innerHeight*S)}
+function rnd(a,b){return a+Math.random()*(b-a)}
+function mk(init,k){
+  if(k==='rain')return{x:rnd(-H*.2,W),y:init?rnd(0,H):-20,v:rnd(650,1000)*S,l:rnd(10,24)*S};
+  return{x:rnd(0,W),y:init?rnd(0,H):-6,v:rnd(28,70)*S,r:rnd(.7,2.1),ph:rnd(0,6.28),sw:rnd(8,22)*S};
+}
+function spawn(k){ps=[];for(var i=0;i<N;i++)ps.push(mk(true,k))}
+function stopP(){cancelAnimationFrame(raf);raf=0;cur='';if(cv)cv.style.display='none'}
+function tick(ts){
+  raf=requestAnimationFrame(tick);
+  var raw=ts-last;if(!last||raw>250){last=ts;return}
+  last=ts;var dt=Math.min(.05,raw/1000);
+  acc+=raw;fc++;
+  if(fc>=90){var avg=acc/fc;acc=0;fc=0;
+    if(avg>28){cuts++;if(cuts>=3||N<20){perfOff=true;stopP();note();return}N=Math.floor(N*.6);ps.length=N}}
+  cx.clearRect(0,0,W,H);cx.beginPath();var i,p;
+  if(cur==='rain'){
+    for(i=0;i<ps.length;i++){p=ps[i];p.y+=p.v*dt;p.x+=p.v*dt*.18;
+      if(p.y>H){p.y=-p.l;p.x=rnd(-H*.2,W)}
+      cx.moveTo(p.x,p.y);cx.lineTo(p.x-p.l*.18,p.y-p.l)}
+    cx.lineWidth=1;cx.strokeStyle=col.rain;cx.stroke();
+  }else{
+    for(i=0;i<ps.length;i++){p=ps[i];p.ph+=dt;p.y+=p.v*dt;p.x+=Math.sin(p.ph)*p.sw*dt+4*S*dt;
+      if(p.y>H+4){p.y=-4;p.x=rnd(0,W)}if(p.x>W+4)p.x=-4;
+      cx.moveTo(p.x+p.r,p.y);cx.arc(p.x,p.y,p.r,0,6.283)}
+    cx.fillStyle=col.snow;cx.fill();
+  }
+}
+function startP(k){
+  if(perfOff||raf&&cur===k)return;
+  stopP();cur=k;
+  if(!cv){cv=document.createElement('canvas');cv.id='wxfx';cv.setAttribute('aria-hidden','true');document.body.appendChild(cv);cx=cv.getContext('2d')}
+  colors();size();N=k==='rain'?90:70;cuts=0;acc=0;fc=0;last=0;spawn(k);cv.style.display='block';raf=requestAnimationFrame(tick);
+}
+addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){if(cv&&raf){size();spawn(cur)}},200)});
+document.addEventListener('visibilitychange',function(){last=0;if(!document.hidden&&Date.now()-fetched>TTL)load()});
+/* ===== nắng chói: một lớp gradient cố định ===== */
+var sun=document.createElement('div');sun.id='sunfx';sun.setAttribute('aria-hidden','true');document.body.appendChild(sun);
+/* ===== giao diện ===== */
+function note(){
+  var t='',d=D(),res='';
+  if(kind==='rain')res='Trời đang mưa nên trang có mưa.';
+  else if(kind==='snow')res='Dưới '+COLD+'°C nên trang có tuyết.';
+  else if(kind==='sun')res='Trời nắng, từ '+COLD+'°C trở lên nên trang hơi chói.';
+  else res='Lúc này không có hiệu ứng thời tiết.';
+  if(calm())t='Hiệu ứng đang tắt (chế độ lite, giảm chuyển động hoặc phím M).';
+  else if(perfOff)t='Đã tự tắt mưa/tuyết vì máy hơi chậm. Tải lại trang để thử lại.';
+  else if(force)t='Đang xem thử hiệu ứng: '+({rain:'mưa',snow:'tuyết',sun:'nắng chói',none:'không có'})[force]+'.';
+  else if(!enabled)t='Bạn đã tắt hiệu ứng thời tiết.';
+  else if(!d)t='';
+  else if(sim)t='Đang thử giả lập. '+res;
+  else t=res;
+  if((kind==='rain'||kind==='snow')&&!desk.matches&&!PARTICLES_ON_MOBILE&&!perfOff)t+=' (Mưa và tuyết chỉ chạy trên máy tính.)';
+  E.e.textContent=t;
+}
+function render(){
+  var d=D();
+  if(d){
+    var c=CODES[d.code]||['Thời tiết','⛅'],ic=c[1];if(!d.day&&d.code<=1)ic='🌙';
+    E.i.textContent=ic;E.t.textContent=Math.round(d.temp)+'°';E.c.textContent=c[0]+(sim?' (giả lập)':'');
+    E.x.textContent='Cảm giác như '+Math.round(d.app)+'° · Độ ẩm '+Math.round(d.hum)+'% · Gió '+Math.round(d.wind)+' km/h';
+  }
+  E.b.textContent=enabled?'Tắt hiệu ứng thời tiết':'Bật hiệu ứng thời tiết';E.b.setAttribute('aria-pressed',enabled?'true':'false');
+}
+function apply(){
+  kind=decide();R.setAttribute('data-wx',kind);
+  if((kind==='rain'||kind==='snow')&&(desk.matches||PARTICLES_ON_MOBILE))startP(kind);else stopP();
+  render();note();
+}
+E.b.addEventListener('click',function(){enabled=!enabled;try{localStorage.setItem('wxfx',enabled?'1':'0')}catch(e){}apply()});
+new MutationObserver(function(){colors();apply()}).observe(R,{attributes:true,attributeFilter:['data-motion','data-theme']});
+/* ===== bảng thử thời tiết ===== */
+var chips=Array.prototype.slice.call(document.querySelectorAll('.wxch')),ts=$('wxts'),tv=$('wxtv'),tr=$('wxtr'),td=$('wxtd'),tb=$('wxtest');
+function syncChips(){chips.forEach(function(c){var f=c.getAttribute('data-f');c.classList.toggle('on',(f||null)===force&&!sim||(!f&&!force&&!sim))})}
+chips.forEach(function(c){c.addEventListener('click',function(){force=c.getAttribute('data-f')||null;sim=null;syncChips();apply()})});
+function simulate(){
+  var t=+ts.value,r=tr.checked,dy=td.checked;tv.textContent=t+'°';
+  force=null;sim={temp:t,app:t+2,hum:r?92:70,wind:8,pr:r?1.2:0,code:r?61:1,day:dy};syncChips();apply();
+}
+if(ts){ts.addEventListener('input',simulate);tr.addEventListener('change',simulate);td.addEventListener('change',simulate)}
+if(force&&tb)tb.open=true;
+/* ===== lấy dữ liệu ===== */
+function parse(j){var c=j&&j.current;if(!c||typeof c.temperature_2m!=='number')return null;
+  return{temp:c.temperature_2m,app:c.apparent_temperature,hum:c.relative_humidity_2m,wind:c.wind_speed_10m,pr:c.precipitation||0,code:c.weather_code,day:c.is_day===1}}
+function load(){
+  var ac=window.AbortController?new AbortController():null,tm=ac?setTimeout(function(){ac.abort()},8000):0;
+  fetch('https://api.open-meteo.com/v1/forecast?latitude='+LAT+'&longitude='+LON+'&current=temperature_2m,apparent_temperature,relative_humidity_2m,precipitation,weather_code,wind_speed_10m,is_day&timezone=Asia%2FBangkok',ac?{signal:ac.signal}:{})
+    .then(function(r){if(!r.ok)throw 0;return r.json()})
+    .then(function(j){clearTimeout(tm);var d=parse(j);if(!d)throw 0;data=d;fetched=Date.now();try{localStorage.setItem('wx_cache',JSON.stringify({t:fetched,d:d}))}catch(e){}apply()})
+    .catch(function(){clearTimeout(tm);if(!data){E.c.textContent='Không lấy được thời tiết';E.t.textContent='--°';E.x.textContent='';apply()}});
+}
+try{var ch=JSON.parse(localStorage.getItem('wx_cache')||'null');if(ch&&ch.d&&Date.now()-ch.t<TTL){data=ch.d;fetched=ch.t}}catch(e){}
+colors();syncChips();apply();
+if(!data||Date.now()-fetched>=TTL)load();
+setInterval(function(){if(!document.hidden)load()},TTL);
 })();</script>
 </body>
 </html>
