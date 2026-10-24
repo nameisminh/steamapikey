@@ -1,0 +1,64 @@
+# Mỗi lần bạn push một bản index.html mới lên nhánh main, bản index.html CŨ (của commit trước)
+# được chép sang nhánh "backup", trong thư mục backup/, đặt tên theo giờ Việt Nam.
+# Ví dụ: backup/index_2026-10-24_21-05-33_a1b2c3d.html
+# Nhánh backup tách riêng nên trang web (deploy từ main) không bị đổi và không bị lộ thêm file.
+# Đặt file này ở: .github/workflows/backup-index.yml
+
+name: Backup index.html cũ
+
+on:
+  push:
+    branches: [main]          # nếu nhánh của bạn tên khác (master...) thì đổi ở đây
+    paths: [index.html]       # chỉ chạy khi index.html đổi; nếu file nằm trong thư mục con thì sửa đường dẫn
+
+permissions:
+  contents: write
+
+concurrency:
+  group: backup-index
+  cancel-in-progress: false
+
+env:
+  KEEP: 30                    # giữ tối đa bao nhiêu bản backup (bản cũ nhất bị xoá khỏi nhánh backup)
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Lấy bản index.html cũ (trước lần push này)
+        id: old
+        run: |
+          BEFORE="${{ github.event.before }}"
+          if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ] || ! git cat-file -e "$BEFORE:index.html" 2>/dev/null; then
+            echo "Không có bản cũ để backup (lần push đầu hoặc file mới)."
+            echo "has=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          mkdir -p /tmp/old
+          git show "$BEFORE:index.html" > /tmp/old/index.html
+          echo "has=true" >> "$GITHUB_OUTPUT"
+
+      - name: Đẩy bản cũ sang nhánh backup
+        if: steps.old.outputs.has == 'true'
+        run: |
+          STAMP=$(TZ=Asia/Ho_Chi_Minh date +%Y-%m-%d_%H-%M-%S)
+          SHORT=$(echo "${{ github.event.before }}" | cut -c1-7)
+          git config user.name "backup-bot"
+          git config user.email "backup-bot@users.noreply.github.com"
+          if git ls-remote --exit-code --heads origin backup >/dev/null 2>&1; then
+            git fetch origin backup
+            git checkout -B backup origin/backup
+          else
+            git checkout --orphan backup
+            git rm -rf . >/dev/null 2>&1 || true
+          fi
+          mkdir -p backup
+          cp /tmp/old/index.html "backup/index_${STAMP}_${SHORT}.html"
+          ls -1 backup/index_*.html | sort -r | tail -n +$((KEEP + 1)) | xargs -r rm --
+          git add backup
+          git commit -m "Backup index.html cũ (trước commit ${GITHUB_SHA::7})"
+          git push origin backup
