@@ -892,7 +892,9 @@ a.card{display:block}
 .hob:hover{border-color:var(--line-hi);transform:translateY(-3px)}
 .hob .ph{aspect-ratio:4/3}
 /* GSAP: ảnh trong thẻ sở thích trôi chậm hơn thẻ khi cuộn (parallax). --pz bật phóng nhẹ để không lộ mép; không có GSAP thì ảnh đứng yên */
-.hob .ph img{scale:calc(1 + var(--pz,0)*.18);translate:0 calc(var(--py,0)*1%)}
+@media (hover:hover) and (pointer:fine) and (min-width:40.01rem){.hob .ph img{scale:calc(1 + var(--pz,0)*.18);translate:0 calc(var(--py,0)*1%)}}
+/* điện thoại: báo trình duyệt chuẩn bị lớp riêng cho lá bài khi đang chia, đỡ giật */
+@media (hover:none),(pointer:coarse),(max-width:40rem){.hand .gc{will-change:translate,rotate}}
 .hob .t{padding:1rem 1.2rem}
 .hob h3{margin:0;font-size:1.1rem;font-weight:600}
 .hob p{margin:.2rem 0 0;color:var(--muted);font-size:.9rem}
@@ -1275,8 +1277,10 @@ section.s,section.intro{position:relative}
 .mapfr{border:1px solid var(--line);border-radius:1rem;overflow:hidden;background:var(--card2);aspect-ratio:16/9;min-height:18rem}
 .mapfr iframe{display:block;width:100%;height:100%;border:0}
 /* GSAP: bản đồ mở ra theo thanh cuộn. --rev 0 -> 1; không có GSAP thì mặc định 1 (hiện đầy đủ) */
+@media (hover:hover) and (pointer:fine) and (min-width:40.01rem){
 .mapfr{clip-path:inset(calc((1 - var(--rev,1))*18%) calc((1 - var(--rev,1))*12%) round 1rem);scale:calc(.9 + var(--rev,1)*.1)}
 .mapfr iframe{scale:calc(1.3 - var(--rev,1)*.3)}
+}
 .mapact{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.8rem}
 @media (max-width:40rem){.mapfr{aspect-ratio:4/5;min-height:20rem}}
 section.s,footer{content-visibility:auto;contain-intrinsic-size:auto 42rem}
@@ -4893,31 +4897,34 @@ function set(){var u=B+'&passthrough='+(calm()?'false':'true');if(d.getAttribute
 set();if(window.MutationObserver)new MutationObserver(set).observe(R,{attributes:true,attributeFilter:['data-motion']});
 })();</script>
 <script>(function(){
-/* GSAP + ScrollTrigger: bộ ba lá bài ở #play nằm chồng như một cỗ bài, rồi chia ra từng lá theo thanh cuộn (scrub).
+/* GSAP + ScrollTrigger: chia bài ở #play, mở bản đồ ở #map, parallax ảnh ở #hobby (parallax và bản đồ chỉ chạy trên máy có chuột; điện thoại chỉ giữ chia bài, cho nhẹ).
    Chỉ nạp GSAP khi không ở chế độ lite, không tắt hiệu ứng và không bật giảm chuyển động. Đổi phiên bản ở BASE nếu cần. */
-var R=document.documentElement,BASE='https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/',ctx=null;
+var R=document.documentElement,BASE='https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/',mm=null;
 function calm(){return R.classList.contains('lite')||R.getAttribute('data-motion')==='off'||matchMedia('(prefers-reduced-motion: reduce)').matches}
 if(calm())return;
 function on(){
-  if(ctx||!window.gsap||!window.ScrollTrigger)return;
+  if(mm||!window.gsap||!window.ScrollTrigger)return;
   gsap.registerPlugin(ScrollTrigger);ScrollTrigger.config({ignoreMobileResize:true});
-  ctx=gsap.context(function(){
-    var hand=document.getElementById('gamehand');
-    if(hand)gsap.fromTo(hand,{'--deal':0},{'--deal':1,ease:'power2.out',scrollTrigger:{trigger:hand,start:'top 92%',end:'top 40%',scrub:.6}});
-    /* khung bản đồ: mở ra từ một ô nhỏ rồi "kéo camera lùi ra" theo thanh cuộn */
-    /* parallax ảnh ở #hobby: mỗi ảnh trôi từ -8% tới +8% trong lúc thẻ đi qua màn hình */
+  mm=gsap.matchMedia();
+  mm.add({desk:'(hover:hover) and (pointer:fine) and (min-width:40.01rem)',mob:'(hover:none), (pointer:coarse), (max-width:40rem)'},function(c){
+    var desk=c.conditions.desk,hand=document.getElementById('gamehand');
+    /* chia bài: điện thoại dùng scrub:true (bám ngón tay, không đuổi theo sau) và quãng ngắn hơn */
+    if(hand)gsap.fromTo(hand,{'--deal':0},{'--deal':1,ease:desk?'power2.out':'none',scrollTrigger:{trigger:hand,start:'top 92%',end:desk?'top 40%':'top 60%',scrub:desk?.6:true}});
+    if(!desk)return;
+    /* parallax ảnh ở #hobby (chỉ máy có chuột) */
     gsap.utils.toArray('.hob .ph img').forEach(function(im){
-      var c=im.closest('.hob');if(!c)return;
+      var h=im.closest('.hob');if(!h)return;
       gsap.set(im,{'--pz':1});
-      gsap.fromTo(im,{'--py':-8},{'--py':8,ease:'none',scrollTrigger:{trigger:c,start:'top bottom',end:'bottom top',scrub:true}});
+      gsap.fromTo(im,{'--py':-8},{'--py':8,ease:'none',scrollTrigger:{trigger:h,start:'top bottom',end:'bottom top',scrub:true}});
     });
+    /* khung bản đồ mở ra rồi kéo camera lùi (chỉ máy có chuột: iframe vẽ lại mỗi khung hình khá nặng trên điện thoại) */
     var mf=document.querySelector('.mapfr');
     if(mf)gsap.fromTo(mf,{'--rev':0},{'--rev':1,ease:'power2.out',scrollTrigger:{trigger:mf,start:'top 98%',end:'top 38%',scrub:.6}});
   });
 }
-function off(){if(ctx){ctx.revert();ctx=null}}
+function off(){if(mm){mm.revert();mm=null}}
 function load(f,cb){var s=document.createElement('script');s.src=BASE+f;s.onload=cb;document.head.appendChild(s)}
-/* nạp lười: chỉ tải GSAP khi người xem cuộn gần tới một khối cần nó (cách 1200px), nên lần vào trang đầu không tốn thêm băng thông */
+/* nạp lười: chỉ tải GSAP khi người xem cuộn gần tới một khối cần nó (cách 1200px) */
 var loaded=false;
 function boot(){if(loaded)return;loaded=true;load('gsap.min.js',function(){load('ScrollTrigger.min.js',function(){if(!calm())on()})})}
 var tg=['#play','#hobby','.mapfr'].map(function(q){return document.querySelector(q)}).filter(Boolean);
@@ -4926,6 +4933,7 @@ if('IntersectionObserver' in window&&tg.length){
   tg.forEach(function(t){io.observe(t)});
 }else boot();
 new MutationObserver(function(){if(calm())off();else on()}).observe(R,{attributes:true,attributeFilter:['data-motion']});
+/* làm mới vị trí một lần sau khi tải xong; điện thoại không làm mới khi xoay/đổi thanh địa chỉ (ignoreMobileResize) */
 function rf(){if(window.ScrollTrigger)ScrollTrigger.refresh()}
 addEventListener('load',function(){setTimeout(rf,300)});
 addEventListener('hashchange',function(){setTimeout(rf,400)});
