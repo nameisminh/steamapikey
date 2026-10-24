@@ -1,0 +1,9 @@
+.DS_Store
+Thumbs.db
+node_modules/
+*.log
+*.tmp
+
+# thư mục tạm khi tối ưu ảnh (không commit, không deploy)
+_opt/
+.wrangler/

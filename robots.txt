@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Không cho bot quét mấy thư mục nội bộ
+Disallow: /_opt/
+Disallow: /backup/
+Disallow: /tools/
+
+Sitemap: https://lmingl.pages.dev/sitemap.xml

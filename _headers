@@ -1,0 +1,25 @@
+# Cloudflare Pages: header cho từng nhóm file.
+# Mặc định Pages trả "max-age=0, must-revalidate" cho MỌI file,
+# nên khách quay lại lần 2 vẫn phải hỏi lại server cho từng ảnh (304).
+# Khai báo dưới đây để trình duyệt giữ ảnh/nhạc trong cache, không hỏi lại.
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), camera=(), microphone=()
+  X-Frame-Options: SAMEORIGIN
+
+# Ảnh: 7 ngày. Đổi nội dung ảnh mà giữ nguyên tên thì khách cũ vẫn thấy bản cũ tối đa 7 ngày.
+/images/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+# Nhạc nền + audio: gần như không bao giờ đổi nội dung -> cache 1 năm
+/music/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/audio/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML: luôn kiểm tra lại để bản mới lên ngay
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate

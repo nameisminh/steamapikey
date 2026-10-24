@@ -4628,8 +4628,8 @@ window.__autoLang=function(){
       function shuf(a){var i,j,t;for(i=a.length-1;i>0;i--){j=Math.random()*(i+1)|0;t=a[i];a[i]=a[j];a[j]=t}return a}
       /* lấy ngẫu nhiên KHÔNG lặp: dùng hết cả kho chữ rồi mới xáo lại */
       function pick(p,n){var o=[],q=[],last='';while(o.length<n){if(!q.length){q=shuf(p.slice());if(q.length>1&&q[q.length-1]===last)q.unshift(q.pop())}last=q.pop();o.push(last)}return o}
-      var PU=[',','.','!','?',';',':'];
-      function deco(w){if(Math.random()<.28)w=w.charAt(0).toUpperCase()+w.slice(1);if(Math.random()<.32)w+=PU[Math.random()*PU.length|0];return w}
+      /* chế độ khó: chỉ thêm chữ hoa ngẫu nhiên, không thêm dấu câu (, . ! ? ; :) cho dễ gõ; dấu thanh tiếng Việt vẫn giữ */
+      function deco(w){if(Math.random()<.28)w=w.charAt(0).toUpperCase()+w.slice(1);return w}
       var LEN=60000,mode='vi',words=[],res=[],wi=0,started=false,done=false,t0=0,tm=0,typed=0,okW=0,okC=0;
       var show=$('tshow'),inp=$('tin'),go=$('tgo'),nw=$('tnew'),cu=$('tcustom'),msg=$('tmsg'),wpm=$('twpm'),cpm=$('tcpm'),acc=$('tacc'),tt=$('ttime'),bst=$('tbest'),M0=msg.textContent;
       if(!show||!inp)return;
