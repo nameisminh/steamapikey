@@ -893,8 +893,6 @@ a.card{display:block}
 .hob .ph{aspect-ratio:4/3}
 /* GSAP: ảnh trong thẻ sở thích trôi chậm hơn thẻ khi cuộn (parallax). --pz bật phóng nhẹ để không lộ mép; không có GSAP thì ảnh đứng yên */
 @media (hover:hover) and (pointer:fine) and (min-width:40.01rem){.hob .ph img{scale:calc(1 + var(--pz,0)*.18);translate:0 calc(var(--py,0)*1%)}}
-/* điện thoại: báo trình duyệt chuẩn bị lớp riêng cho lá bài khi đang chia, đỡ giật */
-@media (hover:none),(pointer:coarse),(max-width:40rem){.hand .gc{will-change:translate,rotate}}
 .hob .t{padding:1rem 1.2rem}
 .hob h3{margin:0;font-size:1.1rem;font-weight:600}
 .hob p{margin:.2rem 0 0;color:var(--muted);font-size:.9rem}
@@ -4897,27 +4895,26 @@ function set(){var u=B+'&passthrough='+(calm()?'false':'true');if(d.getAttribute
 set();if(window.MutationObserver)new MutationObserver(set).observe(R,{attributes:true,attributeFilter:['data-motion']});
 })();</script>
 <script>(function(){
-/* GSAP + ScrollTrigger: chia bài ở #play, mở bản đồ ở #map, parallax ảnh ở #hobby (parallax và bản đồ chỉ chạy trên máy có chuột; điện thoại chỉ giữ chia bài, cho nhẹ).
+/* GSAP + ScrollTrigger: chia bài ở #play, mở bản đồ ở #map, parallax ảnh ở #hobby (chỉ chạy trên máy có chuột; điện thoại và máy tính bảng không nạp GSAP, không chạy hiệu ứng nào, để cuộn nhẹ nhất).
    Chỉ nạp GSAP khi không ở chế độ lite, không tắt hiệu ứng và không bật giảm chuyển động. Đổi phiên bản ở BASE nếu cần. */
 var R=document.documentElement,BASE='https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/',mm=null;
 function calm(){return R.classList.contains('lite')||R.getAttribute('data-motion')==='off'||matchMedia('(prefers-reduced-motion: reduce)').matches}
-if(calm())return;
+var DESK='(hover:hover) and (pointer:fine) and (min-width:40.01rem)';
+if(calm()||!matchMedia(DESK).matches)return;
 function on(){
   if(mm||!window.gsap||!window.ScrollTrigger)return;
   gsap.registerPlugin(ScrollTrigger);ScrollTrigger.config({ignoreMobileResize:true});
   mm=gsap.matchMedia();
-  mm.add({desk:'(hover:hover) and (pointer:fine) and (min-width:40.01rem)',mob:'(hover:none), (pointer:coarse), (max-width:40rem)'},function(c){
-    var desk=c.conditions.desk,hand=document.getElementById('gamehand');
-    /* chia bài: điện thoại dùng scrub:true (bám ngón tay, không đuổi theo sau) và quãng ngắn hơn */
-    if(hand)gsap.fromTo(hand,{'--deal':0},{'--deal':1,ease:desk?'power2.out':'none',scrollTrigger:{trigger:hand,start:'top 92%',end:desk?'top 40%':'top 60%',scrub:desk?.6:true}});
-    if(!desk)return;
-    /* parallax ảnh ở #hobby (chỉ máy có chuột) */
+  mm.add(DESK,function(){
+    var hand=document.getElementById('gamehand');
+    if(hand)gsap.fromTo(hand,{'--deal':0},{'--deal':1,ease:'power2.out',scrollTrigger:{trigger:hand,start:'top 92%',end:'top 40%',scrub:.6}});
+    /* parallax ảnh ở #hobby */
     gsap.utils.toArray('.hob .ph img').forEach(function(im){
       var h=im.closest('.hob');if(!h)return;
       gsap.set(im,{'--pz':1});
       gsap.fromTo(im,{'--py':-8},{'--py':8,ease:'none',scrollTrigger:{trigger:h,start:'top bottom',end:'bottom top',scrub:true}});
     });
-    /* khung bản đồ mở ra rồi kéo camera lùi (chỉ máy có chuột: iframe vẽ lại mỗi khung hình khá nặng trên điện thoại) */
+    /* khung bản đồ mở ra rồi kéo camera lùi */
     var mf=document.querySelector('.mapfr');
     if(mf)gsap.fromTo(mf,{'--rev':0},{'--rev':1,ease:'power2.out',scrollTrigger:{trigger:mf,start:'top 98%',end:'top 38%',scrub:.6}});
   });
@@ -4933,7 +4930,7 @@ if('IntersectionObserver' in window&&tg.length){
   tg.forEach(function(t){io.observe(t)});
 }else boot();
 new MutationObserver(function(){if(calm())off();else on()}).observe(R,{attributes:true,attributeFilter:['data-motion']});
-/* làm mới vị trí một lần sau khi tải xong; điện thoại không làm mới khi xoay/đổi thanh địa chỉ (ignoreMobileResize) */
+/* làm mới vị trí một lần sau khi tải xong */
 function rf(){if(window.ScrollTrigger)ScrollTrigger.refresh()}
 addEventListener('load',function(){setTimeout(rf,300)});
 addEventListener('hashchange',function(){setTimeout(rf,400)});
