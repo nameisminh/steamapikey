@@ -1984,6 +1984,17 @@ footer .bye-s{font-size:.82rem;margin-top:.3rem!important}
 }
 #faq,#contact,#hobby,#idol,#tkb,#log{content-visibility:auto;contain-intrinsic-size:auto 700px}
 </style>
+<style>
+.ffgs{display:grid;gap:.5rem;margin-top:.9rem}
+.ffg{border:1px solid var(--line);border-radius:.9rem;background:var(--card);overflow:hidden}
+.ffgh{display:flex;align-items:center;gap:.6rem;width:100%;padding:.65rem 1rem;border:0;background:transparent;color:var(--text);font:600 .9rem var(--body);cursor:pointer;text-align:left}
+.ffgh small{font:400 .72rem var(--mono);color:var(--muted)}
+.ffgh:hover{background:rgba(var(--fx),.05)}
+.ffgc{display:inline-block;transition:transform .25s;font-family:var(--mono)}
+.ffgh[aria-expanded="true"] .ffgc{transform:rotate(90deg)}
+.ffgl{max-height:18rem;overflow-y:auto;margin:0;padding:.2rem 1rem .8rem;list-style:none;display:grid;gap:.4rem}
+.ffgl .ffrv{display:block;width:100%;text-align:left}
+</style>
 </head>
 <body>
 <a class="skip" href="#main">Bỏ qua tới nội dung</a>
@@ -3955,10 +3966,137 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       {k:"culture",t:"Ca trù là loại hình nghệ thuật truyền thống của Việt Nam."},
       {k:"culture",t:"Múa rối nước là nét văn hoá đặc sắc của đồng bằng Bắc Bộ."},
       {k:"culture",t:"Dân ca quan họ Bắc Ninh được UNESCO ghi danh."},
-      {k:"culture",t:"Mỗi vùng ở Việt Nam đều có món ăn đặc trưng riêng."}
+      {k:"culture",t:"Mỗi vùng ở Việt Nam đều có món ăn đặc trưng riêng."},
+      {k:"space",t:"Sao Hải Vương có gió mạnh nhất Hệ Mặt Trời, có lúc vượt 2.000 km mỗi giờ."},
+      {k:"space",t:"Sao Diêm Vương từng là hành tinh thứ chín cho đến năm 2006, khi bị xếp lại thành hành tinh lùn."},
+      {k:"space",t:"Mặt Trăng luôn quay cùng một mặt về phía Trái Đất."},
+      {k:"space",t:"Hai tàu Voyager mang theo đĩa vàng chứa âm thanh và hình ảnh của Trái Đất."},
+      {k:"space",t:"Kính viễn vọng không gian James Webb được phóng vào cuối năm 2021."},
+      {k:"space",t:"Ánh sáng từ ngôi sao Proxima Centauri mất hơn 4 năm để tới Trái Đất."},
+      {k:"space",t:"Vành đai tiểu hành tinh nằm giữa quỹ đạo Sao Hỏa và Sao Mộc."},
+      {k:"space",t:"Một ngày trên Sao Mộc chỉ dài khoảng 10 giờ."},
+      {k:"space",t:"Bầu trời ban ngày trên Sao Hỏa có màu hồng cam còn hoàng hôn lại xanh."},
+      {k:"nature",t:"Tắc kè hoa đổi màu chủ yếu để giao tiếp và điều hoà thân nhiệt hơn là để ngụy trang."},
+      {k:"nature",t:"Cá voi lưng gù hát những bài hát kéo dài hàng chục phút."},
+      {k:"nature",t:"Cá hồi bơi ngược sông để trở về nơi mình sinh ra."},
+      {k:"nature",t:"Bọ cánh cứng là nhóm động vật có nhiều loài nhất."},
+      {k:"nature",t:"Thằn lằn có thể tự cắt đuôi để thoát thân rồi mọc lại."},
+      {k:"nature",t:"Có những cây thông Bristlecone sống hơn 4.000 năm."},
+      {k:"nature",t:"Dơi là loài thú duy nhất biết bay thật sự."},
+      {k:"nature",t:"Rắn không có mí mắt."},
+      {k:"nature",t:"Thú mỏ vịt là loài thú đẻ trứng."},
+      {k:"nature",t:"Ngọc trai hình thành khi một hạt nhỏ lọt vào trong vỏ con trai."},
+      {k:"nature",t:"Chỉ muỗi cái mới hút máu, muỗi đực thì không."},
+      {k:"nature",t:"Lá cây có màu xanh nhờ chất diệp lục."},
+      {k:"nature",t:"Mỗi con ngựa vằn có bộ sọc riêng, không con nào giống con nào."},
+      {k:"nature",t:"Sừng tê giác làm từ keratin, cùng chất với móng tay người."},
+      {k:"nature",t:"Sứa không có não, tim và xương."},
+      {k:"body",t:"Hộp sọ người trưởng thành gồm 22 xương."},
+      {k:"body",t:"Mỗi bàn tay có 27 xương."},
+      {k:"body",t:"Mỗi bàn chân có 26 xương."},
+      {k:"body",t:"Hồng cầu sống được khoảng 120 ngày."},
+      {k:"body",t:"Nhịp tim lúc nghỉ của người trưởng thành thường từ 60 đến 100 nhịp mỗi phút."},
+      {k:"body",t:"Men răng là phần cứng nhất của cơ thể người."},
+      {k:"body",t:"Mắt người có một điểm mù, nhưng não tự lấp đầy nên ta không nhận ra."},
+      {k:"body",t:"Lưỡi người có hàng nghìn nụ vị giác."},
+      {k:"body",t:"Việc mất nhiều nhiệt nhất qua đầu chỉ là một lầm tưởng phổ biến."},
+      {k:"tech",t:"Facebook ra đời năm 2004."},
+      {k:"tech",t:"Cuộc gọi bằng điện thoại di động đầu tiên được thực hiện vào năm 1973 bởi Martin Cooper của Motorola."},
+      {k:"tech",t:"Internet bắt nguồn từ mạng ARPANET những năm 1960."},
+      {k:"tech",t:"Intel 4004 năm 1971 là bộ vi xử lý thương mại đầu tiên."},
+      {k:"tech",t:"Wikipedia ra mắt năm 2001."},
+      {k:"tech",t:"ChatGPT ra mắt vào cuối năm 2022."},
+      {k:"tech",t:"Laser là viết tắt của Light Amplification by Stimulated Emission of Radiation."},
+      {k:"tech",t:"Bluetooth được đặt tên theo vị vua Harald Bluetooth của Đan Mạch."},
+      {k:"tech",t:"Độ phân giải 4K có 3840 nhân 2160 điểm ảnh."},
+      {k:"vn",t:"Việt Nam có hơn 3.000 hòn đảo lớn nhỏ."},
+      {k:"vn",t:"Thăng Long được chọn làm kinh đô vào năm 1010, đặt nền móng cho Hà Nội ngày nay."},
+      {k:"vn",t:"Việt Nam gia nhập ASEAN năm 1995."},
+      {k:"vn",t:"Vịnh Hạ Long được UNESCO công nhận là di sản thiên nhiên thế giới từ năm 1994."},
+      {k:"vn",t:"Mũi Cà Mau là điểm cực Nam của Việt Nam."},
+      {k:"vn",t:"Lũng Cú ở Hà Giang là điểm cực Bắc của Việt Nam."},
+      {k:"vn",t:"Việt Nam là một trong những nước xuất khẩu gạo hàng đầu thế giới."},
+      {k:"vn",t:"Chữ Nôm là chữ viết cổ do người Việt tạo ra dựa trên chữ Hán."},
+      {k:"vn",t:"Đồng bằng sông Cửu Long được gọi là vựa lúa của cả nước."},
+      {k:"vn",t:"Đà Lạt được gọi là thành phố ngàn hoa."},
+      {k:"vn",t:"Sài Gòn là tên cũ của Thành phố Hồ Chí Minh, đổi tên năm 1976."},
+      {k:"vn",t:"Đảo Cát Bà thuộc thành phố Hải Phòng."},
+      {k:"vn",t:"Việt Nam trồng chủ yếu cà phê robusta."},
+      {k:"history",t:"Leonardo da Vinci vẽ bức Mona Lisa vào đầu thế kỷ 16."},
+      {k:"history",t:"Tần Thuỷ Hoàng thống nhất Trung Quốc vào năm 221 trước Công nguyên."},
+      {k:"history",t:"Cách mạng Pháp bùng nổ năm 1789."},
+      {k:"history",t:"Bức tường Berlin sụp đổ năm 1989."},
+      {k:"history",t:"Christopher Columbus đặt chân đến châu Mỹ năm 1492."},
+      {k:"history",t:"Yuri Gagarin là người đầu tiên bay vào vũ trụ, vào năm 1961."},
+      {k:"history",t:"Chiến thắng Điện Biên Phủ diễn ra vào năm 1954."},
+      {k:"history",t:"Tháp nghiêng Pisa được khởi công xây từ năm 1173."},
+      {k:"history",t:"Alexander Fleming phát hiện ra penicillin vào năm 1928."},
+      {k:"history",t:"Vạn Lý Trường Thành có tổng chiều dài lên tới hàng nghìn km."},
+      {k:"science",t:"Tầng ozon bảo vệ Trái Đất khỏi phần lớn tia cực tím từ Mặt Trời."},
+      {k:"science",t:"Nước biển mặn vì có muối khoáng hoà tan từ đất đá."},
+      {k:"science",t:"Động đất xảy ra do các mảng kiến tạo dịch chuyển."},
+      {k:"science",t:"Càng lên cao thì nước sôi ở nhiệt độ càng thấp."},
+      {k:"science",t:"Cấu trúc xoắn kép của DNA được mô tả vào năm 1953."},
+      {k:"science",t:"Bầu trời có màu xanh nhờ hiện tượng ánh sáng bị tán xạ trong khí quyển."},
+      {k:"science",t:"Vắc xin đầu tiên do Edward Jenner phát triển vào cuối thế kỷ 18."},
+      {k:"science",t:"Thuyết tương đối rộng của Einstein được công bố vào năm 1915."},
+      {k:"food",t:"Nước mắm làm từ cá ủ với muối."},
+      {k:"food",t:"Sữa chua được làm nhờ vi khuẩn lactic lên men sữa."},
+      {k:"food",t:"Nấm không phải thực vật cũng không phải động vật mà thuộc một giới riêng."},
+      {k:"food",t:"Kimchi là món lên men truyền thống của Hàn Quốc."},
+      {k:"food",t:"Tỏi đã được dùng làm gia vị và dược liệu từ hàng nghìn năm."},
+      {k:"food",t:"Khoai tây chiên có nguồn gốc còn tranh cãi giữa Bỉ và Pháp."},
+      {k:"geo",t:"Rừng Amazon là khu rừng nhiệt đới lớn nhất thế giới."},
+      {k:"geo",t:"Greenland là hòn đảo lớn nhất thế giới."},
+      {k:"geo",t:"Thủ đô của Úc là Canberra chứ không phải Sydney."},
+      {k:"geo",t:"Thủ đô của Brazil là Brasília."},
+      {k:"geo",t:"Hồ Superior là hồ nước ngọt lớn nhất thế giới tính theo diện tích."},
+      {k:"geo",t:"Thổ Nhĩ Kỳ nằm vắt ngang hai châu lục Á và Âu."},
+      {k:"geo",t:"Burj Khalifa ở Dubai cao khoảng 828 m."},
+      {k:"geo",t:"K2 là đỉnh núi cao thứ hai thế giới."},
+      {k:"geo",t:"Nam Phi có ba thủ đô."},
+      {k:"math",t:"Tổng của hai số lẻ luôn là một số chẵn."},
+      {k:"math",t:"Số 6 là số hoàn hảo đầu tiên vì 1 cộng 2 cộng 3 bằng 6."},
+      {k:"math",t:"Dấu bằng được Robert Recorde đưa ra vào năm 1557."},
+      {k:"math",t:"Hình lập phương có 12 cạnh."},
+      {k:"math",t:"Số 360 độ của vòng tròn bắt nguồn từ hệ đếm cơ số 60 của người Babylon."},
+      {k:"math",t:"Căn bậc hai của 2 không thể viết thành một phân số."},
+      {k:"lang",t:"Bảng chữ cái tiếng Anh có 26 chữ cái."},
+      {k:"lang",t:"Hangul của tiếng Hàn do vua Sejong cho tạo ra."},
+      {k:"lang",t:"Tiếng Nhật dùng ba hệ chữ là Hiragana, Katakana và Kanji."},
+      {k:"lang",t:"Chữ Ả Rập được viết từ phải sang trái."},
+      {k:"lang",t:"Esperanto là một ngôn ngữ nhân tạo được tạo ra để ai cũng học được."},
+      {k:"lang",t:"Hiến pháp Ấn Độ công nhận 22 ngôn ngữ chính thức theo danh sách."},
+      {k:"game",t:"Nintendo Switch ra mắt vào năm 2017."},
+      {k:"game",t:"PlayStation đầu tiên ra mắt tại Nhật Bản vào năm 1994."},
+      {k:"game",t:"Super Mario Bros. ra mắt vào năm 1985."},
+      {k:"game",t:"Delta Force là loạt game bắn súng đã có từ năm 1998."},
+      {k:"game",t:"Path of Exile bản đầu tiên ra mắt vào năm 2013."},
+      {k:"game",t:"GG là cách viết tắt của good game."},
+      {k:"game",t:"Speedrun là cách chơi để hoàn thành game trong thời gian ngắn nhất có thể."},
+      {k:"game",t:"Grand Theft Auto V nằm trong nhóm game bán chạy nhất lịch sử."},
+      {k:"music",t:"Đàn violin có 4 dây."},
+      {k:"music",t:"Đàn tranh Việt Nam thường có 16 dây."},
+      {k:"music",t:"Cồng chiêng Tây Nguyên được UNESCO ghi danh là di sản."},
+      {k:"music",t:"Hợp âm trưởng thường nghe vui tươi, hợp âm thứ thường nghe buồn hơn."},
+      {k:"music",t:"Tai người nghe được khoảng từ 20 Hz đến 20.000 Hz."},
+      {k:"music",t:"Thomas Edison phát minh máy hát đĩa vào năm 1877."},
+      {k:"sport",t:"Bóng chuyền có sáu người mỗi đội trên sân."},
+      {k:"sport",t:"Chưa ai chạy marathon dưới 2 giờ trong điều kiện thi đấu chính thức."},
+      {k:"sport",t:"Thế vận hội mùa đông bắt đầu từ năm 1924."},
+      {k:"sport",t:"Vành rổ bóng rổ cao 3,05 m."},
+      {k:"sport",t:"Judo có nguồn gốc từ Nhật Bản."},
+      {k:"sport",t:"World Cup bóng đá được tổ chức bốn năm một lần."},
+      {k:"culture",t:"Halloween bắt nguồn từ lễ hội Samhain của người Celt."},
+      {k:"culture",t:"Songkran là Tết cổ truyền của Thái Lan vào tháng 4."},
+      {k:"culture",t:"Diwali là lễ hội ánh sáng nổi tiếng của Ấn Độ."},
+      {k:"culture",t:"Kimono là trang phục truyền thống của Nhật, hanbok là của Hàn Quốc."},
+      {k:"culture",t:"Hanami là truyền thống ngắm hoa anh đào của người Nhật."},
+      {k:"culture",t:"Cosplay là việc hoá trang thành nhân vật trong anime, game hoặc phim."},
+      {k:"culture",t:"Giỗ Tổ Hùng Vương diễn ra vào mùng 10 tháng 3 âm lịch."}
     ];
     var FFC={space:['Vũ trụ','Space'],nature:['Thiên nhiên','Nature'],body:['Cơ thể','Body'],tech:['Công nghệ','Tech'],vn:['Việt Nam','Vietnam'],life:['Đời sống','Life'],history:['Lịch sử','History'],science:['Khoa học','Science'],food:['Ẩm thực','Food'],geo:['Địa lý','Geography'],math:['Toán học','Math'],lang:['Ngôn ngữ','Language'],game:['Game','Games'],music:['Âm nhạc','Music'],sport:['Thể thao','Sports'],culture:['Văn hoá','Culture']};
-    var ffs=document.getElementById('ffs'),ffCat='all',ffView=false,ffCur=null,ffSeen={};
+    var ffs=document.getElementById('ffs'),ffCat='all',ffView=false,ffCur=null,ffSeen={},ffOpen={};
     FUNFACTS.forEach(function(f,i){f.i=i});
     try{ffSeen=JSON.parse(localStorage.getItem('ffseen')||'{}')||{}}catch(e){ffSeen={}}
     function ffSave(){try{localStorage.setItem('ffseen',JSON.stringify(ffSeen))}catch(e){}}
@@ -3978,7 +4116,10 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       else h+='<p class="mut">'+(en?'Press the button to see a fun fact.':'Bấm nút bên dưới để xem một sự thật thú vị.')+'</p>';
       h+='</div>';
       h+='<div class="ffbar">'+(pool.length?'<button type="button" class="btn" id="ffrnd">'+(en?'Random fact':'Sự thật ngẫu nhiên')+'</button>':'<button type="button" class="btn" id="ffreset">'+(en?'Start over':'Xem lại từ đầu')+'</button>')+'<button type="button" class="btn line" id="ffview" aria-expanded="'+ffView+'">'+(en?'Review facts':'Xem lại sự thật thú vị')+' ('+seen.length+')</button><span class="cnt">'+pool.length+' '+(en?'left':'chưa xem')+'</span></div>';
-      if(ffView)h+=seen.length?'<ul class="ffrvl">'+seen.map(function(f){return '<li><button type="button" class="ffrv" data-i="'+f.i+'"><small>'+(FFC[f.k]||FFC.life)[en?1:0]+'</small>'+ffTxt(f,en)+'</button></li>'}).join('')+'</ul>':'<p class="mut">'+(en?'No facts seen yet.':'Chưa có sự thật nào được xem.')+'</p>';
+      if(ffView)h+=seen.length?'<div class="ffgs">'+Object.keys(FFC).map(function(k){
+        var g=seen.filter(function(f){return f.k===k});if(!g.length)return '';var o=!!ffOpen[k];
+        return '<div class="ffg"><button type="button" class="ffgh" data-g="'+k+'" aria-expanded="'+o+'"><span class="ffgc" aria-hidden="true">›</span>'+FFC[k][en?1:0]+' <small>'+g.length+'</small></button>'+
+          (o?'<ul class="ffrvl ffgl">'+g.map(function(f){return '<li><button type="button" class="ffrv" data-i="'+f.i+'">'+ffTxt(f,en)+'</button></li>'}).join('')+'</ul>':'')+'</div>'}).join('')+'</div>':'<p class="mut">'+(en?'No facts seen yet.':'Chưa có sự thật nào được xem.')+'</p>';
       ffs.innerHTML=h;
     }
     if(ffs)ffs.addEventListener('click',function(e){
@@ -3987,6 +4128,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       if(q('#ffrnd')){var p=ffPool();if(!p.length){ffRender();return}var f=p[Math.floor(Math.random()*p.length)];ffSeen[f.i]=1;ffCur=f.i;ffSave();ffRender();
         var sh=ffs.querySelector('.ffshow');if(sh&&sh.scrollIntoView)sh.scrollIntoView({block:'nearest',behavior:(typeof calm!=='undefined'&&calm)?'auto':'smooth'});return}
       if(q('#ffview')){ffView=!ffView;ffRender();return}
+      if((x=q('.ffgh'))){var g=x.getAttribute('data-g');ffOpen[g]=!ffOpen[g];ffRender();return}
       if(q('#ffreset')){FUNFACTS.forEach(function(f){if(ffIn(f))delete ffSeen[f.i]});ffCur=null;ffSave();ffRender();return}
       if((x=q('.ffrv'))){ffCur=+x.getAttribute('data-i');ffRender();var s2=ffs.querySelector('.ffshow');if(s2&&s2.scrollIntoView)s2.scrollIntoView({block:'nearest'})}
     });
