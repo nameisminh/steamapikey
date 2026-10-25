@@ -1944,6 +1944,46 @@ footer .bye-t{font-size:1.05rem}
 footer .bye-s{font-size:.82rem;margin-top:.3rem!important}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Ming","inLanguage":"vi","description":"Trang nhỏ để mọi người biết dạo này tôi đang làm gì."}</script>
+<style>
+/* ===== đợt 6 ===== */
+.navx{order:3;width:100%;display:flex;align-items:center;gap:.3rem;min-width:0}
+.navx nav{flex:1 1 0;min-width:0;width:auto;scroll-behavior:smooth}
+@media (min-width:68rem){.navx{order:0;width:auto;flex:1 1 0}.bar:not(.mini) nav a.nx{display:inline-block}}
+.nvb{flex:none;width:1.7rem;height:1.7rem;display:grid;place-items:center;border:1px solid var(--line-hi);border-radius:50%;background:transparent;color:var(--text);font:600 1.05rem/1 var(--mono);cursor:pointer;padding:0 0 .12rem;transition:border-color .2s,opacity .2s}
+.nvb:hover:not(:disabled){border-color:var(--white)}.nvb:disabled{opacity:.3;cursor:default}
+@media (min-width:80rem){
+ .bar.mini .nvb{display:none}.bar.mini .navx{display:contents}
+ .bar.mini nav{position:fixed;left:max(.7rem,env(safe-area-inset-left));right:auto;top:50%;bottom:auto;margin:0;width:max-content;max-width:10rem;max-height:calc(100vh - 6rem);max-height:calc(100dvh - 6rem);z-index:12;transform:translateY(-50%)}
+ .bar.mini nav a{white-space:nowrap}
+}
+.ptitle.roles .rl{font-size:.86rem;color:var(--text)}
+.foldbtn{margin:.2rem 0 .9rem;padding:.4rem .9rem;border:1px solid var(--line-hi);border-radius:999px;background:var(--card);color:var(--text);font:500 .82rem var(--body);cursor:pointer;transition:border-color .2s}
+.foldbtn:hover{border-color:var(--white)}
+#logl+.foldbtn{margin-top:1rem}
+.tkb-list[hidden]{display:none}
+.log.fold li:nth-child(n+4){display:none}
+.log.fold li:nth-child(3){padding-bottom:0}
+</style>
+<style>
+.foldbtn.sm{margin:.6rem 0 0;padding:.25rem .7rem;font-size:.74rem}
+.pbadges[hidden]{display:none}
+.sx{margin-left:.55rem;width:1.5rem;height:1.5rem;display:inline-grid;place-items:center;vertical-align:middle;border:1px solid var(--line-hi);border-radius:50%;background:transparent;color:var(--text);font:600 1rem/1 var(--mono);padding:0 0 .1rem;cursor:pointer;transition:transform .25s,border-color .2s}
+.sx:hover{border-color:var(--white)}
+.sx.sxo{transform:rotate(90deg)}
+.s.cl>*:not(.wrap){display:none!important}
+.s.cl .wrap>*:not(.sxh){display:none!important}
+</style>
+<style>
+.sbt{display:none}
+@media (min-width:80rem){
+ .bar.mini .sbt{display:flex;position:sticky;top:0;z-index:1;align-self:flex-end;align-items:center;justify-content:center;width:1.6rem;height:1.6rem;margin:0 0 .15rem;padding:0 0 .1rem;border:1px solid var(--line-hi);border-radius:50%;background:rgba(var(--bgrgb),.95);color:var(--text);font:600 1rem/1 var(--mono);cursor:pointer;transition:border-color .2s}
+ .bar.mini .sbt:hover{border-color:var(--white)}
+ .bar.mini.sbc nav a{display:none!important}
+ .bar.mini.sbc nav{padding:.3rem;border-radius:999px}
+ .bar.mini.sbc .sbt{margin:0;align-self:center}
+}
+#faq,#contact,#hobby,#idol,#tkb,#log{content-visibility:auto;contain-intrinsic-size:auto 700px}
+</style>
 </head>
 <body>
 <a class="skip" href="#main">Bỏ qua tới nội dung</a>
@@ -1973,8 +2013,11 @@ window.__autoLang=function(){
   <i class="prog" aria-hidden="true"></i>
   <div class="wrap">
     <a class="brand" id="brand" href="./" aria-label="Về đầu trang"><i>M</i>Ming</a>
+    <div class="navx"><button class="nvb prev" type="button" aria-label="Cuộn mục sang trái" title="Sang trái">‹</button>
     <nav aria-label="Điều hướng chính">
-      <a class="nx" href="#hero">Profile</a>
+      <button class="sbt" type="button" aria-label="Ẩn thanh bên" aria-expanded="true" title="Ẩn thanh bên">‹</button>
+      <a href="#hero">Đồng hồ</a>
+      <a href="#intro">Profile</a>
       <a href="#links">Liên kết</a>
       <a href="#now">Dạo này</a>
       <a href="#play">Game</a>
@@ -1992,6 +2035,7 @@ window.__autoLang=function(){
       <a class="nx" href="#contact">Liên hệ</a>
       <a class="nx" href="#map">Bản đồ</a>
     </nav>
+    <button class="nvb next" type="button" aria-label="Cuộn mục sang phải" title="Sang phải">›</button></div>
     <div class="acts">
       <button class="tgl" id="bgmlist" type="button" aria-label="Mở danh sách nhạc" aria-expanded="false" aria-controls="bgmp" title="Danh sách nhạc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h12M4 12h12M4 18h7"/><path d="M19 8v9"/><circle cx="17" cy="17" r="2"/></svg></button>
       <button class="tgl" id="bgmtop" type="button" aria-label="Bật nhạc" aria-pressed="false" title="Bật hoặc tắt nhạc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/><path class="sl" d="M3 3l18 18"/></svg></button>
@@ -2031,16 +2075,18 @@ window.__autoLang=function(){
             <b>Ming</b>
             <span class="pst" id="pst" data-st="offline">Ngoại tuyến</span>
             <div class="ptitle"><span class="pk">Danh hiệu</span><b>Game thủ kiêm dịch giả</b></div>
-            <ul class="pbadges" aria-label="Huy hiệu">
+            <ul class="pbadges" id="pbl" aria-label="Huy hiệu">
               <li title="Hay thức khuya"><i data-ic="moon"></i><span>Cú đêm</span></li>
               <li title="Dịch mod sang tiếng Việt"><i data-ic="translate"></i><span>Dịch giả</span></li>
               <li title="Chơi game mỗi ngày"><i data-ic="gamepad"></i><span>Game thủ</span></li>
               <li title="Nhạc là bạn đồng hành"><i data-ic="notes"></i><span>Mê nhạc</span></li>
               <li title="Đọc truyện không đếm được"><i data-ic="book"></i><span>Mọt truyện</span></li>
-              <li title="Lee Sin, Zed, Yasuo"><i data-ic="crown"></i><span>Chiến thần LoL</span></li>
-              <li title="Thư viện Steam toàn game chưa chơi"><i data-ic="gamepad"></i><span>Nhà sưu tầm</span></li>
+                            <li title="Thư viện Steam toàn game chưa chơi"><i data-ic="gamepad"></i><span>Nhà sưu tầm</span></li>
               <li title="Tự mày mò làm trang này"><i data-ic="terminal"></i><span>Dev tay ngang</span></li>
+              <li title="Đang đi thực tập"><i data-ic="id"></i><span>Thực tập sinh</span></li>
+              <li title="Hay xem phim siêu anh hùng"><i data-ic="film"></i><span>Fan Marvel và DC</span></li>
             </ul>
+            <button type="button" class="foldbtn sm" id="bdfold" aria-controls="pbl" aria-expanded="true">Ẩn huy hiệu</button>
           </div>
         </div>
         <div class="panel" aria-label="Trạng thái hiện tại">
@@ -2663,7 +2709,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       <div class="ddbox rv" id="ddbox"></div>
       <p class="mini rv">Năm 2026 của tôi</p>
       <div class="yr rv" id="yr"></div>
-      <ol class="log rv">
+      <ol class="log rv fold" id="logl">
                 <li><time>Tháng 10, 2026</time><b>Làm trang web này</b><p>Đây là lần thứ 3 tôi làm trang web này.</p></li>
         <li><time>Tháng 9, 2026</time><b>Thực tập tại công ty</b><p>Vẫn đang đi thực tập, vừa làm vừa học thêm.</p></li>
         <li><time>Tháng 8, 2026</time><b>Thực tập tại công ty</b><p>Đi thực tập và làm quen với môi trường làm việc.</p></li>
@@ -2675,6 +2721,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
         <li><time>Tháng 2, 2026</time><b>Đi học</b><p>Đi học sau kỳ nghỉ Tết.</p></li>
         <li><time>Tháng 1, 2026</time><b>Đi học</b><p>Bắt đầu năm mới, vẫn đi học như thường.</p></li>
       </ol>
+      <button type="button" class="foldbtn" id="logfold" aria-controls="logl" aria-expanded="false">Xem thêm</button>
     </div>
   </section>
 
@@ -2690,6 +2737,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       <div class="rv">
         <div class="tkb-tabs" id="tkbtabs" role="tablist" aria-label="Chọn ngày"></div>
         <p class="mini" id="tkbcap"></p>
+        <button type="button" class="foldbtn" id="tkbfold" aria-controls="tkblist" aria-expanded="true">Ẩn các khung giờ</button>
         <ul class="tkb-list" id="tkblist" role="tabpanel" aria-live="polite"></ul>
       </div>
     </div>
@@ -2741,7 +2789,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
           <input id="mapq" type="search" placeholder="Tìm địa điểm trên Google Maps" aria-label="Tìm địa điểm trên Google Maps" autocomplete="off">
           <button class="btn" id="mapgo" type="button">Tìm</button>
         </div>
-        <div class="mapfr"><iframe id="mapfr" title="Google Maps" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
+        <div class="mapfr"><iframe loading="lazy" id="mapfr" title="Google Maps" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
         <div class="mapact">
           <a class="btn line" id="mapdir" href="https://www.google.com/maps" target="_blank" rel="noopener">Chỉ đường</a>
           <a class="btn line" id="mapopen" href="https://www.google.com/maps" target="_blank" rel="noopener">Mở Google Maps</a>
@@ -3598,9 +3646,318 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       {k:"life",t:"Mèo ngủ trung bình 12 đến 16 giờ mỗi ngày.",e:"Cats sleep 12 to 16 hours a day on average."},
       {k:"life",t:"Hộp đen của máy bay thật ra có màu cam.",e:"A plane’s black box is actually bright orange."},
       {k:"life",t:"SOS không viết tắt của cụm từ nào cả, nó chỉ là chuỗi mã Morse dễ gửi và dễ nhận ra nhất.",e:"SOS does not stand for anything, it is simply an easy Morse sequence to send and recognise."},
-      {k:"life",t:"Tờ giấy A4 gấp đôi lại sẽ thành khổ A5 mà tỉ lệ các cạnh vẫn giữ nguyên.",e:"Fold an A4 sheet in half and you get A5 with exactly the same proportions."}
+      {k:"life",t:"Tờ giấy A4 gấp đôi lại sẽ thành khổ A5 mà tỉ lệ các cạnh vẫn giữ nguyên.",e:"Fold an A4 sheet in half and you get A5 with exactly the same proportions."},
+      {k:"space",t:"Một thìa vật chất của sao neutron nặng cỡ hàng tỉ tấn."},
+      {k:"space",t:"Voyager 1 được phóng năm 1977 và hiện là vật thể do con người chế tạo ở xa Trái Đất nhất."},
+      {k:"space",t:"Sao Kim quay quanh trục theo chiều ngược với hầu hết các hành tinh khác."},
+      {k:"space",t:"Sao Thiên Vương có trục quay nghiêng gần 98 độ nên trông như đang lăn nghiêng quanh Mặt Trời."},
+      {k:"space",t:"Mặt Trời chiếm khoảng 99,8% tổng khối lượng của cả Hệ Mặt Trời."},
+      {k:"nature",t:"Kiến chúa của một số loài có thể sống hơn 20 năm."},
+      {k:"nature",t:"Một số loài tre mọc nhanh gần 1 mét mỗi ngày."},
+      {k:"nature",t:"Tim của tôm nằm ở phần đầu."},
+      {k:"nature",t:"Quạ có thể nhớ và nhận ra khuôn mặt của từng người."},
+      {k:"nature",t:"Tim cá voi xanh nặng khoảng 180 kg."},
+      {k:"nature",t:"Sâu bướm biến thành bướm bằng cách tan gần như hoàn toàn bên trong kén rồi tái cấu trúc."},
+      {k:"nature",t:"Nọc độc của ong mật có thể gây đau ngay cả khi con ong đã chết."},
+      {k:"body",t:"Người trưởng thành có 206 chiếc xương, còn trẻ sơ sinh có khoảng 270 đến 300 chiếc."},
+      {k:"body",t:"Ruột non của người dài khoảng 6 mét."},
+      {k:"body",t:"Mỗi ngày cơ thể người tiết ra khoảng 1 lít nước bọt."},
+      {k:"body",t:"Mắt người có thể phân biệt khoảng một triệu sắc thái màu."},
+      {k:"body",t:"Xương đùi là xương dài và khoẻ nhất cơ thể."},
+      {k:"body",t:"Mỗi người sinh ra đời đều có dấu vân tay riêng, ngay cả cặp song sinh giống hệt cũng khác nhau."},
+      {k:"tech",t:"World Wide Web được Tim Berners-Lee đề xuất năm 1989 tại CERN."},
+      {k:"tech",t:"Google lúc đầu có tên là BackRub."},
+      {k:"tech",t:"Tên miền .com đầu tiên được đăng ký là symbolics.com vào năm 1985."},
+      {k:"tech",t:"iPhone đời đầu ra mắt năm 2007."},
+      {k:"tech",t:"Mật khẩu 123456 nhiều năm liền nằm trong nhóm bị dùng nhiều nhất thế giới."},
+      {k:"tech",t:"Ổ cứng đầu tiên của IBM năm 1956 nặng hơn một tấn và chỉ chứa khoảng 5 MB."},
+      {k:"vn",t:"Việt Nam có 54 dân tộc."},
+      {k:"vn",t:"Đỉnh Fansipan cao 3.143 m, được gọi là nóc nhà Đông Dương."},
+      {k:"vn",t:"Bờ biển Việt Nam dài hơn 3.260 km."},
+      {k:"vn",t:"Văn Miếu Quốc Tử Giám ở Hà Nội được xây từ năm 1070."},
+      {k:"vn",t:"Việt Nam là nước xuất khẩu hạt điều và hạt tiêu hàng đầu thế giới."},
+      {k:"vn",t:"Chữ Quốc ngữ dùng chữ cái Latinh, được các giáo sĩ phương Tây hoàn thiện từ thế kỷ 17."},
+      {k:"history",t:"Cleopatra sống gần thời Mặt Trăng đổ bộ hơn là thời xây Đại Kim tự tháp Giza."},
+      {k:"history",t:"Chiến tranh Anh Zanzibar năm 1896 chỉ kéo dài khoảng 40 phút, ngắn nhất lịch sử."},
+      {k:"history",t:"Đại học Oxford đã có người dạy học trước khi Đế chế Aztec ra đời."},
+      {k:"history",t:"Từ Mặt Trăng không thể nhìn thấy Vạn Lý Trường Thành bằng mắt thường."},
+      {k:"history",t:"Thế vận hội cổ đại đầu tiên được cho là diễn ra vào năm 776 trước Công nguyên."},
+      {k:"history",t:"Chữ viết sớm nhất ra đời ở Lưỡng Hà khoảng 3.000 năm trước Công nguyên."},
+      {k:"history",t:"Tàu Titanic chìm năm 1912 ngay trong chuyến đi đầu tiên."},
+      {k:"science",t:"Không khí có khoảng 78% là khí nitơ, oxy chỉ chiếm khoảng 21%."},
+      {k:"science",t:"Kim cương và than chì đều được tạo từ nguyên tố cacbon."},
+      {k:"science",t:"Âm thanh truyền trong nước nhanh hơn trong không khí khoảng 4 lần."},
+      {k:"science",t:"Bảng tuần hoàn hiện có 118 nguyên tố."},
+      {k:"science",t:"Thuỷ ngân là kim loại duy nhất ở thể lỏng trong điều kiện phòng."},
+      {k:"science",t:"Ánh sáng đi khoảng 300.000 km mỗi giây trong chân không."},
+      {k:"science",t:"Ở điểm ba, nước có thể cùng tồn tại ở thể rắn, lỏng và khí."},
+      {k:"food",t:"Về mặt thực vật học, cà chua là một loại quả."},
+      {k:"food",t:"Wasabi thật rất hiếm, nhiều loại bán ngoài chợ chỉ là cải ngựa nhuộm xanh."},
+      {k:"food",t:"Chim không cảm nhận được vị cay của capsaicin trong ớt."},
+      {k:"food",t:"Cà rốt ban đầu có màu tím hoặc vàng, màu cam là về sau."},
+      {k:"food",t:"Sô cô la làm từ hạt của cây ca cao."},
+      {k:"food",t:"Gạo là lương thực chính của hơn một nửa dân số thế giới."},
+      {k:"food",t:"Nước Ý có hàng trăm hình dạng mì ống khác nhau."},
+      {k:"geo",t:"Nga trải dài qua 11 múi giờ."},
+      {k:"geo",t:"Canada có đường bờ biển dài nhất thế giới."},
+      {k:"geo",t:"Vatican là quốc gia nhỏ nhất thế giới."},
+      {k:"geo",t:"Sa mạc lớn nhất thế giới là Nam Cực, không phải Sahara."},
+      {k:"geo",t:"Indonesia có hơn 17.000 hòn đảo."},
+      {k:"geo",t:"Hồ Baikal sâu khoảng 1.640 m, là hồ sâu nhất thế giới."},
+      {k:"geo",t:"Nam Cực chứa phần lớn lượng băng và nước ngọt dạng băng trên Trái Đất."},
+      {k:"math",t:"Có khoảng 8 nhân 10 mũ 67 cách xếp một bộ bài 52 lá."},
+      {k:"math",t:"Gauss khi còn nhỏ đã tính nhanh tổng từ 1 đến 100 bằng 5050."},
+      {k:"math",t:"Số thế cờ vua có thể xảy ra nhiều hơn số nguyên tử trong vũ trụ quan sát được."},
+      {k:"math",t:"Số pi vô hạn và không tuần hoàn."},
+      {k:"math",t:"Tổ ong hình lục giác vì hình này tiết kiệm sáp nhất khi lấp đầy mặt phẳng."},
+      {k:"math",t:"Số La Mã không có chữ số 0."},
+      {k:"lang",t:"Thế giới có hơn 7.000 ngôn ngữ đang được sử dụng."},
+      {k:"lang",t:"Tiếng Quan Thoại là ngôn ngữ có nhiều người nói tiếng mẹ đẻ nhất."},
+      {k:"lang",t:"Papua New Guinea có hơn 800 ngôn ngữ, nhiều nhất thế giới."},
+      {k:"lang",t:"Từ quarantine xuất phát từ tiếng Ý quaranta giorni, nghĩa là 40 ngày."},
+      {k:"lang",t:"Từ điển Việt Bồ La của Alexandre de Rhodes in năm 1651 là nền móng cho chữ Quốc ngữ."},
+      {k:"game",t:"Mario ban đầu có tên là Jumpman và xuất hiện trong Donkey Kong."},
+      {k:"game",t:"Pac-Man ra mắt năm 1980."},
+      {k:"game",t:"Pong của Atari năm 1972 là một trong những game thương mại đầu tiên."},
+      {k:"game",t:"League of Legends ra mắt năm 2009 do Riot Games phát triển."},
+      {k:"game",t:"Stardew Valley do một mình Eric Barone làm ra."},
+      {k:"game",t:"Steam ra mắt năm 2003 của Valve."},
+      {k:"game",t:"Pokémon bản đầu tiên ra mắt ở Nhật năm 1996."},
+      {k:"music",t:"Beethoven vẫn sáng tác nhạc dù bị điếc dần."},
+      {k:"music",t:"Đàn piano tiêu chuẩn có 88 phím."},
+      {k:"music",t:"Bản 4 phút 33 giây của John Cage là một bản nhạc gần như không có âm thanh."},
+      {k:"music",t:"Tên các nốt Đô Rê Mi bắt nguồn từ một bài thánh ca Latinh thời Trung Cổ."},
+      {k:"music",t:"Mozart bắt đầu sáng tác từ khi mới 5 tuổi."},
+      {k:"sport",t:"Cự ly marathon là 42,195 km."},
+      {k:"sport",t:"Bóng rổ do James Naismith phát minh năm 1891, lúc đầu dùng giỏ đựng đào làm rổ."},
+      {k:"sport",t:"Cờ vua bắt nguồn từ trò chơi chaturanga của Ấn Độ."},
+      {k:"sport",t:"Quả bóng golf thường có khoảng 300 đến 500 lỗ nhỏ trên bề mặt."},
+      {k:"sport",t:"Argentina vô địch World Cup 2022 tại Qatar."},
+      {k:"culture",t:"Emoji đầu tiên do Shigetaka Kurita tạo ra ở Nhật năm 1999."},
+      {k:"culture",t:"Giấy được phát minh ở Trung Quốc."},
+      {k:"culture",t:"Nhiều nền văn hoá có truyền thống ăn mừng năm mới âm lịch, trong đó Tết Nguyên Đán của Việt Nam."},
+      {k:"culture",t:"Nhạc cụ cổ nhất từng tìm thấy là những cây sáo làm từ xương, tuổi đời hàng chục nghìn năm."},
+      {k:"space",t:"Trên Mặt Trăng, trọng lực chỉ bằng khoảng một phần sáu so với Trái Đất."},
+      {k:"space",t:"Sao Mộc có cơn bão Vết Đỏ lớn hơn cả Trái Đất và đã tồn tại hàng trăm năm."},
+      {k:"space",t:"Một năm ánh sáng dài khoảng 9,46 nghìn tỉ km."},
+      {k:"space",t:"Sao Thuỷ gần Mặt Trời nhất nhưng sao Kim mới là hành tinh nóng nhất."},
+      {k:"space",t:"Trái Đất không tròn hoàn hảo mà hơi phình ở xích đạo."},
+      {k:"space",t:"Sao Hỏa có hai mặt trăng nhỏ là Phobos và Deimos."},
+      {k:"space",t:"Neil Armstrong là người đầu tiên đặt chân lên Mặt Trăng vào năm 1969."},
+      {k:"space",t:"Dải Ngân Hà của chúng ta có hàng trăm tỉ ngôi sao."},
+      {k:"nature",t:"Kangaroo không thể đi lùi."},
+      {k:"nature",t:"Cá ngựa đực là bên mang thai và sinh con."},
+      {k:"nature",t:"Lưỡi của hươu cao cổ dài khoảng 45 cm và có màu tím đen."},
+      {k:"nature",t:"Ếch có thể hấp thụ nước qua da thay vì uống."},
+      {k:"nature",t:"Một con ong mật cả đời chỉ làm ra khoảng một thìa cà phê mật."},
+      {k:"nature",t:"Nhện có tám chân và không phải côn trùng."},
+      {k:"nature",t:"Chim ruồi là loài chim duy nhất có thể bay lùi."},
+      {k:"nature",t:"Con mực có ba trái tim giống bạch tuộc."},
+      {k:"nature",t:"Voi là động vật trên cạn duy nhất không thể nhảy."},
+      {k:"nature",t:"Gấu Bắc Cực có da màu đen dưới lớp lông trong suốt."},
+      {k:"nature",t:"Lạc đà dự trữ mỡ trong bướu, không phải nước."},
+      {k:"nature",t:"Cá sấu có thể nhịn ăn hàng tháng trời."},
+      {k:"body",t:"Con người dành khoảng một phần ba cuộc đời để ngủ."},
+      {k:"body",t:"Phổi người có khoảng 300 triệu phế nang."},
+      {k:"body",t:"Móng tay mọc nhanh hơn móng chân."},
+      {k:"body",t:"Máu người chảy hết một vòng cơ thể chỉ trong khoảng một phút."},
+      {k:"body",t:"Cơ lớn nhất cơ thể là cơ mông."},
+      {k:"body",t:"Cơ nhỏ nhất cơ thể nằm trong tai và có tên là cơ bàn đạp."},
+      {k:"body",t:"Mỗi ngày bạn thở ra thở vào khoảng 20.000 lần."},
+      {k:"body",t:"Cơ thể người có khoảng 60% là nước."},
+      {k:"tech",t:"Hơn một nửa lượng truy cập web ngày nay đến từ điện thoại."},
+      {k:"tech",t:"Máy tính Apple đầu tiên được bán năm 1976."},
+      {k:"tech",t:"QR code do một công ty Nhật Bản phát minh năm 1994."},
+      {k:"tech",t:"Bàn phím QWERTY ra đời từ thế kỷ 19 để tránh kẹt cần gõ của máy chữ."},
+      {k:"tech",t:"GPS là viết tắt của Global Positioning System, hệ thống định vị toàn cầu."},
+      {k:"tech",t:"Một cái USB ngày nay chứa nhiều dữ liệu hơn máy tính của NASA lúc đưa người lên Mặt Trăng."},
+      {k:"vn",t:"Phở là một trong những món Việt được người nước ngoài biết đến nhiều nhất."},
+      {k:"vn",t:"Cầu Vàng ở Đà Nẵng nổi tiếng với đôi bàn tay khổng lồ nâng đỡ."},
+      {k:"vn",t:"Quốc hoa của Việt Nam thường được nhắc tới là hoa sen."},
+      {k:"vn",t:"Cố đô Huế là di sản thế giới của UNESCO."},
+      {k:"vn",t:"Phố cổ Hội An cũng là di sản thế giới của UNESCO."},
+      {k:"vn",t:"Cà phê trứng là thức uống bắt nguồn từ Hà Nội."},
+      {k:"vn",t:"Hà Nội có Hồ Gươm gắn với truyền thuyết rùa thần."},
+      {k:"vn",t:"Bánh mì Việt Nam đã được từ điển Oxford ghi nhận."},
+      {k:"history",t:"Kim tự tháp Giza được xây cách đây khoảng 4.500 năm."},
+      {k:"history",t:"Gutenberg phát minh máy in chữ rời vào khoảng năm 1440."},
+      {k:"history",t:"Thế chiến thứ hai kết thúc vào năm 1945."},
+      {k:"history",t:"Đế chế Mông Cổ từng là đế chế liền kề lớn nhất lịch sử."},
+      {k:"history",t:"Trận Bạch Đằng năm 1288 là chiến thắng nổi tiếng của quân dân nhà Trần."},
+      {k:"history",t:"Việt Nam tuyên bố độc lập ngày 2 tháng 9 năm 1945."},
+      {k:"history",t:"Người Ai Cập cổ đại đã dùng một dạng giấy làm từ cây cói."},
+      {k:"science",t:"Sấm đến sau chớp vì ánh sáng đi nhanh hơn âm thanh rất nhiều."},
+      {k:"science",t:"Nước đóng băng thì giãn ra nên đá nổi trên nước."},
+      {k:"science",t:"Cầu vồng là kết quả của ánh sáng bị khúc xạ và phản xạ trong giọt nước."},
+      {k:"science",t:"Giọt mưa không có hình giọt nước như hay vẽ mà gần giống chiếc bánh bao."},
+      {k:"science",t:"Độ không tuyệt đối là khoảng âm 273,15 độ C."},
+      {k:"science",t:"Muối ăn là hợp chất của natri và clo."},
+      {k:"science",t:"Tiếng vang xảy ra khi sóng âm phản xạ lại từ vật cản."},
+      {k:"food",t:"Dưa hấu có hơn 90% là nước."},
+      {k:"food",t:"Trà là đồ uống được dùng nhiều thứ hai thế giới sau nước."},
+      {k:"food",t:"Pizza hiện đại bắt nguồn từ thành phố Naples của Ý."},
+      {k:"food",t:"Sushi ban đầu là cách bảo quản cá bằng cơm lên men."},
+      {k:"food",t:"Hạt vani là một trong những gia vị đắt nhất thế giới."},
+      {k:"food",t:"Sầu riêng được gọi là vua của các loại trái cây ở Đông Nam Á."},
+      {k:"food",t:"Mì ăn liền được phát minh ở Nhật Bản năm 1958."},
+      {k:"geo",t:"Châu Á là châu lục lớn nhất cả về diện tích lẫn dân số."},
+      {k:"geo",t:"Đỉnh Everest cao khoảng 8.849 m."},
+      {k:"geo",t:"Úc vừa là một quốc gia vừa là một lục địa."},
+      {k:"geo",t:"Thái Bình Dương là đại dương lớn nhất thế giới."},
+      {k:"geo",t:"Biển Chết là điểm thấp nhất trên đất liền."},
+      {k:"geo",t:"Nhật Bản có hơn 6.800 hòn đảo."},
+      {k:"geo",t:"Trung Quốc dùng một múi giờ duy nhất dù lãnh thổ rất rộng."},
+      {k:"geo",t:"Maldives là quốc gia thấp nhất thế giới so với mực nước biển."},
+      {k:"math",t:"Số 1 không phải số nguyên tố."},
+      {k:"math",t:"Số 2 là số nguyên tố chẵn duy nhất."},
+      {k:"math",t:"Tổng các góc trong một tam giác bằng 180 độ."},
+      {k:"math",t:"Một googol là số 1 theo sau bởi 100 số 0."},
+      {k:"math",t:"Hình tròn có vô số trục đối xứng."},
+      {k:"math",t:"Dãy số Fibonacci xuất hiện trong cách sắp xếp của nhiều loài hoa."},
+      {k:"lang",t:"Chữ cái được dùng nhiều nhất trong tiếng Anh là chữ E."},
+      {k:"lang",t:"Từ mama gần giống nhau ở rất nhiều ngôn ngữ trên thế giới."},
+      {k:"lang",t:"Tiếng Tây Ban Nha có hơn 400 triệu người nói tiếng mẹ đẻ."},
+      {k:"lang",t:"Chữ Hán đã được dùng hàng nghìn năm."},
+      {k:"lang",t:"Tiếng Anh vay mượn từ vựng của rất nhiều ngôn ngữ khác."},
+      {k:"game",t:"Tennis for Two năm 1958 là một trong những trò chơi điện tử sớm nhất."},
+      {k:"game",t:"Link trong The Legend of Zelda không phải là Zelda."},
+      {k:"game",t:"Minecraft do Markus Persson tạo ra và có bản đầu năm 2009."},
+      {k:"game",t:"NPC là viết tắt của Non-Player Character, nhân vật không do người chơi điều khiển."},
+      {k:"game",t:"Easter egg trong game là thứ bí mật do nhà làm game giấu sẵn."},
+      {k:"game",t:"Nhiều giải đấu game có tổng giải thưởng hàng chục triệu đô la."},
+      {k:"music",t:"Guitar thường có 6 dây, bass thường có 4 dây."},
+      {k:"music",t:"Nghe nhạc có thể khiến cơ thể tiết ra dopamine."},
+      {k:"music",t:"Đàn bầu là nhạc cụ một dây độc đáo của Việt Nam."},
+      {k:"music",t:"Một octave có 12 nửa cung."},
+      {k:"music",t:"Thang âm phương Tây có bảy nốt chính."},
+      {k:"sport",t:"Bóng đá là môn thể thao phổ biến nhất thế giới."},
+      {k:"sport",t:"Thế vận hội hiện đại đầu tiên diễn ra tại Athens năm 1896."},
+      {k:"sport",t:"Quả bóng bàn chỉ nặng khoảng 2,7 gam."},
+      {k:"sport",t:"Usain Bolt giữ kỷ lục chạy 100 m với 9,58 giây."},
+      {k:"sport",t:"Tennis tính điểm theo kiểu 15, 30, 40."},
+      {k:"culture",t:"Tết Nguyên Đán là dịp lễ lớn nhất trong năm của người Việt."},
+      {k:"culture",t:"Áo dài được xem là trang phục truyền thống của Việt Nam."},
+      {k:"culture",t:"Origami là nghệ thuật gấp giấy của Nhật Bản."},
+      {k:"culture",t:"Truyện tranh Nhật gọi là manga, Hàn Quốc là manhwa, Trung Quốc là manhua."},
+      {k:"culture",t:"Phim hoạt hình Nhật Bản gọi là anime."},
+      {k:"space",t:"Một ngày trên Mặt Trăng dài bằng khoảng 29,5 ngày Trái Đất."},
+      {k:"space",t:"Tàu vũ trụ Parker đã bay rất gần Mặt Trời hơn bất kỳ vật thể nhân tạo nào."},
+      {k:"space",t:"Trạm vũ trụ quốc tế bay quanh Trái Đất khoảng 16 vòng mỗi ngày."},
+      {k:"space",t:"Phi hành gia có thể cao thêm vài cm khi ở trong không gian do cột sống giãn ra."},
+      {k:"space",t:"Sao chổi có đuôi luôn hướng ra xa Mặt Trời."},
+      {k:"space",t:"Sao Thổ có hơn 100 mặt trăng đã được xác nhận."},
+      {k:"space",t:"Hố đen không phải là cái lỗ mà là vùng không gian có trọng lực cực mạnh."},
+      {k:"space",t:"Mặt Trời sẽ cháy thêm khoảng 5 tỉ năm nữa."},
+      {k:"nature",t:"Rùa có thể sống hơn 100 năm."},
+      {k:"nature",t:"Cá mập không có xương mà chỉ có sụn."},
+      {k:"nature",t:"Bướm nếm vị bằng chân."},
+      {k:"nature",t:"Con cá heo gọi nhau bằng những tiếng huýt riêng giống như tên."},
+      {k:"nature",t:"Cây xương rồng lưu trữ nước trong thân."},
+      {k:"nature",t:"Sâu bọ chiếm số lượng loài nhiều nhất trong giới động vật."},
+      {k:"nature",t:"Linh cẩu cười thật ra là cách chúng giao tiếp."},
+      {k:"nature",t:"Hoa hướng dương xoay theo hướng Mặt Trời khi còn non."},
+      {k:"nature",t:"Chuột túi con sinh ra chỉ to bằng hạt đậu."},
+      {k:"nature",t:"Khỉ đột có vân tay riêng giống con người."},
+      {k:"nature",t:"Gà có thể nhớ khuôn mặt của hơn 100 con gà khác."},
+      {k:"nature",t:"Chim cánh cụt hoàng đế ấp trứng trên chân suốt mùa đông."},
+      {k:"body",t:"Cơ thể người có khoảng 37 nghìn tỉ tế bào."},
+      {k:"body",t:"Tóc mọc trung bình khoảng 1 cm mỗi tháng."},
+      {k:"body",t:"Mỗi người có khoảng 5 triệu nang tóc."},
+      {k:"body",t:"Gan có khả năng tự tái sinh sau khi bị tổn thương."},
+      {k:"body",t:"Mũi người có thể phân biệt hàng nghìn mùi khác nhau."},
+      {k:"body",t:"Giấc mơ thường diễn ra nhiều nhất ở giai đoạn ngủ REM."},
+      {k:"body",t:"Một cái chớp mắt chỉ kéo dài khoảng một phần mười giây."},
+      {k:"body",t:"Da là cơ quan lớn nhất của cơ thể người."},
+      {k:"tech",t:"Từ pixel là cách nói ngắn của picture element."},
+      {k:"tech",t:"Bitcoin được giới thiệu năm 2009."},
+      {k:"tech",t:"Một byte gồm 8 bit."},
+      {k:"tech",t:"YouTube ra đời năm 2005."},
+      {k:"tech",t:"Chữ Wi-Fi và Bluetooth đều là tên thương mại."},
+      {k:"tech",t:"Mã nguồn mở nghĩa là bất kỳ ai cũng có thể xem và đóng góp mã."},
+      {k:"tech",t:"HTML là ngôn ngữ đánh dấu chứ không phải ngôn ngữ lập trình."},
+      {k:"tech",t:"Ngôn ngữ lập trình Python được đặt tên theo nhóm hài Monty Python."},
+      {k:"tech",t:"JavaScript được viết ra chỉ trong khoảng 10 ngày vào năm 1995."},
+      {k:"tech",t:"Hầu hết các trang web đều dùng HTTPS để mã hoá dữ liệu."},
+      {k:"vn",t:"Hang Én ở Quảng Bình nằm trong nhóm hang lớn nhất thế giới."},
+      {k:"vn",t:"Sapa nổi tiếng với ruộng bậc thang và thỉnh thoảng có tuyết."},
+      {k:"vn",t:"Phú Quốc là đảo lớn nhất Việt Nam."},
+      {k:"vn",t:"Việt Nam có hơn 100 triệu dân."},
+      {k:"vn",t:"Cờ đỏ sao vàng là quốc kỳ của Việt Nam."},
+      {k:"vn",t:"Nón lá là biểu tượng quen thuộc của người phụ nữ Việt."},
+      {k:"vn",t:"Chợ nổi Cái Răng ở Cần Thơ nổi tiếng ở miền Tây."},
+      {k:"vn",t:"Bún chả và bún đậu mắm tôm là những món gắn với miền Bắc."},
+      {k:"vn",t:"Hải Phòng nổi tiếng với bánh đa cua."},
+      {k:"history",t:"Tượng Nữ thần Tự do là món quà của nước Pháp tặng nước Mỹ."},
+      {k:"history",t:"Người Hy Lạp cổ đại là những người đầu tiên tổ chức bầu cử dân chủ."},
+      {k:"history",t:"Cuộc cách mạng công nghiệp bắt đầu ở nước Anh vào thế kỷ 18."},
+      {k:"history",t:"Thành cổ Angkor Wat ở Campuchia là công trình tôn giáo lớn nhất thế giới."},
+      {k:"history",t:"Lịch hiện nay dùng phổ biến là lịch Gregory ra đời năm 1582."},
+      {k:"history",t:"Hoàng thành Thăng Long là di sản thế giới của UNESCO."},
+      {k:"history",t:"Tàu Apollo 11 hạ cánh xuống Mặt Trăng ngày 20 tháng 7 năm 1969."},
+      {k:"history",t:"Trống đồng Đông Sơn là biểu tượng của nền văn hoá cổ Việt Nam."},
+      {k:"science",t:"Ánh sáng trắng có thể tách ra thành bảy màu qua lăng kính."},
+      {k:"science",t:"Một mét vuông bề mặt Trái Đất chịu sức nén khí quyển rất lớn mà ta không cảm thấy."},
+      {k:"science",t:"Trái Đất quay một vòng quanh trục trong khoảng 24 giờ."},
+      {k:"science",t:"Hạt nhân nguyên tử nhỏ hơn nguyên tử hàng chục nghìn lần."},
+      {k:"science",t:"Vàng không bị gỉ."},
+      {k:"science",t:"Âm thanh không truyền được trong chân không."},
+      {k:"science",t:"Axit và bazơ có thể được nhận biết bằng giấy quỳ."},
+      {k:"science",t:"Thời gian trôi chậm hơn một chút ở nơi có trọng lực mạnh hơn."},
+      {k:"food",t:"Mật ong và dừa được người ta dùng làm nguyên liệu cho nhiều món Việt."},
+      {k:"food",t:"Bơ là một loại quả chứ không phải rau."},
+      {k:"food",t:"Cà phê phin là cách pha cà phê đặc trưng của Việt Nam."},
+      {k:"food",t:"Kem ốc quế xuất hiện phổ biến từ đầu thế kỷ 20."},
+      {k:"food",t:"Bánh chưng là món truyền thống trong ngày Tết của người Việt."},
+      {k:"food",t:"Hạt chia và hạt lanh chứa nhiều chất xơ."},
+      {k:"food",t:"Chuối là loại quả được xuất khẩu nhiều bậc nhất thế giới."},
+      {k:"food",t:"Rau muống là loại rau quen thuộc trong bữa cơm Việt."},
+      {k:"geo",t:"Dãy Himalaya có nhiều đỉnh cao nhất thế giới."},
+      {k:"geo",t:"Sa mạc Sahara rộng gần bằng nước Mỹ."},
+      {k:"geo",t:"Hồ Victoria là hồ lớn nhất châu Phi."},
+      {k:"geo",t:"Singapore là một quốc đảo và là thành phố."},
+      {k:"geo",t:"Thụy Sĩ nổi tiếng với dãy Alps."},
+      {k:"geo",t:"Biển Đông là vùng biển lớn nằm sát Việt Nam."},
+      {k:"geo",t:"Thái Lan có tên cũ là Xiêm."},
+      {k:"geo",t:"Kênh đào Panama nối Đại Tây Dương với Thái Bình Dương."},
+      {k:"math",t:"Số 0 được xem là một trong những phát minh toán học quan trọng."},
+      {k:"math",t:"Một hình vuông có 4 trục đối xứng."},
+      {k:"math",t:"Số nguyên tố có vô hạn."},
+      {k:"math",t:"Một tam giác đều có ba góc bằng nhau."},
+      {k:"math",t:"Số thập phân vô hạn tuần hoàn luôn viết được thành phân số."},
+      {k:"math",t:"Chữ số 7 thường được nhiều người chọn là số may mắn."},
+      {k:"lang",t:"Dấu @ thường được đọc là a còng trong tiếng Việt."},
+      {k:"lang",t:"Ngôn ngữ ký hiệu khác nhau ở từng quốc gia."},
+      {k:"lang",t:"Tiếng Việt có nhiều từ mượn gốc Hán."},
+      {k:"lang",t:"Từ cà phê trong tiếng Việt mượn từ tiếng Pháp."},
+      {k:"lang",t:"Từ ba lô trong tiếng Việt mượn từ tiếng Pháp."},
+      {k:"lang",t:"Từ ô tô trong tiếng Việt mượn từ tiếng Pháp."},
+      {k:"game",t:"Một số game thủ chuyên nghiệp tập luyện nhiều giờ mỗi ngày."},
+      {k:"game",t:"Game nhập vai thường có hệ thống cấp độ và kỹ năng."},
+      {k:"game",t:"Từ boss trong game nghĩa là kẻ địch mạnh ở cuối màn."},
+      {k:"game",t:"Game roguelike nổi tiếng với việc mỗi lần chơi là một hành trình khác nhau."},
+      {k:"game",t:"Mod là bản chỉnh sửa do cộng đồng tạo ra cho game gốc."},
+      {k:"game",t:"Từ việt hoá game nghĩa là chuyển lời thoại của game sang tiếng Việt."},
+      {k:"game",t:"Game sandbox cho người chơi tự do sáng tạo thế giới."},
+      {k:"music",t:"Nhạc lo-fi thường có tiếng rè nhẹ cố tình giống đĩa than cũ."},
+      {k:"music",t:"Một bản nhạc thường được chia thành các ô nhịp."},
+      {k:"music",t:"Tempo là tốc độ của bản nhạc."},
+      {k:"music",t:"Tiếng sáo trúc là nhạc cụ dân gian quen thuộc."},
+      {k:"music",t:"Ca sĩ có thể giữ nốt cao nhờ luyện hơi."},
+      {k:"music",t:"Khi nghe nhạc quen thuộc, nhiều người cảm thấy thoải mái hơn."},
+      {k:"sport",t:"Cầu lông là một trong những môn phổ biến nhất ở châu Á."},
+      {k:"sport",t:"Cờ vua có 64 ô trên bàn cờ."},
+      {k:"sport",t:"Một trận bóng rổ chuyên nghiệp có bốn hiệp."},
+      {k:"sport",t:"Bơi lội là môn tập toàn thân rất tốt."},
+      {k:"sport",t:"Việt Nam từng vô địch AFF Cup nhiều lần."},
+      {k:"sport",t:"Marathon được đặt tên theo trận chiến Marathon của Hy Lạp cổ."},
+      {k:"culture",t:"Tết Trung thu còn được gọi là Tết của trẻ em ở Việt Nam."},
+      {k:"culture",t:"Truyện Kiều là tác phẩm kinh điển của Nguyễn Du."},
+      {k:"culture",t:"Ca trù là loại hình nghệ thuật truyền thống của Việt Nam."},
+      {k:"culture",t:"Múa rối nước là nét văn hoá đặc sắc của đồng bằng Bắc Bộ."},
+      {k:"culture",t:"Dân ca quan họ Bắc Ninh được UNESCO ghi danh."},
+      {k:"culture",t:"Mỗi vùng ở Việt Nam đều có món ăn đặc trưng riêng."}
     ];
-    var FFC={space:['Vũ trụ','Space'],nature:['Thiên nhiên','Nature'],body:['Cơ thể','Body'],tech:['Công nghệ','Tech'],vn:['Việt Nam','Vietnam'],life:['Đời sống','Life']};
+    var FFC={space:['Vũ trụ','Space'],nature:['Thiên nhiên','Nature'],body:['Cơ thể','Body'],tech:['Công nghệ','Tech'],vn:['Việt Nam','Vietnam'],life:['Đời sống','Life'],history:['Lịch sử','History'],science:['Khoa học','Science'],food:['Ẩm thực','Food'],geo:['Địa lý','Geography'],math:['Toán học','Math'],lang:['Ngôn ngữ','Language'],game:['Game','Games'],music:['Âm nhạc','Music'],sport:['Thể thao','Sports'],culture:['Văn hoá','Culture']};
     var ffs=document.getElementById('ffs'),ffCat='all',ffView=false,ffCur=null,ffSeen={};
     FUNFACTS.forEach(function(f,i){f.i=i});
     try{ffSeen=JSON.parse(localStorage.getItem('ffseen')||'{}')||{}}catch(e){ffSeen={}}
@@ -3635,7 +3992,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     });
     ffRender();document.addEventListener('langchange',ffRender);
     /* danh hiệu xoay vòng dưới tên */
-    var TT=[['Game thủ kiêm dịch giả','Gamer and translator'],['Chúa tể thức khuya','Lord of late nights'],['Dịch giả không lương','Unpaid translator'],['Chiến thần Lee Sin','Lee Sin enjoyer'],['Nhà sưu tầm game chưa chơi','Collector of unplayed games'],['Thợ việt hoá cần mẫn','Diligent localizer']],ti=0,tb=document.querySelector('.ptitle b');
+    var TT=[['Game thủ kiêm dịch giả','Gamer and translator'],['Chúa tể thức khuya','Lord of late nights'],['Dịch giả không lương','Unpaid translator'],['Nhà sưu tầm game chưa chơi','Collector of unplayed games'],['Thợ việt hoá cần mẫn','Diligent localizer']],ti=0,tb=document.querySelector('.ptitle b');
     function tset(){if(tb)tb.textContent=TT[ti][(typeof LANG!=='undefined'&&LANG==='en')?1:0]}
     if(tb&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&document.documentElement.getAttribute('data-motion')!=='off'){
       setInterval(function(){if(document.hidden)return;ti=(ti+1)%TT.length;tb.style.opacity=0;setTimeout(function(){tset();tb.style.opacity=''},250)},4000);
@@ -3774,27 +4131,20 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     {t:"Góc chơi có test bàn phím, test chuột, test tốc độ gõ chữ và combo.",h:"#lab"},
     {t:"Gõ / hoặc Ctrl + K để tìm nhanh trong trang.",h:"#hero"},
     {t:"Bấm phím T để đổi giao diện sáng hoặc tối.",h:"#hero"},
-    {t:"Trang này cố tình để tối, ít màu, ít chữ, giống cách tôi thích dọn bàn làm việc.",h:"#intro"},
     {t:"Bấm phím M để tắt hoặc bật toàn bộ hiệu ứng của trang.",h:"#hero"},
     {t:"Bấm phím H để về đầu trang thật nhanh.",h:"#hero"},
     {t:"Trang không bao giờ tự phát nhạc. Bấm phím P hoặc nút nhạc thì mới nghe.",h:"#hero"},
-    {t:"Bấm phím F để xem số khung hình mỗi giây của các hiệu ứng trên trang.",h:"#hero"},
     {t:"Trang có thể đổi giữa tiếng Việt và tiếng Anh ngay trên thanh menu.",h:"#hero"},
     {t:"Các ô ở Nhật ký tự sáng lên mỗi ngày bạn ghé trang, không cần bấm gì cả.",h:"#log"},
     {t:"Ảnh ở mục Vài tấm ảnh xoay được theo bốn kiểu: Helix, Barrel, Ring và Sphere.",h:"#photos"},
-    {t:"Khung ảnh 3D xoay chậm 0.25x theo mặc định, chỉnh được tới 3x.",h:"#photos"},
     {t:"Trình phát nhạc nền của trang có cả lời bài hát.",h:"#hero"},
     {t:"Thẻ Discord ở mục Ngay lúc này có tab Hoạt động, hiện cả lịch sử hoạt động đã ghi lại.",h:"#live"},
     {t:"Mưa, tuyết hay nắng chói trên trang chạy theo thời tiết thật nơi tôi ở.",h:"#hero"},
     {t:"Đồng hồ ở đầu trang chạy theo giờ thật ở chỗ tôi.",h:"#hero"},
     {t:"Mấy con thú ASCII chạy quanh trang mặc định đang tắt, bấm nút hình dấu chân để gọi chúng ra.",h:"#hero"},
-    {t:"Chữ giải mã dần và ảnh vỡ thành khối pixel rồi gộp lại là hiệu ứng ASCII của trang.",h:"#intro"},
-    {t:"Hiệu ứng chỉ chạy khi phần đó đang nằm trên màn hình, rời đi là tạm dừng cho đỡ nóng máy.",h:"#hero"},
-    {t:"Máy yếu hoặc bật chế độ giảm chuyển động thì trang tự tắt hiệu ứng.",h:"#hero"},
     {t:"Bản đồ cuối trang chỉ hiện thành phố, không hiện địa chỉ cụ thể.",h:"#map"},
     {t:"Mục Nghệ sĩ cho bấm vào từng người để xem vì sao tôi thích và vài bài hát của họ.",h:"#idol"},
-    {t:"Mục Playlist có những playlist tôi chia sẻ để bạn mở nghe luôn.",h:"#playlist"},
-    {t:"Cả trang này nằm trong một file index.html dài hơn năm nghìn dòng.",h:"#log"}
+    {t:"Mục Playlist có những playlist tôi chia sẻ để bạn mở nghe luôn.",h:"#playlist"}
   ];
   Object.assign(EN,{"Bấm phím M để tắt hoặc bật toàn bộ hiệu ứng của trang.":"Press M to turn all of the page's effects off or on.", "Bấm phím H để về đầu trang thật nhanh.":"Press H to jump back to the top of the page.", "Trang không bao giờ tự phát nhạc. Bấm phím P hoặc nút nhạc thì mới nghe.":"The page never plays music by itself. Press P or the music button to listen.", "Bấm phím F để xem số khung hình mỗi giây của các hiệu ứng trên trang.":"Press F to see the frames per second of the page's effects.", "Trang có thể đổi giữa tiếng Việt và tiếng Anh ngay trên thanh menu.":"You can switch the page between Vietnamese and English from the menu bar.", "Các ô ở Nhật ký tự sáng lên mỗi ngày bạn ghé trang, không cần bấm gì cả.":"The squares in the Log light up on their own each day you visit, no clicking needed.", "Ảnh ở mục Vài tấm ảnh xoay được theo bốn kiểu: Helix, Barrel, Ring và Sphere.":"The photos can spin in four layouts: Helix, Barrel, Ring and Sphere.", "Khung ảnh 3D xoay chậm 0.25x theo mặc định, chỉnh được tới 3x.":"The 3D photo gallery spins at 0.25x by default, adjustable up to 3x.", "Trình phát nhạc nền của trang có cả lời bài hát.":"The page's music player shows song lyrics too.", "Thẻ Discord ở mục Ngay lúc này có tab Hoạt động, hiện cả lịch sử hoạt động đã ghi lại.":"The Discord card in Right now has an Activity tab that also shows the recorded activity history.", "Mưa, tuyết hay nắng chói trên trang chạy theo thời tiết thật nơi tôi ở.":"Rain, snow or bright sun on the page follows the real weather where I live.", "Đồng hồ ở đầu trang chạy theo giờ thật ở chỗ tôi.":"The clock at the top shows the real time where I am.", "Mấy con thú ASCII chạy quanh trang mặc định đang tắt, bấm nút hình dấu chân để gọi chúng ra.":"The ASCII animals that roam the page are off by default. Press the paw button to call them out.", "Chữ giải mã dần và ảnh vỡ thành khối pixel rồi gộp lại là hiệu ứng ASCII của trang.":"Text that decodes bit by bit and photos that break into pixel blocks and merge back are the page's ASCII effect.", "Hiệu ứng chỉ chạy khi phần đó đang nằm trên màn hình, rời đi là tạm dừng cho đỡ nóng máy.":"Effects only run while their part is on screen; they pause when you scroll away to save your device.", "Máy yếu hoặc bật chế độ giảm chuyển động thì trang tự tắt hiệu ứng.":"On weak devices or with reduced motion on, the page turns its effects off by itself.", "Bản đồ cuối trang chỉ hiện thành phố, không hiện địa chỉ cụ thể.":"The map at the bottom shows only the city, not a specific address.", "Mục Nghệ sĩ cho bấm vào từng người để xem vì sao tôi thích và vài bài hát của họ.":"In Artists, click each one to see why I like them and a few of their songs.", "Mục Playlist có những playlist tôi chia sẻ để bạn mở nghe luôn.":"The Playlist section has playlists I share so you can open and listen right away.", "Cả trang này nằm trong một file index.html dài hơn năm nghìn dòng.":"This whole page lives in a single index.html file of more than five thousand lines."});
   Object.assign(EN,{"Câu nói dối phổ biến nhất của game thủ: \"chỉ một trận nữa thôi\".": "The most common lie a gamer tells: \"just one more match\".", "Lag không bao giờ đến lúc đang đi dạo, nó chỉ đến đúng lúc giao tranh.": "Lag never shows up while you're just walking around, only in the middle of a fight.", "Thắng là nhờ kỹ năng, thua là do lag. Luật bất thành văn của game thủ.": "Winning is skill, losing is lag. The unwritten rule of every gamer.", "Game nào cũng vậy: nhặt đầy túi đồ rồi vẫn tiếc không dám bỏ món nào.": "Every game: your bag is full and you still can't bring yourself to drop anything.", "Cái hay của game nhập vai là được làm một người khác trong một buổi tối.": "The best thing about RPGs is getting to be someone else for an evening.", "Con boss nào cũng có quy luật, chỉ là mình chưa nhìn ra thôi.": "Every boss has a pattern, you just haven't spotted it yet.", "Nút \"bỏ qua cắt cảnh\" là phát minh vĩ đại, cho tới lúc cần hiểu cốt truyện.": "The \"skip cutscene\" button is a great invention, right up until you need to understand the plot.", "Dịch xong câu nào cũng thấy chưa ổn, còn câu ổn rồi thì chẳng ai để ý.": "Every line feels not quite right once translated, and the ones that are right go unnoticed.", "Dịch game là nghề lạ: làm tốt thì vô hình, làm dở thì cả server biết.": "Game translation is a strange job: done well it's invisible, done badly the whole server knows.", "Có từ tiếng Anh dịch ra nghe lạ hơn là để nguyên, và đó là lúc đau đầu nhất.": "Some English words sound stranger translated than left alone, and that's when the headache starts.", "Sai một dấu câu trong bản dịch cũng đủ làm cả đoạn thoại mất cảm xúc.": "One wrong punctuation mark in a translation can drain all the emotion from a scene.", "Người góp ý sửa bản dịch là người đọc kỹ nhất mà mình từng có.": "Whoever sends corrections for a translation is the most careful reader you'll ever have.", "Nhạc không lời là lựa chọn an toàn nhất khi cần tập trung.": "Music without lyrics is the safest pick when you need to focus.", "Bài nào nghe đi nghe lại cả tuần rồi cũng có ngày chán, rồi vài tháng sau lại nghiện.": "Any song on repeat for a week gets old, then months later you're hooked again.", "Có những bài chỉ cần nghe vài giây đầu là nhớ ra đúng một khoảng thời gian.": "Some songs only need a few seconds to bring back one exact stretch of time.", "Đọc truyện kiểu \"thêm một chương\" và xong là hai giờ sáng.": "Reading \"just one more chapter\" and suddenly it's two in the morning.", "Tập cuối của một bộ truyện hay luôn đến sớm hơn mình nghĩ.": "The last chapter of a good series always arrives sooner than you expect.", "Lỗi biến mất khi mở dev tools, rồi quay lại ngay khi đóng nó.": "The bug disappears when you open dev tools and comes back the moment you close them.", "Bấm F5 là cách sửa lỗi đầu tiên, và đôi khi cũng là cách cuối cùng.": "Pressing F5 is the first fix, and sometimes the last.", "Cả trang này nằm trong một file index.html, và nó đã dài hơn ba nghìn dòng.": "This whole page lives in a single index.html, and it's now over three thousand lines.", "Comment trong code là viết cho chính mình sáu tháng sau, người sẽ chẳng nhớ gì.": "Code comments are written for yourself six months from now, who will remember nothing.", "Việc nào làm xong rồi mới thấy dễ, trước đó ai cũng thấy khó.": "Everything feels easy once it's done, and hard before that.", "Đừng so bản nháp của mình với bản hoàn chỉnh của người khác.": "Don't compare your rough draft to someone else's finished version.", "Chậm nhưng không dừng thì vẫn là tiến độ.": "Slow but not stopping is still progress.", "Nghỉ một chút không phải lười, máy tính cũng cần khởi động lại.": "Taking a break isn't laziness, even computers need a restart.", "Nước, giấc ngủ và một bài nhạc hay: ba thứ sửa được hầu hết những hôm tệ.": "Water, sleep and a good song: three things that fix most bad days.", "Mục điểm danh ở Nhật ký đếm chuỗi ngày ghé trang của riêng bạn, lưu ngay trong trình duyệt.": "The check-in in the Log counts your own streak of visits, saved right in your browser."});
@@ -5736,5 +6086,79 @@ var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.cla
 /* mặc định TẮT (offscr) ngay từ đầu, chỉ khi nào lọt vào màn hình mới gỡ ra cho chạy */
 document.querySelectorAll('main section,.band,.gbar,footer,.clk,.gsk,.g3d,.bye').forEach(function(n){n.classList.add('offscr');io.observe(n)});
 })();</script>
+<script>(function(){
+function en(){return (window.LANG||document.documentElement.lang)==='en'}
+/* nút < > trên thanh đầu */
+var n=document.querySelector('.navx nav'),p=document.querySelector('.nvb.prev'),x=document.querySelector('.nvb.next');
+if(n&&p&&x){
+ var u=function(){p.disabled=n.scrollLeft<4;x.disabled=n.scrollLeft+n.clientWidth>=n.scrollWidth-4};
+ var go=function(d){n.scrollBy({left:d*Math.max(120,n.clientWidth*.7),behavior:'smooth'})};
+ p.addEventListener('click',function(){go(-1)});x.addEventListener('click',function(){go(1)});
+ n.addEventListener('scroll',u,{passive:true});addEventListener('resize',u);addEventListener('load',u);u();setTimeout(u,500);
+}
+/* ẩn/hiện khung giờ thời khoá biểu */
+var tb=document.getElementById('tkbfold'),tl=document.getElementById('tkblist'),tc=document.getElementById('tkbcap'),hid=false;
+try{hid=localStorage.getItem('tkbfold')==='1'}catch(e){}
+function tk(){if(!tb||!tl)return;tl.hidden=hid;tb.setAttribute('aria-expanded',String(!hid));tb.textContent=hid?(en()?'Show time slots':'Hiện các khung giờ'):(en()?'Hide time slots':'Ẩn các khung giờ')}
+if(tb){tb.addEventListener('click',function(){hid=!hid;try{localStorage.setItem('tkbfold',hid?'1':'0')}catch(e){}window.__fold([tl],!hid,tk)});tk()}
+/* thu gọn nhật ký */
+var lb=document.getElementById('logfold'),ll=document.getElementById('logl');
+function lg(){if(!lb||!ll)return;var f=ll.classList.contains('fold'),c=ll.children.length-3;lb.setAttribute('aria-expanded',String(!f));lb.textContent=f?(en()?'Show '+c+' older entries':'Xem thêm '+c+' mục cũ hơn'):(en()?'Collapse':'Thu gọn')}
+if(lb){lb.addEventListener('click',function(){var f=ll.classList.contains('fold'),x=[].slice.call(ll.children).slice(3);window.__fold(x,f,function(){ll.classList.toggle('fold');lg()})});lg()}
+document.addEventListener('langchange',function(){tk();lg()});
+})();</script>
+<script>(function(){
+function en(){return (window.LANG||document.documentElement.lang)==='en'}
+var bb=document.getElementById('bdfold'),bl=document.getElementById('pbl'),bh=false;
+function bd(){if(!bb||!bl)return;bl.hidden=bh;bb.setAttribute('aria-expanded',String(!bh));bb.textContent=bh?(en()?'Show badges':'Hiện huy hiệu'):(en()?'Hide badges':'Ẩn huy hiệu')}
+if(bb){bb.addEventListener('click',function(){bh=!bh;window.__fold([bl],!bh,bd)});bd()}
+var secs=[].slice.call(document.querySelectorAll('main section.s'));
+secs.forEach(function(s){
+ var ey=s.querySelector('.eyebrow'),w=s.querySelector('.wrap');if(!ey||!w)return;
+ var h=ey;while(h.parentNode&&h.parentNode!==w)h=h.parentNode;
+ if(h.parentNode!==w)return;h.classList.add('sxh');
+ var b=document.createElement('button');b.type='button';b.className='sx';b.textContent='›';
+ function lab(){var c=s.classList.contains('cl');b.classList.toggle('sxo',!c);b.setAttribute('aria-expanded',String(!c));var l=c?(en()?'Expand section':'Mở mục này'):(en()?'Collapse section':'Ẩn mục này');b.title=l;b.setAttribute('aria-label',l)}
+ b.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();var op=s.classList.contains('cl'),tg=[].slice.call(s.children).filter(function(c){return c!==w}).concat([].slice.call(w.children).filter(function(c){return c!==h}));b.classList.toggle('sxo',op);window.__fold(tg,op,function(){s.classList.toggle('cl');lab()})});
+ s.__lab=lab;lab();ey.appendChild(b);
+});
+function openH(){var id=location.hash.slice(1),el=id&&document.getElementById(id);if(el&&el.classList&&el.classList.contains('cl')){el.classList.remove('cl');if(el.__lab)el.__lab()}}
+addEventListener('hashchange',openH);openH();
+document.addEventListener('langchange',function(){bd();secs.forEach(function(s){if(s.__lab)s.__lab()})});
+})();</script>
+<script>(function(){
+var bar=document.querySelector('.bar'),b=document.querySelector('.sbt');if(!bar||!b)return;
+function en(){return (window.LANG||document.documentElement.lang)==='en'}
+var c=false;try{c=localStorage.getItem('sbhide')==='1'}catch(e){}
+function ap(){bar.classList.toggle('sbc',c);b.textContent=c?'›':'‹';b.setAttribute('aria-expanded',String(!c));var l=c?(en()?'Show sidebar':'Hiện thanh bên'):(en()?'Hide sidebar':'Ẩn thanh bên');b.title=l;b.setAttribute('aria-label',l)}
+b.addEventListener('click',function(e){e.preventDefault();c=!c;try{localStorage.setItem('sbhide',c?'1':'0')}catch(x){}window.__fold([].slice.call(bar.querySelectorAll('nav a')),!c,ap)});
+document.addEventListener('langchange',ap);ap();
+})();</script>
+<script>/* hiệu ứng ẩn/hiện: trượt chiều cao + mờ dần. Tắt khi bật giảm chuyển động hoặc đã tắt hiệu ứng */
+window.__fold=function(els,show,apply){
+ var R=document.documentElement,rm=matchMedia('(prefers-reduced-motion: reduce)').matches||R.getAttribute('data-motion')==='off';
+ els=(els||[]).filter(Boolean);
+ if(rm||!els.length||!els[0].animate){apply();return}
+ var key=els[0],tok=(key.__ft=(key.__ft||0)+1),D=280,E='cubic-bezier(.2,.8,.2,1)';
+ var z={height:'0px',opacity:0,marginTop:'0px',marginBottom:'0px',paddingTop:'0px',paddingBottom:'0px'};
+ function vis(e){return e.getClientRects().length>0}
+ els.forEach(function(e){e.getAnimations().forEach(function(a){a.cancel()});e.style.overflow=''});
+ if(show){
+  apply();
+  els.forEach(function(e){if(!vis(e))return;var h=e.offsetHeight;e.style.overflow='hidden';
+   var a=e.animate([z,{height:h+'px',opacity:1}],{duration:D,easing:E});
+   var f=function(){e.style.overflow=''};a.onfinish=f;a.oncancel=f})
+ }else{
+  var ps=[];
+  els.forEach(function(e){if(!vis(e))return;var h=e.offsetHeight;e.style.overflow='hidden';
+   var a=e.animate([{height:h+'px',opacity:1},z],{duration:D,easing:E,fill:'forwards'});ps.push(a.finished.catch(function(){}))});
+  Promise.all(ps).then(function(){
+   if(key.__ft!==tok)return;
+   els.forEach(function(e){e.getAnimations().forEach(function(a){a.cancel()});e.style.overflow=''});
+   apply();
+  });
+  if(!ps.length)apply();
+ }
+};</script>
 </body>
 </html>
