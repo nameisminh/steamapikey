@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-25T02:33:29.378Z",
+  "updated": "2026-10-25T10:28:42.844Z",
   "name": "ming",
   "avatar": "https://avatars.steamstatic.com/7d8c1937b7bf439198974eae0be807f4ea8cc2ac_full.jpg",
   "url": "https://steamcommunity.com/profiles/76561199474355109/",
@@ -7,11 +7,11 @@
   "games": 106,
   "badges": 7,
   "achievements": 6468,
-  "hours2w": 171.6,
+  "hours2w": 166.1,
   "recent": [
     {
       "n": "ShareX",
-      "h": 1617.7,
+      "h": 1625.7,
       "id": 400040
     },
     {
@@ -20,19 +20,19 @@
       "id": 3511030
     },
     {
-      "n": "Graveyard Keeper",
-      "h": 0,
-      "id": 599140
+      "n": "Where Winds Meet",
+      "h": 478.9,
+      "id": 3564740
     },
     {
-      "n": "Borderlands 2",
-      "h": 0,
-      "id": 49520
+      "n": "Supermarket Together",
+      "h": 1.6,
+      "id": 2709570
     },
     {
-      "n": "The Forest",
-      "h": 0,
-      "id": 242760
+      "n": "Dead Island Riptide Definitive Edition",
+      "h": 2.1,
+      "id": 383180
     }
   ]
 }
