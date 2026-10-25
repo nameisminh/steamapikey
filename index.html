@@ -177,7 +177,7 @@ function prep(j,er){
   }
   var ims=j.el.querySelectorAll('img');
   for(var z=0;z<ims.length;z++){
-    var im=ims[z];if(im.__ax)continue;if(im.closest('#photos'))continue; /* Vài tấm ảnh: không phủ ASCII vì bị lệch */if(!im.complete||!im.naturalWidth){j.off++;continue}
+    var im=ims[z];if(im.__ax)continue;if(im.closest('#photos,.gsk,#lb')||/\.gif(\?|#|$)/i.test(im.currentSrc||im.src||''))continue; /* gif con: không phủ ASCII */ /* Vài tấm ảnh: không phủ ASCII vì bị lệch */if(!im.complete||!im.naturalWidth){j.off++;continue}
     var ir=im.getBoundingClientRect();if(ir.width<8||ir.height<8)continue;cstamp++;if(hiddenAnc(im.parentElement)||ir.left>=innerWidth||ir.right<=0||!inClip(clipEls(im.parentElement),ir.left,ir.top,ir.right,ir.bottom)||covered(im.parentElement,Math.min(innerWidth-1,Math.max(0,(ir.left+ir.right)/2)),(ir.top+ir.bottom)/2))continue;if(ir.bottom<0||ir.top>H){j.off++;continue}
     var rs2='0',pp=im,zz;for(zz=0;zz<3&&pp&&(parseFloat(rs2)||0)===0;zz++,pp=pp.parentElement)rs2=getComputedStyle(pp).borderTopLeftRadius;
     var rd=rs2.slice(-1)==='%'?Math.min(ir.width,ir.height)*parseFloat(rs2)/100:parseFloat(rs2)||0,d=j.imgs.length*80;
@@ -1895,6 +1895,53 @@ html.ax.js .rv.in .ph img,html.ax .view .ph img{animation:none!important}
 
 /* ảnh luôn hiện đủ màu, không cần di chuột */
 .me img,.hob img,.item img,.gallery img,.detail img,.g3d .ph img,.champ img,.shot img,.idc img,#playlist .th img,.lgph img{filter:none!important}
+
+/* ===== chỉnh gọn (đợt 5) ===== */
+.ring{display:none!important}
+@media (min-width:68rem){
+  .bar nav a.nx{display:none}
+  .bar nav{font-size:.8rem;gap:.7rem}
+  .bar .wrap{flex-wrap:nowrap}
+  .bar .acts{flex-wrap:nowrap;flex:none}
+  .bar .tgl{width:2rem;height:2rem}
+  .bar .tgl svg{width:1rem;height:1rem}
+  .bar .acts>.btn{padding:.4rem .9rem;font-size:.85rem}
+}
+@media (min-width:80rem){
+  .bar.mini nav a.nx{display:block}
+  .bar.mini nav{left:.7rem;gap:0;padding:.35rem .3rem;border-radius:.9rem;font-size:.72rem;max-height:calc(100vh - 5rem);scrollbar-width:none}
+  .bar.mini nav::-webkit-scrollbar{display:none}
+  .bar.mini nav a{padding:.2rem .6rem;border-radius:.45rem;line-height:1.35;background-position:.6rem calc(100% - .12rem)}
+  .bar.mini nav a:hover,.bar.mini nav a.on{background-size:calc(100% - 1.2rem) 1px}
+}
+.cmd{padding-top:10vh}
+.cmdbox{width:min(23rem,100%);border-radius:.8rem}
+.cmdbox input{padding:.65rem .9rem;font-size:.88rem}
+.cmdbox ul{padding:.25rem;max-height:38vh}
+.cmdbox li{padding:.38rem .6rem;font-size:.84rem;border-radius:.5rem;gap:.6rem}
+.cmdbox li small{font-size:.64rem}
+.cmdf{padding:.4rem .8rem;font-size:.64rem;gap:.7rem}
+.ffs{display:block}
+.ffchips{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.9rem}
+.ffchip{padding:.32rem .8rem;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--muted);font:500 .8rem var(--body);cursor:pointer;transition:border-color .2s,color .2s,background .2s}
+.ffchip small{font:400 .68rem var(--mono);opacity:.7;margin-left:.2rem}
+.ffchip:hover{border-color:var(--acc);color:var(--text)}
+.ffchip.on{background:var(--white);color:var(--bg);border-color:var(--white)}
+.ffshow{display:grid;gap:.5rem;align-content:center;justify-items:start;min-height:8rem;padding:1.2rem 1.3rem;border:1px solid var(--line);border-radius:1rem;background:var(--card)}
+.ffshow small{font:400 .7rem var(--mono);color:var(--acc);text-transform:uppercase;letter-spacing:.1em}
+.ffshow p{margin:0;font-size:1.05rem;line-height:1.6}
+.ffshow p.mut,.ffs p.mut{color:var(--muted);font-size:.92rem}
+.ffbar{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-top:.8rem}
+.ffbar .btn{padding:.4rem .9rem;font-size:.84rem}
+.ffbar .btn:disabled{opacity:.45;cursor:not-allowed}
+.ffbar .cnt{margin-left:auto;font:400 .75rem var(--mono);color:var(--muted)}
+.ffrvl{list-style:none;margin:.9rem 0 0;padding:0;display:grid;gap:.5rem}
+.ffrv{display:grid;gap:.15rem;width:100%;text-align:left;padding:.7rem .9rem;border:1px solid var(--line);border-radius:.8rem;background:var(--card);color:var(--text);font:400 .88rem/1.5 var(--body);cursor:pointer;transition:border-color .2s}
+.ffrv:hover{border-color:var(--acc)}
+.ffrv small{font:400 .65rem var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+footer .bye{margin:1.4rem 0 0;padding:1rem}
+footer .bye-t{font-size:1.05rem}
+footer .bye-s{font-size:.82rem;margin-top:.3rem!important}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Ming","inLanguage":"vi","description":"Trang nhỏ để mọi người biết dạo này tôi đang làm gì."}</script>
 </head>
@@ -1925,18 +1972,25 @@ window.__autoLang=function(){
 <header class="bar">
   <i class="prog" aria-hidden="true"></i>
   <div class="wrap">
-    <a class="brand" href="#hero"><i>M</i>Ming</a>
+    <a class="brand" id="brand" href="./" aria-label="Về đầu trang"><i>M</i>Ming</a>
     <nav aria-label="Điều hướng chính">
+      <a class="nx" href="#hero">Profile</a>
       <a href="#links">Liên kết</a>
       <a href="#now">Dạo này</a>
       <a href="#play">Game</a>
       <a href="#mod">Dự án</a>
       <a href="#hobby">Sở thích</a>
       <a href="#idol">Nghệ sĩ</a>
-      <a href="#playlist">Playlist</a>
+      <a class="nx" href="#playlist">Playlist</a>
+      <a class="nx" href="#stats">Số liệu</a>
+      <a class="nx" href="#facts">Sự thật</a>
+      <a class="nx" href="#photos">Ảnh</a>
       <a href="#lab">Góc chơi</a>
       <a href="#log">Nhật ký</a>
-      <a href="#tkb">Lịch học</a>
+      <a href="#tkb">Thời khoá biểu</a>
+      <a class="nx" href="#faq">Hỏi đáp</a>
+      <a class="nx" href="#contact">Liên hệ</a>
+      <a class="nx" href="#map">Bản đồ</a>
     </nav>
     <div class="acts">
       <button class="tgl" id="bgmlist" type="button" aria-label="Mở danh sách nhạc" aria-expanded="false" aria-controls="bgmp" title="Danh sách nhạc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h12M4 12h12M4 18h7"/><path d="M19 8v9"/><circle cx="17" cy="17" r="2"/></svg></button>
@@ -2434,7 +2488,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       <div class="rv">
         <p class="eyebrow ei"><i data-ic="hash"></i><span>Sự thật</span></p>
         <h2>Sự thật thú vị</h2>
-        <p class="lead">Vài điều về cuộc sống và về tôi. Bấm vào thẻ để lật.</p>
+        <p class="lead">Chọn danh mục rồi bấm nút để xem một sự thật. Sự thật đã xem sẽ không hiện lại, muốn xem lại thì bấm Xem lại.</p>
       </div>
       <div class="ffs rv" id="ffs"></div>
     </div>
@@ -2719,10 +2773,9 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
 
 <footer>
   <div class="wrap">
-    <div class="bye rv"><p class="bye-t">Cảm ơn bạn đã ghé qua</p><p class="bye-s">Hẹn gặp lại ở lần cập nhật sau.</p></div>
     <div class="fgrid">
       <div><h4>Ming</h4><p style="margin:0">Một trang nhỏ để ghi lại dạo này tôi đang làm gì.</p></div>
-      <div><h4>Trang</h4><ul><li><a href="#links">Liên kết</a></li><li><a href="#live">Ngay lúc này</a></li><li><a href="#now">Dạo này</a></li><li><a href="#play">Game</a></li><li><a href="#mod">Dự án</a></li><li><a href="#idol">Nghệ sĩ</a></li><li><a href="#playlist">Playlist</a></li><li><a href="#lab">Góc chơi</a></li><li><a href="#log">Nhật ký</a></li><li><a href="#tkb">Thời khoá biểu</a></li><li><a href="#faq">Hỏi đáp</a></li><li><a href="#map">Bản đồ</a></li></ul></div>
+      <div><h4>Trang</h4><ul><li><a href="#links">Liên kết</a></li><li><a href="#live">Ngay lúc này</a></li><li><a href="#now">Dạo này</a></li><li><a href="#play">Game</a></li><li><a href="#mod">Dự án</a></li><li><a href="#idol">Nghệ sĩ</a></li><li><a href="#playlist">Playlist</a></li><li><a href="#lab">Góc chơi</a></li><li><a href="#log">Nhật ký</a></li><li><a href="#tkb">Thời khoá biểu</a></li><li><a href="#stats">Vài con số</a></li><li><a href="#facts">Sự thật</a></li><li><a href="#photos">Ảnh</a></li><li><a href="#faq">Hỏi đáp</a></li><li><a href="#contact">Liên hệ</a></li><li><a href="#map">Bản đồ</a></li></ul></div>
       <div><h4>Kết nối</h4><ul id="fconn"></ul></div>
       <div class="keys"><h4>Phím tắt</h4><ul>
         <li><kbd>T</kbd><span>Đổi giao diện sáng hoặc tối</span></li>
@@ -2735,6 +2788,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       </ul></div>
     </div>
     <div class="copy"><span>© <span id="year">2026</span> Ming</span><span id="visits"></span><span id="upd">Cập nhật lần cuối: 25/10/26</span></div>
+    <div class="bye rv"><p class="bye-t">Cảm ơn bạn đã ghé qua</p><p class="bye-s">Hẹn gặp lại ở lần cập nhật sau.</p></div>
   </div>
 </footer>
 
@@ -2806,7 +2860,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
 
 <div class="cmd" id="cmd" hidden role="dialog" aria-modal="true" aria-label="Tìm nhanh">
   <div class="cmdbox">
-    <input id="cmdq" type="text" placeholder="Gõ để tìm: game, nhạc, nhật ký, đổi giao diện..." autocomplete="off" aria-label="Tìm nhanh">
+    <input id="cmdq" type="text" placeholder="Tìm: game, nhạc, sự thật, bản đồ..." autocomplete="off" aria-label="Tìm nhanh">
     <ul id="cmdl" role="listbox"></ul>
     <div class="cmdf"><span>↑↓ Chọn</span><span>Enter Mở</span><span>Esc Đóng</span></div>
   </div>
@@ -3060,28 +3114,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
   document.addEventListener('pointermove',function(ev){gE=ev;if(gR)return;gR=requestAnimationFrame(function(){gR=0;var e=gE,t=e.target.closest&&e.target.closest('.card,.hob');
     if(t){var r=t.getBoundingClientRect();t.style.setProperty('--x',(e.clientX-r.left)+'px');t.style.setProperty('--y',(e.clientY-r.top)+'px')}})},{passive:true});
 
-  /* vòng tròn đi theo chuột, to ra khi trỏ vào link hoặc nút */
-  if(!calm&&matchMedia('(pointer:fine)').matches&&!document.documentElement.classList.contains('lite')){
-    var ring=document.createElement('div');ring.className='ring';document.body.appendChild(ring);
-    var rx=0,ry=0,mx=0,my=0,on=false,looping=false;
-    function rloop(){
-      if(!on){looping=false;return}
-      looping=true;rx+=(mx-rx)*.18;ry+=(my-ry)*.18;
-      ring.style.transform='translate3d('+rx.toFixed(1)+'px,'+ry.toFixed(1)+'px,0) translate(-50%,-50%)';
-      if(Math.abs(mx-rx)<.3&&Math.abs(my-ry)<.3){looping=false;return}
-      requestAnimationFrame(rloop);
-    }
-    document.addEventListener('pointermove',function(e){
-      if(e.pointerType==='touch')return;
-      mx=e.clientX;my=e.clientY;
-      if(!on){on=true;rx=mx;ry=my;ring.style.opacity=1}
-      if(!looping)rloop();
-      ring.classList.toggle('big',!!(e.target.closest&&e.target.closest('a,button,summary')));
-      var lab=(e.target.closest&&(e.target.closest('.totop')?'Lên':e.target.closest('.hob,.item')?'Xem':''))||'';
-      ring.dataset.l=lab;ring.classList.toggle('lab',!!lab);
-    });
-    document.documentElement.addEventListener('mouseleave',function(){on=false;ring.style.opacity=0});
-  }
+  /* đã bỏ vòng tròn đi theo chuột */
   document.getElementById('year').textContent=new Date().getFullYear();
 
   var items=document.querySelectorAll('.rv');
@@ -3233,7 +3266,19 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){o.unobserve(e.target);fn(e.target)}})},{threshold:thr});
     els.forEach(function(el){o.observe(el)});
   }
-  var SECS=[['hero','Đồng hồ'],['intro','Giới thiệu'],['links','Liên kết'],['live','Ngay lúc này'],['now','Dạo này'],['play','Đang chơi'],['mod','Dự án việt hoá'],['hobby','Sở thích'],['idol','Nghệ sĩ'],['stats','Vài con số'],['facts','Sự thật thú vị'],['lab','Góc chơi'],['photos','Vài tấm ảnh'],['log','Nhật ký'],['tkb','Thời khoá biểu'],['faq','Hỏi đáp'],['contact','Liên hệ']];
+  var SECS=[['hero','Đồng hồ','profile hồ sơ clock'],['intro','Giới thiệu','profile ming avatar'],['links','Liên kết','link social mạng xã hội'],['live','Ngay lúc này','discord status trạng thái'],['now','Dạo này','now'],['play','Đang chơi','game'],['mod','Dự án việt hoá','mod dịch translate'],['hobby','Sở thích','hobby'],['idol','Nghệ sĩ','ca sĩ idol artist'],['playlist','Playlist','nhạc music bài hát'],['stats','Vài con số','số liệu thống kê numbers stats'],['facts','Sự thật thú vị','sự thật facts fun'],['lab','Góc chơi','mini game lab'],['photos','Vài tấm ảnh','ảnh hình photo gallery'],['log','Nhật ký','blog diary'],['tkb','Thời khoá biểu','lịch học tkb schedule timetable'],['faq','Hỏi đáp','faq câu hỏi'],['contact','Liên hệ','contact discord facebook email'],['map','Bản đồ','map địa chỉ vị trí thời tiết weather']];
+  /* bấm tên Ming: đang ở đầu trang thì tải lại, còn không thì cuộn lên đầu (không để lại #hero trên link) */
+  (function(){
+    var br=document.getElementById('brand');if(!br)return;
+    br.addEventListener('click',function(e){
+      if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||e.button)return;
+      e.preventDefault();
+      if(location.hash.indexOf('#/')===0){location.hash='';return}
+      if((window.scrollY||0)<40){location.reload();return}
+      try{history.replaceState(null,'',location.pathname+location.search)}catch(x){}
+      window.scrollTo({top:0,behavior:(typeof calm!=='undefined'&&calm)?'auto':'smooth'});
+    });
+  })();
 
   /* từ xoay vòng ở phần giới thiệu */
   var trk=document.querySelector('.trk');
@@ -3334,23 +3379,24 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
   function norm(t){return String(t).toLowerCase().replace(/đ/g,'d').normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
   function cmdBuild(){
     var L=[];
-    SECS.forEach(function(x){L.push({t:x[1],k:'Mục',h:'#'+x[0]})});
+    SECS.forEach(function(x){L.push({t:x[1],k:'Mục',h:'#'+x[0],w:x[2]||''})});
     Object.keys(DATA).forEach(function(k){
       L.push({t:DATA[k].label,k:DATA[k].kind||'Sở thích',h:'#/'+k});
       DATA[k].items.forEach(function(it){L.push({t:it.t,k:DATA[k].label,h:'#/'+k+'/'+it.id})});
     });
     L.push({t:'Đổi giao diện sáng hoặc tối',k:'Hành động',f:function(){tgl.click()}});
     L.push({t:'Tắt hoặc bật hiệu ứng',k:'Hành động',f:function(){mtn.click()}});
+    L.push({t:'Xem một sự thật ngẫu nhiên',k:'Hành động',w:'fact sự thật',f:function(){var b=document.getElementById('ffrnd');if(b)b.click()}});
     [['Ngẫu nhiên một điều về trang này','rndb'],['Bật hoặc tắt nhạc','bgmq']].forEach(function(a){
       L.push({t:a[0],k:'Hành động',f:function(){document.getElementById(a[1]).click()}});
     });
     L.push({t:'Sao chép link trang này',k:'Hành động',f:function(){copyTxt(location.href,T('Đã sao chép link trang'))}});
     L.push({t:'Lên đầu trang',k:'Hành động',f:function(){window.scrollTo({top:0,behavior:calm?'auto':'smooth'})}});
-    return L.map(function(x){return {t:T(x.t),k:T(x.k),h:x.h,f:x.f}});
+    return L.map(function(x){return {t:T(x.t),k:T(x.k),h:x.h,f:x.f,w:(x.w||'')+' '+x.t+' '+x.k}});
   }
   function cmdRender(){
     var q=norm(cq.value.trim());
-    cItems=cmdBuild().filter(function(x){return !q||norm(x.t+' '+x.k).indexOf(q)>-1}).slice(0,9);
+    cItems=cmdBuild().filter(function(x){return !q||norm(x.t+' '+x.k+' '+x.w).indexOf(q)>-1}).slice(0,7);
     cSel=0;
     cl.innerHTML=cItems.length?cItems.map(function(x,i){return '<li role="option" data-i="'+i+'"'+(i===0?' class="sel"':'')+'><span>'+esc(x.t)+'</span><small>'+esc(x.k)+'</small></li>'}).join(''):'<li><span>'+T('Không tìm thấy gì')+'</span></li>';
   }
@@ -3502,23 +3548,91 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       r();document.addEventListener('langchange',r);
     }
     /* ===== SỰ THẬT THÚ VỊ =====
-       Muốn thêm: chép một dòng {t:'nội dung',e:'bản tiếng Anh (có thể bỏ)',k:'life' hoặc 'me'} vào FUNFACTS. k:'me' là sự thật về riêng bạn. */
+       Muốn thêm: chép một dòng {k:'space|nature|body|tech|vn|life',t:'nội dung',e:'bản tiếng Anh'} vào FUNFACTS. Thẻ úp sẵn, bấm vào mới lật ra. */
     var FUNFACTS=[
-      {k:'life',t:'Bạch tuộc có ba trái tim và máu màu xanh.',e:'Octopuses have three hearts and blue blood.'},
-      {k:'life',t:'Mật ong gần như không bao giờ hỏng; người ta từng tìm thấy mật ong còn ăn được trong lăng mộ Ai Cập.',e:'Honey almost never spoils; edible honey has been found in Egyptian tombs.'},
-      {k:'life',t:'Một ngày trên sao Kim dài hơn một năm của nó.',e:'A day on Venus is longer than its year.'},
-      {k:'life',t:'Ánh sáng Mặt Trời mất khoảng 8 phút 20 giây để đến Trái Đất.',e:'Sunlight takes about 8 minutes 20 seconds to reach Earth.'},
-      {k:'life',t:'Bộ não chỉ nặng khoảng 2% cơ thể nhưng dùng tới khoảng 20% năng lượng.',e:'The brain is about 2% of body weight but uses roughly 20% of its energy.'},
-      {k:'life',t:'Về mặt thực vật học, chuối là quả mọng còn dâu tây thì không.',e:'Botanically, a banana is a berry and a strawberry is not.'},
-      {k:'me',t:'Tôi có hơn 85 game trên Steam, và vẫn còn một đống chưa mở lần nào.',e:'I own 85+ Steam games and plenty I have never opened.'},
-      {k:'me',t:'Tôi hay thức khuya hơn mức một người bình thường nên làm.',e:'I stay up later than any sensible person should.'}
-      /* thêm sự thật của bạn ở đây, nhớ có dấu phẩy ở dòng trên */
+      {k:"space",t:"Một ngày trên sao Kim dài hơn một năm của nó.",e:"A day on Venus is longer than its year."},
+      {k:"space",t:"Ánh sáng Mặt Trời mất khoảng 8 phút 20 giây để đến Trái Đất.",e:"Sunlight takes about 8 minutes 20 seconds to reach Earth."},
+      {k:"space",t:"Núi lửa Olympus Mons trên sao Hỏa cao khoảng 22 km, gấp khoảng 2,5 lần đỉnh Everest.",e:"Olympus Mons on Mars is about 22 km tall, roughly 2.5 times the height of Everest."},
+      {k:"space",t:"Một ngày trên sao Hỏa dài khoảng 24 giờ 40 phút, chỉ nhỉnh hơn ngày của Trái Đất một chút.",e:"A day on Mars lasts about 24 hours 40 minutes, only slightly longer than an Earth day."},
+      {k:"space",t:"Mặt Trăng đang rời xa Trái Đất khoảng 3,8 cm mỗi năm.",e:"The Moon is drifting away from Earth by about 3.8 cm every year."},
+      {k:"space",t:"Một năm trên sao Thuỷ chỉ dài khoảng 88 ngày Trái Đất.",e:"A year on Mercury lasts only about 88 Earth days."},
+      {k:"space",t:"Mật độ trung bình của sao Thổ thấp hơn nước, nên nếu có bồn nước đủ to thì nó sẽ nổi.",e:"Saturn is less dense than water, so in a big enough bathtub it would float."},
+      {k:"space",t:"Các nhà khoa học cho rằng sâu trong Sao Mộc và Sao Thổ có thể có mưa kim cương.",e:"Scientists think it may rain diamonds deep inside Jupiter and Saturn."},
+      {k:"space",t:"Theo ước tính, vũ trụ quan sát được có nhiều ngôi sao hơn số hạt cát trên mọi bãi biển của Trái Đất.",e:"By some estimates, the observable universe has more stars than there are grains of sand on all of Earth’s beaches."},
+      {k:"space",t:"Trên Mặt Trăng gần như không có gió, nên dấu chân của các phi hành gia có thể tồn tại rất lâu.",e:"The Moon has almost no wind, so the astronauts’ footprints can last a very long time."},
+      {k:"nature",t:"Bạch tuộc có ba trái tim và máu màu xanh.",e:"Octopuses have three hearts and blue blood."},
+      {k:"nature",t:"Mật ong gần như không bao giờ hỏng; người ta từng tìm thấy mật ong còn ăn được trong lăng mộ Ai Cập.",e:"Honey almost never spoils; edible honey has been found in Egyptian tombs."},
+      {k:"nature",t:"Về mặt thực vật học, chuối là quả mọng còn dâu tây thì không.",e:"Botanically, a banana is a berry and a strawberry is not."},
+      {k:"nature",t:"Cá mập xuất hiện trên Trái Đất sớm hơn cả cây cối.",e:"Sharks appeared on Earth before trees did."},
+      {k:"nature",t:"Rái cá biển nắm tay nhau khi ngủ để không bị nước cuốn trôi xa nhau.",e:"Sea otters hold hands while sleeping so they do not drift apart."},
+      {k:"nature",t:"Phân của gấu túi wombat có hình khối vuông.",e:"Wombat droppings are shaped like cubes."},
+      {k:"nature",t:"Hươu cao cổ chỉ có 7 đốt sống cổ, bằng con người, chỉ là mỗi đốt dài hơn rất nhiều.",e:"Giraffes have just 7 neck vertebrae, the same as humans, each one is simply much longer."},
+      {k:"nature",t:"Sao biển không có não và cũng không có máu.",e:"Starfish have no brain and no blood."},
+      {k:"nature",t:"Cú không thể đảo mắt nên phải quay cả đầu, có loài quay được khoảng 270 độ.",e:"Owls cannot move their eyes, so they turn their whole head, some species by about 270 degrees."},
+      {k:"nature",t:"Cá vàng có thể nhớ được nhiều tháng, không phải chỉ 3 giây như người ta hay đồn.",e:"Goldfish can remember things for months, not just 3 seconds as people say."},
+      {k:"nature",t:"Một đám mây tích bình thường có thể nặng hơn 500 tấn.",e:"An ordinary cumulus cloud can weigh more than 500 tonnes."},
+      {k:"nature",t:"Tia sét có thể nóng gấp khoảng năm lần bề mặt Mặt Trời.",e:"Lightning can be about five times hotter than the surface of the Sun."},
+      {k:"nature",t:"Hạt cà phê thật ra là hạt nằm trong quả cà phê, trông giống một quả anh đào nhỏ.",e:"A coffee bean is really the seed inside a coffee fruit that looks like a small cherry."},
+      {k:"nature",t:"Dứa phải mất khoảng hai năm mới cho ra một quả.",e:"A pineapple plant takes about two years to produce a single fruit."},
+      {k:"nature",t:"Chuối có chút phóng xạ vì chứa kali-40, nhưng hoàn toàn vô hại.",e:"Bananas are slightly radioactive because of potassium-40, but completely harmless."},
+      {k:"nature",t:"Cá heo ngủ bằng một nửa bộ não, nửa còn lại vẫn thức để nổi lên thở.",e:"Dolphins sleep with half of their brain while the other half stays awake to surface and breathe."},
+      {k:"body",t:"Bộ não chỉ nặng khoảng 2% cơ thể nhưng dùng tới khoảng 20% năng lượng.",e:"The brain is about 2% of body weight but uses roughly 20% of its energy."},
+      {k:"body",t:"Tim người đập khoảng 100.000 lần mỗi ngày.",e:"The human heart beats roughly 100,000 times a day."},
+      {k:"body",t:"DNA trong một tế bào người nếu kéo thẳng ra sẽ dài khoảng 2 mét.",e:"The DNA in a single human cell would be about 2 metres long if stretched out."},
+      {k:"body",t:"Người và tinh tinh giống nhau khoảng 98 đến 99% DNA.",e:"Humans and chimpanzees share about 98 to 99% of their DNA."},
+      {k:"body",t:"Mỗi người chớp mắt khoảng 15 đến 20 lần mỗi phút.",e:"People blink about 15 to 20 times a minute."},
+      {k:"body",t:"Vân lưỡi của mỗi người đều khác nhau, giống như vân tay.",e:"Everyone’s tongue print is unique, just like a fingerprint."},
+      {k:"tech",t:"Email đầu tiên được gửi năm 1971 bởi Ray Tomlinson, người cũng chọn ký hiệu @ cho địa chỉ.",e:"The first email was sent in 1971 by Ray Tomlinson, who also picked the @ sign for addresses."},
+      {k:"tech",t:"Con chuột máy tính đầu tiên có vỏ bằng gỗ.",e:"The first computer mouse had a wooden shell."},
+      {k:"tech",t:"Tetris do Alexey Pajitnov tạo ra năm 1984 tại Liên Xô.",e:"Tetris was created by Alexey Pajitnov in the Soviet Union in 1984."},
+      {k:"tech",t:"Minecraft là trò chơi điện tử bán chạy nhất mọi thời đại, với hơn 300 triệu bản.",e:"Minecraft is the best-selling video game of all time, with over 300 million copies sold."},
+      {k:"tech",t:"Từ robot bắt nguồn từ tiếng Séc robota, nghĩa là lao dịch, và xuất hiện trong một vở kịch năm 1920.",e:"The word robot comes from the Czech robota, meaning forced labour, and first appeared in a 1920 play."},
+      {k:"tech",t:"Mã Konami nổi tiếng ban đầu được tạo ra để lập trình viên thử game cho đỡ vất vả.",e:"The famous Konami code was originally made so a developer could test a game more easily."},
+      {k:"tech",t:"Từ bug trong lập trình thường gắn với con bướm đêm kẹt trong máy Harvard Mark II năm 1947, dù từ này đã được dùng từ trước đó.",e:"The word bug is often tied to a moth stuck in the Harvard Mark II in 1947, though the term was already in use before that."},
+      {k:"vn",t:"Tiếng Việt có 29 chữ cái và 6 thanh điệu.",e:"Vietnamese has 29 letters and 6 tones."},
+      {k:"vn",t:"Việt Nam là nước xuất khẩu cà phê lớn thứ hai thế giới, chỉ sau Brazil.",e:"Vietnam is the world’s second-largest coffee exporter, behind only Brazil."},
+      {k:"vn",t:"Vịnh Hạ Long có gần 2.000 hòn đảo đá vôi.",e:"Ha Long Bay has nearly 2,000 limestone islands."},
+      {k:"vn",t:"Hang Sơn Đoòng ở Quảng Bình được cho là hang tự nhiên lớn nhất thế giới, có đoạn đủ cao để chứa một toà nhà 40 tầng.",e:"Son Doong Cave in Quang Binh is considered the largest natural cave in the world, with sections tall enough to hold a 40-storey building."},
+      {k:"vn",t:"Hải Phòng được mệnh danh là Thành phố Hoa phượng đỏ.",e:"Hai Phong is nicknamed the City of Red Flamboyant Flowers."},
+      {k:"life",t:"Tháp Eiffel có thể cao thêm tới khoảng 15 cm vào mùa hè vì sắt nở ra khi nóng.",e:"The Eiffel Tower can grow up to about 15 cm taller in summer as the iron expands in the heat."},
+      {k:"life",t:"Mèo ngủ trung bình 12 đến 16 giờ mỗi ngày.",e:"Cats sleep 12 to 16 hours a day on average."},
+      {k:"life",t:"Hộp đen của máy bay thật ra có màu cam.",e:"A plane’s black box is actually bright orange."},
+      {k:"life",t:"SOS không viết tắt của cụm từ nào cả, nó chỉ là chuỗi mã Morse dễ gửi và dễ nhận ra nhất.",e:"SOS does not stand for anything, it is simply an easy Morse sequence to send and recognise."},
+      {k:"life",t:"Tờ giấy A4 gấp đôi lại sẽ thành khổ A5 mà tỉ lệ các cạnh vẫn giữ nguyên.",e:"Fold an A4 sheet in half and you get A5 with exactly the same proportions."}
     ];
-    var ffs=document.getElementById('ffs');
+    var FFC={space:['Vũ trụ','Space'],nature:['Thiên nhiên','Nature'],body:['Cơ thể','Body'],tech:['Công nghệ','Tech'],vn:['Việt Nam','Vietnam'],life:['Đời sống','Life']};
+    var ffs=document.getElementById('ffs'),ffCat='all',ffView=false,ffCur=null,ffSeen={};
+    FUNFACTS.forEach(function(f,i){f.i=i});
+    try{ffSeen=JSON.parse(localStorage.getItem('ffseen')||'{}')||{}}catch(e){ffSeen={}}
+    function ffSave(){try{localStorage.setItem('ffseen',JSON.stringify(ffSeen))}catch(e){}}
+    function ffEsc(s){return String(s).replace(/[<>&]/g,function(c){return{'<':'&lt;','>':'&gt;','&':'&amp;'}[c]})}
+    function ffIn(f){return ffCat==='all'||f.k===ffCat}
+    function ffPool(){return FUNFACTS.filter(function(f){return ffIn(f)&&!ffSeen[f.i]})}
+    function ffTxt(f,en){return ffEsc(en&&f.e?f.e:f.t)}
     function ffRender(){
-      if(!ffs)return;var en=(typeof LANG!=='undefined'&&LANG==='en');
-      ffs.innerHTML=FUNFACTS.map(function(f){var me=f.k==='me';return'<button type="button" class="ff'+(me?' me2':'')+'"><small>'+(me?(en?'About me':'Về tôi'):(en?'Life':'Cuộc sống'))+'</small><p>'+(en&&f.e?f.e:f.t).replace(/[<>&]/g,function(c){return{'<':'&lt;','>':'&gt;','&':'&amp;'}[c]})+'</p></button>'}).join('');
+      if(!ffs)return;var en=(typeof LANG!=='undefined'&&LANG==='en'),pool=ffPool(),seen=FUNFACTS.filter(function(f){return ffIn(f)&&ffSeen[f.i]}),cats=['all'].concat(Object.keys(FFC)),h='';
+      h+='<div class="ffchips" role="group" aria-label="'+(en?'Category':'Danh mục')+'">'+cats.map(function(c){
+        var n=FUNFACTS.filter(function(f){return (c==='all'||f.k===c)&&!ffSeen[f.i]}).length;
+        return '<button type="button" class="ffchip'+(c===ffCat?' on':'')+'" data-c="'+c+'" aria-pressed="'+(c===ffCat)+'">'+(c==='all'?(en?'All':'Tất cả'):FFC[c][en?1:0])+' <small>'+n+'</small></button>'}).join('')+'</div>';
+      var cur=ffCur!=null?FUNFACTS[ffCur]:null;
+      h+='<div class="ffshow" aria-live="polite">';
+      if(cur)h+='<small>'+(FFC[cur.k]||FFC.life)[en?1:0]+'</small><p>'+ffTxt(cur,en)+'</p>';
+      else if(!pool.length)h+='<p class="mut">'+(en?'You have seen every fact in this category.':'Bạn đã xem hết sự thật ở danh mục này rồi.')+'</p><button type="button" class="btn line" id="ffreset">'+(en?'Start over':'Xem lại từ đầu')+'</button>';
+      else h+='<p class="mut">'+(en?'Press the button to see a fun fact.':'Bấm nút bên dưới để xem một sự thật thú vị.')+'</p>';
+      h+='</div>';
+      h+='<div class="ffbar">'+(pool.length?'<button type="button" class="btn" id="ffrnd">'+(en?'Random fact':'Sự thật ngẫu nhiên')+'</button>':'<button type="button" class="btn" id="ffreset">'+(en?'Start over':'Xem lại từ đầu')+'</button>')+'<button type="button" class="btn line" id="ffview" aria-expanded="'+ffView+'">'+(en?'Review facts':'Xem lại sự thật thú vị')+' ('+seen.length+')</button><span class="cnt">'+pool.length+' '+(en?'left':'chưa xem')+'</span></div>';
+      if(ffView)h+=seen.length?'<ul class="ffrvl">'+seen.map(function(f){return '<li><button type="button" class="ffrv" data-i="'+f.i+'"><small>'+(FFC[f.k]||FFC.life)[en?1:0]+'</small>'+ffTxt(f,en)+'</button></li>'}).join('')+'</ul>':'<p class="mut">'+(en?'No facts seen yet.':'Chưa có sự thật nào được xem.')+'</p>';
+      ffs.innerHTML=h;
     }
+    if(ffs)ffs.addEventListener('click',function(e){
+      var t=e.target,q=function(s){return t.closest&&t.closest(s)},x;
+      if((x=q('.ffchip'))){ffCat=x.getAttribute('data-c');ffCur=null;ffRender();return}
+      if(q('#ffrnd')){var p=ffPool();if(!p.length){ffRender();return}var f=p[Math.floor(Math.random()*p.length)];ffSeen[f.i]=1;ffCur=f.i;ffSave();ffRender();
+        var sh=ffs.querySelector('.ffshow');if(sh&&sh.scrollIntoView)sh.scrollIntoView({block:'nearest',behavior:(typeof calm!=='undefined'&&calm)?'auto':'smooth'});return}
+      if(q('#ffview')){ffView=!ffView;ffRender();return}
+      if(q('#ffreset')){FUNFACTS.forEach(function(f){if(ffIn(f))delete ffSeen[f.i]});ffCur=null;ffSave();ffRender();return}
+      if((x=q('.ffrv'))){ffCur=+x.getAttribute('data-i');ffRender();var s2=ffs.querySelector('.ffshow');if(s2&&s2.scrollIntoView)s2.scrollIntoView({block:'nearest'})}
+    });
     ffRender();document.addEventListener('langchange',ffRender);
     /* danh hiệu xoay vòng dưới tên */
     var TT=[['Game thủ kiêm dịch giả','Gamer and translator'],['Chúa tể thức khuya','Lord of late nights'],['Dịch giả không lương','Unpaid translator'],['Chiến thần Lee Sin','Lee Sin enjoyer'],['Nhà sưu tầm game chưa chơi','Collector of unplayed games'],['Thợ việt hoá cần mẫn','Diligent localizer']],ti=0,tb=document.querySelector('.ptitle b');
@@ -3754,6 +3868,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
   ];
 
   /* ===== thư viện ảnh 3D (Helix / Barrel / Ring / Sphere), dựng từ các ảnh của #gallery ===== */
+  Object.assign(EN,{"Profile":"Profile","Số liệu":"Numbers","Sự thật ngẫu nhiên":"Random fact","Lật hết":"Flip all","Úp lại":"Hide all","Xem thêm sự thật":"More facts","Xem một sự thật ngẫu nhiên":"Show a random fact","Chọn danh mục rồi bấm nút để xem một sự thật. Sự thật đã xem sẽ không hiện lại, muốn xem lại thì bấm Xem lại.":"Pick a category and press the button for a fact. Seen facts will not repeat, press Review to see them again.","Tìm: game, nhạc, sự thật, bản đồ...":"Search: games, music, facts, map...","Về đầu trang":"Back to top"});
   Object.assign(EN,{"Sự thật":"Facts","Sự thật thú vị":"Fun facts","Vài điều về cuộc sống và về tôi. Bấm vào thẻ để lật.":"A few things about life and about me.","Mọt truyện":"Bookworm","Chiến thần LoL":"LoL legend","Nhà sưu tầm":"Collector","Dev tay ngang":"Self-taught dev","Lịch sử chung, tự cập nhật từ Discord của Ming.":"Shared history, auto-updated from Ming's Discord.","Chưa có hoạt động nào được ghi lại.":"No activity recorded yet.","Tốc độ xoay":"Rotation speed","Cảm ơn bạn đã ghé qua":"Thanks for stopping by","Hẹn gặp lại ở lần cập nhật sau.":"See you at the next update.","↑ Lên đầu trang":"↑ Back to top"});
   Object.assign(EN,{"Kéo để xoay, bấm vào ảnh để xem lớn.":"Drag to rotate, click a photo to enlarge.","Thư viện ảnh 3D":"3D photo gallery","Chọn kiểu sắp xếp":"Choose a layout"});
   (function(){
