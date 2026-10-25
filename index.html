@@ -2076,10 +2076,10 @@ function asm(a){var l=a.assets&&a.assets.small_image;if(!l||!a.assets.large_imag
 function actTab(){if(!L)return'<div class="w empty">Đang kết nối Discord…</div>';
  var acts=(L.activities||[]).filter(function(a){return a.type!==4}),sp=L.listening_to_spotify&&L.spotify,K={0:'Đang chơi',1:'Đang phát trực tiếp',2:'Đang nghe',3:'Đang xem',5:'Đang thi đấu'},h='';
  acts.forEach(function(a){if(sp&&(a.id==='spotify:1'||a.name==='Spotify'))return;var b=aimg(a),s=asm(a),t=a.timestamps||{};
-  h+='<div class="w act"><div class="ar">'+(b?'<img class="b" src="'+esc(b)+'" alt="">':'🎮')+(s?'<img class="s" src="'+esc(s)+'" alt="">':'')+'</div><div><small>'+(K[a.type]||'Đang chơi')+'</small><b>'+esc(a.name)+'</b>'+(a.details?'<p>'+esc(a.details)+'</p>':'')+(a.state?'<p>'+esc(a.state)+'</p>':'')+(t.start?'<p class="el" data-s="'+t.start+'"></p>':'')+'</div></div>'});
- if(sp)h+='<div class="w act"><div class="ar"><img class="b" src="'+esc(sp.album_art_url)+'" alt=""></div><div style="flex:1"><small style="color:#1db954">Đang nghe Spotify</small><b>'+esc(sp.song)+'</b><p>'+esc(sp.artist)+'</p>'+(sp.timestamps?'<div class="sb"><i data-s="'+sp.timestamps.start+'" data-e="'+sp.timestamps.end+'"></i></div><div class="tm"><span data-k="s" data-s="'+sp.timestamps.start+'"></span><span data-k="e" data-e="'+sp.timestamps.end+'"></span></div>':'')+'</div></div>';
+  h+='<div class="w act"><div class="ar">'+(b?'<img loading="lazy" class="b" src="'+esc(b)+'" alt="">':'🎮')+(s?'<img loading="lazy" class="s" src="'+esc(s)+'" alt="">':'')+'</div><div><small>'+(K[a.type]||'Đang chơi')+'</small><b>'+esc(a.name)+'</b>'+(a.details?'<p>'+esc(a.details)+'</p>':'')+(a.state?'<p>'+esc(a.state)+'</p>':'')+(t.start?'<p class="el" data-s="'+t.start+'"></p>':'')+'</div></div>'});
+ if(sp)h+='<div class="w act"><div class="ar"><img loading="lazy" class="b" src="'+esc(sp.album_art_url)+'" alt=""></div><div style="flex:1"><small style="color:#1db954">Đang nghe Spotify</small><b>'+esc(sp.song)+'</b><p>'+esc(sp.artist)+'</p>'+(sp.timestamps?'<div class="sb"><i data-s="'+sp.timestamps.start+'" data-e="'+sp.timestamps.end+'"></i></div><div class="tm"><span data-k="s" data-s="'+sp.timestamps.start+'"></span><span data-k="e" data-e="'+sp.timestamps.end+'"></span></div>':'')+'</div></div>';
  return h||'<div class="w empty">Không làm gì cả. Chưa có hoạt động nào trên Discord.</div>'}
-function nitro(){return'<div class="w"><div class="wh"><small>1 Vật Phẩm</small></div><div class="nt">'+(D.nitroImg?'<img src="'+esc(D.nitroImg)+'" alt="Nitro">':'<svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="34" r="22" fill="#6c63ff"/><rect x="16" y="26" width="32" height="18" rx="9" fill="#12123a"/><circle cx="26" cy="35" r="3" fill="#7df"/><circle cx="38" cy="35" r="3" fill="#7df"/><path d="M32 12v8" stroke="#57f287" stroke-width="3"/><circle cx="32" cy="10" r="4" fill="#57f287"/></svg><b>NITRO</b>')+'</div></div>'}
+function nitro(){return'<div class="w"><div class="wh"><small>1 Vật Phẩm</small></div><div class="nt">'+(D.nitroImg?'<img loading="lazy" src="'+esc(D.nitroImg)+'" alt="Nitro">':'<svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="34" r="22" fill="#6c63ff"/><rect x="16" y="26" width="32" height="18" rx="9" fill="#12123a"/><circle cx="26" cy="35" r="3" fill="#7df"/><circle cx="38" cy="35" r="3" fill="#7df"/><path d="M32 12v8" stroke="#57f287" stroke-width="3"/><circle cx="32" cy="10" r="4" fill="#57f287"/></svg><b>NITRO</b>')+'</div></div>'}
 function fmt(ms){var s=Math.max(0,Math.floor(ms/1000)),h=Math.floor(s/3600),m=Math.floor(s%3600/60);s%=60;return(h?h+':'+('0'+m).slice(-2):m)+':'+('0'+s).slice(-2)}
 /* ===== KHUNG DARK MOON =====
    Cả 4 lớp (trăng, cành quạ + dây gai, sương, rễ cây) được vẽ trên cùng một lưới 1306px.
@@ -2099,7 +2099,7 @@ function sizeFrames(){var l=root.querySelector('.l');if(!l||!PS||!PS.length)retu
   f.style.left=Math.round(p.x*cw)+'px';f.style[p.a==='b'?'bottom':'top']=Math.round(p.y*cw)+'px';
   f.style.width=Math.round(p.w*cw)+'px';f.style.zIndex=ED?8:(p.z==null?1:p.z)})}
 function modal(){if(!pk)return'';var h='<div class="lb" data-mdl-bg><div class="mdl"><b>Thêm game vào “'+esc(D.widgets[pk.wi].t)+'”</b><input id="q" placeholder="Gõ tên game để tìm trên Steam…" value="'+esc(pk.q||'')+'"><button data-srch>Tìm</button> <button data-mcancel style="background:#3a3c42">Đóng</button>';
- if(pk.busy)h+='<p>Đang tìm…</p>';else if(pk.items)h+=pk.items.length?pk.items.map(function(x,i){return'<div class="sr" data-pk="'+i+'"><img src="'+ST+x.id+'/capsule_184x69.jpg" alt="">'+esc(x.name)+'</div>'}).join(''):'<p>Không tìm thấy.</p>';
+ if(pk.busy)h+='<p>Đang tìm…</p>';else if(pk.items)h+=pk.items.length?pk.items.map(function(x,i){return'<div class="sr" data-pk="'+i+'"><img loading="lazy" src="'+ST+x.id+'/capsule_184x69.jpg" alt="">'+esc(x.name)+'</div>'}).join(''):'<p>Không tìm thấy.</p>';
  if(pk.err)h+='<p>Không tìm được trên Steam (trình duyệt chặn). <button data-man>Nhập thủ công</button></p>';
  return h+'</div></div>'}
 function steamSearch(q){var u='https://store.steampowered.com/api/storesearch/?l=english&cc=us&term='+encodeURIComponent(q),tr=[u,'https://corsproxy.io/?url='+encodeURIComponent(u),'https://api.allorigins.win/raw?url='+encodeURIComponent(u)];
@@ -2112,7 +2112,7 @@ function render(){var keep=root.querySelector('.sc'),top=keep?keep.scrollTop:0,b
  cu=null;((L&&L.activities)||[]).forEach(function(a){if(a.type===4)cu=a});
  var hasA=L&&((L.activities||[]).some(function(a){return a.type!==4})||L.listening_to_spotify);
  var body=tab==='bang'?(ED?'<div class="bar">'+'<button data-px>Xuất khung</button><button data-pr>Đặt lại khung</button>'+'<button data-bn>Đổi banner</button><button data-exp>Xuất JSON</button><button data-rst>Đặt lại</button></div>':'')+D.widgets.map(widget).join(''):tab==='hd'?actTab():nitro();
- root.innerHTML='<div class="l">'+frameHTML()+'<div class="bn"'+(D.bannerUrl?' style="--bnr:url('+esc(D.bannerUrl)+')"':'')+'></div><div class="av" data-av title="Xem ảnh đại diện"><img class="p" alt="" src="'+esc(av)+'" onerror="this.src=\''+esc(D.avatar)+'\'">'+(dd?'<img class="dc" alt="" src="'+esc(dd)+'">':'')+'<span class="dot" data-st="'+st+'"></span></div><div class="bb">'+(cu&&cu.emoji&&cu.emoji.name?esc(cu.emoji.name):D.bubble)+'</div><div class="in"><h3>'+esc(nm)+'</h3><div class="un">'+esc(un)+' • '+esc(D.sub||D.name)+'<span class="tg">🐰 '+esc(D.tag)+'</span></div>'+(cu&&cu.state?'<p class="cs">'+esc(cu.state)+'</p>':'')+'<div class="bd">'+D.badges.slice(0,6).map(function(b){return'<span title="'+esc(b[1])+'">'+b[0]+'</span>'}).join('')+(D.badges.length>6?'<button data-bdg aria-expanded="'+bopen+'">+'+(D.badges.length-6)+'</button>':'')+'</div>'+(bopen?'<div class="bp">'+D.badges.map(function(b){return'<div>'+b[0]+' '+esc(b[1])+'</div>'}).join('')+'</div>':'')+'<div class="ab"><a class="m" href="'+esc(D.msg)+'" target="_blank" rel="noopener">💬 Tin nhắn</a><i>▦</i><i>⋯</i></div><h6>Tiểu sử</h6><p>'+D.bio.join('<br>').replace('{age}',age)+'<br><a href="'+esc(D.link)+'" target="_blank" rel="noopener">'+esc(D.link)+'</a></p><h6>Gia Nhập Từ</h6><p>'+D.since.join(' • ')+'</p><h6>Vai trò</h6><div class="rls">'+D.roles.map(function(r){return'<span class="rl" style="--c:'+r[1]+'">'+esc(r[0])+'</span>'}).join('')+'</div><div class="cn">'+D.conn.map(function(c){return'<a href="'+esc(c[2])+'" target="_blank" rel="noopener" title="'+esc(c[3])+'" aria-label="'+esc(c[3])+'" style="background:'+c[1]+'">'+c[0]+'</a>'}).join('')+'</div><h6>Ghi chú (chỉ hiển thị cho bạn)</h6><p>'+esc(D.note)+'</p></div></div><div class="r"><div class="tb"><button data-t="bang"'+(tab==='bang'?' class="on"':'')+'>Bảng</button><button data-t="hd" class="'+(tab==='hd'?'on ':'')+(hasA?'lv':'')+'">Hoạt động</button><button data-t="wl"'+(tab==='wl'?' class="on"':'')+'>Danh Sách Mong Muốn</button></div><div class="sc">'+body+'</div></div>'+(lb?'<div class="lb" data-lb><img alt="" src="'+esc(av.replace('size=256','size=1024'))+'"></div>':'')+modal();
+ root.innerHTML='<div class="l">'+frameHTML()+'<div class="bn"'+(D.bannerUrl?' style="--bnr:url('+esc(D.bannerUrl)+')"':'')+'></div><div class="av" data-av title="Xem ảnh đại diện"><img loading="lazy" class="p" alt="" src="'+esc(av)+'" onerror="this.src=\''+esc(D.avatar)+'\'">'+(dd?'<img loading="lazy" class="dc" alt="" src="'+esc(dd)+'">':'')+'<span class="dot" data-st="'+st+'"></span></div><div class="bb">'+(cu&&cu.emoji&&cu.emoji.name?esc(cu.emoji.name):D.bubble)+'</div><div class="in"><h3>'+esc(nm)+'</h3><div class="un">'+esc(un)+' • '+esc(D.sub||D.name)+'<span class="tg">🐰 '+esc(D.tag)+'</span></div>'+(cu&&cu.state?'<p class="cs">'+esc(cu.state)+'</p>':'')+'<div class="bd">'+D.badges.slice(0,6).map(function(b){return'<span title="'+esc(b[1])+'">'+b[0]+'</span>'}).join('')+(D.badges.length>6?'<button data-bdg aria-expanded="'+bopen+'">+'+(D.badges.length-6)+'</button>':'')+'</div>'+(bopen?'<div class="bp">'+D.badges.map(function(b){return'<div>'+b[0]+' '+esc(b[1])+'</div>'}).join('')+'</div>':'')+'<div class="ab"><a class="m" href="'+esc(D.msg)+'" target="_blank" rel="noopener">💬 Tin nhắn</a><i>▦</i><i>⋯</i></div><h6>Tiểu sử</h6><p>'+D.bio.join('<br>').replace('{age}',age)+'<br><a href="'+esc(D.link)+'" target="_blank" rel="noopener">'+esc(D.link)+'</a></p><h6>Gia Nhập Từ</h6><p>'+D.since.join(' • ')+'</p><h6>Vai trò</h6><div class="rls">'+D.roles.map(function(r){return'<span class="rl" style="--c:'+r[1]+'">'+esc(r[0])+'</span>'}).join('')+'</div><div class="cn">'+D.conn.map(function(c){return'<a href="'+esc(c[2])+'" target="_blank" rel="noopener" title="'+esc(c[3])+'" aria-label="'+esc(c[3])+'" style="background:'+c[1]+'">'+c[0]+'</a>'}).join('')+'</div><h6>Ghi chú (chỉ hiển thị cho bạn)</h6><p>'+esc(D.note)+'</p></div></div><div class="r"><div class="tb"><button data-t="bang"'+(tab==='bang'?' class="on"':'')+'>Bảng</button><button data-t="hd" class="'+(tab==='hd'?'on ':'')+(hasA?'lv':'')+'">Hoạt động</button><button data-t="wl"'+(tab==='wl'?' class="on"':'')+'>Danh Sách Mong Muốn</button></div><div class="sc">'+body+'</div></div>'+(lb?'<div class="lb" data-lb><img loading="lazy" alt="" src="'+esc(av.replace('size=256','size=1024'))+'"></div>':'')+modal();
  sizeFrames();root.querySelector('.sc').scrollTop=top;root.classList.toggle('hf',!!(PS&&PS.length));tick()}
 function tick(){root.querySelectorAll('.el').forEach(function(e){e.textContent='Đã '+fmt(Date.now()-(+e.dataset.s))+' trôi qua'});
  root.querySelectorAll('.sb i').forEach(function(i){var s=+i.dataset.s,e=+i.dataset.e;i.style.width=Math.min(100,Math.max(0,(Date.now()-s)/(e-s)*100)).toFixed(1)+'%'});
@@ -2740,7 +2740,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     var MAX=10; /* số ảnh tối đa cùng lúc */
     /* nạp sẵn khi trình duyệt rảnh để lần rê chuột đầu tiên không bị khựng. Điện thoại và máy yếu thì bỏ qua */
     if(matchMedia('(pointer:fine)').matches&&!document.documentElement.classList.contains('lite'))
-      (window.requestIdleCallback||function(f){setTimeout(f,2000)})(function(){TRAIL.forEach(function(u){var im=new Image();im.decoding='async';im.src=u})});
+      (function(go){if(document.readyState==='complete')setTimeout(go,1500);else addEventListener('load',function(){setTimeout(go,1500)})})(function(){(window.requestIdleCallback||function(f){setTimeout(f,500)})(function(){TRAIL.forEach(function(u){var im=new Image();im.decoding='async';im.src=u})})});
     var ti=0,lx=null,ly=null,live=0,q=[];
     function drop(x,y){
 
@@ -4247,7 +4247,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     function open(i,from){
       var x=IDOLS[i];opener=from||null;
       var ph=document.getElementById('idph');ph.setAttribute('data-i',x.n.charAt(0));
-      ph.innerHTML='<img decoding="async" src="'+esc(x.img)+'" alt="'+esc(x.n)+'" onerror="this.remove()">';
+      ph.innerHTML='<img loading="lazy" decoding="async" src="'+esc(x.img)+'" alt="'+esc(x.n)+'" onerror="this.remove()">';
       document.getElementById('idmt').textContent=x.n;
       document.getElementById('idtag').textContent=T(x.tag);
       var why=PH(x.why)?'':x.why,tr=x.traits.filter(function(t){return !PH(t)}),sg=x.songs.filter(function(t){return !PH(t)});
@@ -4375,7 +4375,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     function open(i,from){
       var x=G[i];opener=from||null;
       var ph=document.getElementById('gmph');
-      ph.innerHTML=(x.ic?icn(x.ic):'')+(x.img?'<img decoding="async" src="'+esc(x.img)+'" alt="'+esc(x.t)+'"'+(x.fb?' data-f="'+esc(x.fb)+'"':'')+' onerror="'+FBERR+'">':'');
+      ph.innerHTML=(x.ic?icn(x.ic):'')+(x.img?'<img loading="lazy" decoding="async" src="'+esc(x.img)+'" alt="'+esc(x.t)+'"'+(x.fb?' data-f="'+esc(x.fb)+'"':'')+' onerror="'+FBERR+'">':'');
       document.getElementById('gmt').textContent=T(x.t);
       document.getElementById('gmm').textContent=T(x.m)+(x.s?' · '+T(x.s):'');
       document.getElementById('gmtags').innerHTML=(x.tags||[]).map(function(t){return '<span class="gtag">'+esc(t)+'</span>'}).join('');
@@ -4762,7 +4762,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       return a.application_id?'https://cdn.discordapp.com/app-assets/'+a.application_id+'/'+l+'.png':'';
     }
     function card(ic,img,kind,title,lines,extra){
-      return '<div class="act"><div class="ar2 ph" data-i="">'+icn(ic)+(img?'<img decoding="async" src="'+esc(img)+'" alt="" onerror="this.remove()">':'')+'</div><div class="ab"><span class="ak">'+esc(kind)+'</span><b>'+esc(title)+'</b>'+lines+(extra||'')+'</div></div>';
+      return '<div class="act"><div class="ar2 ph" data-i="">'+icn(ic)+(img?'<img loading="lazy" decoding="async" src="'+esc(img)+'" alt="" onerror="this.remove()">':'')+'</div><div class="ab"><span class="ak">'+esc(kind)+'</span><b>'+esc(title)+'</b>'+lines+(extra||'')+'</div></div>';
     }
     function render(){
       window.LANY=D;document.dispatchEvent(new Event('lanyard'));
@@ -4777,7 +4777,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       if(nl){if(lt){if(!nl.hasAttribute('data-def'))nl.setAttribute('data-def',nl.textContent);nl.textContent=lt}else if(nl.hasAttribute('data-def')){nl.textContent=T(nl.getAttribute('data-def'));nl.removeAttribute('data-def')}}
       var name=u?(u.global_name||u.display_name||u.username):ME.steamName,tag=u?'@'+u.username:'';
       var av=u&&u.avatar?'https://cdn.discordapp.com/avatars/'+u.id+'/'+u.avatar+'.'+(u.avatar.indexOf('a_')===0?'gif':'png')+'?size=128':'';
-      var h='<div class="pw"><div><div class="pu"><div class="pav"><div class="ph" data-i="'+esc(name.charAt(0))+'">'+(av?'<img decoding="async" src="'+esc(av)+'" alt="" onerror="this.remove()">':'')+'</div><span class="avdot" data-st="'+st+'"></span></div><div><b>'+esc(name)+'</b><small>'+(tag?esc(tag)+' · ':'')+esc(STL[st])+'</small></div></div>';
+      var h='<div class="pw"><div><div class="pu"><div class="pav"><div class="ph" data-i="'+esc(name.charAt(0))+'">'+(av?'<img loading="lazy" decoding="async" src="'+esc(av)+'" alt="" onerror="this.remove()">':'')+'</div><span class="avdot" data-st="'+st+'"></span></div><div><b>'+esc(name)+'</b><small>'+(tag?esc(tag)+' · ':'')+esc(STL[st])+'</small></div></div>';
       if(custom&&(custom.state||(custom.emoji&&custom.emoji.name)))h+='<p class="pcs">'+(custom.emoji&&custom.emoji.name?esc(custom.emoji.name)+' ':'')+esc(custom.state||'')+'</p>';
       h+='</div><div class="pacts">';
       others.forEach(function(a){
@@ -5380,7 +5380,7 @@ window.__combo={n:function(){return n},best:best,on:function(){return on},
 var B='https://cdn.discordapp.com/avatar-decoration-presets/a_94febf08c37b21ee5ed92c49ef98bf00.png?size=240',R=document.documentElement;
 function calm(){return (window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)||R.getAttribute('data-motion')==='off'}
 function set(){var u=B+'&passthrough='+(calm()?'false':'true');if(d.getAttribute('src')!==u)d.src=u}
-set();if(window.MutationObserver)new MutationObserver(set).observe(R,{attributes:true,attributeFilter:['data-motion']});
+if(document.readyState==='complete')setTimeout(set,300);else addEventListener('load',function(){setTimeout(set,300)});if(window.MutationObserver)new MutationObserver(function(){if(document.readyState==='complete')set()}).observe(R,{attributes:true,attributeFilter:['data-motion']});
 })();</script>
 <script>(function(){
 /* GSAP + ScrollTrigger: chia bài ở #play, mở bản đồ ở #map, parallax ảnh ở #hobby (chỉ chạy trên máy có chuột; điện thoại và máy tính bảng không nạp GSAP, không chạy hiệu ứng nào, để cuộn nhẹ nhất).
