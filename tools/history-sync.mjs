@@ -11,13 +11,13 @@ async function tick() {
   for (const a of L.activities || []) {
     if (a.type === 4) continue;
     if (L.listening_to_spotify && (a.id === 'spotify:1' || a.name === 'Spotify')) continue;
-    list.push({ ty: a.type, n: a.name || '', d: a.details || '', s: a.state || '', st: a.timestamps?.start || 0 });
+    list.push({ ty: a.type, n: a.name || '', d: a.details || a.assets?.large_text || '', s: a.state || a.assets?.small_text || '', u: a.url || a.sync_id || '', st: a.timestamps?.start || 0 });
   }
   if (L.listening_to_spotify && L.spotify) list.push({ ty: 2, n: 'Spotify', d: L.spotify.song || '', s: L.spotify.artist || '', st: L.spotify.timestamps?.start || 0 });
   if (!list.length) return;
   const H = await load(); let changed = false;
   for (const x of list) {
-    const k = `${x.ty}|${x.n}|${x.d}|${x.st || ''}`, e = H.find(h => h.k === k);
+    const k = `${x.ty}|${x.n}|${x.d}|${x.s}|${x.u || ''}|${x.st || ''}`, e = H.find(h => h.k === k);
     if (e) { if (now - e.l > 30000) { e.l = now; changed = true; } }
     else { H.unshift({ k, ...x, f: now, l: now }); changed = true; }
   }

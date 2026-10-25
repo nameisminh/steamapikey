@@ -1793,6 +1793,14 @@ body:has(#bgmp.playing) :is(.bgm,.bgq,.bgmp),body:has(#bgmp:not([hidden])) :is(.
 .bgml .nm{flex:none;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden;white-space:normal;text-overflow:clip;line-height:1.3;font-size:.8rem}
 .bgml .tx small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.68rem;opacity:.75}
 .bgml li+li{border-top:1px solid var(--line)}
+.bgms{display:flex;align-items:center;gap:.5rem;margin:.35rem 0 0;font:400 .68rem var(--mono);color:var(--muted)}
+.bgms select{flex:1;min-width:0;padding:.2rem .4rem;border:1px solid var(--line-hi);border-radius:.4rem;background:var(--card);color:var(--text);font:inherit;cursor:pointer}
+.bgms select:hover,.bgms select:focus-visible{border-color:var(--white)}
+.bgml{scrollbar-width:thin;scrollbar-color:var(--line-hi) transparent;scrollbar-gutter:stable;padding-right:.2rem;-webkit-mask-image:linear-gradient(transparent 0,#000 .6rem,#000 calc(100% - .8rem),transparent);mask-image:linear-gradient(transparent 0,#000 .6rem,#000 calc(100% - .8rem),transparent)}
+.bgml::-webkit-scrollbar{width:6px}
+.bgml::-webkit-scrollbar-track{background:transparent;margin:.5rem 0}
+.bgml::-webkit-scrollbar-thumb{background:var(--line-hi);border-radius:99px;border:1px solid transparent;background-clip:padding-box;transition:background .2s}
+.bgml::-webkit-scrollbar-thumb:hover{background:var(--muted);background-clip:padding-box}
 .bgml .cur .nm{font-weight:600}
 .bgmp .np b{white-space:normal;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;line-height:1.25}
 .lyr{margin:.25rem 0 0;padding-top:.45rem}
@@ -1804,10 +1812,13 @@ body:has(#bgmp.playing) :is(.bgm,.bgq,.bgmp),body:has(#bgmp:not([hidden])) :is(.
 .lyb p{padding:.22rem .3rem;font-size:.84rem;line-height:1.35}
 .lyb p.past{opacity:.5}
 @media (min-width:48rem){
-  .bgmp{width:min(30rem,calc(100vw - 2.5rem));display:grid;grid-template-columns:minmax(0,13.5rem) minmax(0,1fr);column-gap:.75rem;align-content:start;max-height:min(24rem,calc(100dvh - 7rem))}
+  .bgmp{width:min(38rem,calc(100vw - 2.5rem));display:grid;grid-template-columns:minmax(0,16rem) minmax(0,1fr);column-gap:.9rem;align-content:start;max-height:min(30rem,calc(100dvh - 7rem));padding:.85rem 1rem}
+  .bgml{max-height:14rem}
+  .bgmp .np b{font-size:.95rem}
+  .lyb p{font-size:.92rem}
   .bgmp[hidden]{display:none}
-  .bgmp>.np,.bgmp>.ctl,.bgmp>.seek,.bgmp>.vol,.bgmp>.bgmmsg,.bgmp>.bgml{grid-column:1}
-  .bgmp>.lyr{grid-column:2;grid-row:1/span 6;margin:0;padding:0 0 0 .75rem;border-top:0;border-left:1px solid var(--line);min-width:0}
+  .bgmp>.np,.bgmp>.ctl,.bgmp>.seek,.bgmp>.vol,.bgmp>.bgmmsg,.bgmp>.bgms,.bgmp>.bgml{grid-column:1}
+  .bgmp>.lyr{grid-column:2;grid-row:1/span 7;margin:0;padding:0 0 0 .75rem;border-top:0;border-left:1px solid var(--line);min-width:0}
   .bgmp>.lyr{display:flex;flex-direction:column;contain:size}
   .bgmp>.lyr #lyw{flex:1;min-height:0;display:flex;flex-direction:column}
   .bgmp .lyb{flex:1;height:auto;min-height:6rem}
@@ -1815,7 +1826,7 @@ body:has(#bgmp.playing) :is(.bgm,.bgq,.bgmp),body:has(#bgmp:not([hidden])) :is(.
 /* màn hình rộng có thanh dock bên trái: khi mở trình phát thì dock dịch lên và thu chiều cao, không đè nhau */
 @media (min-width:80rem){
   .bar.mini nav{transition:top .35s cubic-bezier(.2,.8,.2,1),max-height .35s}
-  body:has(#bgmp:not([hidden])) .bar.mini nav{top:calc(50% - 11.5rem);max-height:calc(100vh - 35rem);max-height:calc(100dvh - 35rem)}
+  body:has(#bgmp:not([hidden])) .bar.mini nav{top:calc(50% - 14.5rem);max-height:calc(100vh - 41rem);max-height:calc(100dvh - 41rem)}
 }
 .gbar .gbn{aspect-ratio:21/9;max-height:26rem}
 @media (max-width:40rem){.gbar .gbn{aspect-ratio:16/9}}
@@ -2168,12 +2179,12 @@ var HIST=[],ACT={};
 try{fetch('history.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():[]}).then(function(j){if(Array.isArray(j)){HIST=j.slice(0,200);HIST.sort(function(a,b){return b.l-a.l});if(root.querySelector('.l'))render()}}).catch(function(){})}catch(e){}
 function logAct(){
  if(!L)return;var now=Date.now(),ch=false,list=[];ACT={};
- (L.activities||[]).forEach(function(a){if(a.type===4)return;if(L.listening_to_spotify&&(a.id==='spotify:1'||a.name==='Spotify'))return;list.push({ty:a.type,n:a.name||'',d:a.details||'',s:a.state||'',st:(a.timestamps&&a.timestamps.start)||0})});
+ (L.activities||[]).forEach(function(a){if(a.type===4)return;if(L.listening_to_spotify&&(a.id==='spotify:1'||a.name==='Spotify'))return;list.push({ty:a.type,n:a.name||'',d:a.details||(a.assets&&a.assets.large_text)||'',s:a.state||(a.assets&&a.assets.small_text)||'',u:a.url||a.sync_id||'',st:(a.timestamps&&a.timestamps.start)||0})});
  if(L.listening_to_spotify&&L.spotify){var sp0=L.spotify;list.push({ty:2,n:'Spotify',d:sp0.song||'',s:sp0.artist||'',st:(sp0.timestamps&&sp0.timestamps.start)||0})}
  list.forEach(function(x){
-  var k=x.ty+'|'+x.n+'|'+x.d+'|'+(x.st||''),e=null,i;ACT[k]=1;
+  var k=x.ty+'|'+x.n+'|'+x.d+'|'+x.s+'|'+(x.u||'')+'|'+(x.st||''),e=null,i;ACT[k]=1;
   for(i=0;i<HIST.length;i++)if(HIST[i].k===k){e=HIST[i];break}
-  if(e){if(now-e.l>30000){e.l=now;ch=true}}else{HIST.unshift({k:k,ty:x.ty,n:x.n,d:x.d,s:x.s,st:x.st,f:now,l:now});ch=true}
+  if(e){if(now-e.l>30000){e.l=now;ch=true}}else{HIST.unshift({k:k,ty:x.ty,n:x.n,d:x.d,s:x.s,u:x.u,st:x.st,f:now,l:now});ch=true}
  });
  if(ch){HIST.sort(function(a,b){return b.l-a.l});HIST=HIST.slice(0,200)}
 }
@@ -2776,6 +2787,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     </div>
   </div>
   <p class="bgmmsg" id="bgmmsg" hidden>Chưa tìm thấy file nhạc. Bỏ file vào thư mục music/ rồi tải lại trang.</p>
+  <label class="bgms"><span>Sắp xếp</span><select id="bgmsort" aria-label="Sắp xếp bài hát"><option value="0">Thứ tự gốc</option><option value="az">Tên A → Z</option><option value="za">Tên Z → A</option><option value="ar">Ca sĩ A → Z</option></select></label>
   <ol class="bgml" id="bgml"></ol>
 </div>
 <button class="bgm" id="bgm" type="button" aria-expanded="false" aria-controls="bgmp" aria-label="Mở trình phát nhạc" title="Nhạc nền"><i data-ic="music"></i></button>
@@ -4001,12 +4013,22 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     io.observe(sec);
     document.addEventListener('visibilitychange',run);
   })();
-  Object.assign(EN,{"Phát ngẫu nhiên":"Shuffle","Đang phát ngẫu nhiên":"Shuffle on"});
+  Object.assign(EN,{"Sắp xếp":"Sort","Thứ tự gốc":"Original order","Tên A → Z":"Title A → Z","Tên Z → A":"Title Z → A","Ca sĩ A → Z":"Artist A → Z","Phát ngẫu nhiên":"Shuffle","Đang phát ngẫu nhiên":"Shuffle on"});
   (function(){
     var au=document.getElementById('bgmau'),btn=document.getElementById('bgm'),top=document.getElementById('bgmtop'),lst=document.getElementById('bgmlist'),pan=document.getElementById('bgmp');
     if(!au||!btn||!pan||!TRACKS.length)return;
     var tt=document.getElementById('bgmt'),ta=document.getElementById('bgma'),list=document.getElementById('bgml'),vol=document.getElementById('bgmvol'),msg=document.getElementById('bgmmsg');
-    var cur=0,bad={},want=false,shuf=false,hist=[];
+    var cur=0,bad={},want=false,shuf=false,hist=[],ord=[],sm='0',ss=document.getElementById('bgmsort');
+    try{sm=localStorage.getItem('bgsort')||'0'}catch(e){}
+    if(ss){if(!/^(0|az|za|ar)$/.test(sm))sm='0';ss.value=sm}
+    function mkOrd(){
+      var o=TRACKS.map(function(_,i){return i}),col=function(x){return String(x||'').trim()},cmp=function(a,b){return a.localeCompare(b,'vi',{sensitivity:'base'})};
+      if(sm==='az')o.sort(function(a,b){return cmp(col(TRACKS[a].t),col(TRACKS[b].t))||a-b});
+      else if(sm==='za')o.sort(function(a,b){return cmp(col(TRACKS[b].t),col(TRACKS[a].t))||a-b});
+      else if(sm==='ar')o.sort(function(a,b){return cmp(col(TRACKS[a].a),col(TRACKS[b].a))||cmp(col(TRACKS[a].t),col(TRACKS[b].t))||a-b});
+      ord=o;
+    }
+    mkOrd();
     try{shuf=localStorage.getItem('shuf')==='1'}catch(e){}
     au.volume=.35;
     try{var sv=localStorage.getItem('vol');if(sv!==null&&!isNaN(+sv)){vol.value=sv;au.volume=sv/100}}catch(e){}
@@ -4014,8 +4036,8 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     function render(){
       tt.textContent=T(TRACKS[cur].t);ta.textContent=T(TRACKS[cur].a||'');
       var st=list.scrollTop,fi=document.activeElement&&list.contains(document.activeElement)?document.activeElement.getAttribute('data-i'):null;
-      list.innerHTML=TRACKS.map(function(x,i){
-        return '<li><button type="button" data-i="'+i+'" title="'+esc(((x.t||'').trim()+(x.a?' · '+x.a.trim():'')))+'"'+(i===cur?' class="cur" aria-current="true"':'')+(bad[i]?' disabled':'')+'><span class="ix">'+('0'+(i+1)).slice(-2)+'</span><span class="tx"><span class="nm">'+esc((x.t||'').trim())+'</span><small>'+(bad[i]?T('thiếu file'):esc((x.a||'').trim()))+'</small></span></button></li>';
+      list.innerHTML=ord.map(function(i,p){var x=TRACKS[i];
+        return '<li><button type="button" data-i="'+i+'" title="'+esc(((x.t||'').trim()+(x.a?' · '+x.a.trim():'')))+'"'+(i===cur?' class="cur" aria-current="true"':'')+(bad[i]?' disabled':'')+'><span class="ix">'+('0'+(p+1)).slice(-2)+'</span><span class="tx"><span class="nm">'+esc((x.t||'').trim())+'</span><small>'+(bad[i]?T('thiếu file'):esc((x.a||'').trim()))+'</small></span></button></li>';
       }).join('');
       msg.hidden=!allBad();
       list.scrollTop=st;
@@ -4047,8 +4069,8 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
         else{r=pickRand();if(r>=0){hist.push(cur);if(hist.length>100)hist.shift()}}
         if(r>=0){if(want)go(r);else load(r);return}
       }
-      var n=TRACKS.length,i=cur;
-      for(var k=0;k<n;k++){i=(i+d+n)%n;if(!bad[i])break}
+      var n=TRACKS.length,q=ord.indexOf(cur),i=cur;
+      for(var k=0;k<n;k++){q=(q+d+n)%n;i=ord[q];if(!bad[i])break}
       if(bad[i])return;
       if(want)go(i);else load(i);
     }
@@ -4106,6 +4128,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       toggle();
     });
     shufUI();
+    if(ss)ss.addEventListener('change',function(){sm=ss.value;try{localStorage.setItem('bgsort',sm)}catch(e){}mkOrd();list.scrollTop=0;render()});
     document.getElementById('bgmprev').addEventListener('click',function(){step(-1)});
     document.getElementById('bgmnext').addEventListener('click',function(){step(1)});
     vol.addEventListener('input',function(){au.volume=vol.value/100;try{localStorage.setItem('vol',vol.value)}catch(e){}});
