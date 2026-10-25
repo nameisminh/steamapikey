@@ -177,7 +177,7 @@ function prep(j,er){
   }
   var ims=j.el.querySelectorAll('img');
   for(var z=0;z<ims.length;z++){
-    var im=ims[z];if(im.__ax)continue;if(!im.complete||!im.naturalWidth){j.off++;continue}
+    var im=ims[z];if(im.__ax)continue;if(im.closest('#photos'))continue; /* Vài tấm ảnh: không phủ ASCII vì bị lệch */if(!im.complete||!im.naturalWidth){j.off++;continue}
     var ir=im.getBoundingClientRect();if(ir.width<8||ir.height<8)continue;cstamp++;if(hiddenAnc(im.parentElement)||ir.left>=innerWidth||ir.right<=0||!inClip(clipEls(im.parentElement),ir.left,ir.top,ir.right,ir.bottom)||covered(im.parentElement,Math.min(innerWidth-1,Math.max(0,(ir.left+ir.right)/2)),(ir.top+ir.bottom)/2))continue;if(ir.bottom<0||ir.top>H){j.off++;continue}
     var rs2='0',pp=im,zz;for(zz=0;zz<3&&pp&&(parseFloat(rs2)||0)===0;zz++,pp=pp.parentElement)rs2=getComputedStyle(pp).borderTopLeftRadius;
     var rd=rs2.slice(-1)==='%'?Math.min(ir.width,ir.height)*parseFloat(rs2)/100:parseFloat(rs2)||0,d=j.imgs.length*80;
@@ -301,7 +301,7 @@ function sweep(){
 }
 function sched(){if(!swT)swT=setTimeout(sweep,140)}
 addEventListener('scroll',sched,{passive:true});addEventListener('resize',sched);
-document.addEventListener('load',function(e){var t=e.target;if(t&&t.tagName==='IMG'){var w=t.closest&&t.closest('.rv');if(w&&w.__axw){w.__axp=1;sched()}}},true);
+document.addEventListener('load',function(e){var t=e.target;if(t&&t.tagName==='IMG'){var w=t.closest&&t.closest('.rv,.gsk,.gbn');if(w&&w.__axw){w.__axp=1;sched()}}},true);
 window.AXR={cover:cover};
 
 /* ===== CON VẬT ASCII: lấy hình từ emoji, đổi sang ký tự theo độ sáng, giữ màu thật nếu emoji nhiều màu, vẽ sẵn thành ảnh ===== */
@@ -4767,6 +4767,11 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     });
     if(calm)document.querySelectorAll('.gbn img').forEach(still);
     once('.gsk',.3,function(el){el.classList.add('in')});
+    /* phủ ASCII lên ảnh GIF (ảnh động nổi trong từng mục và 3 khung ngang) khi chúng cuộn vào màn hình */
+    if('IntersectionObserver' in window){
+      var gio=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){gio.unobserve(e.target);if(window.AXR)AXR.cover(e.target)}})},{threshold:.35});
+      document.querySelectorAll('.gsk,.gbn').forEach(function(n){gio.observe(n)});
+    }
     document.addEventListener('click',function(e){
       var b=e.target.closest&&e.target.closest('.gsk'),m=b&&b.querySelector('img');if(!m)return;
       prev=b;li.src=m.dataset.gif||m.src;lc.textContent='';lb.hidden=false;document.body.style.overflow='hidden';
