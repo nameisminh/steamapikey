@@ -87,6 +87,8 @@ function clipEls(el){
 function hiddenAnc(p){
   for(var e=p;e&&e!==document.body;e=e.parentElement){
     if(e.hidden||e.inert)return true;
+    if(e.nodeType===1&&e.hasAttribute('data-noax'))return true; /* mục vừa bấm mở ra: không giải mã */
+    if(e.nodeType===1&&getComputedStyle(e).position==='fixed'&&!(e.closest&&e.closest('header.bar')))return true; /* hộp bật ra (cố định trên màn hình): không giải mã */
     if(e.tagName==='DETAILS'&&!e.open){var sm=p.closest('summary');if(!sm||sm.parentElement!==e)return true}
     if(e.nodeType===1&&getComputedStyle(e).contentVisibility==='hidden')return true;
   }
@@ -568,6 +570,7 @@ function ready(){
   function statics(ms){setTimeout(function(){['header.bar','.clock-label','#date','.cue'].forEach(function(q){var e=document.querySelector(q);if(e)cover(e)})},ms)}
   /* nội dung do JS đổ vào muộn (danh sách Steam, thẻ…) trong 6 giây đầu sau khi khối hiện ra thì giải mã nốt; số đếm và khối trực tiếp thì bỏ qua để không nháy */
   var lio=window.IntersectionObserver?new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){lio.unobserve(e.target);cover(e.target)}})},{threshold:.1,rootMargin:'0px 0px -5% 0px'}):null;
+  var lastUser=0;['pointerdown','keydown'].forEach(function(n){addEventListener(n,function(){lastUser=performance.now()},{capture:true,passive:true})});
   function lone(el){if(!lio||!el||el.nodeType!==1||el.__axl||el.closest('.rv')||el.matches('script,style,template'))return;el.__axl=1;lio.observe(el)}
   document.querySelectorAll('section.s .wrap > *').forEach(lone);
   if(window.MutationObserver){
@@ -577,9 +580,9 @@ function ready(){
         var m=ms[i],el=m.target.nodeType===1?m.target:m.target.parentElement;
         for(var k=0;k<m.addedNodes.length;k++){
           var a=m.addedNodes[k];if(a.nodeType!==1)continue;
-          if(el&&el.matches&&el.matches('section.s .wrap'))lone(a);
+          if(el&&el.matches&&el.matches('section.s .wrap')&&now-lastUser>1500)lone(a);
           var w=el&&el.closest&&el.closest('.rv');
-          if(w&&w.__axw&&now-w.__axt<=6000&&!w.closest('#live,.stats')){w.__axp=1;sched()}
+          if(w&&w.__axw&&now-w.__axt<=6000&&now-lastUser>1500&&!w.closest('#live,.stats,[data-noax]')){w.__axp=1;sched()}
         }
       }
     }).observe(document.body,{childList:true,subtree:true});
@@ -607,8 +610,6 @@ function ready(){
   else{hero();statics(250)}
   var f=document.querySelector('footer');
   if(f&&'IntersectionObserver' in window){var io=new IntersectionObserver(function(es){if(es[0].isIntersecting){io.disconnect();cover(f)}},{rootMargin:'0px 0px 10% 0px'});io.observe(f)}
-  var v=document.getElementById('view');
-  if(v)new MutationObserver(function(){if(!v.hidden)cover(v)}).observe(v,{attributes:true,attributeFilter:['hidden']});
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ready);else ready();
 })();
@@ -2041,7 +2042,7 @@ window.__autoLang=function(){
       <a class="nx" href="#photos">Ảnh</a>
       <a href="#lab">Góc chơi</a>
       <a href="#log">Nhật ký</a>
-      <a href="#tkb">Thời khoá biểu</a>
+      <a href="#tkb" title="Thời khoá biểu">TKB</a>
       <a class="nx" href="#faq">Hỏi đáp</a>
       <a class="nx" href="#contact">Liên hệ</a>
       <a class="nx" href="#map">Bản đồ</a>
@@ -6280,6 +6281,7 @@ document.addEventListener('langchange',ap);ap();
 window.__fold=function(els,show,apply){
  var R=document.documentElement,rm=matchMedia('(prefers-reduced-motion: reduce)').matches||R.getAttribute('data-motion')==='off';
  els=(els||[]).filter(Boolean);
+ if(show)els.forEach(function(e){e.setAttribute('data-noax','')});
  if(rm||!els.length||!els[0].animate){apply();return}
  var key=els[0],tok=(key.__ft=(key.__ft||0)+1),D=280,E='cubic-bezier(.2,.8,.2,1)';
  var z={height:'0px',opacity:0,marginTop:'0px',marginBottom:'0px',paddingTop:'0px',paddingBottom:'0px'};
