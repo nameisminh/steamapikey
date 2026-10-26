@@ -1561,6 +1561,17 @@ body{overscroll-behavior-y:none}
 .kk.dn{background:var(--acc);border-color:var(--acc);color:#000;transform:translateY(1px)}
 .klast{font:400 .85rem var(--mono);color:var(--muted)}
 .cmsg{min-height:1.6em;margin:.2rem 0 0;color:var(--muted);font-size:.9rem}
+.pno{position:relative;height:11rem;margin:.4rem 0 1rem;border:1px solid var(--line);border-radius:.6rem;overflow:hidden;background:#0b0b0b;user-select:none;-webkit-user-select:none;touch-action:none}
+.pk{position:absolute;box-sizing:border-box;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;cursor:pointer;transition:background .06s,transform .06s}
+.pk.w{top:0;bottom:0;z-index:1;padding-bottom:.45rem;background:linear-gradient(#f6f6f6,#dadada);border-right:1px solid #8a8a8a;color:#555}
+.pk.b{top:0;height:62%;z-index:2;padding-bottom:.3rem;background:linear-gradient(#2e2e2e,#050505);border:1px solid #000;border-top:0;border-radius:0 0 .3rem .3rem;color:#a0a0a0}
+.pk.dn{background:var(--acc);color:#000}
+.pk.b.dn{transform:translateY(1px)}
+.pk i{font:400 .62rem/1.2 var(--mono);font-style:normal;pointer-events:none}
+.pno .nl,.pno.lbn .kl{display:none}
+.pno.lbn .nl{display:block}
+.btn[aria-pressed="true"].tg{background:var(--white);color:var(--bg)}
+@media (max-width:560px){.pno{height:9rem}.pk i{font-size:.5rem}}
 @media (prefers-reduced-motion:reduce){.cpad.pop,.cprompt.hit,.cprompt.miss{animation:none}.kk,.lchips span{transition:none}}
 :root[data-motion="off"] :is(.cpad.pop,.cprompt.hit,.cprompt.miss){animation:none}
 .fpsb{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(max(16px,env(safe-area-inset-bottom,0px)) + 108px);z-index:9;width:44px;height:44px;padding:0;border-radius:50%;border:1px solid var(--line-hi);background:var(--card);color:var(--muted);display:grid;place-content:center;justify-items:center;cursor:pointer;font:700 .8rem/1 var(--mono);font-variant-numeric:tabular-nums}
@@ -2658,6 +2669,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
           <button type="button" role="tab" id="labt-combo" data-t="combo" aria-selected="false" aria-controls="lab-combo"><i data-ic="zap"></i>Combo</button>
           <button type="button" role="tab" id="labt-spk" data-t="spk" aria-selected="false" aria-controls="lab-spk"><i data-ic="headphones"></i>Test loa</button>
           <button type="button" role="tab" id="labt-mic" data-t="mic" aria-selected="false" aria-controls="lab-mic"><i data-ic="mic"></i>Test micro</button>
+          <button type="button" role="tab" id="labt-piano" data-t="piano" aria-selected="false" aria-controls="lab-piano"><i data-ic="piano"></i>Đánh đàn piano</button>
         </div>
 
         <div class="labp" id="lab-kb" role="tabpanel" aria-labelledby="labt-kb">
@@ -2766,6 +2778,24 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
           <audio id="mcau" controls hidden></audio>
           <p class="cmsg" id="mcmsg">Bấm "Bật micro" rồi nói thử. Thanh phía trên nhảy theo giọng của bạn là micro hoạt động.</p>
           <p class="note">Trình duyệt sẽ hỏi quyền dùng micro. Âm thanh chỉ được xử lý ngay trên máy bạn, không gửi đi đâu, và micro tắt ngay khi bạn chuyển tab hoặc bấm "Tắt micro". Cần mở trang qua HTTPS. Mình tắt tự động chỉnh âm và khử ồn của trình duyệt để bạn thấy đúng tín hiệu thô của micro.</p>
+        </div>
+
+        <div class="labp" id="lab-piano" role="tabpanel" aria-labelledby="labt-piano" hidden>
+          <div class="lstats">
+            <div><b id="pnote">—</b><span>Nốt vừa bấm</span></div>
+            <div><b id="pcnt">0</b><span>Số nốt đã bấm</span></div>
+          </div>
+          <div class="lrow">
+            <button class="btn" id="pdemo" type="button" aria-pressed="false">Nghe thử một đoạn</button>
+            <button class="btn line" id="psus" type="button" aria-pressed="false">Giữ nốt (Space)</button>
+            <button class="btn line" id="plbl" type="button" aria-pressed="false">Nhãn: phím máy tính</button>
+          </div>
+          <div class="lrow sl">
+            <label>Âm lượng <b id="pvv">40%</b><input id="pv" type="range" min="5" max="100" value="40" aria-label="Âm lượng"></label>
+          </div>
+          <div class="pno" id="pno" role="group" aria-label="Phím đàn piano"></div>
+          <p class="cmsg" id="pmsg">Bấm chuột, chạm màn hình hoặc gõ phím để đánh. Hàng Z X C V B N M là quãng 4, hàng Q W E R T Y U I là quãng 5. Phím đen là S D G H J và 2 3 5 6 7. Rê ngón tay qua các phím để vuốt nốt.</p>
+          <p class="note">Khi phần này đang hiện trên màn hình, các phím tắt của trang (T, M, P, R, F...) tạm thời bị tắt để không đụng phím đàn, cuộn đi chỗ khác là dùng lại bình thường. Giữ Space để ngân nốt như đạp pedal. Âm thanh được tạo ngay trong trình duyệt bằng Web Audio, không tải file nào và không gửi đi đâu.</p>
         </div>
       </div>
     </div>
@@ -3417,7 +3447,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){o.unobserve(e.target);fn(e.target)}})},{threshold:thr});
     els.forEach(function(el){o.observe(el)});
   }
-  var SECS=[['hero','Đồng hồ','profile hồ sơ clock'],['intro','Giới thiệu','profile ming avatar'],['links','Liên kết','link social mạng xã hội'],['live','Ngay lúc này','discord status trạng thái'],['now','Dạo này','now'],['play','Đang chơi','game'],['mod','Dự án việt hoá','mod dịch translate'],['hobby','Sở thích','hobby'],['idol','Nghệ sĩ','ca sĩ idol artist'],['playlist','Playlist','nhạc music bài hát'],['stats','Vài con số','số liệu thống kê numbers stats'],['facts','Sự thật thú vị','sự thật facts fun'],['lab','Góc chơi','mini game lab'],['photos','Vài tấm ảnh','ảnh hình photo gallery'],['log','Nhật ký','blog diary'],['tkb','Thời khoá biểu','lịch học tkb schedule timetable'],['faq','Hỏi đáp','faq câu hỏi'],['contact','Liên hệ','contact discord facebook email'],['map','Bản đồ','map địa chỉ vị trí thời tiết weather']];
+  var SECS=[['hero','Đồng hồ','profile hồ sơ clock'],['intro','Giới thiệu','profile ming avatar'],['links','Liên kết','link social mạng xã hội'],['live','Ngay lúc này','discord status trạng thái'],['now','Dạo này','now'],['play','Đang chơi','game'],['mod','Dự án việt hoá','mod dịch translate'],['hobby','Sở thích','hobby'],['idol','Nghệ sĩ','ca sĩ idol artist'],['playlist','Playlist','nhạc music bài hát'],['stats','Vài con số','số liệu thống kê numbers stats'],['facts','Sự thật thú vị','sự thật facts fun'],['lab','Góc chơi','mini game lab piano đàn nhạc'],['photos','Vài tấm ảnh','ảnh hình photo gallery'],['log','Nhật ký','blog diary'],['tkb','Thời khoá biểu','lịch học tkb schedule timetable'],['faq','Hỏi đáp','faq câu hỏi'],['contact','Liên hệ','contact discord facebook email'],['map','Bản đồ','map địa chỉ vị trí thời tiết weather']];
   /* bấm tên Ming: đang ở đầu trang thì tải lại, còn không thì cuộn lên đầu (không để lại #hero trên link) */
   (function(){
     var br=document.getElementById('brand');if(!br)return;
@@ -4759,6 +4789,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     gamepad:'<rect x="2.5" y="7" width="19" height="11" rx="5.5"/><path d="M7.5 10.5v4M5.5 12.5h4"/><path d="M15.5 11.5h.01M18 13.5h.01"/>',
     book:'<path class="pl" d="M12 6.5C10.5 5 8 4.5 4 4.5v13c4 0 6.5.5 8 2z"/><path class="pr" d="M12 6.5c1.5-1.5 4-2 8-2v13c-4 0-6.5.5-8 2z"/>',
     music:'<path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/>',
+    piano:'<rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M8.8 5v8M15.2 5v8M12 13v6"/>',
     film:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4"/>',
     pulse:'<path d="M3 12h4l3-8 4 16 3-8h4"/>',
     translate:'<path d="M4 6h9M8.5 4v2M6 6c0 4 3 7 6.5 8M12 6c-.5 3-3 6.5-7 8"/><path d="M13 20l4-9 4 9M14.5 17h5"/>',
@@ -4878,6 +4909,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
   var FACTS=[
     {t:"Ảnh ở trang này trắng đen, rê chuột vào mới lên màu.",h:"#photos"},
     {t:"Góc chơi có test bàn phím, test chuột, test tốc độ gõ chữ và combo.",h:"#lab"},
+    {t:"Góc chơi có cả cây đàn piano để bấm chuột hoặc gõ phím cho kêu.",h:"#lab"},
     {t:"Gõ / hoặc Ctrl + K để tìm nhanh trong trang.",h:"#hero"},
     {t:"Bấm phím T để đổi giao diện sáng hoặc tối.",h:"#hero"},
     {t:"Bấm phím M để tắt hoặc bật toàn bộ hiệu ứng của trang.",h:"#hero"},
@@ -6104,7 +6136,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
   /* ===== góc chơi: test chuột, test bàn phím, combo ===== */
   (function(){
     function $(id){return document.getElementById(id)}
-    var tabs=document.querySelectorAll('.labtabs button'),P={mouse:$('lab-mouse'),kb:$('lab-kb'),combo:$('lab-combo'),spk:$('lab-spk'),mic:$('lab-mic')},stops=[];
+    var tabs=document.querySelectorAll('.labtabs button'),P={mouse:$('lab-mouse'),kb:$('lab-kb'),combo:$('lab-combo'),spk:$('lab-spk'),mic:$('lab-mic'),piano:$('lab-piano')},stops=[];
     if(!tabs.length||!P.mouse)return;
     function stopAll(){stops.forEach(function(f){f()})}
     document.addEventListener('visibilitychange',function(){if(document.hidden)stopAll()});
@@ -6191,6 +6223,118 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       tabs.forEach(function(b){b.addEventListener('click',function(){paused=false;sync()})});
       document.addEventListener('visibilitychange',sync);
       stops.push(stop);stat();
+    })();
+
+    /* --- đánh đàn piano: gõ phím, bấm chuột hoặc chạm; âm thanh tổng hợp bằng Web Audio --- */
+    (function(){
+      var box=$('pno'),panel=P.piano;if(!box||!panel)return;
+      Object.assign(EN,{"Đánh đàn piano":"Play piano","Nốt vừa bấm":"Last note","Số nốt đã bấm":"Notes played","Nghe thử một đoạn":"Play a demo","Dừng nghe thử":"Stop demo","Giữ nốt (Space)":"Sustain (Space)","Nhãn: phím máy tính":"Labels: computer keys","Nhãn: tên nốt":"Labels: note names","Âm lượng":"Volume","Phím đàn piano":"Piano keys","Bấm chuột, chạm màn hình hoặc gõ phím để đánh. Hàng Z X C V B N M là quãng 4, hàng Q W E R T Y U I là quãng 5. Phím đen là S D G H J và 2 3 5 6 7. Rê ngón tay qua các phím để vuốt nốt.":"Click, tap or type to play. The Z X C V B N M row is octave 4 and the Q W E R T Y U I row is octave 5. Black keys are S D G H J and 2 3 5 6 7. Slide your finger across the keys to glide.","Khi phần này đang hiện trên màn hình, các phím tắt của trang (T, M, P, R, F...) tạm thời bị tắt để không đụng phím đàn, cuộn đi chỗ khác là dùng lại bình thường. Giữ Space để ngân nốt như đạp pedal. Âm thanh được tạo ngay trong trình duyệt bằng Web Audio, không tải file nào và không gửi đi đâu.":"While this part is on screen the page shortcuts (T, M, P, R, F...) are turned off so they don't clash with the keys; scroll away and they work again. Hold Space to sustain like a pedal. Sound is generated in your browser with Web Audio, no files are loaded and nothing is sent anywhere.","Góc chơi có cả cây đàn piano để bấm chuột hoặc gõ phím cho kêu.":"The Playground even has a piano you can play with the mouse or keyboard."});
+      var NAMES=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'],BLK={1:1,3:1,6:1,8:1,10:1},FIRST=60,LAST=84;
+      var KEYS={KeyZ:60,KeyS:61,KeyX:62,KeyD:63,KeyC:64,KeyV:65,KeyG:66,KeyB:67,KeyH:68,KeyN:69,KeyJ:70,KeyM:71,Comma:72,
+        KeyQ:72,Digit2:73,KeyW:74,Digit3:75,KeyE:76,KeyR:77,Digit5:78,KeyT:79,Digit6:80,KeyY:81,Digit7:82,KeyU:83,KeyI:84};
+      var LBL={},els={},whites=0,i,c;
+      for(c in KEYS){if(c==='Comma')continue;LBL[KEYS[c]]=c.replace('Key','').replace('Digit','')}
+      for(i=FIRST;i<=LAST;i++)if(!BLK[i%12])whites++;
+      var ww=100/whites,wi=0;
+      function nm(n){return NAMES[n%12]+(Math.floor(n/12)-1)}
+      for(i=FIRST;i<=LAST;i++){
+        var k=document.createElement('div'),b=!!BLK[i%12];
+        k.className='pk '+(b?'b':'w');k.setAttribute('data-n',i);
+        if(b){k.style.left=(wi*ww-ww*.3)+'%';k.style.width=(ww*.6)+'%'}else{k.style.left=(wi*ww)+'%';k.style.width=ww+'%';wi++}
+        k.innerHTML='<i class="kl">'+(LBL[i]||'')+'</i><i class="nl">'+(b?'':(i%12===0?nm(i):NAMES[i%12]))+'</i>';
+        box.appendChild(k);els[i]=k;
+      }
+      var ac=null,master=null,vol=.4,voices={},hold={},cnt={},played=0,sp=false,latch=false;
+      var noteE=$('pnote'),cntE=$('pcnt'),demoB=$('pdemo'),susB=$('psus'),lblB=$('plbl'),volI=$('pv'),volE=$('pvv');
+      susB.classList.add('tg');lblB.classList.add('tg');demoB.classList.add('tg');
+      function ctx(){
+        if(ac){if(ac.state==='suspended')ac.resume();return ac}
+        var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return null;
+        ac=new AC();var cp=ac.createDynamicsCompressor();master=ac.createGain();master.gain.value=vol*.8;master.connect(cp);cp.connect(ac.destination);return ac;
+      }
+      function freq(n){return 440*Math.pow(2,(n-69)/12)}
+      function sound(n){
+        var a=ctx();if(!a)return;
+        if(voices[n])kill(voices[n],true);
+        var t=a.currentTime,f=freq(n),tau=1.4*Math.pow(2,-(n-60)/24),g=a.createGain(),lp=a.createBiquadFilter(),os=[],P=[[1,1],[2,.42],[3,.2],[4,.1],[5,.05]];
+        lp.type='lowpass';lp.Q.value=.3;lp.frequency.setValueAtTime(Math.min(f*9,9000),t);lp.frequency.setTargetAtTime(Math.min(f*2.5,3000),t+.01,.4);
+        g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.6,t+.006);g.gain.setTargetAtTime(0,t+.012,tau);
+        P.forEach(function(p){var o=a.createOscillator(),pg=a.createGain();o.type='sine';o.frequency.value=f*p[0];pg.gain.value=p[1]/1.77;o.connect(pg);pg.connect(lp);o.start(t);o.stop(t+7);os.push(o)});
+        lp.connect(g);g.connect(master);
+        var vc={g:g,o:os,sus:false};voices[n]=vc;
+        os[0].onended=function(){if(voices[n]===vc)delete voices[n];try{g.disconnect()}catch(e){}};
+      }
+      function kill(vc,fast){
+        if(!ac)return;var t=ac.currentTime;
+        vc.g.gain.cancelScheduledValues(t);vc.g.gain.setTargetAtTime(0,t,fast?.015:.14);
+        vc.o.forEach(function(o){try{o.stop(t+(fast?.12:1.2))}catch(e){}});
+      }
+      function off(n){var vc=voices[n];if(!vc)return;if(sp||latch){vc.sus=true;return}kill(vc,false);delete voices[n]}
+      function susUpd(){var on=sp||latch;if(!on)Object.keys(voices).forEach(function(n){if(voices[n].sus&&!cnt[n]){kill(voices[n],false);delete voices[n]}})}
+      function press(n,src){
+        if(hold[src]===n)return;if(hold[src]!==undefined)release(src);
+        hold[src]=n;cnt[n]=(cnt[n]||0)+1;
+        if(cnt[n]===1){if(voices[n])voices[n].sus=false;sound(n);els[n].classList.add('dn')}
+        played++;cntE.textContent=played;noteE.textContent=nm(n)+' · '+freq(n).toFixed(1)+' Hz';
+      }
+      function release(src){
+        var n=hold[src];if(n===undefined)return;delete hold[src];
+        if(--cnt[n]<=0){delete cnt[n];els[n].classList.remove('dn');off(n)}
+      }
+      function allOff(){
+        Object.keys(hold).forEach(release);stopDemo();sp=false;
+        Object.keys(voices).forEach(function(n){kill(voices[n],false)});voices={};cnt={};hold={};
+        box.querySelectorAll('.dn').forEach(function(x){x.classList.remove('dn')});
+      }
+      /* chuột và chạm: giữ và rê ngón để vuốt qua nhiều phím */
+      function keyAt(e){var el=document.elementFromPoint(e.clientX,e.clientY);el=el&&el.closest&&el.closest('.pk');return el?+el.getAttribute('data-n'):null}
+      box.addEventListener('pointerdown',function(e){var k=e.target.closest&&e.target.closest('.pk');if(!k)return;e.preventDefault();try{box.setPointerCapture(e.pointerId)}catch(x){}press(+k.getAttribute('data-n'),'p'+e.pointerId)});
+      box.addEventListener('pointermove',function(e){var s='p'+e.pointerId;if(hold[s]===undefined)return;var n=keyAt(e);if(n!==null&&n!==hold[s])press(n,s)});
+      function pu(e){release('p'+e.pointerId)}
+      box.addEventListener('pointerup',pu);box.addEventListener('pointercancel',pu);box.addEventListener('lostpointercapture',pu);
+      /* bàn phím: chỉ chặn các phím đàn, và chỉ khi phần này đang hiện trên màn hình */
+      function skip(e){var t=e.target,g=t&&t.tagName;return e.ctrlKey||e.metaKey||e.altKey||g==='TEXTAREA'||(g==='INPUT'&&t.type!=='range')}
+      function kd(e){
+        if(skip(e))return;
+        if(e.code==='Space'){if(e.target.tagName==='BUTTON')return;e.preventDefault();e.stopImmediatePropagation();sp=true;return}
+        if(KEYS[e.code]===undefined)return;
+        e.preventDefault();e.stopImmediatePropagation();if(!e.repeat)press(KEYS[e.code],e.code);
+      }
+      function ku(e){
+        if(e.code==='Space'){if(e.target.tagName==='BUTTON')return;e.preventDefault();e.stopImmediatePropagation();sp=false;susUpd();return}
+        if(KEYS[e.code]===undefined)return;
+        e.preventDefault();e.stopImmediatePropagation();release(e.code);
+      }
+      var act=false,vis=false;
+      function sync(){
+        var on=vis&&!panel.hidden&&!document.hidden;
+        if(on&&!act){act=true;window.addEventListener('keydown',kd,true);window.addEventListener('keyup',ku,true);window.addEventListener('blur',allOff)}
+        else if(!on&&act){act=false;window.removeEventListener('keydown',kd,true);window.removeEventListener('keyup',ku,true);window.removeEventListener('blur',allOff);allOff()}
+      }
+      if('IntersectionObserver' in window)new IntersectionObserver(function(es){vis=es[es.length-1].isIntersecting;sync()},{rootMargin:'-35% 0px -35% 0px',threshold:0}).observe(panel);
+      tabs.forEach(function(b){b.addEventListener('click',sync)});
+      document.addEventListener('visibilitychange',sync);
+      /* nghe thử: mở đầu bản Für Elise (nhạc đã hết bản quyền), tính theo nốt móc kép */
+      var SONG=[[76,1],[75,1],[76,1],[75,1],[76,1],[71,1],[74,1],[72,1],[69,3],[60,1],[64,1],[69,1],[71,3],[64,1],[68,1],[71,1],[72,3],[64,1],[76,1],[75,1],[76,1],[75,1],[76,1],[71,1],[74,1],[72,1],[69,3],[60,1],[64,1],[69,1],[71,3],[64,1],[72,1],[71,1],[69,4]],timers=[],playing=false;
+      function stopDemo(){timers.forEach(clearTimeout);timers=[];Object.keys(hold).forEach(function(s){if(s==='demo')release(s)});if(playing){playing=false;demoB.setAttribute('aria-pressed','false');demoB.textContent=T('Nghe thử một đoạn')}}
+      function step(j){
+        if(!playing)return;
+        if(j>=SONG.length){timers.push(setTimeout(stopDemo,300));return}
+        var u=165,d=SONG[j][1]*u;press(SONG[j][0],'demo');
+        timers.push(setTimeout(function(){release('demo')},d*.88));
+        timers.push(setTimeout(function(){step(j+1)},d));
+      }
+      demoB.addEventListener('click',function(){
+        if(playing){stopDemo();return}
+        if(!ctx())return;playing=true;demoB.setAttribute('aria-pressed','true');demoB.textContent=T('Dừng nghe thử');step(0);
+      });
+      susB.addEventListener('click',function(){latch=!latch;susB.setAttribute('aria-pressed',latch?'true':'false');susUpd()});
+      lblB.addEventListener('click',function(){var n=box.classList.toggle('lbn');lblB.setAttribute('aria-pressed',n?'true':'false');lblB.textContent=T(n?'Nhãn: tên nốt':'Nhãn: phím máy tính')});
+      volI.addEventListener('input',function(){vol=volI.value/100;volE.textContent=volI.value+'%';if(master)master.gain.value=vol*.8});
+      document.addEventListener('langchange',function(){
+        demoB.textContent=T(playing?'Dừng nghe thử':'Nghe thử một đoạn');lblB.textContent=T(box.classList.contains('lbn')?'Nhãn: tên nốt':'Nhãn: phím máy tính');
+      });
+      stops.push(allOff);
     })();
 
     /* --- test tốc độ gõ chữ: 60 giây, so từng từ (khu chữ), chữ cứ hiện tiếp cho tới khi hết giờ --- */
