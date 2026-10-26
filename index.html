@@ -50,6 +50,11 @@ var ENABLED=true,ROAM=true,R=document.documentElement;
 if(!ENABLED||R.getAttribute('data-motion')==='off'||R.classList.contains('lite')||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
 function IMS(){return 800}
 var layer,tx,jobs=[],raf=0,last=0,slow=0,dead=false,col={},AR=.6,sprites=[],HL=null;
+/* CHỈ CHẠY MỘT LẦN: người dùng đổi sáng/tối hoặc đổi ngôn ngữ thì dừng hẳn lớp phủ ASCII cho cả trang (xoá phần đang chạy, không giải mã thêm nữa) */
+var frozen=false,uAt=-1e9;
+['pointerdown','keydown','touchstart'].forEach(function(n){addEventListener(n,function(){uAt=performance.now()},{capture:true,passive:true})});
+function freeze(){if(frozen)return;frozen=true;try{jobs.slice().forEach(end)}catch(e){}}
+function userChange(){if(performance.now()-uAt<2500)freeze()}
 var CH='01<>/\\|{}[]=+*#%&$@?!~^:;_-ABCDEFXYZ',DG='0123456789',MONO='"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace';
 R.classList.add('ax');
 function dpr(){return Math.min(devicePixelRatio||1,2)}
@@ -61,7 +66,7 @@ function init(){
   tx=document.createElement('canvas').getContext('2d');
   /* chữ thật vẫn nằm đúng chỗ của nó; chỉ phần chưa giải mã được tô trong suốt bằng CSS Custom Highlight (::highlight(axh)) nên khi xong không thể lệch */
   try{if(window.CSS&&CSS.highlights&&window.Highlight){HL=new Highlight();CSS.highlights.set('axh',HL)}}catch(e){HL=null}
-  colors();new MutationObserver(function(){colors();sprites.forEach(function(s){paint(s,1,0)})}).observe(R,{attributes:true,attributeFilter:['data-theme']});
+  var th0=R.getAttribute('data-theme');colors();new MutationObserver(function(){colors();sprites.forEach(function(s){paint(s,1,0)});var th=R.getAttribute('data-theme');if(th!==th0){th0=th;userChange()}}).observe(R,{attributes:true,attributeFilter:['data-theme']});
 }
 /* chuẩn hoá khoảng trắng nhưng nhớ vị trí gốc của từng ký tự, để cắt Range đúng chỗ */
 function norm(raw){
@@ -271,7 +276,7 @@ var fontsOK=!(document.fonts&&document.fonts.status==='loading'),fontQ=[];
 if(!fontsOK){var fgo=function(){if(fontsOK)return;fontsOK=true;fontQ.splice(0).forEach(function(e){if(e.isConnected)cover(e)})};
   document.fonts.ready.then(function(){setTimeout(fgo,60)});setTimeout(fgo,2500)}
 function cover(el){
-  if(dead||!el)return;
+  if(dead||frozen||!el)return;
   if(!fontsOK){if(fontQ.indexOf(el)<0)fontQ.push(el);return}
   if(!layer)init();
   if(!el.__axw){el.__axw=1;el.__axt=performance.now();watch.push(el);setTimeout(function(){if(el.isConnected){el.__axp=1;sched()}},350)}
@@ -291,7 +296,7 @@ function cover(el){
 var watch=[],swT=0;
 /* khối dài (hoặc ảnh lười nạp) chưa giải mã hết: cuộn tới đâu giải mã tới đó, giống hệt phần đầu */
 function sweep(){
-  swT=0;if(dead)return;var H=innerHeight;
+  swT=0;if(dead||frozen)return;var H=innerHeight;
   for(var i=0;i<watch.length;i++){
     var el=watch[i];
     if(!el.isConnected){watch.splice(i--,1);continue}
@@ -565,6 +570,7 @@ function startRoam(){
 }
 function ready(){
   if(!layer)init();
+  document.addEventListener('langchange',userChange);
   if(ROAM)startRoam();
   /* chữ tĩnh ở đầu trang (thanh menu, nhãn đồng hồ, ngày, nút điểm danh, dòng gợi ý) giải mã cùng kiểu với phần còn lại; đồng hồ vẫn có hiệu ứng riêng */
   function statics(ms){setTimeout(function(){['header.bar','.clock-label','#date','.cue'].forEach(function(q){var e=document.querySelector(q);if(e)cover(e)})},ms)}
@@ -4544,7 +4550,8 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     {t:'Chuyện những người yêu xa ',a:'Vũ.',src:'music/chuyen-nhung-nguoi-yeu-xa-vu-original-vu-official.mp3'},
     {t:'Anh thèm được ngủ',a:'Khói   ',src:'music/khoi-anh-them-duoc-ngu-official-khoi.mp3'},
     {t:'Dù Có Cách Xa',a:'Đinh Mạnh Ninh',src:'music/lyrics-video-du-co-cach-xa-dinh-manh-ninh-dccx-dinh-manh-ninh.mp3'},
-    {t:'10 Ngàn Năm',a:'PC',src:'music/pc-10-ngan-nam-prod-duckie-official-audio-pc-feelingsoundz.mp3'}
+    {t:'10 Ngàn Năm',a:'PC',src:'music/pc-10-ngan-nam-prod-duckie-official-audio-pc-feelingsoundz.mp3'},
+    {t:'Dự báo thời tiết hôm nay mưa',a:'GREY D',src:'music/grey-d-du-bao-thoi-tiet-hom-nay-mua-official-visualizer-st-319-entertainment.mp3'}
   ];
 
   /* ===== thư viện ảnh 3D (Helix / Barrel / Ring / Sphere), dựng từ các ảnh của #gallery ===== */
