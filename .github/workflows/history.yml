@@ -2,15 +2,32 @@ name: history
 on:
   schedule: [{ cron: '*/10 * * * *' }]
   workflow_dispatch:
-permissions: { contents: write }
+permissions:
+  contents: write
+concurrency:
+  group: history
+  cancel-in-progress: false
 jobs:
   sync:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 20 }
-      - run: node tools/history-sync.mjs --once
-      - run: |
-          git config user.name "history-bot"; git config user.email "bot@users.noreply.github.com"
-          git add history.json; git diff --cached --quiet || (git commit -m "history" && git push)
+      - name: Kiểm tra script
+        run: test -f tools/history-sync.mjs || { echo "::error::Repo không có tools/history-sync.mjs"; exit 1; }
+      - name: Chạy script đồng bộ
+        run: node tools/history-sync.mjs --once
+        # Nếu script cần token hoặc key thì thêm vào đây, ví dụ:
+        # env:
+        #   DISCORD_ID: ${{ secrets.DISCORD_ID }}
+      - name: Commit history.json
+        run: |
+          if [ ! -f history.json ]; then echo "Script không tạo history.json, bỏ qua commit"; exit 0; fi
+          git config user.name "history-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add history.json
+          if git diff --cached --quiet; then echo "Không có thay đổi"; exit 0; fi
+          git commit -m "history [skip ci]"
+          git push || { git pull --rebase && git push; }
