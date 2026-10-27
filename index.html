@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#000000">
+<meta name="darkreader-lock">
 <title>Ming</title>
 <meta name="description" content="Trang nhỏ để mọi người biết dạo này tôi đang làm gì.">
 <meta property="og:site_name" content="Ming">
@@ -38,7 +39,7 @@ window.requestAnimationFrame=function(f){var it={f:f,c:false,id:++nid};q.push(it
 window.cancelAnimationFrame=function(id){var it=m[id];if(it){it.c=true;delete m[id]}else if(realC)realC.call(window,id)};
 })();</script>
 <script>document.documentElement.classList.add('js');try{history.scrollRestoration='manual'}catch(e){}try{var _n=navigator,_c=_n.connection;if((_n.hardwareConcurrency||8)<=4||(_n.deviceMemory||8)<=4||(_c&&_c.saveData))document.documentElement.classList.add('lite')}catch(e){}</script>
-<script>try{var _t=localStorage.getItem('theme');if(_t==='light'||_t==='dark')document.documentElement.setAttribute('data-theme',_t);else if(matchMedia('(prefers-color-scheme: light)').matches)document.documentElement.setAttribute('data-theme','light');var _m=localStorage.getItem('motion');if(_m==='auto'||(_m===null&&document.documentElement.classList.contains('lite')))_m='off';if(_m==='off')document.documentElement.setAttribute('data-motion','off')}catch(e){}try{if(_m!=='off'&&!sessionStorage.getItem('seen')&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('pre-on')}catch(e){}</script>
+<script>try{var _t=localStorage.getItem('theme');if(_t==='light'||_t==='dark')document.documentElement.setAttribute('data-theme',_t);else if(matchMedia('(prefers-color-scheme: light)').matches)document.documentElement.setAttribute('data-theme','light');document.documentElement.setAttribute('data-color','off');if(document.documentElement.getAttribute('data-theme')==='light'){var _mc=document.querySelector('meta[name="color-scheme"]'),_tc=document.querySelector('meta[name="theme-color"]');if(_mc)_mc.content='only light';if(_tc)_tc.content='#fafafa'}var _m=localStorage.getItem('motion');if(_m==='auto'||(_m===null&&document.documentElement.classList.contains('lite')))_m='off';if(_m==='off')document.documentElement.setAttribute('data-motion','off');if(localStorage.getItem('colors')==='on')document.documentElement.removeAttribute('data-color')}catch(e){}try{if(_m!=='off'&&!sessionStorage.getItem('seen')&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('pre-on')}catch(e){}</script>
 <script>/* ASCII REVEAL v5
    1) Chữ mã hoá rồi giải mã dần từng dòng: chữ thật luôn nằm đúng chỗ của nó, chỉ phần chưa giải mã bị tô trong suốt (CSS Custom Highlight) và có ký tự lạ vẽ đè lên, nên giải mã xong không thể bị lệch. Số thì chạy ra số.
       Ảnh vỡ thành khối pixel rồi gộp lại, xong ảnh nào hiện ngay ảnh đó (không nháy). Đồng hồ ở đầu trang chỉ chạy số rồi dừng đúng giờ, không gộp chữ.
@@ -639,7 +640,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
 }
 :root[data-theme="light"]{
-color-scheme:light;
+color-scheme:only light;
 --bg:#fafafa; --card:#fff; --line:#e3e3e3; --line-hi:#b9b9b9;
 --text:#0a0a0a; --muted:#6a6a6a; --white:#0a0a0a;
 --fx:0,0,0; --bgrgb:250,250,250; --card2:#efefef; --btnh:#333; --ph1:#e8e8e8; --ph2:#d6d6d6; --ph3:#b5b5b5;
@@ -1561,7 +1562,6 @@ body{overscroll-behavior-y:none}
 .kk.dn{background:var(--acc);border-color:var(--acc);color:#000;transform:translateY(1px)}
 .klast{font:400 .85rem var(--mono);color:var(--muted)}
 .cmsg{min-height:1.6em;margin:.2rem 0 0;color:var(--muted);font-size:.9rem}
-.acam{display:block;width:100%;height:auto;margin:.4rem 0 1rem;border:1px solid var(--line);border-radius:.6rem;background:#0a0a0a}
 @media (prefers-reduced-motion:reduce){.cpad.pop,.cprompt.hit,.cprompt.miss{animation:none}.kk,.lchips span{transition:none}}
 :root[data-motion="off"] :is(.cpad.pop,.cprompt.hit,.cprompt.miss){animation:none}
 .fpsb{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(max(16px,env(safe-area-inset-bottom,0px)) + 108px);z-index:9;width:44px;height:44px;padding:0;border-radius:50%;border:1px solid var(--line-hi);background:var(--card);color:var(--muted);display:grid;place-content:center;justify-items:center;cursor:pointer;font:700 .8rem/1 var(--mono);font-variant-numeric:tabular-nums}
@@ -2056,6 +2056,217 @@ html:not(.js) #ldr{display:none}
 #sfx .sl{opacity:0;transition:opacity .2s}
 #sfx[aria-pressed="false"] .sl{opacity:1}
 #sfx[aria-pressed="false"]{color:var(--muted)}
+
+/* ===== màu chữ: nút palette trên thanh menu hoặc phím C để tắt ===== */
+:root{--c1:#ff5f6d;--c2:#ffc371;--c3:#8bf0a8;--c4:#4fd1ff;--c5:#a78bfa;--c6:#ff7ad9;--gA:var(--c1);--gB:var(--c2);--gC:var(--c6)}
+:root[data-theme="light"]{--c1:#e11d48;--c2:#d97706;--c3:#16a34a;--c4:#0284c7;--c5:#7c3aed;--c6:#c026d3}
+#colors .sl{opacity:0;transition:opacity .2s}
+#colors[aria-pressed="false"] .sl{opacity:1}
+@keyframes cflow{from{background-position:0% 50%}to{background-position:200% 50%}}
+@keyframes cshim{from{background-position:120% 0}to{background-position:-120% 0}}
+@keyframes chue{from{filter:hue-rotate(0deg)}to{filter:hue-rotate(360deg)}}
+@keyframes cglow{from{text-shadow:0 0 .35em color-mix(in srgb,var(--gA) 25%,transparent)}to{text-shadow:0 0 1.1em color-mix(in srgb,var(--gA) 80%,transparent)}}
+:root:not([data-color="off"]) #colors svg{stroke:var(--c4)}
+:root:not([data-color="off"]) #colors:hover{border-color:var(--c6)}
+:root:not([data-color="off"]) ::selection{background:var(--c5);color:#fff}
+:root:not([data-color="off"]) .s:nth-of-type(3n+1){--gA:var(--c1);--gB:var(--c2);--gC:var(--c6)}
+:root:not([data-color="off"]) .s:nth-of-type(3n+2){--gA:var(--c3);--gB:var(--c4);--gC:var(--c5)}
+:root:not([data-color="off"]) .s:nth-of-type(3n){--gA:var(--c6);--gB:var(--c5);--gC:var(--c4)}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+:root:not([data-color="off"]) :is(h2,.bye-t){background:linear-gradient(90deg,var(--gA),var(--gB),var(--gC),var(--gA));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;animation:cflow 7s linear infinite}
+:root:not([data-color="off"]) h1{background:linear-gradient(90deg,var(--c1),var(--c2),var(--c3),var(--c4),var(--c5),var(--c6),var(--c1));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;animation:cflow 10s linear infinite}
+:root:not([data-color="off"]) h1 .mu{-webkit-text-fill-color:var(--muted)}
+:root:not([data-color="off"]) #greet{background:linear-gradient(100deg,var(--muted) 35%,var(--text) 45%,var(--c4) 50%,var(--c6) 55%,var(--muted) 65%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;animation:cshim 5s linear infinite}
+:root:not([data-color="off"]) .bar nav a.on{background:linear-gradient(90deg,var(--c1),var(--c2),var(--c3),var(--c4),var(--c5),var(--c6),var(--c1));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;animation:cflow 5s linear infinite}
+:root:not([data-color="off"]) .brand{background:linear-gradient(90deg,var(--c1),var(--c2),var(--c3),var(--c4),var(--c5),var(--c6),var(--c1));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;animation:cflow 8s linear infinite}
+:root:not([data-color="off"]) .brand i{background:linear-gradient(135deg,var(--c1),var(--c4),var(--c5));-webkit-text-fill-color:#fff;color:#fff}
+}
+:root:not([data-color="off"]) :is(h1,h2,.bye-t,#greet,.eyebrow){animation-play-state:paused}
+:root:not([data-color="off"]) :is(h1,h2,.bye-t,#greet,.eyebrow).vis{animation-play-state:running}
+:root:not([data-color="off"]) .eyebrow{color:var(--gA);text-shadow:0 0 .9em color-mix(in srgb,var(--gA) 45%,transparent);animation:cglow 3.2s ease-in-out infinite alternate}
+:root:not([data-color="off"]) .eyebrow::before{color:var(--gB)}
+:root:not([data-color="off"]) .big #hh{color:var(--c2)}
+:root:not([data-color="off"]) .big #mm{color:var(--c4)}
+:root:not([data-color="off"]) .big #ss{color:var(--c6)}
+:root:not([data-color="off"]) .big .sep{color:var(--c5)}
+:root:not([data-color="off"]) .big span{text-shadow:0 0 .28em color-mix(in srgb,currentColor 45%,transparent)}
+:root:not([data-color="off"]) .big{animation:zoom 1.5s cubic-bezier(.16,1,.3,1) both,chue 18s linear infinite;animation-play-state:running,paused}
+:root:not([data-color="off"]) .big.vis{animation-play-state:running,running}
+:root:not([data-color="off"]) .bar nav a:nth-child(6n+1):hover{color:var(--c1)}
+:root:not([data-color="off"]) .bar nav a:nth-child(6n+2):hover{color:var(--c2)}
+:root:not([data-color="off"]) .bar nav a:nth-child(6n+3):hover{color:var(--c3)}
+:root:not([data-color="off"]) .bar nav a:nth-child(6n+4):hover{color:var(--c4)}
+:root:not([data-color="off"]) .bar nav a:nth-child(6n+5):hover{color:var(--c5)}
+:root:not([data-color="off"]) .bar nav a:nth-child(6n):hover{color:var(--c6)}
+:root:not([data-color="off"]) .card:nth-child(6n+1) h3{color:var(--c1)}
+:root:not([data-color="off"]) .card:nth-child(6n+2) h3{color:var(--c2)}
+:root:not([data-color="off"]) .card:nth-child(6n+3) h3{color:var(--c3)}
+:root:not([data-color="off"]) .card:nth-child(6n+4) h3{color:var(--c4)}
+:root:not([data-color="off"]) .card:nth-child(6n+5) h3{color:var(--c5)}
+:root:not([data-color="off"]) .card:nth-child(6n) h3{color:var(--c6)}
+:root:not([data-color="off"]) .run span:nth-child(6n+1){color:var(--c1)}
+:root:not([data-color="off"]) .run span:nth-child(6n+2){color:var(--c2)}
+:root:not([data-color="off"]) .run span:nth-child(6n+3){color:var(--c3)}
+:root:not([data-color="off"]) .run span:nth-child(6n+4){color:var(--c4)}
+:root:not([data-color="off"]) .run span:nth-child(6n+5){color:var(--c5)}
+:root:not([data-color="off"]) .run span:nth-child(6n){color:var(--c6)}
+:root:not([data-color="off"]) .lstats div:nth-child(5n+1) b{color:var(--c3)}
+:root:not([data-color="off"]) .lstats div:nth-child(5n+2) b{color:var(--c4)}
+:root:not([data-color="off"]) .lstats div:nth-child(5n+3) b{color:var(--c5)}
+:root:not([data-color="off"]) .lstats div:nth-child(5n+4) b{color:var(--c6)}
+:root:not([data-color="off"]) .lstats div:nth-child(5n) b{color:var(--c2)}
+:root:not([data-color="off"]) footer h4{color:var(--c4)}
+@media (prefers-reduced-motion:reduce){
+:root:not([data-color="off"]) :is(h1,h2,.bye-t,#greet,.eyebrow,.big,.brand,.bar nav a.on){animation:none}
+}
+:root[data-motion="off"]:not([data-color="off"]) :is(h1,h2,.bye-t,#greet,.eyebrow,.big,.brand,.bar nav a.on){animation:none}
+
+/* màu thêm: thẻ liên kết, nghệ sĩ, chữ chạy ở đầu trang */
+:root:not([data-color="off"]) .lk:nth-child(6n+1) .lt b{color:var(--c1)}
+:root:not([data-color="off"]) .lk:nth-child(6n+2) .lt b{color:var(--c2)}
+:root:not([data-color="off"]) .lk:nth-child(6n+3) .lt b{color:var(--c3)}
+:root:not([data-color="off"]) .lk:nth-child(6n+4) .lt b{color:var(--c4)}
+:root:not([data-color="off"]) .lk:nth-child(6n+5) .lt b{color:var(--c5)}
+:root:not([data-color="off"]) .lk:nth-child(6n) .lt b{color:var(--c6)}
+:root:not([data-color="off"]) .idc:nth-child(6n+1) .nm{color:var(--c1)}
+:root:not([data-color="off"]) .idc:nth-child(6n+2) .nm{color:var(--c2)}
+:root:not([data-color="off"]) .idc:nth-child(6n+3) .nm{color:var(--c3)}
+:root:not([data-color="off"]) .idc:nth-child(6n+4) .nm{color:var(--c4)}
+:root:not([data-color="off"]) .idc:nth-child(6n+5) .nm{color:var(--c5)}
+:root:not([data-color="off"]) .idc:nth-child(6n) .nm{color:var(--c6)}
+:root:not([data-color="off"]) .trk b:nth-child(6n+1){color:var(--c1)}
+:root:not([data-color="off"]) .trk b:nth-child(6n+2){color:var(--c2)}
+:root:not([data-color="off"]) .trk b:nth-child(6n+3){color:var(--c3)}
+:root:not([data-color="off"]) .trk b:nth-child(6n+4){color:var(--c4)}
+:root:not([data-color="off"]) .trk b:nth-child(6n+5){color:var(--c5)}
+:root:not([data-color="off"]) .trk b:nth-child(6n){color:var(--c6)}
+
+/* ===== màu cho các chỗ còn thiếu ===== */
+:root:not([data-color="off"]) .lead{color:color-mix(in srgb,var(--gB) 45%,var(--muted))}
+:root:not([data-color="off"]) .clock-label{color:var(--c4)}
+:root:not([data-color="off"]) .clock-date{color:color-mix(in srgb,var(--c2) 65%,var(--muted))}
+:root:not([data-color="off"]) .cue a{color:var(--c3)}
+:root:not([data-color="off"]) .hv{color:var(--c5)}
+:root:not([data-color="off"]) .ptitle .pk{color:var(--c5)}
+:root:not([data-color="off"]) .pci b{color:var(--c4)}
+:root:not([data-color="off"]) .pci .pst{color:var(--c3)}
+:root:not([data-color="off"]) .ln .k{color:var(--c3)}
+:root:not([data-color="off"]) .ln .c{color:color-mix(in srgb,var(--c4) 70%,var(--text))}
+:root:not([data-color="off"]) .lt small{color:color-mix(in srgb,var(--gB) 55%,var(--muted))}
+:root:not([data-color="off"]) .lk .la{color:var(--gB)}
+:root:not([data-color="off"]) .card small{color:var(--gB)}
+:root:not([data-color="off"]) .gn small{color:var(--gB)}
+:root:not([data-color="off"]) .bd .mini{color:var(--gB)}
+:root:not([data-color="off"]) .champ figcaption{color:var(--gC)}
+:root:not([data-color="off"]) .head em.sync{color:var(--c3)}
+:root:not([data-color="off"]) .rows .ix{color:var(--gC)}
+:root:not([data-color="off"]) .rows .nm{color:var(--gB)}
+:root:not([data-color="off"]) .rows em{color:var(--c3)}
+:root:not([data-color="off"]) .rows .st{color:var(--c2)}
+:root:not([data-color="off"]) .stats span{color:color-mix(in srgb,var(--gB) 55%,var(--muted))}
+:root:not([data-color="off"]) .ffchip small{color:var(--gB)}
+:root:not([data-color="off"]) .ffbar .cnt{color:var(--c4)}
+:root:not([data-color="off"]) .dds b{color:var(--gB)}
+:root:not([data-color="off"]) #log time{color:var(--c4)}
+:root:not([data-color="off"]) #log small{color:var(--c3)}
+:root:not([data-color="off"]) #log b{color:var(--gB)}
+:root:not([data-color="off"]) .tkb-list b{color:var(--gB)}
+:root:not([data-color="off"]) .tkb-list time{color:var(--c4)}
+:root:not([data-color="off"]) .tkb-tabs button.today{color:var(--c2)}
+:root:not([data-color="off"]) .final>p:not(.note){color:color-mix(in srgb,var(--c6) 55%,var(--text))}
+:root:not([data-color="off"]) .final .note{color:var(--c2)}
+:root:not([data-color="off"]) .wxm .wxt{color:var(--c2)}
+:root:not([data-color="off"]) .wxd b{color:var(--gB)}
+:root:not([data-color="off"]) .wxd small{color:var(--c4)}
+:root:not([data-color="off"]) .copy span{color:color-mix(in srgb,var(--c3) 60%,var(--muted))}
+:root:not([data-color="off"]) .bye-s{color:color-mix(in srgb,var(--c4) 55%,var(--muted))}
+:root:not([data-color="off"]) .pbadges li:nth-child(6n+1) span{color:var(--c1)}
+:root:not([data-color="off"]) .pbadges li:nth-child(6n+2) span{color:var(--c2)}
+:root:not([data-color="off"]) .pbadges li:nth-child(6n+3) span{color:var(--c3)}
+:root:not([data-color="off"]) .pbadges li:nth-child(6n+4) span{color:var(--c4)}
+:root:not([data-color="off"]) .pbadges li:nth-child(6n+5) span{color:var(--c5)}
+:root:not([data-color="off"]) .pbadges li:nth-child(6n) span{color:var(--c6)}
+:root:not([data-color="off"]) .qlinks a.ql:nth-child(6n+1){color:var(--c1)}
+:root:not([data-color="off"]) .qlinks a.ql:nth-child(6n+2){color:var(--c2)}
+:root:not([data-color="off"]) .qlinks a.ql:nth-child(6n+3){color:var(--c3)}
+:root:not([data-color="off"]) .qlinks a.ql:nth-child(6n+4){color:var(--c4)}
+:root:not([data-color="off"]) .qlinks a.ql:nth-child(6n+5){color:var(--c5)}
+:root:not([data-color="off"]) .qlinks a.ql:nth-child(6n){color:var(--c6)}
+:root:not([data-color="off"]) .gc:nth-child(6n+1) .gn{color:var(--c1)}
+:root:not([data-color="off"]) .gc:nth-child(6n+2) .gn{color:var(--c2)}
+:root:not([data-color="off"]) .gc:nth-child(6n+3) .gn{color:var(--c3)}
+:root:not([data-color="off"]) .gc:nth-child(6n+4) .gn{color:var(--c4)}
+:root:not([data-color="off"]) .gc:nth-child(6n+5) .gn{color:var(--c5)}
+:root:not([data-color="off"]) .gc:nth-child(6n) .gn{color:var(--c6)}
+:root:not([data-color="off"]) .hob:nth-child(6n+1) .t h3{color:var(--c1)}
+:root:not([data-color="off"]) .hob:nth-child(6n+2) .t h3{color:var(--c2)}
+:root:not([data-color="off"]) .hob:nth-child(6n+3) .t h3{color:var(--c3)}
+:root:not([data-color="off"]) .hob:nth-child(6n+4) .t h3{color:var(--c4)}
+:root:not([data-color="off"]) .hob:nth-child(6n+5) .t h3{color:var(--c5)}
+:root:not([data-color="off"]) .hob:nth-child(6n) .t h3{color:var(--c6)}
+:root:not([data-color="off"]) .card:nth-child(6n+1) .pn{color:var(--c1)}
+:root:not([data-color="off"]) .card:nth-child(6n+2) .pn{color:var(--c2)}
+:root:not([data-color="off"]) .card:nth-child(6n+3) .pn{color:var(--c3)}
+:root:not([data-color="off"]) .card:nth-child(6n+4) .pn{color:var(--c4)}
+:root:not([data-color="off"]) .card:nth-child(6n+5) .pn{color:var(--c5)}
+:root:not([data-color="off"]) .card:nth-child(6n) .pn{color:var(--c6)}
+:root:not([data-color="off"]) .faq details:nth-child(6n+1) summary{color:color-mix(in srgb,var(--c1) 75%,var(--muted))}
+:root:not([data-color="off"]) .faq details:nth-child(6n+2) summary{color:color-mix(in srgb,var(--c2) 75%,var(--muted))}
+:root:not([data-color="off"]) .faq details:nth-child(6n+3) summary{color:color-mix(in srgb,var(--c3) 75%,var(--muted))}
+:root:not([data-color="off"]) .faq details:nth-child(6n+4) summary{color:color-mix(in srgb,var(--c4) 75%,var(--muted))}
+:root:not([data-color="off"]) .faq details:nth-child(6n+5) summary{color:color-mix(in srgb,var(--c5) 75%,var(--muted))}
+:root:not([data-color="off"]) .faq details:nth-child(6n) summary{color:color-mix(in srgb,var(--c6) 75%,var(--muted))}
+:root:not([data-color="off"]) .fgrid ul li:nth-child(6n+1) a{color:color-mix(in srgb,var(--c1) 65%,var(--muted))}
+:root:not([data-color="off"]) .fgrid ul li:nth-child(6n+2) a{color:color-mix(in srgb,var(--c2) 65%,var(--muted))}
+:root:not([data-color="off"]) .fgrid ul li:nth-child(6n+3) a{color:color-mix(in srgb,var(--c3) 65%,var(--muted))}
+:root:not([data-color="off"]) .fgrid ul li:nth-child(6n+4) a{color:color-mix(in srgb,var(--c4) 65%,var(--muted))}
+:root:not([data-color="off"]) .fgrid ul li:nth-child(6n+5) a{color:color-mix(in srgb,var(--c5) 65%,var(--muted))}
+:root:not([data-color="off"]) .fgrid ul li:nth-child(6n) a{color:color-mix(in srgb,var(--c6) 65%,var(--muted))}
+:root:not([data-color="off"]) .ffchip:not(.on):not([aria-pressed="true"]):nth-child(6n+1){color:var(--c1)}
+:root:not([data-color="off"]) .ffchip:not(.on):not([aria-pressed="true"]):nth-child(6n+2){color:var(--c2)}
+:root:not([data-color="off"]) .ffchip:not(.on):not([aria-pressed="true"]):nth-child(6n+3){color:var(--c3)}
+:root:not([data-color="off"]) .ffchip:not(.on):not([aria-pressed="true"]):nth-child(6n+4){color:var(--c4)}
+:root:not([data-color="off"]) .ffchip:not(.on):not([aria-pressed="true"]):nth-child(6n+5){color:var(--c5)}
+:root:not([data-color="off"]) .ffchip:not(.on):not([aria-pressed="true"]):nth-child(6n){color:var(--c6)}
+:root:not([data-color="off"]) .labtabs button:not([aria-selected="true"]):not([aria-pressed="true"]):not(.on):nth-child(6n+1){color:var(--c1)}
+:root:not([data-color="off"]) .labtabs button:not([aria-selected="true"]):not([aria-pressed="true"]):not(.on):nth-child(6n+2){color:var(--c2)}
+:root:not([data-color="off"]) .labtabs button:not([aria-selected="true"]):not([aria-pressed="true"]):not(.on):nth-child(6n+3){color:var(--c3)}
+:root:not([data-color="off"]) .labtabs button:not([aria-selected="true"]):not([aria-pressed="true"]):not(.on):nth-child(6n+4){color:var(--c4)}
+:root:not([data-color="off"]) .labtabs button:not([aria-selected="true"]):not([aria-pressed="true"]):not(.on):nth-child(6n+5){color:var(--c5)}
+:root:not([data-color="off"]) .labtabs button:not([aria-selected="true"]):not([aria-pressed="true"]):not(.on):nth-child(6n){color:var(--c6)}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+:root:not([data-color="off"]) .stats b{background:linear-gradient(90deg,var(--gA),var(--gB),var(--gC));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+}
+
+/* ===== mobile: thanh menu một hàng, nút ⋯ cho các nút phụ ===== */
+#more{display:none}
+.bar .acts{position:relative;z-index:14}
+.morep{position:absolute;right:0;width:max-content;top:calc(100% + .55rem);z-index:12;display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:.5rem;padding:.6rem .65rem;max-width:calc(100vw - 2rem);border:1px solid var(--line-hi);border-radius:1rem;background:var(--card);box-shadow:0 14px 34px rgba(0,0,0,.35)}
+.morep[hidden]{display:none}
+.bar .morep .tgl{width:2.5rem;height:2.5rem}
+.bar .morep .tgl.lang{width:auto;height:2.5rem}
+@media (max-width:40rem){
+#more{display:grid}
+.bar .wrap{flex-wrap:wrap;gap:.3rem .5rem;padding-top:.45rem;padding-bottom:.4rem}
+.bar .acts{flex-wrap:nowrap;gap:.35rem;margin-left:auto}
+.bar .tgl{width:2.35rem;height:2.35rem}
+.bar nav{font-size:.86rem;gap:1.15rem}
+.bar nav a{padding-top:.35rem;padding-bottom:.35rem}
+section.s{padding:3rem 0}
+h2{font-size:1.5rem}
+.lead{margin-bottom:1.2rem}
+.cmb{top:calc(6.6rem + env(safe-area-inset-top,0px))}
+footer{padding-bottom:6rem}
+}
+@media (pointer:coarse){
+.ffchip,.labtabs button,.tkb-tabs button{min-height:2.4rem}
+.bar nav a{padding-top:.4rem;padding-bottom:.4rem}
+}
+/* điện thoại đang xem bản máy tính: chữ và nút to hơn */
+html.dm{font-size:130%}
+html.dm .hv{display:none}
+html.dm .bar .acts{flex-wrap:nowrap;gap:.4rem}
+html.dm .bar .acts>.btn{display:none}
 </style>
 </head>
 <body>
@@ -2145,12 +2356,15 @@ window.__autoLang=function(){
       <button class="tgl" id="bgmtop" type="button" aria-label="Bật nhạc" aria-pressed="false" title="Bật hoặc tắt nhạc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/><path class="sl" d="M3 3l18 18"/></svg></button>
       <button class="tgl" id="sfx" type="button" aria-label="Âm thanh khi nhấn" aria-pressed="true" title="Âm thanh khi nhấn (bật/tắt)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9l9 3.6-4.2 1.6-1.6 4.2z"/><path d="M6.2 6.2L4.8 4.8M9.5 4.5V2.8M4.5 9.5H2.8"/><path class="sl" d="M3 3l18 18"/></svg></button>
       <button class="tgl" id="search" type="button" aria-label="Tìm nhanh" title="Tìm nhanh (/ hoặc Ctrl+K)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></button>
+      <button class="tgl" id="colors" type="button" aria-label="Bật hoặc tắt màu chữ" aria-pressed="true" title="Tắt/bật màu chữ (C)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.4 0 2-1 2-2 0-1.6-1.2-1.8-1.2-3 0-1.1.9-2 2-2H17a4 4 0 0 0 4-4c0-4-4-7-9-7z"/><circle cx="7.5" cy="11" r=".9"/><circle cx="10" cy="7.3" r=".9"/><circle cx="14.3" cy="7.3" r=".9"/><path class="sl" d="M3 3l18 18"/></svg></button>
       <button class="tgl" id="motion" type="button" aria-label="Tắt hoặc bật hiệu ứng chuyển động" aria-pressed="false" title="Tắt/bật hiệu ứng (M)">
         <svg class="pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14M15 5v14"/></svg>
         <svg class="play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>
       </button>
       <button class="tgl lang" id="lang" type="button" aria-label="Đổi ngôn ngữ" title="Tiếng Việt / English"><span data-l="vi" class="on">VI</span><span data-l="en">EN</span></button>
       <button class="tgl sw" id="theme" type="button" aria-label="Đổi giao diện sáng hoặc tối" aria-pressed="false"><span class="sk" aria-hidden="true"><i class="nt"></i><i class="dy"></i><i class="st"></i><svg class="bd" viewBox="0 0 60 28"><path d="M4 6l3.5 4.5L11 6M16 14l3 4 3-4M30 5l3 4 3-4M44 12l2.6 3.6L49.2 12"/></svg><i class="cl"></i><i class="cf"></i><i class="dc"></i><i class="dd"></i></span><span class="kn" aria-hidden="true"></span></button>
+      <button class="tgl" id="more" type="button" aria-label="Thêm tuỳ chọn" aria-expanded="false" aria-controls="morep" title="Thêm"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="19" cy="12" r="1.3"/></svg></button>
+      <div class="morep" id="morep" hidden></div>
       <a class="btn line" href="#contact">Liên hệ</a>
     </div>
   </div>
@@ -2659,7 +2873,6 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
           <button type="button" role="tab" id="labt-combo" data-t="combo" aria-selected="false" aria-controls="lab-combo"><i data-ic="zap"></i>Combo</button>
           <button type="button" role="tab" id="labt-spk" data-t="spk" aria-selected="false" aria-controls="lab-spk"><i data-ic="headphones"></i>Test loa</button>
           <button type="button" role="tab" id="labt-mic" data-t="mic" aria-selected="false" aria-controls="lab-mic"><i data-ic="mic"></i>Test micro</button>
-          <button type="button" role="tab" id="labt-cam" data-t="cam" aria-selected="false" aria-controls="lab-cam"><i data-ic="camera"></i>Camera ASCII</button>
         </div>
 
         <div class="labp" id="lab-kb" role="tabpanel" aria-labelledby="labt-kb">
@@ -2768,37 +2981,6 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
           <audio id="mcau" controls hidden></audio>
           <p class="cmsg" id="mcmsg">Bấm "Bật micro" rồi nói thử. Thanh phía trên nhảy theo giọng của bạn là micro hoạt động.</p>
           <p class="note">Trình duyệt sẽ hỏi quyền dùng micro. Âm thanh chỉ được xử lý ngay trên máy bạn, không gửi đi đâu, và micro tắt ngay khi bạn chuyển tab hoặc bấm "Tắt micro". Cần mở trang qua HTTPS. Mình tắt tự động chỉnh âm và khử ồn của trình duyệt để bạn thấy đúng tín hiệu thô của micro.</p>
-        </div>
-
-        <div class="labp" id="lab-cam" role="tabpanel" aria-labelledby="labt-cam" hidden>
-          <div class="lstats">
-            <div><b id="cfps">—</b><span>Khung hình mỗi giây</span></div>
-            <div><b id="csize">—</b><span>Cột × hàng chữ</span></div>
-          </div>
-          <div class="lrow">
-            <button class="btn" id="cgo" type="button">Bật camera</button>
-            <button class="btn line" id="cflip" type="button">Đổi camera trước/sau</button>
-            <button class="btn line" id="cpick" type="button">Chọn ảnh có sẵn</button>
-            <input type="file" id="cfile" accept="image/*" hidden>
-          </div>
-          <div class="lrow" id="cset" role="group" aria-label="Kiểu hiển thị">
-            <button class="btn line" type="button" data-m="ramp" aria-pressed="true">Chữ ASCII</button>
-            <button class="btn line" type="button" data-m="blk" aria-pressed="false">Khối</button>
-            <button class="btn line" type="button" data-m="bin" aria-pressed="false">Matrix 0 và 1</button>
-          </div>
-          <div class="lrow">
-            <button class="btn line" id="ccol" type="button" aria-pressed="false">Màu</button>
-            <button class="btn line" id="cmir" type="button" aria-pressed="true">Soi gương</button>
-            <button class="btn line" id="cinv" type="button" aria-pressed="false">Đảo sáng tối</button>
-            <button class="btn line" id="csave" type="button">Lưu ảnh PNG</button>
-            <button class="btn line" id="ccopy" type="button">Sao chép chữ</button>
-          </div>
-          <div class="lrow sl">
-            <label>Độ chi tiết <b id="cdv">100</b><input id="cdet" type="range" min="40" max="180" step="10" value="100" aria-label="Độ chi tiết"></label>
-          </div>
-          <canvas class="acam" id="acv" width="720" height="405" aria-label="Hình tranh chữ ASCII"></canvas>
-          <p class="cmsg" id="cmsg">Bật camera để thấy mình thành tranh chữ, hoặc chọn một ảnh có sẵn. Đổi kiểu, màu và độ chi tiết thoải mái.</p>
-          <p class="note">Camera chỉ chạy khi tab này đang hiện trên màn hình, chuyển tab hay cuộn đi chỗ khác là tắt ngay. Hình được xử lý ngay trên máy bạn, không ghi lại và không gửi đi đâu. Cần mở trang qua HTTPS và cho phép trình duyệt dùng camera. Máy yếu thì trang tự giảm độ chi tiết cho mượt.</p>
         </div>
       </div>
     </div>
@@ -3194,7 +3376,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
   function applyTheme(t,save){
     rootEl.setAttribute('data-theme',t);
     tgl.setAttribute('aria-pressed',t==='light');
-    var m=document.querySelector('meta[name="color-scheme"]');if(m)m.content=t;
+    var m=document.querySelector('meta[name="color-scheme"]');if(m)m.content=t==='light'?'only light':'dark';
     var c=document.querySelector('meta[name="theme-color"]');if(c)c.content=t==='light'?'#fafafa':'#000000';
     if(save){try{localStorage.setItem('theme',t)}catch(e){}}
   }
@@ -3429,7 +3611,57 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     setTimeout(function(){location.reload()},550);
   });
 
-  /* phím tắt: T đổi sáng/tối, M tắt/bật hiệu ứng, H lên đầu trang */
+  /* màu chữ: nút palette và phím C để tắt hoặc bật; hiệu ứng màu chỉ chạy khi chữ đang trên màn hình */
+  (function(){
+    var b=document.getElementById('colors');if(!b)return;
+    Object.assign(EN,{"Đã tắt màu chữ":"Text colours off","Đã bật màu chữ":"Text colours on","Tắt/bật màu chữ (C)":"Text colours on/off (C)","Bật hoặc tắt màu chữ":"Turn text colours on or off","Bấm phím C để tắt hoặc bật màu chữ.":"Press C to turn the text colours off or on."});
+    function isOn(){return rootE.getAttribute('data-color')!=='off'}
+    function sync(){b.setAttribute('aria-pressed',isOn()?'true':'false')}
+    sync();
+    b.addEventListener('click',function(){
+      var on=isOn();
+      if(on)rootE.setAttribute('data-color','off');else rootE.removeAttribute('data-color');
+      try{localStorage.setItem('colors',on?'off':'on')}catch(e){}
+      sync();say(T(on?'Đã tắt màu chữ':'Đã bật màu chữ'));
+    });
+    var seen=typeof WeakSet==='function'?new WeakSet():null,io=null;
+    if('IntersectionObserver' in window)io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('vis',e.isIntersecting)})},{rootMargin:'80px 0px'});
+    function scan(){
+      if(!io)return;
+      document.querySelectorAll('h1,h2,.bye-t,#greet,.eyebrow,.big').forEach(function(el){if(seen){if(seen.has(el))return;seen.add(el)}io.observe(el)});
+    }
+    scan();window.addEventListener('hashchange',function(){setTimeout(scan,150)});
+  })();
+
+  /* mobile: dồn các nút phụ (nhạc, âm thanh, hiệu ứng, ngôn ngữ) vào nút ⋯ cho thanh menu gọn một hàng */
+  (function(){
+    var more=document.getElementById('more'),pan=document.getElementById('morep');if(!more||!pan||!window.matchMedia)return;
+    Object.assign(EN,{"Thêm tuỳ chọn":"More options","Thêm":"More"});
+    var items=['bgmlist','bgmtop','sfx','motion','lang'].map(function(i){return document.getElementById(i)}).filter(Boolean),
+        marks=items.map(function(b){var m=document.createComment('');b.parentNode.insertBefore(m,b);return m}),
+        mq=matchMedia('(max-width:40rem)');
+    function close(){pan.hidden=true;more.setAttribute('aria-expanded','false')}
+    function place(){
+      items.forEach(function(b,i){if(mq.matches)pan.appendChild(b);else marks[i].parentNode.insertBefore(b,marks[i].nextSibling)});
+      if(!mq.matches)close();
+    }
+    place();
+    if(mq.addEventListener)mq.addEventListener('change',place);else if(mq.addListener)mq.addListener(place);
+    more.addEventListener('click',function(){var o=pan.hidden;pan.hidden=!o;more.setAttribute('aria-expanded',o?'true':'false')});
+    document.addEventListener('click',function(e){if(!pan.hidden&&!pan.contains(e.target)&&!more.contains(e.target))close()});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+    var bl=document.getElementById('bgmlist');if(bl)bl.addEventListener('click',close);
+  })();
+
+  /* điện thoại bật "xem bản dành cho máy tính": trang rộng 980px nhưng màn nhỏ, tăng cỡ chữ và nút cho dễ đọc, dễ bấm */
+  (function(){
+    try{
+      var coarse=(matchMedia('(pointer:coarse)').matches)||navigator.maxTouchPoints>0,sw=Math.min(screen.width||9999,screen.height||9999);
+      if(coarse&&sw<=640&&window.innerWidth>=760)rootE.classList.add('dm');
+    }catch(e){}
+  })();
+
+  /* phím tắt: T đổi sáng/tối, M tắt/bật hiệu ứng, C tắt/bật màu chữ, H lên đầu trang */
   document.addEventListener('keydown',function(e){
     if(e.metaKey||e.ctrlKey||e.altKey)return;
     var tg=e.target;
@@ -3437,6 +3669,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     var k=(e.key||'').toLowerCase();
     if(k==='t')tgl.click();
     else if(k==='m')mtn.click();
+    else if(k==='c'){var cb=document.getElementById('colors');if(cb)cb.click()}
     else if(k==='h'){
       if(location.hash.indexOf('#/')===0)location.hash='#hero';
       else window.scrollTo({top:0,behavior:calm?'auto':'smooth'});
@@ -3450,7 +3683,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){o.unobserve(e.target);fn(e.target)}})},{threshold:thr});
     els.forEach(function(el){o.observe(el)});
   }
-  var SECS=[['hero','Đồng hồ','profile hồ sơ clock'],['intro','Giới thiệu','profile ming avatar'],['links','Liên kết','link social mạng xã hội'],['live','Ngay lúc này','discord status trạng thái'],['now','Dạo này','now'],['play','Đang chơi','game'],['mod','Dự án việt hoá','mod dịch translate'],['hobby','Sở thích','hobby'],['idol','Nghệ sĩ','ca sĩ idol artist'],['playlist','Playlist','nhạc music bài hát'],['stats','Vài con số','số liệu thống kê numbers stats'],['facts','Sự thật thú vị','sự thật facts fun'],['lab','Góc chơi','mini game lab camera ascii'],['photos','Vài tấm ảnh','ảnh hình photo gallery'],['log','Nhật ký','blog diary'],['tkb','Thời khoá biểu','lịch học tkb schedule timetable'],['faq','Hỏi đáp','faq câu hỏi'],['contact','Liên hệ','contact discord facebook email'],['map','Bản đồ','map địa chỉ vị trí thời tiết weather']];
+  var SECS=[['hero','Đồng hồ','profile hồ sơ clock'],['intro','Giới thiệu','profile ming avatar'],['links','Liên kết','link social mạng xã hội'],['live','Ngay lúc này','discord status trạng thái'],['now','Dạo này','now'],['play','Đang chơi','game'],['mod','Dự án việt hoá','mod dịch translate'],['hobby','Sở thích','hobby'],['idol','Nghệ sĩ','ca sĩ idol artist'],['playlist','Playlist','nhạc music bài hát'],['stats','Vài con số','số liệu thống kê numbers stats'],['facts','Sự thật thú vị','sự thật facts fun'],['lab','Góc chơi','mini game lab'],['photos','Vài tấm ảnh','ảnh hình photo gallery'],['log','Nhật ký','blog diary'],['tkb','Thời khoá biểu','lịch học tkb schedule timetable'],['faq','Hỏi đáp','faq câu hỏi'],['contact','Liên hệ','contact discord facebook email'],['map','Bản đồ','map địa chỉ vị trí thời tiết weather']];
   /* bấm tên Ming: đang ở đầu trang thì tải lại, còn không thì cuộn lên đầu (không để lại #hero trên link) */
   (function(){
     var br=document.getElementById('brand');if(!br)return;
@@ -4798,7 +5031,6 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     heart:'<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/>',
     hash:'<path d="M5 9h14M5 15h14M10 4L8 20M16 4l-2 16"/>',
     image:'<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/>',
-    camera:'<path d="M3 8h3.5l1.8-2.5h7.4L17.5 8H21v11H3z"/><circle cx="12" cy="13" r="3.6"/>',
     terminal:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3"/><path class="cur" d="M12 15h5"/>',
     help:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 1-1 1.7M12 17h.01"/>',
     send:'<path d="M21 3L10 14M21 3l-7 18-4-7-7-4z"/>',
@@ -4912,10 +5144,10 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
   var FACTS=[
     {t:"Ảnh ở trang này trắng đen, rê chuột vào mới lên màu.",h:"#photos"},
     {t:"Góc chơi có test bàn phím, test chuột, test tốc độ gõ chữ và combo.",h:"#lab"},
-    {t:"Góc chơi có camera ASCII biến bạn thành tranh chữ ngay trên trình duyệt.",h:"#lab"},
     {t:"Gõ / hoặc Ctrl + K để tìm nhanh trong trang.",h:"#hero"},
     {t:"Bấm phím T để đổi giao diện sáng hoặc tối.",h:"#hero"},
     {t:"Bấm phím M để tắt hoặc bật toàn bộ hiệu ứng của trang.",h:"#hero"},
+    {t:"Bấm phím C để tắt hoặc bật màu chữ.",h:"#hero"},
     {t:"Bấm phím H để về đầu trang thật nhanh.",h:"#hero"},
     {t:"Trang không bao giờ tự phát nhạc. Bấm phím P hoặc nút nhạc thì mới nghe.",h:"#hero"},
     {t:"Trang có thể đổi giữa tiếng Việt và tiếng Anh ngay trên thanh menu.",h:"#hero"},
@@ -6139,7 +6371,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
   /* ===== góc chơi: test chuột, test bàn phím, combo ===== */
   (function(){
     function $(id){return document.getElementById(id)}
-    var tabs=document.querySelectorAll('.labtabs button'),P={mouse:$('lab-mouse'),kb:$('lab-kb'),combo:$('lab-combo'),spk:$('lab-spk'),mic:$('lab-mic'),cam:$('lab-cam')},stops=[];
+    var tabs=document.querySelectorAll('.labtabs button'),P={mouse:$('lab-mouse'),kb:$('lab-kb'),combo:$('lab-combo'),spk:$('lab-spk'),mic:$('lab-mic')},stops=[];
     if(!tabs.length||!P.mouse)return;
     function stopAll(){stops.forEach(function(f){f()})}
     document.addEventListener('visibilitychange',function(){if(document.hidden)stopAll()});
@@ -6226,114 +6458,6 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       tabs.forEach(function(b){b.addEventListener('click',function(){paused=false;sync()})});
       document.addEventListener('visibilitychange',sync);
       stops.push(stop);stat();
-    })();
-
-    /* --- camera ASCII: biến hình từ camera hoặc ảnh thành tranh chữ, xử lý hoàn toàn trên máy --- */
-    (function(){
-      var cv=$('acv'),panel=P.cam;if(!cv||!panel)return;
-      Object.assign(EN,{"Camera ASCII":"ASCII camera","Khung hình mỗi giây":"Frames per second","Cột × hàng chữ":"Columns × rows","Bật camera":"Start camera","Tắt camera":"Stop camera","Đổi camera trước/sau":"Flip camera","Chọn ảnh có sẵn":"Choose an image","Kiểu hiển thị":"Display style","Chữ ASCII":"ASCII text","Khối":"Blocks","Matrix 0 và 1":"Matrix 0 and 1","Màu":"Colour","Soi gương":"Mirror","Đảo sáng tối":"Invert","Lưu ảnh PNG":"Save PNG","Sao chép chữ":"Copy text","Độ chi tiết":"Detail","Hình tranh chữ ASCII":"ASCII art picture","Bật camera để thấy mình thành tranh chữ, hoặc chọn một ảnh có sẵn. Đổi kiểu, màu và độ chi tiết thoải mái.":"Start the camera to see yourself as text art, or pick an image. Change style, colour and detail freely.","Camera chỉ chạy khi tab này đang hiện trên màn hình, chuyển tab hay cuộn đi chỗ khác là tắt ngay. Hình được xử lý ngay trên máy bạn, không ghi lại và không gửi đi đâu. Cần mở trang qua HTTPS và cho phép trình duyệt dùng camera. Máy yếu thì trang tự giảm độ chi tiết cho mượt.":"The camera only runs while this tab is on screen and switches off as soon as you change tab or scroll away. Images are processed on your device, never recorded or sent anywhere. The page must be opened over HTTPS and the browser must be allowed to use the camera. On weak devices the page lowers the detail by itself.","Bấm \"Bật camera\" hoặc chọn một ảnh":"Press \"Start camera\" or choose an image","Đang mở camera...":"Opening camera...","Camera đang chạy. Bạn đang là tranh chữ!":"Camera is on. You are now text art!","Bạn chưa cho phép dùng camera.":"Camera access was not allowed.","Không tìm thấy camera nào.":"No camera found.","Không mở được camera (có thể máy đang dùng ở app khác).":"Couldn't open the camera (another app may be using it).","Trình duyệt này không hỗ trợ camera, hoặc trang chưa chạy qua HTTPS.":"This browser has no camera support, or the page isn't served over HTTPS.","Không đọc được ảnh này.":"Couldn't read this image.","Đã sao chép tranh chữ.":"Text art copied.","Không sao chép được.":"Couldn't copy.","Chưa có hình để lưu hoặc sao chép.":"Nothing to save or copy yet.","Đã tắt camera. Hình cuối vẫn còn để lưu hoặc sao chép.":"Camera off. The last frame is kept so you can save or copy it.","Đã lưu ảnh PNG.":"PNG saved.","Góc chơi có camera ASCII biến bạn thành tranh chữ ngay trên trình duyệt.":"The Playground has an ASCII camera that turns you into text art right in the browser."});
-      var cx=cv.getContext('2d'),oc=document.createElement('canvas'),ox=oc.getContext('2d',{willReadFrequently:true}),snap=document.createElement('canvas');
-      var goB=$('cgo'),flipB=$('cflip'),pickB=$('cpick'),fileI=$('cfile'),saveB=$('csave'),copyB=$('ccopy'),setEl=$('cset'),colB=$('ccol'),mirB=$('cmir'),invB=$('cinv'),rng=$('cdet'),rv=$('cdv'),fpsE=$('cfps'),szE=$('csize'),msg=$('cmsg');
-      var vid=document.createElement('video');vid.muted=true;vid.setAttribute('playsinline','');
-      var FONT='bold 12px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace',RAMP={ramp:' .:-=+*#%@',bin:' .###'};
-      cx.font=FONT;var cw=cx.measureText('M').width||7.2,chh=Math.round(cw*2);
-      var mode='ramp',color=false,mir=true,inv=false,cols=100,facing='user',stream=null,raf=0,last=0,ft=0,fc=0,src=null,live=false,tk=0,lines=[],ms=0,objUrl=null;
-      function say(s,extra){msg.textContent=T(s)+(extra||'')}
-      function dims(o){return o===vid?[vid.videoWidth,vid.videoHeight]:o.tagName==='IMG'?[o.naturalWidth,o.naturalHeight]:[o.width,o.height]}
-      function idle(){
-        cv.width=720;cv.height=405;cx.fillStyle='#0a0a0a';cx.fillRect(0,0,720,405);
-        cx.fillStyle='#8f8f8f';cx.font='600 18px ui-monospace,Menlo,Consolas,monospace';cx.textAlign='center';cx.textBaseline='middle';
-        cx.fillText(T('Bấm "Bật camera" hoặc chọn một ảnh'),360,202);cx.textAlign='left';lines=[];
-      }
-      function render(){
-        if(!src)return;var dm=dims(src),sw=dm[0],sh=dm[1];if(!sw||!sh)return;
-        var t0=performance.now(),C=cols,R=Math.max(8,Math.round(C*sh/sw*.5)),i,r,c,l,v,k,ch,d,n=C*R,mn=255,mx=0;
-        if(oc.width!==C||oc.height!==R){oc.width=C;oc.height=R}
-        ox.save();if(mir&&(src===vid||src===snap)){ox.translate(C,0);ox.scale(-1,1)}ox.drawImage(src,0,0,C,R);ox.restore();
-        d=ox.getImageData(0,0,C,R).data;var L=new Float32Array(n);
-        for(i=0;i<n;i++){l=.299*d[i*4]+.587*d[i*4+1]+.114*d[i*4+2];L[i]=l;if(l<mn)mn=l;if(l>mx)mx=l}
-        var span=Math.max(24,mx-mn),rp=RAMP[mode]||RAMP.ramp,K=rp.length-1,W=Math.ceil(C*cw),H=R*chh;
-        if(cv.width!==W||cv.height!==H){cv.width=W;cv.height=H}
-        cx.font=FONT;cx.textBaseline='top';cx.textAlign='left';cx.fillStyle='#0a0a0a';cx.fillRect(0,0,W,H);
-        var fg=mode==='bin'?'#22c55e':'#e8e8e8',out=[],txt,x,y,g,blk=mode==='blk';
-        cx.fillStyle=fg;
-        for(r=0;r<R;r++){
-          txt='';y=r*chh;
-          for(c=0;c<C;c++){
-            i=r*C+c;v=(L[i]-mn)/span;if(inv)v=1-v;
-            ch=rp.charAt(Math.round(v*K));if(ch==='#')ch=Math.random()<.5?'0':'1';txt+=ch;
-            x=c*cw;
-            if(blk){
-              if(color)cx.fillStyle='rgb('+d[i*4]+','+d[i*4+1]+','+d[i*4+2]+')';else{g=Math.round(v*255);cx.fillStyle='rgb('+g+','+g+','+g+')'}
-              cx.fillRect(x,y,cw+1,chh);
-            }else if(color&&ch!==' '){
-              cx.fillStyle='rgb('+Math.min(255,d[i*4]*1.15)+','+Math.min(255,d[i*4+1]*1.15)+','+Math.min(255,d[i*4+2]*1.15)+')';cx.fillText(ch,x,y+1);
-            }
-          }
-          out.push(txt);
-          if(!blk&&!color)cx.fillText(txt,0,y+1);
-        }
-        lines=out;szE.textContent=C+' × '+R;
-        ms=ms*.8+(performance.now()-t0)*.2;
-        if(live&&ms>45&&cols>50){setCols(cols-10);ms=20}
-      }
-      function redraw(){if(!live&&src)render()}
-      function setCols(v){cols=v;rng.value=v;rv.textContent=v}
-      function loop(ts){
-        raf=requestAnimationFrame(loop);if(ts-last<60||vid.readyState<2)return;last=ts;render();fc++;
-        if(ts-ft>=1000){fpsE.textContent=Math.round(fc*1000/(ts-ft));fc=0;ft=ts}
-      }
-      function stopCam(){
-        tk++;if(raf){cancelAnimationFrame(raf);raf=0}
-        if(live&&vid.videoWidth){snap.width=vid.videoWidth;snap.height=vid.videoHeight;snap.getContext('2d').drawImage(vid,0,0);src=snap}
-        if(stream){stream.getTracks().forEach(function(t){t.stop()});stream=null}
-        vid.srcObject=null;fpsE.textContent='—';
-        if(live){live=false;goB.textContent=T('Bật camera');goB.setAttribute('aria-pressed','false');say('Đã tắt camera. Hình cuối vẫn còn để lưu hoặc sao chép.')}
-      }
-      function startCam(){
-        if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){say('Trình duyệt này không hỗ trợ camera, hoặc trang chưa chạy qua HTTPS.');return}
-        stopCam();var my=++tk;say('Đang mở camera...');
-        navigator.mediaDevices.getUserMedia({video:{facingMode:facing,width:{ideal:640},height:{ideal:480}},audio:false}).then(function(s){
-          if(my!==tk){s.getTracks().forEach(function(t){t.stop()});return}
-          stream=s;vid.srcObject=s;src=vid;live=true;ms=0;fc=0;ft=performance.now();
-          goB.textContent=T('Tắt camera');goB.setAttribute('aria-pressed','true');
-          var pr=vid.play();if(pr&&pr.catch)pr.catch(function(){});
-          raf=requestAnimationFrame(loop);say('Camera đang chạy. Bạn đang là tranh chữ!');
-        },function(e){
-          if(my!==tk)return;var nm=e&&e.name;
-          say(nm==='NotAllowedError'||nm==='SecurityError'?'Bạn chưa cho phép dùng camera.':nm==='NotFoundError'||nm==='OverconstrainedError'?'Không tìm thấy camera nào.':'Không mở được camera (có thể máy đang dùng ở app khác).');
-        });
-      }
-      goB.addEventListener('click',function(){if(live)stopCam();else startCam()});
-      flipB.addEventListener('click',function(){facing=facing==='user'?'environment':'user';mir=facing==='user';mirB.setAttribute('aria-pressed',mir?'true':'false');if(live)startCam();else redraw()});
-      pickB.addEventListener('click',function(){fileI.click()});
-      fileI.addEventListener('change',function(){
-        var fl=fileI.files&&fileI.files[0];if(!fl)return;
-        var im=new Image(),u=URL.createObjectURL(fl);
-        im.onload=function(){stopCam();if(objUrl)URL.revokeObjectURL(objUrl);objUrl=u;src=im;mir=false;mirB.setAttribute('aria-pressed','false');render();say('',fl.name)};
-        im.onerror=function(){URL.revokeObjectURL(u);say('Không đọc được ảnh này.')};
-        im.src=u;fileI.value='';
-      });
-      modeBar(setEl,function(m){mode=m;redraw()});
-      colB.addEventListener('click',function(){color=!color;colB.setAttribute('aria-pressed',color?'true':'false');redraw()});
-      mirB.addEventListener('click',function(){mir=!mir;mirB.setAttribute('aria-pressed',mir?'true':'false');redraw()});
-      invB.addEventListener('click',function(){inv=!inv;invB.setAttribute('aria-pressed',inv?'true':'false');redraw()});
-      rng.addEventListener('input',function(){setCols(+rng.value);redraw()});
-      saveB.addEventListener('click',function(){
-        if(!lines.length){say('Chưa có hình để lưu hoặc sao chép.');return}
-        cv.toBlob(function(b){if(!b)return;var a=document.createElement('a'),u=URL.createObjectURL(b);a.href=u;a.download='ascii-camera.png';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},4000);say('Đã lưu ảnh PNG.')},'image/png');
-      });
-      copyB.addEventListener('click',function(){
-        if(!lines.length){say('Chưa có hình để lưu hoặc sao chép.');return}
-        var t=lines.join('\n');
-        function fb(){try{var ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();var ok=document.execCommand('copy');ta.remove();say(ok?'Đã sao chép tranh chữ.':'Không sao chép được.')}catch(e){say('Không sao chép được.')}}
-        if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(function(){say('Đã sao chép tranh chữ.')},fb);else fb();
-      });
-      /* camera chỉ chạy khi phần này còn nhìn thấy: cuộn đi hoặc đổi tab là tắt ngay */
-      if('IntersectionObserver' in window)new IntersectionObserver(function(es){if(!es[es.length-1].isIntersecting)stopCam()},{threshold:0}).observe(panel);
-      document.addEventListener('langchange',function(){goB.textContent=T(live?'Tắt camera':'Bật camera');if(!src)idle()});
-      window.addEventListener('pagehide',stopCam);
-      stops.push(stopCam);idle();
     })();
 
     /* --- test tốc độ gõ chữ: 60 giây, so từng từ (khu chữ), chữ cứ hiện tiếp cho tới khi hết giờ --- */
