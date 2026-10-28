@@ -2400,6 +2400,120 @@ footer::after{content:"Ming";display:block;margin-top:2rem;text-align:center;fon
 .final>.note{grid-column:1/-1;margin:1.6rem 0 0;max-width:none;padding-top:1.1rem;border-top:1px solid var(--line)}
 }
 </style>
+<style id="ui-refresh">
+::selection{background:color-mix(in srgb,var(--acc) 25%,transparent)}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+h1,h2,h3{text-wrap:balance}
+</style>
+<style id="ui-refresh-2">
+/* ===== 1. Ẩn hàng nút nhảy nhanh dưới đồng hồ ===== */
+.hjump,.dots{display:none!important}
+
+/* ===== 2. Thanh mục lục bên trái: rail tối giản, không bị cắt/lệch ===== */
+.bar.mini nav{
+  left:auto;right:max(.6rem,env(safe-area-inset-right));top:50%;transform:translateY(-50%);
+  width:1.9rem;max-width:none;max-height:none;overflow:visible;gap:0;padding:.2rem 0;
+  background:none;border:0;border-radius:0;box-shadow:none;align-items:flex-end;animation:none}
+.bar.mini .sbt{display:none!important}
+.bar.mini.sbc nav a{display:block!important}
+.bar.mini nav a,.bar.mini nav a.nx{
+  position:relative;display:block;width:1.9rem;height:1.45rem;padding:0;margin:0;border-radius:999px;
+  color:transparent;font-size:.74rem;line-height:1.45rem;white-space:nowrap;overflow:visible;
+  background:none!important;text-indent:0;
+  transition:width .3s var(--ease),background-color .25s ease,color .2s ease,border-color .25s ease}
+.bar.mini nav a::before{
+  content:"";position:absolute;right:.45rem;top:50%;width:.45rem;height:2px;border-radius:2px;translate:0 -50%;
+  background:var(--line-hi);transition:width .35s var(--ease),background-color .25s ease,box-shadow .25s ease}
+.bar.mini nav a.on::before{width:1.05rem;background:var(--acc);box-shadow:0 0 10px var(--acc)}
+.bar.mini nav a:hover::before,.bar.mini nav a:focus-visible::before{width:.8rem;background:var(--white)}
+.bar.mini nav a:hover,.bar.mini nav a:focus-visible{
+  width:max-content;padding:0 1.75rem 0 .85rem;color:var(--white);
+  background-color:rgba(var(--bgrgb),.94)!important;box-shadow:0 0 0 1px var(--line-hi),0 10px 26px -12px rgba(0,0,0,.6);z-index:2}
+.bar.mini nav a:hover::before,.bar.mini nav a:focus-visible::before{right:.7rem}
+@media (max-height:40rem){.bar.mini nav a,.bar.mini nav a.nx{height:1.1rem;line-height:1.1rem}}
+@media (max-width:40rem){
+  .bar.mini nav{right:.15rem;width:1.3rem}
+  .bar.mini nav a,.bar.mini nav a.nx{width:1.3rem}
+  .bar.mini nav a::before{right:.3rem;width:.35rem}
+  .bar.mini nav a.on::before{width:.7rem}
+}
+body:has(#bgmp:not([hidden])) .bar.mini nav{top:50%;max-height:none}
+
+/* ===== Nút (tĩnh, không animation) ===== */
+.btn{background:linear-gradient(135deg,var(--white),color-mix(in srgb,var(--white) 80%,var(--acc)));border-color:transparent;border-radius:999px}
+.btn:hover{background:linear-gradient(135deg,var(--white),color-mix(in srgb,var(--white) 62%,var(--acc)))}
+.btn.line{background:transparent;border:1px solid var(--line-hi)}
+.btn.line:hover{background:rgba(var(--fx),.06);border-color:var(--acc)}
+.btn.line[aria-pressed="true"]{background:var(--white);border-color:transparent}
+.bar .tgl:not(.sw):not(.lang){border-radius:.85rem;border-color:transparent;background:rgba(var(--fx),.05)}
+.bar .tgl:not(.sw):not(.lang):hover{background:rgba(var(--fx),.12)}
+.bar .tgl[aria-pressed="true"]:not(.sw),.bar .tgl[aria-expanded="true"]{background:color-mix(in srgb,var(--acc) 16%,transparent);color:var(--acc)}
+.bar .tgl.lang{border-radius:.85rem}
+.prog{height:3px;background:linear-gradient(90deg,transparent,var(--acc) 40%,var(--white))}
+</style>
+<style id="ui-refresh-3">
+/* ===== Giao diện hiện đại (chỉ CSS tĩnh, không animation) ===== */
+:root{--surf:linear-gradient(180deg,rgba(var(--fx),.04),rgba(var(--fx),.012));--rad:1.15rem}
+/* chữ */
+.s h2{font-size:clamp(2rem,3.4vw,2.9rem);line-height:1.08;letter-spacing:-.025em}
+.lead{font-size:1.02rem;line-height:1.7;color:var(--muted)}
+.eyebrow{font-size:.74rem;text-transform:uppercase;letter-spacing:.16em}
+/* khoảng thở giữa các mục */
+.s{padding-block:clamp(3.5rem,7vw,6.5rem)}
+/* bề mặt thẻ đồng nhất */
+.lk,.faq>*,.tkb-list li,.card,.hob,.stats>*,.ffs,.panel{
+  background:var(--surf),var(--card);border:1px solid var(--line);border-radius:var(--rad);
+  box-shadow:0 1px 0 rgba(255,255,255,.03) inset}
+.lk,.faq>*,.tkb-list li,.card,.hob{transition:border-color .2s ease,background-color .2s ease}
+@media (hover:hover){.lk:hover,.faq>*:hover,.card:hover,.hob:hover{border-color:var(--line-hi)}}
+.lk:hover .la{border-color:var(--acc);color:var(--acc)}
+.lk .la{border-radius:999px}
+.lk .li{border-radius:.85rem;background:rgba(var(--fx),.05)}
+/* thời khoá biểu: mục đang diễn ra nổi bật bằng viền bên */
+.tkb-list li.now{border-color:var(--acc);box-shadow:inset 3px 0 0 var(--acc)}
+/* chip & tab */
+.ffchip,.tkb-tabs button{border-radius:999px}
+.ffchip.on{background:var(--white);color:var(--bg);border-color:transparent}
+/* chữ tiêu đề có điểm nhấn màu */
+.s h2::after{content:"";display:block;width:2.4rem;height:3px;margin-top:.8rem;border-radius:3px;background:var(--acc)}
+.final h2::after,.clk h2::after{display:none}
+/* thanh đầu trang gọn hơn */
+.bar:not(.mini){border-bottom-color:var(--line)}
+.bar.mini .wrap{box-shadow:0 6px 24px -10px rgba(0,0,0,.35)}
+/* nội dung văn bản dễ đọc */
+p{text-wrap:pretty}
+img{border-radius:inherit}
+</style>
+<style id="ui-refresh-4">
+/* ===== Căn hàng đều, không còn thẻ lẻ ===== */
+/* Liên kết: lưới 3 cột đều nhau */
+#links .lgroup{grid-template-columns:repeat(3,minmax(0,1fr))}
+#links .lgroup>.lk:first-child{grid-column:auto;padding-block:.9rem}
+#links .lk{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-areas:"i t" "a a";align-items:center;gap:.7rem .8rem;padding:1rem}
+#links .lk .li{grid-area:i}
+#links .lk .lt{grid-area:t}
+#links .lk .la{grid-area:a;justify-self:start}
+@media (max-width:40rem){#links .lgroup{grid-template-columns:1fr}#links .lk{grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"i t a"}}
+/* Nghệ sĩ: 3 thẻ một hàng; khi mở rộng 10 thẻ thành 2 hàng x 5 */
+.idgrid{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (min-width:64rem){.idgrid.open:has(.idc:nth-child(10):last-child){grid-template-columns:repeat(5,minmax(0,1fr))}
+.idgrid.open:has(.idc:nth-child(10):last-child) .idc .nm{display:block;font-size:.88rem;overflow:hidden;text-overflow:ellipsis}
+.idgrid.open:has(.idc:nth-child(10):last-child) .idc .nm i{display:none}}
+@media (max-width:40rem){.idgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.idc{display:flex;flex-direction:column}
+.idc .ph{flex:none;width:100%}
+.idc .nm{flex:1;min-width:0;padding:.8rem .9rem}
+.idc .nm{white-space:nowrap}
+.idgrid .idc .nm{overflow:hidden;text-overflow:ellipsis;display:flex}
+.idc .nm i{flex:none}
+/* Playlist: 3 thẻ cùng một hàng, nút xếp dọc cho gọn */
+@media (min-width:40.01rem){
+  .pls{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .pls .card .pa{grid-template-columns:1fr}
+  .pls .card.open{grid-column:1/-1}
+}
+.pls .card .pa .btn{min-height:2.4rem}
+</style>
 </head>
 <body>
 <div id="ldr" role="presentation" aria-hidden="true"><div class="ldrg z"><div class="ldgl"><div class="ldring ldtr"></div><div class="ldring ldpg" id="ldp2"></div><i class="lddot ldd1"></i><i class="lddot ldd2"></i></div><div class="ldnm"><span id="ldn">0</span><small>%</small></div></div></div>
