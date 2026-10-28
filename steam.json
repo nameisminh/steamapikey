@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-27T03:07:09.742Z",
+  "updated": "2026-10-28T03:20:12.194Z",
   "name": "ming",
   "avatar": "https://avatars.steamstatic.com/7d8c1937b7bf439198974eae0be807f4ea8cc2ac_full.jpg",
   "url": "https://steamcommunity.com/profiles/76561199474355109/",
@@ -7,17 +7,12 @@
   "games": 106,
   "badges": 7,
   "achievements": 6468,
-  "hours2w": 170.1,
+  "hours2w": 175.4,
   "recent": [
     {
       "n": "ShareX",
-      "h": 1647.5,
+      "h": 1659.3,
       "id": 400040
-    },
-    {
-      "n": "Mini Cozy Room: Lo-Fi",
-      "h": 42.1,
-      "id": 3511030
     },
     {
       "n": "Where Winds Meet",
@@ -33,6 +28,11 @@
       "n": "Dead Island Riptide Definitive Edition",
       "h": 2.1,
       "id": 383180
+    },
+    {
+      "n": "Brawlhalla",
+      "h": 0.5,
+      "id": 291550
     }
   ]
 }
