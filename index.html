@@ -628,8 +628,8 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 <link rel="dns-prefetch" href="https://avatars.akamai.steamstatic.com">
 <link rel="dns-prefetch" href="https://api.lanyard.rest">
 <link rel="dns-prefetch" href="https://cdn.discordapp.com">
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet"></noscript>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet"></noscript>
 <style>
 :root{
 --bg:#000; --card:#0c0c0c; --line:#232323; --line-hi:#4a4a4a;
@@ -2141,6 +2141,7 @@ html:not(.js) #ldr{display:none}
 :root:not([data-color="off"]) .trk b:nth-child(6n+5){color:var(--c5)}
 :root:not([data-color="off"]) .trk b:nth-child(6n){color:var(--c6)}
 
+#dcphost{min-height:22rem}
 /* ===== màu cho các chỗ còn thiếu ===== */
 :root:not([data-color="off"]) .lead{color:color-mix(in srgb,var(--gB) 45%,var(--muted))}
 :root:not([data-color="off"]) .clock-label{color:var(--c4)}
@@ -2267,6 +2268,137 @@ html.dm{font-size:130%}
 html.dm .hv{display:none}
 html.dm .bar .acts{flex-wrap:nowrap;gap:.4rem}
 html.dm .bar .acts>.btn{display:none}
+
+/* ===== giao diện mới: đổi hình dáng, thanh và icon, giữ nguyên bảng màu ===== */
+:root{--head:"Bricolage Grotesque","Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif}
+h1,h2{font-family:var(--head);letter-spacing:-.03em}
+.card h3,.stats b{font-family:var(--head)}
+/* 1. thanh trên cùng: menu dạng viên thuốc có nút trắng trượt theo mục, cụm nút chức năng gom thành một thanh */
+.bar nav{gap:.1rem;padding:.25rem;border:1px solid var(--line);border-radius:999px;background:rgba(var(--fx),.04)}
+.bar:not(.mini) nav a{padding:.3rem .8rem;border-radius:999px;background-image:none;transition:background .2s,color .2s}
+.bar:not(.mini) nav a:hover{background:rgba(var(--fx),.08);color:var(--white)}
+.bar:not(.mini) nav a.on{background:var(--white);color:var(--bg)}
+:root:not([data-color="off"]) .bar:not(.mini) nav a.on{background:var(--white);-webkit-text-fill-color:var(--bg);color:var(--bg);animation:none}
+:root:not([data-color="off"]) .bar:not(.mini) nav a:nth-child(n):hover{color:var(--white)}
+.bar .acts{gap:.1rem;padding:.25rem;border:1px solid var(--line);border-radius:999px;background:rgba(var(--fx),.04);flex-wrap:nowrap}
+.bar .tgl{width:2.15rem;height:2.15rem;border:0;border-radius:999px;background:transparent;color:var(--muted);transition:background .2s,color .2s}
+.bar .tgl:hover{transform:none;background:rgba(var(--fx),.1);color:var(--white)}
+.bar .tgl[aria-pressed="true"],.bar .tgl.on{color:var(--white)}
+#bgmtop.on,#bgmlist.on{background:var(--white);color:var(--bg);border:0}
+.bar .tgl.sw{border:1px solid var(--line-hi);margin:0 .15rem}
+.bar .acts>.btn{display:inline-flex;margin-left:.2rem;padding:.4rem 1rem;border-radius:999px}
+.bar .brand i{border-radius:.6rem}
+/* 2. icon: bộ mới. Nút trên menu dùng khối đặc bo tròn, nét đậm cho kính lúp; icon trong trang dùng hai lớp (nền mờ và nét) */
+.tgl svg.g{fill:currentColor;stroke:currentColor;stroke-width:.9;stroke-linejoin:round}
+.tgl svg.g .sl,.tgl svg.g .ln{fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}
+.tgl svg.b{fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round}
+.tgl svg{width:1.3rem;height:1.3rem}
+.bgq svg{fill:currentColor;stroke:currentColor;stroke-width:.9;stroke-linejoin:round}
+.bgq svg{width:1.1rem;height:1.1rem}
+.ic2{stroke-width:1.9;fill:currentColor;fill-opacity:.16}
+.ic2{fill:var(--acc)}
+.btn .ic2{fill:currentColor}
+.ic2.arrowdown,.ic2.chevrons,.ic2.x,.ic2.hash,.ic2.pulse,.ic2.link,.ic2.send,.ic2.help,.ic2.compass,.ic2.translate,.ic2.notes,.ic2.terminal,.ic2.mic,.ic2.keyboard,.ic2.mouse{fill:none}
+.eyebrow.ei .ic2{width:1.95rem;height:1.95rem;padding:.42rem;margin-right:.35rem;border:1px solid var(--line-hi);border-radius:.65rem;background:rgba(var(--fx),.05);vertical-align:middle}
+.card small .ic2{width:1.75rem;height:1.75rem;padding:.38rem;margin-right:.6rem;border:1px solid var(--line-hi);border-radius:.6rem;background:rgba(var(--fx),.05);vertical-align:middle}
+.lk .li{border-radius:.85rem;background:rgba(var(--fx),.05)}
+/* 3. thanh phát nhạc góc trái: ba nút liền thành một viên thuốc */
+.bgm,.bgq{width:44px;height:44px;bottom:calc(1.25rem + env(safe-area-inset-bottom,0px));border-color:var(--line-hi)}
+.bgm{border-radius:999px 0 0 999px}
+.bgm{left:16px}
+#bgmq{left:60px;border-radius:0;border-left-width:0}
+#bgmn{left:104px;border-radius:0 999px 999px 0;border-left-width:0}
+.bgm:hover,.bgq:hover{transform:none;background:rgba(var(--fx),.12)}
+.rndb,.fpsb{border-radius:.9rem}
+/* 4. thanh chấm bên phải: có đường ray nối các mục */
+.dots{padding:.45rem .15rem;border:1px solid var(--line);border-radius:999px;background:rgba(var(--bgrgb),.7);gap:.15rem}
+.dots::before{content:"";position:absolute;left:50%;top:.9rem;bottom:.9rem;width:1px;background:var(--line);transform:translateX(-50%)}
+.dots a{z-index:1}
+/* 5. mục, thẻ và nút */
+section.s{border-top:0}
+section.s::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:min(68rem,calc(100% - 2.5rem));height:1px;background:linear-gradient(90deg,transparent,var(--line-hi) 18%,var(--line-hi) 82%,transparent);opacity:.7}
+footer{border-top:0;position:relative}
+footer::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:min(68rem,calc(100% - 2.5rem));height:1px;background:linear-gradient(90deg,transparent,var(--line-hi) 50%,transparent)}
+.card,.stats>div{border-radius:1.35rem;box-shadow:inset 0 1px 0 rgba(var(--fx),.06)}
+.lk{border-radius:1.1rem;box-shadow:inset 0 1px 0 rgba(var(--fx),.06)}
+.final{border-radius:1.75rem}
+.btn{border-radius:999px}
+.bar{background:rgba(var(--bgrgb),.9)}
+@media (min-width:40.01rem){.bar:not(.mini){background:rgba(var(--bgrgb),.72);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}}
+@media (max-width:40rem){
+.bar nav{gap:.1rem;font-size:.86rem}
+.bar .acts{padding:.2rem;flex:0 0 auto;margin-left:auto}
+.bar .tgl{width:2.2rem;height:2.2rem}
+.bar .acts>.btn{display:none}
+.bar .morep{border-radius:1.4rem}
+}
+
+/* ===== bố cục sâu hơn: số thứ tự mục, tiêu đề dính bên trái, ô lưới kiểu bento, khung ngắm ở đồng hồ ===== */
+#home{counter-reset:sec}
+#home>section.s{counter-increment:sec}
+#home>section.s .sxh::before{content:counter(sec,decimal-leading-zero);display:block;margin-bottom:.9rem;font:800 clamp(2.6rem,5.5vw,4.2rem)/.95 var(--head);letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px var(--line-hi)}
+#contact .sxh::before{display:none}
+/* khung ngắm bốn góc quanh đồng hồ và thanh tiến trình trong ngày */
+.clk .in{position:relative;padding:2.4rem clamp(1.4rem,6vw,4.5rem)}
+.clk .in::before{content:"";position:absolute;inset:0;pointer-events:none;background:
+linear-gradient(var(--line-hi),var(--line-hi)) left top/1.6rem 1px no-repeat,linear-gradient(var(--line-hi),var(--line-hi)) left top/1px 1.6rem no-repeat,
+linear-gradient(var(--line-hi),var(--line-hi)) right top/1.6rem 1px no-repeat,linear-gradient(var(--line-hi),var(--line-hi)) right top/1px 1.6rem no-repeat,
+linear-gradient(var(--line-hi),var(--line-hi)) left bottom/1.6rem 1px no-repeat,linear-gradient(var(--line-hi),var(--line-hi)) left bottom/1px 1.6rem no-repeat,
+linear-gradient(var(--line-hi),var(--line-hi)) right bottom/1.6rem 1px no-repeat,linear-gradient(var(--line-hi),var(--line-hi)) right bottom/1px 1.6rem no-repeat}
+.dayp{display:flex;align-items:center;gap:.9rem;justify-content:center;margin:1.5rem auto 0;width:min(26rem,86%);font:400 .72rem/1 "JetBrains Mono",ui-monospace,monospace;color:var(--muted);white-space:nowrap}
+.dayp .tr{flex:1;height:.3rem;border-radius:99px;background:var(--line);overflow:hidden}
+.dayp .tr i{display:block;height:100%;width:0;border-radius:inherit;background:var(--white);transition:width .8s}
+/* màn rộng: tiêu đề mục đứng bên trái và dính theo khi cuộn, nội dung bên phải */
+@media (min-width:64rem){
+:is(#links,#now,#mod,#hobby,#idol,#playlist,#stats,#log,#tkb,#faq)>.wrap{display:grid;grid-template-columns:minmax(15rem,.3fr) minmax(0,1fr);column-gap:clamp(2rem,5vw,4.5rem);align-items:start}
+:is(#links,#now,#mod,#hobby,#idol,#playlist,#stats,#log,#tkb,#faq)>.wrap>.sxh{grid-column:1;grid-row:1/span 9;position:sticky;top:7.5rem}
+:is(#links,#now,#mod,#hobby,#idol,#playlist,#stats,#log,#tkb,#faq)>.wrap>:not(.sxh){grid-column:2;min-width:0}
+/* ô lưới kiểu bento: thẻ đầu to hơn các thẻ còn lại */
+#now .grid{display:grid;grid-auto-flow:row;grid-auto-columns:auto;grid-template-columns:repeat(2,minmax(0,1fr));overflow:visible;padding:0;gap:1rem}
+#now .card.feat{grid-column:1/-1;padding:1.8rem}
+#links .lgroup{grid-template-columns:repeat(2,minmax(0,1fr))}
+#links .lgroup>.lk:first-child{grid-column:1/-1;padding-block:1.1rem}
+#hobby .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+#stats .stats{grid-template-columns:repeat(6,minmax(0,1fr))}
+#stats .stats>div{grid-column:span 2}
+#stats .stats>div:first-child{grid-column:1/-1}
+#stats .stats>div:first-child b{font-size:clamp(3rem,6vw,4.6rem)}
+}
+@media (max-width:40rem){.clk .in{padding:1.6rem 1rem}#home>section.s .sxh::before{font-size:2.4rem;margin-bottom:.6rem}}
+/* chân trang: chữ Ming rỗng khổng lồ làm điểm kết */
+footer::after{content:"Ming";display:block;margin-top:2rem;text-align:center;font:800 clamp(6rem,24vw,17rem)/1.05 var(--head);letter-spacing:-.05em;color:transparent;-webkit-text-stroke:1px var(--line-hi);opacity:.75;user-select:none;pointer-events:none}
+
+/* ===== cấu trúc mới: lối tắt ở trang đầu, Góc chơi dạng ứng dụng, Liên hệ dạng áp phích, Sự thật dạng trích dẫn ===== */
+.hjump{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;margin:1.6rem 0 0}
+.hjump a{display:inline-flex;align-items:center;gap:.35rem;padding:.5rem 1rem;border:1px solid var(--line-hi);border-radius:999px;font:500 .85rem var(--body);color:var(--text);text-decoration:none;transition:background .2s,color .2s,border-color .2s}
+.hjump a::after{content:"\2193";opacity:.55;font-size:.8em}
+.hjump a:hover{background:var(--white);border-color:var(--white);color:var(--bg)}
+.hjump a:hover::after{opacity:1}
+.clk .dayp{margin-top:1.2rem}
+/* Sự thật: một câu lớn như trích dẫn */
+.ffshow{position:relative;min-height:12rem;padding:2.2rem 2.4rem;border-radius:1.5rem}
+.ffshow::before{content:"\201C";position:absolute;top:.2rem;right:1.4rem;font:800 7rem/1 var(--head);color:transparent;-webkit-text-stroke:1px var(--line-hi);pointer-events:none}
+.ffshow p:not(.mut){font-family:var(--head);font-weight:700;font-size:clamp(1.25rem,2.6vw,1.85rem);line-height:1.28;letter-spacing:-.015em}
+/* Góc chơi: danh sách công cụ bên trái, sân khấu bên phải */
+@media (min-width:56rem){
+.labbox{max-width:none;display:grid;grid-template-columns:13.5rem minmax(0,1fr);gap:1.25rem;align-items:start}
+.labbox>.labtabs{grid-column:1;grid-row:1/span 8;flex-direction:column;flex-wrap:nowrap;gap:.2rem;margin:0;padding:.5rem;border:1px solid var(--line);border-radius:1.25rem;background:var(--card);position:sticky;top:7rem}
+.labbox>.labtabs button{width:100%;justify-content:flex-start;padding:.7rem .9rem;border:0;border-radius:.85rem;background:transparent;font-size:.9rem}
+.labbox>.labtabs button:hover{background:rgba(var(--fx),.08)}
+.labbox>.labtabs button[aria-selected="true"]{background:var(--white);color:var(--bg)}
+.labbox>.labp{grid-column:2;border-radius:1.25rem;padding:1.5rem}
+}
+/* Liên hệ: áp phích hai cột, kênh liên lạc xếp thành các hàng lớn */
+@media (min-width:48rem){
+.final{display:grid;grid-template-columns:1.1fr .9fr;column-gap:3rem;align-items:center;text-align:left;padding:3.4rem 3rem;border-radius:1.75rem}
+.final>.eyebrow,.final>h2,.final>p:not(.note){grid-column:1}
+.final>h2{font-size:clamp(2.4rem,4.4vw,3.5rem)}
+.final>p:not(.note):not(.eyebrow){margin:0 0 .6rem;max-width:26rem}
+.final>.cta{grid-column:2;grid-row:1/span 3;flex-direction:column;align-items:stretch;justify-content:center;gap:.6rem}
+.final .cta .btn{flex:0 0 auto;justify-content:flex-start;padding:1.05rem 1.3rem;border-radius:1rem;font-size:1.02rem}
+.final .cta .btn::after{content:"\2197";margin-left:auto;opacity:.6}
+.final>.note{grid-column:1/-1;margin:1.6rem 0 0;max-width:none;padding-top:1.1rem;border-top:1px solid var(--line)}
+}
 </style>
 </head>
 <body>
@@ -2352,18 +2484,18 @@ window.__autoLang=function(){
     </nav>
     <button class="nvb next" type="button" aria-label="Cuộn mục sang phải" title="Sang phải">›</button></div>
     <div class="acts">
-      <button class="tgl" id="bgmlist" type="button" aria-label="Mở danh sách nhạc" aria-expanded="false" aria-controls="bgmp" title="Danh sách nhạc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h12M4 12h12M4 18h7"/><path d="M19 8v9"/><circle cx="17" cy="17" r="2"/></svg></button>
-      <button class="tgl" id="bgmtop" type="button" aria-label="Bật nhạc" aria-pressed="false" title="Bật hoặc tắt nhạc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/><path class="sl" d="M3 3l18 18"/></svg></button>
-      <button class="tgl" id="sfx" type="button" aria-label="Âm thanh khi nhấn" aria-pressed="true" title="Âm thanh khi nhấn (bật/tắt)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9l9 3.6-4.2 1.6-1.6 4.2z"/><path d="M6.2 6.2L4.8 4.8M9.5 4.5V2.8M4.5 9.5H2.8"/><path class="sl" d="M3 3l18 18"/></svg></button>
-      <button class="tgl" id="search" type="button" aria-label="Tìm nhanh" title="Tìm nhanh (/ hoặc Ctrl+K)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></button>
-      <button class="tgl" id="colors" type="button" aria-label="Bật hoặc tắt màu chữ" aria-pressed="true" title="Tắt/bật màu chữ (C)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.4 0 2-1 2-2 0-1.6-1.2-1.8-1.2-3 0-1.1.9-2 2-2H17a4 4 0 0 0 4-4c0-4-4-7-9-7z"/><circle cx="7.5" cy="11" r=".9"/><circle cx="10" cy="7.3" r=".9"/><circle cx="14.3" cy="7.3" r=".9"/><path class="sl" d="M3 3l18 18"/></svg></button>
+      <button class="tgl" id="bgmlist" type="button" aria-label="Mở danh sách nhạc" aria-expanded="false" aria-controls="bgmp" title="Danh sách nhạc"><svg class="g" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="11" height="2.6" rx="1.3"/><rect x="3.5" y="10.7" width="11" height="2.6" rx="1.3"/><rect x="3.5" y="16.4" width="7" height="2.6" rx="1.3"/><rect x="17.2" y="6" width="2.4" height="11" rx="1.2"/><circle cx="16.4" cy="17" r="3"/></svg></button>
+      <button class="tgl" id="bgmtop" type="button" aria-label="Bật nhạc" aria-pressed="false" title="Bật hoặc tắt nhạc"><svg class="g" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6.8" cy="17.5" r="3"/><circle cx="17.6" cy="15.5" r="3"/><path d="M8 17.5V6.1L20.6 3.5V15.5H18.8V6L9.8 7.9V17.5Z"/><path class="sl" d="M3 3l18 18"/></svg></button>
+      <button class="tgl" id="sfx" type="button" aria-label="Âm thanh khi nhấn" aria-pressed="true" title="Âm thanh khi nhấn (bật/tắt)"><svg class="g" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 8.5l10.5 4.2-4.7 1.8-1.8 4.7z"/><path class="ln" d="M6.2 6.2L4.8 4.8M9.5 4.5V2.8M4.5 9.5H2.8"/><path class="sl" d="M3 3l18 18"/></svg></button>
+      <button class="tgl" id="search" type="button" aria-label="Tìm nhanh" title="Tìm nhanh (/ hoặc Ctrl+K)"><svg class="b" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.2"/><path d="M15.6 15.6l5 5"/></svg></button>
+      <button class="tgl" id="colors" type="button" aria-label="Bật hoặc tắt màu chữ" aria-pressed="true" title="Tắt/bật màu chữ (C)"><svg class="g" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2.8a9.2 9.2 0 1 0 0 18.4c1.5 0 2.2-1 2.2-2.1 0-1.7-1.3-1.9-1.3-3.1 0-1 .8-1.8 1.9-1.8H17a4.2 4.2 0 0 0 4.2-4.2C21.2 5.9 17.2 2.8 12 2.8zM7.4 10.1a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2zm2.6-3.8a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2zm4.3 0a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2z"/><path class="sl" d="M3 3l18 18"/></svg></button>
       <button class="tgl" id="motion" type="button" aria-label="Tắt hoặc bật hiệu ứng chuyển động" aria-pressed="false" title="Tắt/bật hiệu ứng (M)">
-        <svg class="pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14M15 5v14"/></svg>
-        <svg class="play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>
+        <svg class="pause g" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.2" y="4.8" width="4" height="14.4" rx="1.4"/><rect x="13.8" y="4.8" width="4" height="14.4" rx="1.4"/></svg>
+        <svg class="play g" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.6l11 6.4-11 6.4z"/></svg>
       </button>
       <button class="tgl lang" id="lang" type="button" aria-label="Đổi ngôn ngữ" title="Tiếng Việt / English"><span data-l="vi" class="on">VI</span><span data-l="en">EN</span></button>
       <button class="tgl sw" id="theme" type="button" aria-label="Đổi giao diện sáng hoặc tối" aria-pressed="false"><span class="sk" aria-hidden="true"><i class="nt"></i><i class="dy"></i><i class="st"></i><svg class="bd" viewBox="0 0 60 28"><path d="M4 6l3.5 4.5L11 6M16 14l3 4 3-4M30 5l3 4 3-4M44 12l2.6 3.6L49.2 12"/></svg><i class="cl"></i><i class="cf"></i><i class="dc"></i><i class="dd"></i></span><span class="kn" aria-hidden="true"></span></button>
-      <button class="tgl" id="more" type="button" aria-label="Thêm tuỳ chọn" aria-expanded="false" aria-controls="morep" title="Thêm"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="19" cy="12" r="1.3"/></svg></button>
+      <button class="tgl" id="more" type="button" aria-label="Thêm tuỳ chọn" aria-expanded="false" aria-controls="morep" title="Thêm"><svg class="g" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="19" cy="12" r="1.9"/></svg></button>
       <div class="morep" id="morep" hidden></div>
       <a class="btn line" href="#contact">Liên hệ</a>
     </div>
@@ -2378,6 +2510,8 @@ window.__autoLang=function(){
       <p class="clock-label">Bây giờ ở chỗ tôi là</p>
       <div class="big" id="clock" role="timer" aria-label="Giờ hiện tại"><span id="hh">--</span><span class="sep">:</span><span id="mm">--</span><span class="sep">:</span><span id="ss">--</span></div>
       <p class="clock-date" id="date"></p>
+      <nav class="hjump" aria-label="Đi nhanh"><a href="#links">Liên kết</a><a href="#play">Game</a><a href="#photos">Ảnh</a><a href="#lab">Góc chơi</a><a href="#contact">Liên hệ</a></nav>
+      <div class="dayp" aria-hidden="true"><span id="dayt"></span><span class="tr"><i id="dayi"></i></span></div>
     </div>
     <p class="cue"><a href="#intro"><span class="hv">Di chuột để thả ảnh · </span>Cuộn xuống để gặp tôi <span class="bob" aria-hidden="true">↓</span></a></p>
   </section>
@@ -2646,14 +2780,16 @@ function modal(){if(!pk)return'';var h='<div class="lb" data-mdl-bg><div class="
 function steamSearch(q){var u='https://store.steampowered.com/api/storesearch/?l=english&cc=us&term='+encodeURIComponent(q),tr=[u,'https://corsproxy.io/?url='+encodeURIComponent(u),'https://api.allorigins.win/raw?url='+encodeURIComponent(u)];
  return tr.reduce(function(p,x){return p.catch(function(){return fetch(x).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(j){if(!j||!j.items)throw 0;return j.items.slice(0,8).map(function(i){return{id:i.id,name:i.name}})})})},Promise.reject())}
 function doSearch(){var q=(sh.getElementById('q')||{}).value||'';if(!q.trim())return;pk.q=q;pk.busy=true;pk.err=false;pk.items=null;render();steamSearch(q).then(function(it){pk.items=it;pk.busy=false;render()},function(){pk.busy=false;pk.err=true;render()})}
-function render(){var keep=root.querySelector('.sc'),top=keep?keep.scrollTop:0,bd0=new Date(D.birth),yrs=Math.max(0,Math.round((Date.now()-bd0)/31557600000)),p2=function(n){return('0'+n).slice(-2)},age='<span class="hl" tabindex="0">'+yrs+' năm trước<span class="tip">'+['Chủ Nhật','Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy'][bd0.getDay()]+', ngày '+bd0.getDate()+' tháng '+(bd0.getMonth()+1)+', '+bd0.getFullYear()+' lúc '+p2(bd0.getHours())+':'+p2(bd0.getMinutes())+'</span></span>',u=L&&L.discord_user||{},st=L&&L.discord_status||'offline',
+var shown=!('IntersectionObserver' in window);
+function render(){if(!shown)return;renderNow()}
+function renderNow(){var keep=root.querySelector('.sc'),top=keep?keep.scrollTop:0,bd0=new Date(D.birth),yrs=Math.max(0,Math.round((Date.now()-bd0)/31557600000)),p2=function(n){return('0'+n).slice(-2)},age='<span class="hl" tabindex="0">'+yrs+' năm trước<span class="tip">'+['Chủ Nhật','Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy'][bd0.getDay()]+', ngày '+bd0.getDate()+' tháng '+(bd0.getMonth()+1)+', '+bd0.getFullYear()+' lúc '+p2(bd0.getHours())+':'+p2(bd0.getMinutes())+'</span></span>',u=L&&L.discord_user||{},st=L&&L.discord_status||'offline',
  nm=u.global_name||u.display_name||D.name,un=u.username||D.user,
  av=u.avatar?'https://cdn.discordapp.com/avatars/'+u.id+'/'+u.avatar+'.'+(u.avatar.indexOf('a_')===0?'gif':'png')+'?size=256':D.avatar,
  dd=D.deco||(u.avatar_decoration_data&&u.avatar_decoration_data.asset?'https://cdn.discordapp.com/avatar-decoration-presets/'+u.avatar_decoration_data.asset+'.png?size=240':(document.querySelector('.avdec')||{}).src||''),
  cu=null;((L&&L.activities)||[]).forEach(function(a){if(a.type===4)cu=a});
  var hasA=L&&((L.activities||[]).some(function(a){return a.type!==4})||L.listening_to_spotify);
  var body=tab==='bang'?(ED?'<div class="bar">'+'<button data-px>Xuất khung</button><button data-pr>Đặt lại khung</button>'+'<button data-bn>Đổi banner</button><button data-exp>Xuất JSON</button><button data-rst>Đặt lại</button></div>':'')+D.widgets.map(widget).join(''):tab==='hd'?actTab():nitro();
- root.innerHTML='<div class="l">'+frameHTML()+'<div class="bn"'+(D.bannerUrl?' style="--bnr:url('+esc(D.bannerUrl)+')"':'')+'></div><div class="av" data-av title="Xem ảnh đại diện"><img loading="lazy" class="p" alt="" src="'+esc(av)+'" onerror="this.src=\''+esc(D.avatar)+'\'">'+(dd?'<img loading="lazy" class="dc" alt="" src="'+esc(dd)+'">':'')+'<span class="dot" data-st="'+st+'"></span></div><div class="bb">'+(cu&&cu.emoji&&cu.emoji.name?esc(cu.emoji.name):D.bubble)+'</div><div class="in"><h3>'+esc(nm)+'</h3><div class="un">'+esc(un)+' • '+esc(D.sub||D.name)+'<span class="tg">🐰 '+esc(D.tag)+'</span></div>'+(cu&&cu.state?'<p class="cs">'+esc(cu.state)+'</p>':'')+'<div class="bd">'+D.badges.slice(0,6).map(function(b){return'<span title="'+esc(b[1])+'">'+b[0]+'</span>'}).join('')+(D.badges.length>6?'<button data-bdg aria-expanded="'+bopen+'">+'+(D.badges.length-6)+'</button>':'')+'</div>'+(bopen?'<div class="bp">'+D.badges.map(function(b){return'<div>'+b[0]+' '+esc(b[1])+'</div>'}).join('')+'</div>':'')+'<div class="ab"><a class="m" href="'+esc(D.msg)+'" target="_blank" rel="noopener">💬 Tin nhắn</a><i>▦</i><i>⋯</i></div><h6>Tiểu sử</h6><p>'+D.bio.join('<br>').replace('{age}',age)+'<br><a href="'+esc(D.link)+'" target="_blank" rel="noopener">'+esc(D.link)+'</a></p><h6>Gia Nhập Từ</h6><p>'+D.since.join(' • ')+'</p><h6>Vai trò</h6><div class="rls">'+D.roles.map(function(r){return'<span class="rl" style="--c:'+r[1]+'">'+esc(r[0])+'</span>'}).join('')+'</div><div class="cn">'+D.conn.map(function(c){return'<a href="'+esc(c[2])+'" target="_blank" rel="noopener" title="'+esc(c[3])+'" aria-label="'+esc(c[3])+'" style="background:'+c[1]+'">'+c[0]+'</a>'}).join('')+'</div><h6>Ghi chú (chỉ hiển thị cho bạn)</h6><p>'+esc(D.note)+'</p></div></div><div class="r"><div class="tb"><button data-t="bang"'+(tab==='bang'?' class="on"':'')+'>Bảng</button><button data-t="hd" class="'+(tab==='hd'?'on ':'')+(hasA?'lv':'')+'">Hoạt động</button><button data-t="wl"'+(tab==='wl'?' class="on"':'')+'>Danh Sách Mong Muốn</button></div><div class="sc">'+body+'</div></div>'+(lb?'<div class="lb" data-lb><img loading="lazy" alt="" src="'+esc(av.replace('size=256','size=1024'))+'"></div>':'')+modal();
+ root.innerHTML='<div class="l">'+frameHTML()+'<div class="bn"'+(D.bannerUrl?' style="--bnr:url('+esc(D.bannerUrl)+')"':'')+'></div><div class="av" data-av title="Xem ảnh đại diện"><img loading="lazy" class="p" alt="" src="'+esc(av)+'" onerror="this.onerror=null;this.src=\''+esc(D.avatar)+'\'">'+(dd?'<img loading="lazy" class="dc" alt="" src="'+esc(dd)+'">':'')+'<span class="dot" data-st="'+st+'"></span></div><div class="bb">'+(cu&&cu.emoji&&cu.emoji.name?esc(cu.emoji.name):D.bubble)+'</div><div class="in"><h3>'+esc(nm)+'</h3><div class="un">'+esc(un)+' • '+esc(D.sub||D.name)+'<span class="tg">🐰 '+esc(D.tag)+'</span></div>'+(cu&&cu.state?'<p class="cs">'+esc(cu.state)+'</p>':'')+'<div class="bd">'+D.badges.slice(0,6).map(function(b){return'<span title="'+esc(b[1])+'">'+b[0]+'</span>'}).join('')+(D.badges.length>6?'<button data-bdg aria-expanded="'+bopen+'">+'+(D.badges.length-6)+'</button>':'')+'</div>'+(bopen?'<div class="bp">'+D.badges.map(function(b){return'<div>'+b[0]+' '+esc(b[1])+'</div>'}).join('')+'</div>':'')+'<div class="ab"><a class="m" href="'+esc(D.msg)+'" target="_blank" rel="noopener">💬 Tin nhắn</a><i>▦</i><i>⋯</i></div><h6>Tiểu sử</h6><p>'+D.bio.join('<br>').replace('{age}',age)+'<br><a href="'+esc(D.link)+'" target="_blank" rel="noopener">'+esc(D.link)+'</a></p><h6>Gia Nhập Từ</h6><p>'+D.since.join(' • ')+'</p><h6>Vai trò</h6><div class="rls">'+D.roles.map(function(r){return'<span class="rl" style="--c:'+r[1]+'">'+esc(r[0])+'</span>'}).join('')+'</div><div class="cn">'+D.conn.map(function(c){return'<a href="'+esc(c[2])+'" target="_blank" rel="noopener" title="'+esc(c[3])+'" aria-label="'+esc(c[3])+'" style="background:'+c[1]+'">'+c[0]+'</a>'}).join('')+'</div><h6>Ghi chú (chỉ hiển thị cho bạn)</h6><p>'+esc(D.note)+'</p></div></div><div class="r"><div class="tb"><button data-t="bang"'+(tab==='bang'?' class="on"':'')+'>Bảng</button><button data-t="hd" class="'+(tab==='hd'?'on ':'')+(hasA?'lv':'')+'">Hoạt động</button><button data-t="wl"'+(tab==='wl'?' class="on"':'')+'>Danh Sách Mong Muốn</button></div><div class="sc">'+body+'</div></div>'+(lb?'<div class="lb" data-lb><img loading="lazy" alt="" src="'+esc(av.replace('size=256','size=1024'))+'"></div>':'')+modal();
  sizeFrames();root.querySelector('.sc').scrollTop=top;root.classList.toggle('hf',!!(PS&&PS.length));tick()}
 function tick(){root.querySelectorAll('.el').forEach(function(e){e.textContent='Đã '+fmt(Date.now()-(+e.dataset.s))+' trôi qua'});
  root.querySelectorAll('.sb i').forEach(function(i){var s=+i.dataset.s,e=+i.dataset.e;i.style.width=Math.min(100,Math.max(0,(Date.now()-s)/(e-s)*100)).toFixed(1)+'%'});
@@ -2703,7 +2839,8 @@ function loadBanner(){var l=[],s0;try{s0=localStorage.getItem('dcpb')}catch(e){}
 loadBanner();
 document.addEventListener('lanyard',onL);
 document.addEventListener('lanydbg',function(){if(tab==='hd')render()});
-render();if(window.LANY)onL();
+if(!shown){new IntersectionObserver(function(es,io){if(es.some(function(e){return e.isIntersecting})){io.disconnect();shown=true;renderNow()}},{rootMargin:'700px 0px'}).observe(host)}else renderNow();
+if(window.LANY)onL();
 setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
 })();
 </script>
@@ -3211,8 +3348,8 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
   <ol class="bgml" id="bgml"></ol>
 </div>
 <button class="bgm" id="bgm" type="button" aria-expanded="false" aria-controls="bgmp" aria-label="Mở trình phát nhạc" title="Nhạc nền"><i data-ic="music"></i></button>
-<button class="bgq" id="bgmq" type="button" aria-label="Bật nhạc" title="Bật hoặc tắt nhạc (P)"><svg class="pl" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg><svg class="pa" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14M15 5v14"/></svg></button>
-<button class="bgq" id="bgmn" type="button" aria-label="Bài tiếp theo" title="Bài tiếp theo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 5v14M5 5l9 7-9 7z"/></svg></button>
+<button class="bgq" id="bgmq" type="button" aria-label="Bật nhạc" title="Bật hoặc tắt nhạc (P)"><svg class="pl" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.6l11 6.4-11 6.4z"/></svg><svg class="pa" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.2" y="4.8" width="4" height="14.4" rx="1.4"/><rect x="13.8" y="4.8" width="4" height="14.4" rx="1.4"/></svg></button>
+<button class="bgq" id="bgmn" type="button" aria-label="Bài tiếp theo" title="Bài tiếp theo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5.6l10 6.4-10 6.4z"/><rect x="16.6" y="5" width="3.2" height="14" rx="1.3"/></svg></button>
 <audio id="bgmau" preload="none"></audio>
 <button class="fpsb" id="fpsb" type="button" aria-pressed="false" aria-label="Hiện hoặc ẩn FPS" title="Hiện hoặc ẩn FPS (F)"><b>FPS</b></button>
 <div class="fpsn" id="fpsn" role="status" hidden><b>Giới hạn 60 FPS</b><span>Số này đếm khung hình của các hiệu ứng JavaScript trên trang, được giữ tối đa 60 để máy đỡ nóng và đỡ tốn pin. Màn hình 60Hz trở xuống thì không bị ảnh hưởng. Cuộn trang và hiệu ứng CSS vẫn chạy theo tần số quét của màn hình.</span></div>
@@ -3659,6 +3796,20 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       var coarse=(matchMedia('(pointer:coarse)').matches)||navigator.maxTouchPoints>0,sw=Math.min(screen.width||9999,screen.height||9999);
       if(coarse&&sw<=640&&window.innerWidth>=760)rootE.classList.add('dm');
     }catch(e){}
+  })();
+
+  /* thanh "hôm nay đã trôi qua bao nhiêu phần trăm", tính theo đúng giờ đang hiện trên đồng hồ */
+  (function(){
+    var t=document.getElementById('dayt'),i=document.getElementById('dayi');if(!t||!i)return;
+    Object.assign(EN,{"Hôm nay đã trôi qua":"Today so far"});
+    function upd(){
+      if(document.hidden)return;
+      var h=+document.getElementById('hh').textContent,m=+document.getElementById('mm').textContent,sc=+document.getElementById('ss').textContent;
+      if(isNaN(h)||isNaN(m))return;
+      var p=Math.round((h*3600+m*60+(isNaN(sc)?0:sc))/864);
+      i.style.setProperty('--p',p+'%');i.style.width=p+'%';t.textContent=T('Hôm nay đã trôi qua')+' · '+p+'%';
+    }
+    setTimeout(upd,900);setInterval(upd,20000);document.addEventListener('langchange',upd);
   })();
 
   /* phím tắt: T đổi sáng/tối, M tắt/bật hiệu ứng, C tắt/bật màu chữ, H lên đầu trang */
