@@ -882,8 +882,7 @@ html.tt,html.tt *{transition:background-color .4s,color .4s,border-color .4s,fil
 .band.alt .run{animation-direction:reverse;animation-duration:44s}
 .band.alt .run span{color:var(--text);-webkit-text-stroke:0;font-size:clamp(1.4rem,4vw,2.3rem)}
 .band.alt .run span::after{content:"/";margin-left:3rem;color:var(--muted)}
-body::after{content:"";position:fixed;inset:0;z-index:40;pointer-events:none;opacity:.06;background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");contain:strict}
-:root[data-theme="light"] body::after{filter:invert(1);opacity:.08}
+body::after{content:none}
 @keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-3%)}60%{transform:translate(-2%,-1%)}80%{transform:translate(3%,3%)}}
 .dots{position:fixed;right:1rem;top:50%;transform:translateY(-50%);z-index:15;display:none;flex-direction:column;gap:.3rem}
 @media (min-width:72rem){.dots{display:flex}}
@@ -955,7 +954,7 @@ html.pre-on:not(.ready) :is(.clock-label,.big,.clock-date,.cue){animation-play-s
 :root{interpolate-size:allow-keywords}
 details::details-content{block-size:0;overflow:hidden;transition:block-size .35s ease,content-visibility .35s allow-discrete}
 details[open]::details-content{block-size:auto}
-.clk::before{background:radial-gradient(26rem 26rem at var(--mx,50%) var(--my,45%),rgba(var(--fx),.12),transparent 70%)}
+.clk::before{display:none}
 @keyframes tick{from{opacity:.15;transform:translateY(.16em)}to{opacity:1;transform:none}}
 .big span.tk{display:inline-block;animation:tick .45s cubic-bezier(.2,.8,.2,1)}
 .clk .in{will-change:transform,opacity}
@@ -1453,13 +1452,14 @@ section.s,section.intro{position:relative}
 #skyfx .st{position:absolute;left:0;top:0;background:transparent;border-radius:50%;opacity:0;transition:opacity 1.6s ease}
 #skyfx .st.a{width:1px;height:1px}
 #skyfx .st.b{width:2px;height:2px}
-#skyfx .moon{position:absolute;top:5.2rem;right:1.4rem;width:2.2rem;height:2.2rem;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fffbe8,#e9e4c9 60%,#cfc8a8);box-shadow:0 0 2.2rem rgba(255,248,210,.32);opacity:0;transition:opacity 1.6s ease}
+#skyfx .moon{position:absolute;top:5.2rem;right:1.4rem;width:2.2rem;height:2.2rem;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fffbe8,#e9e4c9 60%,#cfc8a8);opacity:0;transition:opacity 1.6s ease}
 :root[data-sky="night"] #skyfx .st,:root[data-sky="night"] #skyfx .moon{opacity:.9}
 :root[data-theme="light"] #skyfx .st{display:none}
 @media (max-width:40rem){#skyfx .moon{display:none}}
-@media (hover:hover) and (pointer:fine) and (min-width:40.01rem){:root[data-sky="night"] #skyfx .st.a{animation:twk 5s ease-in-out infinite alternate}:root[data-sky="night"] #skyfx .st.b{animation:twk 7s -2s ease-in-out infinite alternate}}
 @keyframes twk{from{opacity:.35}to{opacity:1}}
 :root[data-motion="off"] #skyfx .st{animation:none!important}
+:root[data-wx="rain"] :is(.bar,.bgm,.bgq,#totop,.rndb,.fpsb),:root[data-wx="snow"] :is(.bar,.bgm,.bgq,#totop,.rndb,.fpsb){-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+:root[data-wx="rain"] .bar:not(.mini),:root[data-wx="snow"] .bar:not(.mini){background-color:rgba(var(--bgrgb),.93)!important}
 @media (prefers-reduced-motion:reduce){#skyfx .st{animation:none!important}}
 @media (max-width:40rem){.mapfr{aspect-ratio:4/5;min-height:20rem}}
 section.s,footer{content-visibility:auto;contain-intrinsic-size:auto 42rem}
@@ -1847,8 +1847,8 @@ body:has(#bgmp:not([hidden])) .bar.mini nav{top:calc(50% - 14.5rem);max-height:c
 .ddf.t3{color:#ff4a2a}
 .ddf.t4{color:#2f9bff}
 .ddf.t5{color:#a05cff}
-.ddf.t5 svg,.ddf.t4 svg{fill-opacity:.4;filter:drop-shadow(0 0 3px currentColor)}
-.ddf.glow svg{filter:drop-shadow(0 0 5px currentColor)}
+.ddf.t5 svg,.ddf.t4 svg{fill-opacity:.4}
+.ddf.glow svg{filter:none}
 @media(prefers-reduced-motion:reduce){.ddf.on svg{animation:none}}
 @keyframes nmbl{0%,56%,100%{opacity:1;text-shadow:0 0 .22em currentColor}60%{opacity:.18;text-shadow:none}64%{opacity:1;text-shadow:0 0 .5em currentColor}68%{opacity:.3;text-shadow:none}72%{opacity:1;text-shadow:0 0 .5em currentColor}}
 #steamn,#steamname,.pci>b{animation:var(--nmb,nmbl) 4.2s linear infinite}
@@ -2056,8 +2056,6 @@ html:not(.js) #ldr{display:none}
 #colors[aria-pressed="false"] .sl{opacity:1}
 @keyframes cflow{from{background-position:0% 50%}to{background-position:200% 50%}}
 @keyframes cshim{from{background-position:120% 0}to{background-position:-120% 0}}
-@keyframes chue{from{filter:hue-rotate(0deg)}to{filter:hue-rotate(360deg)}}
-@keyframes cglow{from{text-shadow:0 0 .35em color-mix(in srgb,var(--gA) 25%,transparent)}to{text-shadow:0 0 1.1em color-mix(in srgb,var(--gA) 80%,transparent)}}
 :root:not([data-color="off"]) #colors svg{stroke:var(--c4)}
 :root:not([data-color="off"]) #colors:hover{border-color:var(--c6)}
 :root:not([data-color="off"]) ::selection{background:var(--c5);color:#fff}
@@ -2075,15 +2073,12 @@ html:not(.js) #ldr{display:none}
 }
 :root:not([data-color="off"]) :is(h1,h2,.bye-t,#greet,.eyebrow){animation-play-state:paused}
 :root:not([data-color="off"]) :is(h1,h2,.bye-t,#greet,.eyebrow).vis{animation-play-state:running}
-:root:not([data-color="off"]) .eyebrow{color:var(--gA);text-shadow:0 0 .9em color-mix(in srgb,var(--gA) 45%,transparent);animation:cglow 3.2s ease-in-out infinite alternate}
+:root:not([data-color="off"]) .eyebrow{color:var(--gA)}
 :root:not([data-color="off"]) .eyebrow::before{color:var(--gB)}
 :root:not([data-color="off"]) .big #hh{color:var(--c2)}
 :root:not([data-color="off"]) .big #mm{color:var(--c4)}
 :root:not([data-color="off"]) .big #ss{color:var(--c6)}
 :root:not([data-color="off"]) .big .sep{color:var(--c5)}
-:root:not([data-color="off"]) .big span{text-shadow:0 0 .28em color-mix(in srgb,currentColor 45%,transparent)}
-:root:not([data-color="off"]) .big{animation:zoom 1.5s cubic-bezier(.16,1,.3,1) both,chue 18s linear infinite;animation-play-state:running,paused}
-:root:not([data-color="off"]) .big.vis{animation-play-state:running,running}
 :root:not([data-color="off"]) .bar nav a:nth-child(6n+1):hover{color:var(--c1)}
 :root:not([data-color="off"]) .bar nav a:nth-child(6n+2):hover{color:var(--c2)}
 :root:not([data-color="off"]) .bar nav a:nth-child(6n+3):hover{color:var(--c3)}
@@ -2316,7 +2311,7 @@ footer::before{content:"";position:absolute;top:0;left:50%;transform:translateX(
 .final{border-radius:1.75rem}
 .btn{border-radius:999px}
 .bar{background:rgba(var(--bgrgb),.9)}
-@media (min-width:40.01rem){.bar:not(.mini){background:rgba(var(--bgrgb),.72);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}}
+@media (min-width:40.01rem){.bar:not(.mini){background:rgba(var(--bgrgb),.8);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}}
 @media (max-width:40rem){
 .bar nav{gap:.1rem;font-size:.86rem}
 .bar .acts{padding:.2rem;flex:0 0 auto;margin-left:auto}
@@ -2506,6 +2501,91 @@ img{border-radius:inherit}
 }
 .pls .card .pa .btn{min-height:2.4rem}
 </style>
+<style id="ui-groups">
+/* ===== Gom 17 mục thành 5 nhóm ===== */
+.grp{position:relative}
+#home{overflow-x:clip}
+.ghd{position:relative;z-index:0;display:block;margin-top:clamp(3rem,6vw,5rem);padding-block:clamp(2.2rem,4vw,3.4rem)}
+.ghd::before{content:"";position:absolute;z-index:-1;inset:0 calc(50% - 50vw);background:color-mix(in srgb,var(--acc) 7%,transparent);border-block:1px solid color-mix(in srgb,var(--acc) 22%,var(--line))}
+.ghd>div{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,26rem);align-items:end;gap:.6rem 3rem;border-left:4px solid var(--acc);padding-left:clamp(1rem,2.5vw,1.8rem)}
+.ghd h2{margin:0;padding-top:.12em;font:800 clamp(2.2rem,5.2vw,3.8rem)/1.22 "Be Vietnam Pro",var(--head),system-ui,sans-serif;letter-spacing:-.02em;text-wrap:balance;overflow:visible}
+.ghd p{margin:0;color:var(--muted);font-size:1.02rem;line-height:1.6;text-wrap:pretty}
+@media (max-width:48rem){.ghd>div{grid-template-columns:1fr}}
+#g-about .ghd{margin-top:0}
+/* mục con nhẹ hơn tiêu đề nhóm; bỏ số lớn cũ */
+#home .s{padding-block:clamp(2.2rem,4.5vw,4rem)}
+#home .s h2{font-size:clamp(1.5rem,2.6vw,2.1rem)}
+#home .s .sxh::before{display:none!important}
+/* bỏ gạch chân nhấn và nhãn in hoa: tiêu đề tự đủ rõ */
+.s h2::after{display:none!important}
+.eyebrow{text-transform:none!important;letter-spacing:.01em!important;font-size:.88rem!important;font-family:var(--body)!important;color:var(--muted)}
+.grp section.s::before{display:none}
+#home .s h2{font-weight:700;letter-spacing:-.02em}
+#home .s .lead{max-width:34rem}
+/* ===== Thanh menu 5 mục: gọn lại để hiện đủ trên màn hình rộng ===== */
+.bar:not(.mini) nav a{padding-inline:.6rem}
+.navx.fits .nvb{display:none}
+@media (min-width:76rem){.bar:not(.mini)>.wrap{max-width:74rem}}
+/* ===== Mỗi nhóm một màu riêng, nút bên phải luôn ghi tên nhóm đang xem ===== */
+#g-about{--ga:var(--acc)}#g-likes{--ga:#8b7cf6}#g-play{--ga:#e8a04a}#g-log{--ga:#4fb0d6}#g-end{--ga:#e5708f}
+.ghd::before{background:color-mix(in srgb,var(--ga,var(--acc)) 8%,transparent)!important;border-block-color:color-mix(in srgb,var(--ga,var(--acc)) 28%,var(--line))!important}
+.ghd>div{border-left-color:var(--ga,var(--acc))!important}
+.bar.mini nav a[href="#g-about"]{--ga:var(--acc)}.bar.mini nav a[href="#g-likes"]{--ga:#8b7cf6}.bar.mini nav a[href="#g-play"]{--ga:#e8a04a}.bar.mini nav a[href="#g-log"]{--ga:#4fb0d6}.bar.mini nav a[href="#g-end"]{--ga:#e5708f}
+.bar.mini nav a::before{background:var(--ga,var(--line-hi))!important;opacity:.55;width:.7rem!important;height:3px!important}
+.bar.mini nav a.on::before,.bar.mini nav a:hover::before{opacity:1;width:1.1rem!important;box-shadow:none!important}
+.bar.mini nav a{height:1.9rem!important;line-height:1.9rem!important}
+.bar.mini nav a.on{width:max-content!important;padding:0 1.9rem 0 .9rem!important;color:var(--white)!important;font-weight:600;
+  background-color:rgba(var(--bgrgb),.94)!important;box-shadow:0 0 0 1px color-mix(in srgb,var(--ga) 55%,var(--line-hi))!important}
+.bar.mini nav a.on::before{right:.75rem!important}
+/* ===== Đồng bộ toàn trang: màu theo nhóm, thẻ, liên hệ, hỏi đáp, chân trang ===== */
+.grp{--rad:1.3rem}
+.grp .eyebrow .ic2{color:var(--ga);border-color:color-mix(in srgb,var(--ga) 40%,var(--line-hi))!important;background:color-mix(in srgb,var(--ga) 12%,transparent)!important}
+.grp .eyebrow .ic2 *{stroke:currentColor}
+.grp .lk,.grp .card,.grp .hob,.grp .faq>*,.grp .tkb-list li,.grp .ffs,.grp .panel,.grp .stats>*{border-radius:var(--rad)}
+@media (hover:hover){.grp .lk:hover,.grp .card:hover,.grp .hob:hover,.grp .faq>*:hover{border-color:color-mix(in srgb,var(--ga) 55%,var(--line-hi))!important}}
+.grp .btn:not(.line){background:var(--white);color:var(--bg)}
+.grp .foldbtn:hover,.grp .btn.line:hover{border-color:var(--ga)!important}
+.grp .faq details[open]{border-color:color-mix(in srgb,var(--ga) 50%,var(--line-hi))!important}
+.grp .faq summary{font-weight:600}
+.grp .tkb-list li.now{border-color:var(--ga)!important;box-shadow:inset 3px 0 0 var(--ga)!important}
+/* khối liên hệ: căn trái, rộng, có màu nhóm */
+#contact .final{text-align:left;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:.4rem 3rem;align-items:center;padding:clamp(1.8rem,4vw,3.2rem);border-radius:1.8rem;
+  background:radial-gradient(34rem 16rem at 0 0,color-mix(in srgb,var(--ga) 16%,transparent),transparent 70%),var(--card);border-color:color-mix(in srgb,var(--ga) 30%,var(--line))}
+#contact .final .eyebrow,#contact .final h2,#contact .final>p{grid-column:1;margin-inline:0;max-width:none;text-align:left;justify-content:flex-start}
+#contact .final h2{font-size:clamp(1.9rem,3.6vw,2.8rem)}
+#contact .final .cta{grid-column:2;grid-row:1/span 3;flex-direction:column;align-items:stretch;justify-content:center;gap:.7rem}
+#contact .final .cta .btn{justify-content:space-between;padding:.9rem 1.3rem}
+#contact .final .note{grid-column:1/-1;margin:1.2rem 0 0;padding-top:1rem;border-top:1px solid var(--line);text-align:left}
+@media (max-width:48rem){#contact .final{grid-template-columns:1fr}#contact .final .cta{grid-column:1;grid-row:auto;margin-top:1rem}}
+/* chân trang */
+footer{border-top:1px solid var(--line);background:linear-gradient(180deg,rgba(var(--fx),.03),transparent 40%)}
+.fmapsec .eyebrow{display:none}
+.fmapsec h2{margin:0 0 .2rem}
+.fmap>summary{font-size:1rem;padding:1.1rem 1.4rem}
+.fgrid h4{font-weight:700;margin-bottom:.8rem}
+.fgrid a:hover{color:var(--acc)}
+.bye-t{font-size:clamp(1.6rem,3.6vw,2.6rem);letter-spacing:-.02em}
+/* đầu trang: ánh sáng mềm theo màu chủ đạo */
+.clk::before{display:none!important}
+.band .run span{letter-spacing:-.01em}
+/* nhẹ máy: không animate bóng/viền của phần mới thêm */
+.grp .lk,.grp .card,.grp .hob,.grp .faq>*{transition:border-color .15s!important}
+.bar.mini nav a{transition:width .2s,color .15s!important}
+/* ===== Đầu trang: giới thiệu + 2 nút ngay cạnh đồng hồ ===== */
+.hero-intro{max-width:34rem;margin:1.2rem auto 0;color:var(--muted);font-size:1.05rem;line-height:1.65;text-wrap:balance}
+.hero-cta{justify-content:center;margin-top:1.3rem}
+/* ===== Bản đồ trong chân trang ===== */
+.fmap{margin:0 0 2.2rem;border:1px solid var(--line);border-radius:var(--rad,1.15rem);background:var(--card)}
+.fmap>summary{list-style:none;cursor:pointer;padding:.9rem 1.2rem;font:600 .95rem var(--body);color:var(--text);display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.fmap>summary::-webkit-details-marker{display:none}
+.fmap>summary::after{content:"+";font:500 1.3rem/1 var(--mono);color:var(--muted)}
+.fmap[open]>summary::after{content:"\2212"}
+.fmap>summary:hover{color:var(--white)}
+.fmapsec{padding-block:.5rem 1.6rem!important;content-visibility:visible!important}
+.fmapsec::before{display:none!important}
+.fmapsec .wrap{padding-inline:1.2rem}
+.fmapsec h2{font-size:1.4rem!important}
+</style>
 <link rel="canonical" href="https://lmingl.pages.dev/">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -2539,7 +2619,7 @@ img{border-radius:inherit}
 :root[data-motion="off"] :is(.btn,.tgl,.wxch){scale:none!important;transition:none}
 @media (prefers-reduced-motion:reduce){.btn,.tgl,.wxch{scale:none!important;transition:none}}
 /* máy yếu (lite): bỏ lớp kính mờ cho nhẹ */
-.lite :is(.btn.line,.tgl,.wxch,.ql,#netpill){-webkit-backdrop-filter:none;backdrop-filter:none}
+:is(.btn.line,.tgl,.wxch,.ql,#netpill){-webkit-backdrop-filter:none;backdrop-filter:none}
 /* ẩn GIF */
 .nogif .gsk,.nogif .gbar{display:none!important}
 /* trạng thái mạng + chế độ offline */
@@ -2614,24 +2694,11 @@ window.__autoLang=function(){
     <div class="navx"><button class="nvb prev" type="button" aria-label="Cuộn mục sang trái" title="Sang trái">‹</button>
     <nav aria-label="Điều hướng chính">
       <button class="sbt" type="button" aria-label="Ẩn thanh bên" aria-expanded="true" title="Ẩn thanh bên">‹</button>
-      <a href="#hero">Đồng hồ</a>
-      <a href="#intro">Profile</a>
-      <a href="#links">Liên kết</a>
-      <a href="#now">Dạo này</a>
-      <a href="#play">Game</a>
-      <a href="#mod">Dự án</a>
-      <a href="#hobby">Sở thích</a>
-      <a href="#idol">Nghệ sĩ</a>
-      <a class="nx" href="#playlist">Playlist</a>
-      <a class="nx" href="#stats">Số liệu</a>
-      <a class="nx" href="#facts">Sự thật</a>
-      <a class="nx" href="#photos">Ảnh</a>
-      <a href="#lab">Góc chơi</a>
-      <a href="#log">Nhật ký</a>
-      <a href="#tkb" title="Thời khoá biểu">TKB</a>
-      <a class="nx" href="#faq">Hỏi đáp</a>
-      <a class="nx" href="#contact">Liên hệ</a>
-      <a class="nx" href="#map">Bản đồ</a>
+      <a href="#g-about">Về Ming</a>
+      <a href="#g-likes">Sở thích</a>
+      <a href="#g-play">Chơi và xem</a>
+      <a href="#g-log">Nhật ký</a>
+      <a href="#g-end">Cuối trang</a>
     </nav>
     <button class="nvb next" type="button" aria-label="Cuộn mục sang phải" title="Sang phải">›</button></div>
     <div class="acts">
@@ -2656,13 +2723,13 @@ window.__autoLang=function(){
 
 <main id="main">
 <div id="home">
+<div class="grp" id="g-about">
     <section class="clk" id="hero">
     <div class="trail" id="trail" aria-hidden="true"></div>
     <div class="in">
       <p class="clock-label">Bây giờ ở chỗ tôi là</p>
       <div class="big" id="clock" role="timer" aria-label="Giờ hiện tại"><span id="hh">--</span><span class="sep">:</span><span id="mm">--</span><span class="sep">:</span><span id="ss">--</span></div>
       <p class="clock-date" id="date"></p>
-      <nav class="hjump" aria-label="Đi nhanh"><a href="#links">Liên kết</a><a href="#play">Game</a><a href="#photos">Ảnh</a><a href="#lab">Góc chơi</a><a href="#contact">Liên hệ</a></nav>
       <div class="dayp" aria-hidden="true"><span id="dayt"></span><span class="tr"><i id="dayi"></i></span></div>
     </div>
     <p class="cue"><a href="#intro"><span class="hv">Di chuột để thả ảnh · </span>Cuộn xuống để gặp tôi <span class="bob" aria-hidden="true">↓</span></a></p>
@@ -2723,6 +2790,8 @@ window.__autoLang=function(){
       <span>LoL</span><span>Delta Force</span><span>Path of Exile 2</span><span>Việt hoá game</span><span>Đọc truyện</span>
     </div>
   </div>
+
+    <div class="wrap ghd rv"><div><h2>Về Ming</h2><p>Tôi là ai, tìm tôi ở đâu và dạo này tôi đang làm gì.</p></div></div>
 
     <section class="s" id="links">
     <div class="wrap">
@@ -3014,6 +3083,10 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       </div>
     </div>
   </section>
+</div>
+
+<div class="grp" id="g-likes">
+    <div class="wrap ghd rv"><div><h2>Sở thích</h2><p>Game, dự án việt hoá, nhạc và những thứ tôi mê.</p></div></div>
 
     <section class="s" id="play">
     <div class="wrap">
@@ -3119,34 +3192,10 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       <div class="grid pls rv" id="plgrid"></div>
     </div>
   </section>
+</div>
 
-    <section class="s" id="stats">
-    <div class="wrap">
-      <div class="rv">
-        <p class="eyebrow ei"><i data-ic="hash"></i><span>Vài con số</span></p>
-        <h2>Những con số vu vơ</h2>
-        <p class="lead">Không để khoe, chỉ để cho vui.</p>
-      </div>
-      <div class="stats rv">
-        <div><i class="si" data-ic="calendar"></i><b id="days" data-count="8000">8000</b><span>ngày tôi có mặt trên đời</span></div>
-        <div><i class="si" data-ic="gamepad"></i><b id="stgames" data-count="85">85</b><span>game trong thư viện Steam</span></div>
-        <div><i class="si" data-ic="book"></i><b class="tx">Không đếm được</b><span>bộ truyện đã đọc</span></div>
-        <div><i class="si" data-ic="music"></i><b>1000+</b><span>bài hát trong playlist</span></div>
-      </div>
-    </div>
-  </section>
-
-    <section class="s" id="facts">
-    <div class="wrap">
-      <div class="rv">
-        <p class="eyebrow ei"><i data-ic="hash"></i><span>Sự thật</span></p>
-        <h2>Sự thật thú vị</h2>
-        <p class="lead">Chọn danh mục rồi bấm nút để xem một sự thật. Sự thật đã xem sẽ không hiện lại, muốn xem lại thì bấm Xem lại.</p>
-      </div>
-      <div class="ffs rv" id="ffs"></div>
-    </div>
-  </section>
-
+<div class="grp" id="g-play">
+    <div class="wrap ghd rv"><div><h2>Chơi và xem</h2><p>Mấy món để nghịch, vài tấm ảnh và chuyện vui.</p></div></div>
 
     <section class="s" id="lab">
     <div class="wrap">
@@ -3299,12 +3348,43 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     </div>
   </section>
 
+    <section class="s" id="stats">
+    <div class="wrap">
+      <div class="rv">
+        <p class="eyebrow ei"><i data-ic="hash"></i><span>Vài con số</span></p>
+        <h2>Những con số vu vơ</h2>
+        <p class="lead">Không để khoe, chỉ để cho vui.</p>
+      </div>
+      <div class="stats rv">
+        <div><i class="si" data-ic="calendar"></i><b id="days" data-count="8000">8000</b><span>ngày tôi có mặt trên đời</span></div>
+        <div><i class="si" data-ic="gamepad"></i><b id="stgames" data-count="85">85</b><span>game trong thư viện Steam</span></div>
+        <div><i class="si" data-ic="book"></i><b class="tx">Không đếm được</b><span>bộ truyện đã đọc</span></div>
+        <div><i class="si" data-ic="music"></i><b>1000+</b><span>bài hát trong playlist</span></div>
+      </div>
+    </div>
+  </section>
+
+    <section class="s" id="facts">
+    <div class="wrap">
+      <div class="rv">
+        <p class="eyebrow ei"><i data-ic="hash"></i><span>Sự thật</span></p>
+        <h2>Sự thật thú vị</h2>
+        <p class="lead">Chọn danh mục rồi bấm nút để xem một sự thật. Sự thật đã xem sẽ không hiện lại, muốn xem lại thì bấm Xem lại.</p>
+      </div>
+      <div class="ffs rv" id="ffs"></div>
+    </div>
+  </section>
+</div>
+
     <div class="band alt" aria-hidden="true">
     <div class="run">
       <span>Đang học</span><span>Đang làm</span><span>Đang chơi</span><span>Đang đọc</span><span>Đang nghe</span>
       <span>Đang học</span><span>Đang làm</span><span>Đang chơi</span><span>Đang đọc</span><span>Đang nghe</span>
     </div>
   </div>
+
+<div class="grp" id="g-log">
+    <div class="wrap ghd rv"><div><h2>Nhật ký</h2><p>Chuyện gần đây và một tuần của tôi.</p></div></div>
 
     <section class="s" id="log">
     <div class="wrap">
@@ -3349,6 +3429,10 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       </div>
     </div>
   </section>
+</div>
+
+<div class="grp" id="g-end">
+    <div class="wrap ghd rv"><div><h2>Cuối trang</h2><p>Hỏi đáp nhanh và cách liên hệ với tôi.</p></div></div>
 
   <section class="s" id="faq">
     <div class="wrap">
@@ -3383,54 +3467,56 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       </div>
     </div>
   </section>
-
-    <section class="s" id="map">
-    <div class="wrap">
-      <div class="rv">
-        <p class="eyebrow ei"><i data-ic="pin"></i><span>Bản đồ</span></p>
-        <h2>Tôi ở đây</h2>
-        <p class="lead" id="mapaddr"></p>
-      </div>
-      <div class="mapbox rv">
-        <div class="mapbar">
-          <input id="mapq" type="search" placeholder="Tìm địa điểm trên Google Maps" aria-label="Tìm địa điểm trên Google Maps" autocomplete="off">
-          <button class="btn" id="mapgo" type="button">Tìm</button>
-        </div>
-        <div class="mapfr"><iframe loading="lazy" id="mapfr" title="Google Maps" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
-        <div class="mapact">
-          <a class="btn line" id="mapdir" href="https://www.google.com/maps" target="_blank" rel="noopener">Chỉ đường</a>
-          <a class="btn line" id="mapopen" href="https://www.google.com/maps" target="_blank" rel="noopener">Mở Google Maps</a>
-          <button class="btn line" id="maphome" type="button">Về chỗ của tôi</button>
-        </div>
-        <div class="wx" id="wx" aria-live="polite">
-          <div class="wxm"><span class="wxi" id="wxi" aria-hidden="true">⛅</span><b class="wxt" id="wxt">--°</b></div>
-          <div class="wxd"><b id="wxc">Đang lấy thời tiết…</b><small id="wxp">Phù Liễn, Hải Phòng · cập nhật mỗi 15 phút</small><small id="wxx"></small><small id="wxe"></small></div>
-          <button class="btn line" id="wxb" type="button" aria-pressed="false">Bật hiệu ứng thời tiết</button>
-          <details class="wxtest" id="wxtest"><summary>Thử thời tiết</summary>
-            <div class="wxtr" role="group" aria-label="Chọn hiệu ứng để thử">
-              <button type="button" class="wxch on" data-f="">Thời tiết thật</button><button type="button" class="wxch" data-f="rain">Mưa</button><button type="button" class="wxch" data-f="snow">Tuyết</button><button type="button" class="wxch" data-f="none">Không có</button>
-            </div>
-            <div class="wxtr sim">
-              <label>Giả lập nhiệt độ <b id="wxtv">27°</b><input id="wxts" type="range" min="10" max="40" step="1" value="27"></label>
-              <label class="ck"><input type="checkbox" id="wxtr"> Đang mưa</label>
-              <label class="ck"><input type="checkbox" id="wxtd" checked> Ban ngày</label>
-            </div>
-            <small>Kéo thanh nhiệt độ để thử luật: dưới 26° có tuyết, tick "Đang mưa" thì có mưa, còn lại không có hiệu ứng. Bỏ tick "Ban ngày" để xem ban đêm có sao và trăng. Bấm "Thời tiết thật" để quay lại.</small>
-          </details>
-        </div>
-      </div>
-    </div>
-  </section>
-
+</div>
 </div>
 <div class="wrap view" id="view" hidden></div>
 </main>
 
 <footer>
   <div class="wrap">
+    <details class="fmap" id="fmap" open>
+      <summary><span>Bản đồ và thời tiết</span></summary>
+      <section class="s fmapsec" id="map">
+      <div class="wrap">
+        <div class="rv">
+          <p class="eyebrow ei"><i data-ic="pin"></i><span>Bản đồ</span></p>
+          <h2>Tôi ở đây</h2>
+          <p class="lead" id="mapaddr"></p>
+        </div>
+        <div class="mapbox rv">
+          <div class="mapbar">
+            <input id="mapq" type="search" placeholder="Tìm địa điểm trên Google Maps" aria-label="Tìm địa điểm trên Google Maps" autocomplete="off">
+            <button class="btn" id="mapgo" type="button">Tìm</button>
+          </div>
+          <div class="mapfr"><iframe loading="lazy" id="mapfr" title="Google Maps" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
+          <div class="mapact">
+            <a class="btn line" id="mapdir" href="https://www.google.com/maps" target="_blank" rel="noopener">Chỉ đường</a>
+            <a class="btn line" id="mapopen" href="https://www.google.com/maps" target="_blank" rel="noopener">Mở Google Maps</a>
+            <button class="btn line" id="maphome" type="button">Về chỗ của tôi</button>
+          </div>
+          <div class="wx" id="wx" aria-live="polite">
+            <div class="wxm"><span class="wxi" id="wxi" aria-hidden="true">⛅</span><b class="wxt" id="wxt">--°</b></div>
+            <div class="wxd"><b id="wxc">Đang lấy thời tiết…</b><small id="wxp">Phù Liễn, Hải Phòng · cập nhật mỗi 15 phút</small><small id="wxx"></small><small id="wxe"></small></div>
+            <button class="btn line" id="wxb" type="button" aria-pressed="false">Bật hiệu ứng thời tiết</button>
+            <details class="wxtest" id="wxtest"><summary>Thử thời tiết</summary>
+              <div class="wxtr" role="group" aria-label="Chọn hiệu ứng để thử">
+                <button type="button" class="wxch on" data-f="">Thời tiết thật</button><button type="button" class="wxch" data-f="rain">Mưa</button><button type="button" class="wxch" data-f="snow">Tuyết</button><button type="button" class="wxch" data-f="none">Không có</button>
+              </div>
+              <div class="wxtr sim">
+                <label>Giả lập nhiệt độ <b id="wxtv">27°</b><input id="wxts" type="range" min="10" max="40" step="1" value="27"></label>
+                <label class="ck"><input type="checkbox" id="wxtr"> Đang mưa</label>
+                <label class="ck"><input type="checkbox" id="wxtd" checked> Ban ngày</label>
+              </div>
+              <small>Kéo thanh nhiệt độ để thử luật: dưới 26° có tuyết, tick "Đang mưa" thì có mưa, còn lại không có hiệu ứng. Bỏ tick "Ban ngày" để xem ban đêm có sao và trăng. Bấm "Thời tiết thật" để quay lại.</small>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+    </details>
     <div class="fgrid">
       <div><h4>Ming</h4><p style="margin:0">Một trang nhỏ để ghi lại dạo này tôi đang làm gì.</p></div>
-      <div><h4>Trang</h4><ul><li><a href="#links">Liên kết</a></li><li><a href="#live">Ngay lúc này</a></li><li><a href="#now">Dạo này</a></li><li><a href="#play">Game</a></li><li><a href="#mod">Dự án</a></li><li><a href="#idol">Nghệ sĩ</a></li><li><a href="#playlist">Playlist</a></li><li><a href="#lab">Góc chơi</a></li><li><a href="#log">Nhật ký</a></li><li><a href="#tkb">Thời khoá biểu</a></li><li><a href="#stats">Vài con số</a></li><li><a href="#facts">Sự thật</a></li><li><a href="#photos">Ảnh</a></li><li><a href="#faq">Hỏi đáp</a></li><li><a href="#contact">Liên hệ</a></li><li><a href="#map">Bản đồ</a></li></ul></div>
+      <div><h4>Trang</h4><ul><li><a href="#g-about">Về Ming</a></li><li><a href="#g-likes">Sở thích</a></li><li><a href="#g-play">Chơi và xem</a></li><li><a href="#g-log">Nhật ký</a></li><li><a href="#contact">Liên hệ</a></li><li><a href="#map">Bản đồ</a></li></ul></div>
       <div><h4>Kết nối</h4><ul id="fconn"></ul></div>
       <div class="keys"><h4>Phím tắt</h4><ul>
         <li><kbd>T</kbd><span>Đổi giao diện sáng hoặc tối</span></li>
@@ -3536,6 +3622,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
   Object.assign(EN,{"Bấm để tắt":"Tap to turn off","Giới hạn 60 FPS":"60 FPS limit","Số này đếm khung hình của các hiệu ứng JavaScript trên trang, được giữ tối đa 60 để máy đỡ nóng và đỡ tốn pin. Màn hình 60Hz trở xuống thì không bị ảnh hưởng. Cuộn trang và hiệu ứng CSS vẫn chạy theo tần số quét của màn hình.":"This counts frames of the page’s JavaScript effects, which are capped at 60 to keep your device cooler and save battery. Screens at 60Hz or lower are not affected. Scrolling and CSS effects still follow your screen’s refresh rate.","Trang này giới hạn tối đa 60 FPS, bấm nút tròn FPS để xem ghi chú.":"This page is capped at 60 FPS, press the round FPS button for a note.","Tạm dừng (R)":"Pause (R)","Chạy tiếp (R)":"Resume (R)"});
   Object.assign(EN,{"Tắt tiếng":"Mute","Bật tiếng":"Unmute","Lùi 10 giây":"Back 10 seconds","Tua tới 10 giây":"Forward 10 seconds","Bắt đầu":"Start","Đóng":"Close","Tua nhạc":"Seek","Vào trang, có nhạc":"Enter with music","Vào trang, không nhạc":"Enter without music","Vào trang":"Enter","Sẵn sàng rồi":"Ready","Lời bài hát":"Lyrics","Ẩn":"Hide","Hiện":"Show","Đang tìm lời...":"Looking for lyrics...","Chưa tìm thấy lời đồng bộ cho bài này.":"No synced lyrics found for this track.","Bài này chưa có lời chạy theo nhạc, đây là lời thường.":"No time-synced lyrics for this track, showing plain lyrics.","Không tải được lời lúc này (có thể đang mất mạng).":"Could not load lyrics right now (you may be offline).","Tìm":"Search","Bấm phát để tải lời.":"Press play to load lyrics.","Xem hồ sơ":"View profile","Lịch sử đấu":"Match history","Đăng ký":"Subscribe","Xem ảnh":"View image"});
   Object.assign(EN,{"Ẩn hoặc hiện GIF":"Hide or show GIFs","Góc chơi":"Playground","Thử tay một chút":"Try your hands","Test chuột, test bàn phím hoặc đánh combo cho vui. Mọi thứ chạy ngay trên máy bạn, không gửi đi đâu.":"Test your mouse, test your keyboard or chain combos for fun. Everything runs on your device and nothing is sent anywhere.","Chọn công cụ":"Choose a tool","Test chuột":"Mouse test","Test bàn phím":"Keyboard test","Combo":"Combo","Số lần bấm mỗi giây (CPS)":"Clicks per second (CPS)","Số lần bấm":"Clicks","Giây còn lại":"Seconds left","Kỷ lục":"Best","5 giây":"5 seconds","10 giây":"10 seconds","30 giây":"30 seconds","Thời gian thử":"Test length","Bấm vào đây để bắt đầu":"Click here to start","Bấm tiếp đi!":"Keep clicking!","Hết giờ":"Time's up","Kỷ lục mới!":"New record!","Bấm để thử lại":"Click to try again","Chuột trái":"Left","Chuột giữa":"Middle","Chuột phải":"Right","Cuộn":"Scroll","Bắt đầu test":"Start test","Dừng test":"Stop test","Đặt lại":"Reset","Chưa bấm phím nào":"No key pressed yet","Phím vừa bấm":"Last key","Phím đã thử":"Keys tested","Lần bấm":"Presses","Nhiều phím cùng lúc":"Keys at once (rollover)","Bấm \"Bắt đầu test\" rồi gõ thử. Khi đang test, các phím tắt của trang tạm thời bị tắt. Phím Windows và tổ hợp của hệ điều hành thì trình duyệt không bắt được. Cần bàn phím thật để thử.":"Press \"Start test\" and type. While testing, the page shortcuts are turned off. The browser can't catch the Windows key or OS shortcuts. You need a real keyboard.","Điểm":"Score","Combo cao nhất":"Best combo","Bắt đầu 30 giây":"Start 30 seconds","Chơi lại":"Play again","Lên":"Up","Xuống":"Down","Trái":"Left","Phải":"Right","Hạng":"Rank","điểm":"points","Đang chạy... bấm đúng mũi tên hiện trên màn hình!":"Running... press the arrow shown on screen!","Bấm đúng mũi tên (hoặc W A S D) hiện trên màn hình. Đúng liên tiếp thì combo tăng và nhân điểm, bấm sai là mất combo.":"Press the arrow shown on screen (or W A S D). Hit them in a row to grow the combo and multiply points; a wrong key resets it.","Mỗi ngày chia thành các khung 3 giờ: tôi làm gì, vào lúc nào.":"Each day is split into 3-hour blocks: what I do and when.","Ba playlist tôi hay bật. Bấm nghe ngay tại đây hoặc mở bằng app.":"Three playlists I play a lot. Listen right here or open them in the app.","Đọc truyện":"Reading comics","Xem phim":"Watching movies","Game PC":"PC games","Game điện thoại":"Mobile games","Sắp cập nhật, tôi sẽ thêm dần.":"Coming soon, I'll add more over time.","Bấm vào một playlist để nghe ngay tại đây.":"Click a playlist to listen right here.","Đang phát trực tiếp":"Live streaming","Đang xem":"Watching","Đang thi đấu":"Competing","Chưa nhận được trạng thái Discord. Hãy vào server discord.gg/lanyard bằng đúng tài khoản này, bật hiển thị hoạt động trong Discord và kiểm tra lại ID.":"No Discord status received yet. Join discord.gg/lanyard with this exact account, turn on activity sharing in Discord and double-check the ID.","Ngủ":"Sleep","Nghỉ ngơi":"Rest","Dậy, ăn sáng, đến trường":"Wake up, breakfast, head to school","Các môn buổi sáng":"Morning classes","Đi học hoặc học thêm":"School or extra classes","Việc buổi chiều":"Afternoon stuff","Ăn tối, học bài":"Dinner, homework","Chơi game, nghe nhạc":"Gaming, music","Thức khuya, chơi game":"Up late, gaming","Ngủ nướng":"Sleeping in","Dậy, ăn sáng, việc riêng":"Wake up, breakfast, own stuff","Dịch mod, việc riêng":"Translating mods, own stuff","Ăn tối, đọc truyện, xem phim":"Dinner, comics, movies","Dọn dẹp, chuẩn bị cho tuần mới":"Tidy up, get ready for the week","Nghe nhạc, thư giãn":"Music, chill","Tháng 5, 2026":"May 2026","Tháng 4, 2026":"April 2026","Tháng 3, 2026":"March 2026","Tháng 2, 2026":"February 2026","Tháng 1, 2026":"January 2026","Đi học trên lớp, chuẩn bị kết thúc kỳ học.":"Going to class, getting ready to wrap up the term.","Đi học và làm bài đều đặn.":"Going to school and doing assignments steadily.","Đi học sau kỳ nghỉ Tết.":"Back to school after the Tet break.","Bắt đầu năm mới, vẫn đi học như thường.":"A new year begins, school as usual."});
+  Object.assign(EN,{"Về Ming":"About Ming","Chơi và xem":"Play and watch","Cuối trang":"Wrap-up","Tôi là ai, tìm tôi ở đâu và dạo này tôi đang làm gì.":"Who I am, where to find me and what I'm up to lately.","Game, dự án việt hoá, nhạc và những thứ tôi mê.":"Games, translation projects, music and the things I love.","Mấy món để nghịch, vài tấm ảnh và chuyện vui.":"Things to tinker with, a few photos and fun facts.","Chuyện gần đây và một tuần của tôi.":"Recent updates and my week.","Hỏi đáp nhanh và cách liên hệ với tôi.":"Quick Q&A and how to reach me.","Tôi là Ming, game thủ kiêm dịch giả. Trang nhỏ này ghi lại dạo này tôi chơi gì, làm gì và học gì.":"I'm Ming, a gamer and translator. This little page keeps track of what I'm playing, doing and learning lately.","Bản đồ và thời tiết":"Map and weather"});
   function T(s){return (LANG==='en'&&typeof s==='string'&&Object.prototype.hasOwnProperty.call(EN,s))?EN[s]:s}
   function LOC(){return LANG==='en'?'en-US':'vi-VN'}
   /* Nội dung còn để mẫu thì trang tự ẩn đi, điền thật vào là hiện ra:
@@ -3758,8 +3845,6 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     clk.addEventListener('pointermove',function(e){
       if(e.pointerType==='touch')return;
       var r=clk.getBoundingClientRect();
-      clk.style.setProperty('--mx',(e.clientX-r.left)+'px');
-      clk.style.setProperty('--my',(e.clientY-r.top)+'px');
       tx=((e.clientX-r.left)/r.width-.5)*-30;ty=((e.clientY-r.top)/r.height-.5)*-20;kick();
     });
     clk.addEventListener('pointerleave',function(){tx=0;ty=0;kick()});
@@ -3792,7 +3877,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
         }
       });
     },{rootMargin:'-40% 0px -55% 0px'});
-    document.querySelectorAll('main section[id]').forEach(function(s){nav.observe(s)});
+    document.querySelectorAll('main .grp[id]').forEach(function(s){nav.observe(s)});
   }
 
   /* ===== chi tiết thêm (đợt 3) ===== */
@@ -4133,7 +4218,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     var x=cItems[i];if(!x)return;
     cmdClose();
     if(x.f){x.f();return}
-    if(location.hash===x.h&&x.h.charAt(1)!=='/'){var el=document.getElementById(x.h.slice(1));if(el)el.scrollIntoView({behavior:calm?'auto':'smooth'})}
+    if(location.hash===x.h&&x.h.charAt(1)!=='/'){window.__openSec&&window.__openSec(x.h.slice(1));var el=document.getElementById(x.h.slice(1));if(el)el.scrollIntoView({behavior:calm?'auto':'smooth'})}
     else location.hash=x.h;
   }
   cq.addEventListener('input',cmdRender);
@@ -5485,7 +5570,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       if(!h)return;
       if(h.charAt(1)==='/'){location.hash=h;return}
       var el=document.getElementById(h.slice(1));
-      if(location.hash===h){if(el)el.scrollIntoView({behavior:calm?'auto':'smooth'})}
+      if(location.hash===h){window.__openSec&&window.__openSec(h.slice(1));if(el)el.scrollIntoView({behavior:calm?'auto':'smooth'})}
       else location.hash=h;
     }
     /* TỰ CHẠY: cứ FACT_MS mili giây (4000 = 4 giây) hiện một câu mới. Rê chuột vào câu thì tạm đứng để đọc, bấm nút xúc xắc để dừng hoặc chạy tiếp.
@@ -7306,10 +7391,11 @@ function stopP(){cancelAnimationFrame(raf);raf=0;cur='';if(cv)cv.style.display='
 function tick(ts){
   raf=requestAnimationFrame(tick);
   var raw=ts-last;if(!last||raw>250){last=ts;return}
+  if(raw<30)return; /* ~30 khung/giây là đủ cho mưa/tuyết */
   last=ts;var dt=Math.min(.05,raw/1000);
   acc+=raw;fc++;
   if(fc>=90){var avg=acc/fc;acc=0;fc=0;
-    if(avg>28){cuts++;if(cuts>=3||N<20){perfOff=true;stopP();note();return}N=Math.floor(N*.6);ps.length=N}}
+    if(avg>50){cuts++;if(cuts>=3||N<20){perfOff=true;stopP();note();return}N=Math.floor(N*.6);ps.length=N}}
   cx.clearRect(0,0,W,H);cx.beginPath();var i,p;
   if(cur==='rain'){
     for(i=0;i<ps.length;i++){p=ps[i];p.y+=p.v*dt;p.x+=p.v*dt*.18;
@@ -7327,7 +7413,7 @@ function startP(k){
   if(perfOff||raf&&cur===k)return;
   stopP();cur=k;
   if(!cv){cv=document.createElement('canvas');cv.id='wxfx';cv.setAttribute('aria-hidden','true');document.body.appendChild(cv);cx=cv.getContext('2d')}
-  colors();size();N=k==='rain'?90:70;cuts=0;acc=0;fc=0;last=0;spawn(k);cv.style.display='block';raf=requestAnimationFrame(tick);
+  colors();size();N=k==='rain'?70:55;cuts=0;acc=0;fc=0;last=0;spawn(k);cv.style.display='block';raf=requestAnimationFrame(tick);
 }
 addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){if(cv&&raf){size();spawn(cur)}},200)});
 document.addEventListener('visibilitychange',function(){last=0;if(!document.hidden&&started&&Date.now()-fetched>TTL)load()});
@@ -7404,7 +7490,7 @@ var started=false;function start(){if(started)return;started=true;if(!data||Date
 if(enabled||force||!window.IntersectionObserver)start();else{var wio=new IntersectionObserver(function(es){if(es[0].isIntersecting){wio.disconnect();start()}},{rootMargin:'700px 0px'});wio.observe(wx)}
 setInterval(function(){if(started&&!document.hidden)load()},TTL);
 })();</script>
-<style>.offscr{--aps:paused}.offscr,.offscr *,.offscr *::before,.offscr *::after{animation-play-state:paused!important}</style>
+<style>.offscr{--aps:paused}.offscr,.offscr::before,.offscr::after,.offscr .dot,.offscr .caret,.offscr .js .rv.in .hand > *,.offscr .gbox,.offscr .gc,.offscr .idbox,.offscr .bgm.on .ic2,.offscr .clock-label,.offscr .big,.offscr .sep,.offscr .clock-date,.offscr .cue,.offscr .eq i,.offscr .cmdbox,.offscr ::view-transition-old(root),.offscr ::view-transition-new(root),.offscr .bob,.offscr .js .rv.in .ph img,.offscr .view .ph img,.offscr .js .rv.in :is(.grid,.offscr .gallery,.offscr .faq,.offscr .stats) > *,.offscr .view .items > *,.offscr .big span.tk,.offscr .run,.offscr .g3d,.offscr .view > *,.offscr .big span.tk2,.offscr .rv :is(.grid,.offscr .ph img,.offscr body::after,.offscr .js .rv.in .rows > *,.offscr .rv .rows > *,.offscr .avatar.on,.offscr .card:hover .ic.pad,.offscr .card:hover .ic.eye,.offscr .btn:hover .bi.chat .d1,.offscr .btn:hover .bi.chat .d2,.offscr .btn:hover .bi.chat .d3,.offscr .btn.ok .bi .ck,.offscr .card:hover .ic,.offscr .btn:hover .bi *,.offscr .btn .bi .ck,.offscr .js .rv.in .eyebrow .ic2,.offscr .ic2.terminal .cur,.offscr :is(.card,.offscr .hob,.offscr .rows a,.offscr .kv li,.offscr .stats > div,.offscr .eyebrow,.offscr .btn,.offscr .cp):hover .ic2.flame,.offscr .cp):hover .ic2.sprout,.offscr .cp):hover .ic2.gamepad,.offscr .cp):hover .ic2.music,.offscr .cp):hover .ic2.pulse path,.offscr .cp):hover .ic2.heart,.offscr .cp):hover .ic2.medal,.offscr .cp):hover .ic2.arrowdown,.offscr .ic2,.offscr .ic2 *,.offscr .avf::before,.offscr .avf::after,.offscr .pci .ptitle b,.offscr .gsk.in,.offscr .ptitle b,.offscr .lite .gsk.in,.offscr .lite .avf::before,.offscr .lite .avf::after,.offscr .lite .ptitle b,.offscr #skyfx .st,.offscr .bar.mini nav,.offscr .cpad.pop,.offscr .cprompt.hit,.offscr .cprompt.miss,.offscr .cprompt.miss),.offscr .ddf.on svg,.offscr #steamn,.offscr #steamname,.offscr .pci > b,.offscr .ax .rv.in :is(.grid,.offscr .stats,.offscr .rows,.offscr .hand) > *,.offscr .ax .rv.in .ph img,.offscr .ax .view .items > *,.offscr .ax .view .ph img,.offscr .axd,.offscr .clkx .big span.tk,.offscr .clkx .big span.tk2,.offscr #theme.sw .st,.offscr .bye-t),.offscr h2,.offscr .bye-t,.offscr #greet,.offscr .brand,.offscr .bar nav a.on){animation-play-state:paused!important}</style>
 <script>/* chỉ phần đang nằm trên màn hình mới chạy hiệu ứng; rời đi thì tạm dừng animation CSS, quay lại thì chạy tiếp */
 (function(){if(!window.IntersectionObserver)return;
 var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('offscr',!e.isIntersecting)})},{rootMargin:'60px 0px'});
@@ -7682,6 +7768,26 @@ addEventListener('load',function(){
   if(reg.active)setTimeout(warm,4000);else navigator.serviceWorker.ready.then(function(){setTimeout(warm,2500)});
  }).catch(function(){});
 });
+})();</script>
+<script>(function(){
+/* mở mục đang thu gọn (.cl) hoặc khối <details> chứa đích đến, rồi mới cuộn tới */
+function openSec(id){var el=id&&document.getElementById(id);if(!el)return;
+ for(var n=el;n&&n!==document.body;n=n.parentElement){
+  if(n.tagName==='DETAILS'&&!n.open)n.open=true;
+  if(n.classList&&n.classList.contains('cl')){n.classList.remove('cl');if(n.__lab)n.__lab()}
+ }}
+window.__openSec=openSec;
+/* nav 5 mục: đủ chỗ thì ẩn hai nút mũi tên */
+function fit(){var x=document.querySelector('.navx'),n=x&&x.querySelector('nav');if(!n)return;
+ x.classList.remove('fits');var ok=n.scrollWidth<=n.clientWidth+1;
+ if(!ok){var bs=x.querySelectorAll('.nvb'),w=0;bs.forEach(function(b){w+=b.getBoundingClientRect().width+5});ok=n.scrollWidth<=n.clientWidth+w-2}
+ x.classList.toggle('fits',ok)}
+fit();addEventListener('resize',fit);addEventListener('load',function(){fit();setTimeout(fit,600)});document.addEventListener('langchange',function(){setTimeout(fit,50)});
+document.addEventListener('click',function(e){
+ var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a)return;
+ var h=a.getAttribute('href');if(h.length>1&&h.charAt(1)!=='/')openSec(h.slice(1))},true);
+addEventListener('hashchange',function(){var h=location.hash;if(h.length>1&&h.charAt(1)!=='/')openSec(h.slice(1))});
+if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.slice(1));
 })();</script>
 </body>
 </html>
