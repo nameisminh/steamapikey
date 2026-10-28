@@ -40,6 +40,7 @@ window.cancelAnimationFrame=function(id){var it=m[id];if(it){it.c=true;delete m[
 })();</script>
 <script>document.documentElement.classList.add('js');try{history.scrollRestoration='manual'}catch(e){}try{var _n=navigator,_c=_n.connection;if((_n.hardwareConcurrency||8)<=4||(_n.deviceMemory||8)<=4||(_c&&_c.saveData))document.documentElement.classList.add('lite')}catch(e){}</script>
 <script>try{var _t=localStorage.getItem('theme');if(_t==='light'||_t==='dark')document.documentElement.setAttribute('data-theme',_t);else if(matchMedia('(prefers-color-scheme: light)').matches)document.documentElement.setAttribute('data-theme','light');document.documentElement.setAttribute('data-color','off');if(document.documentElement.getAttribute('data-theme')==='light'){var _mc=document.querySelector('meta[name="color-scheme"]'),_tc=document.querySelector('meta[name="theme-color"]');if(_mc)_mc.content='only light';if(_tc)_tc.content='#fafafa'}var _m=localStorage.getItem('motion');if(_m==='auto'||(_m===null&&document.documentElement.classList.contains('lite')))_m='off';if(_m==='off')document.documentElement.setAttribute('data-motion','off');if(localStorage.getItem('colors')==='on')document.documentElement.removeAttribute('data-color')}catch(e){}try{if(_m!=='off'&&!sessionStorage.getItem('seen')&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('pre-on')}catch(e){}</script>
+<script>try{if(localStorage.getItem('gifoff')==='1')document.documentElement.classList.add('nogif')}catch(e){}</script>
 <script>/* ASCII REVEAL v5
    1) Chữ mã hoá rồi giải mã dần từng dòng: chữ thật luôn nằm đúng chỗ của nó, chỉ phần chưa giải mã bị tô trong suốt (CSS Custom Highlight) và có ký tự lạ vẽ đè lên, nên giải mã xong không thể bị lệch. Số thì chạy ra số.
       Ảnh vỡ thành khối pixel rồi gộp lại, xong ảnh nào hiện ngay ảnh đó (không nháy). Đồng hồ ở đầu trang chỉ chạy số rồi dừng đúng giờ, không gộp chữ.
@@ -1446,10 +1447,8 @@ section.s,section.intro{position:relative}
 #mcau{display:block;width:100%;margin:.8rem 0 0}
 #mcau[hidden]{display:none}
 #skyfx{position:fixed;inset:0;pointer-events:none;z-index:6;opacity:0;transition:opacity 1.6s ease}
-:root[data-sky="night"] #skyfx,:root[data-sky="dawn"] #skyfx,:root[data-sky="dusk"] #skyfx{opacity:1}
+:root[data-sky="night"] #skyfx{opacity:1}
 :root[data-sky="night"] #skyfx{background:none}
-:root[data-sky="dawn"] #skyfx{background:linear-gradient(180deg,rgba(255,170,150,.14),rgba(255,214,170,.05) 45%,transparent 70%)}
-:root[data-sky="dusk"] #skyfx{background:linear-gradient(180deg,rgba(255,140,90,.14),rgba(120,70,160,.09) 60%,transparent)}
 :root[data-theme="light"][data-sky="night"] #skyfx{background:none}
 #skyfx .st{position:absolute;left:0;top:0;background:transparent;border-radius:50%;opacity:0;transition:opacity 1.6s ease}
 #skyfx .st.a{width:1px;height:1px}
@@ -1462,13 +1461,6 @@ section.s,section.intro{position:relative}
 @keyframes twk{from{opacity:.35}to{opacity:1}}
 :root[data-motion="off"] #skyfx .st{animation:none!important}
 @media (prefers-reduced-motion:reduce){#skyfx .st{animation:none!important}}
-#sunfx{position:fixed;inset:0;pointer-events:none;z-index:7;opacity:0;transition:opacity 1.4s ease;background:radial-gradient(46rem 32rem at 100% -6%,rgba(255,222,150,.24),rgba(255,200,120,.07) 48%,transparent 72%),radial-gradient(13rem 13rem at 90% 5%,rgba(255,246,220,.15),transparent 70%)}
-:root[data-theme="light"] #sunfx{background:radial-gradient(46rem 32rem at 100% -6%,rgba(255,196,90,.30),rgba(255,210,130,.09) 48%,transparent 72%),radial-gradient(13rem 13rem at 90% 5%,rgba(255,255,255,.35),transparent 70%)}
-:root[data-wx="sun"] #sunfx{opacity:1}
-@media (hover:hover) and (pointer:fine) and (min-width:40.01rem){:root[data-wx="sun"] #sunfx{animation:sunp 7s ease-in-out infinite alternate}}
-@keyframes sunp{from{opacity:.72}to{opacity:1}}
-:root[data-motion="off"] #sunfx,.lite #sunfx{display:none}
-@media (prefers-reduced-motion:reduce){#sunfx{animation:none!important}}
 @media (max-width:40rem){.mapfr{aspect-ratio:4/5;min-height:20rem}}
 section.s,footer{content-visibility:auto;contain-intrinsic-size:auto 42rem}
 #hero,#home>section:first-of-type{content-visibility:visible}
@@ -1925,7 +1917,7 @@ footer .bye{margin:1.4rem 0 0;padding:1rem}
 footer .bye-t{font-size:1.05rem}
 footer .bye-s{font-size:.82rem;margin-top:.3rem!important}
 </style>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Ming","inLanguage":"vi","description":"Trang nhỏ để mọi người biết dạo này tôi đang làm gì."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Ming","url":"https://lmingl.pages.dev/","inLanguage":"vi","description":"Trang nhỏ để mọi người biết dạo này tôi đang làm gì."}</script>
 <style>
 .navx{order:3;width:100%;display:flex;align-items:center;gap:.3rem;min-width:0}
 .navx nav{flex:1 1 0;min-width:0;width:auto;scroll-behavior:smooth}
@@ -2514,6 +2506,51 @@ img{border-radius:inherit}
 }
 .pls .card .pa .btn{min-height:2.4rem}
 </style>
+<link rel="canonical" href="https://lmingl.pages.dev/">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="dns-prefetch" href="https://api.open-meteo.com">
+<style id="ui2">
+/* ===== GIAO DIỆN NÚT 2026: kính mờ, bo tròn, nảy nhẹ, viền sáng, bóng màu nhấn ===== */
+:root{--ease-pop:cubic-bezier(.2,.9,.3,1.25);--glass:rgba(var(--fx),.055);--glass-hi:rgba(var(--fx),.11);--edge:rgba(var(--fx),.18);--edge-hi:rgba(var(--fx),.42)}
+.btn,.tgl,.wxch,.ql{-webkit-tap-highlight-color:transparent}
+/* nút chính */
+.btn{border-radius:999px;padding:.62rem 1.3rem;border:1px solid transparent;background:linear-gradient(180deg,rgba(var(--fx),1) 0%,rgba(var(--fx),.84) 100%);color:var(--bg);font-weight:600;letter-spacing:.005em;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 10px 24px -12px rgba(var(--fx),.55);transition:scale .35s var(--ease-pop),box-shadow .3s,background .3s,border-color .3s,color .3s,transform .2s}
+.btn:hover{background:linear-gradient(180deg,rgba(var(--fx),.96) 0%,rgba(var(--fx),.78) 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 0 0 4px rgba(var(--fx),.1),0 14px 30px -12px rgba(var(--fx),.6)}
+/* nút viền kính */
+.btn.line{background:var(--glass);color:var(--text);border-color:var(--edge);-webkit-backdrop-filter:blur(12px) saturate(150%);backdrop-filter:blur(12px) saturate(150%);box-shadow:inset 0 1px 0 rgba(var(--fx),.1)}
+.btn.line:hover{background:var(--glass-hi);border-color:var(--edge-hi);box-shadow:inset 0 1px 0 rgba(var(--fx),.14),0 12px 30px -16px var(--acc),0 0 0 3px rgba(var(--fx),.04)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+/* nút tròn trên thanh đầu */
+.tgl:not(.sw){background:var(--glass);border-color:var(--edge);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:inset 0 1px 0 rgba(var(--fx),.08);transition:scale .3s var(--ease-pop),border-color .2s,background .2s,box-shadow .2s}
+.tgl:not(.sw):hover{transform:none;border-color:var(--edge-hi);background:var(--glass-hi);box-shadow:inset 0 1px 0 rgba(var(--fx),.12),0 8px 22px -12px var(--acc)}
+.tgl.gifb{font:700 .6rem/1 var(--mono);letter-spacing:.02em}
+.tgl.gifb[aria-pressed="false"] .gt{text-decoration:line-through;text-decoration-thickness:1.5px;opacity:.55}
+/* chip chọn thử thời tiết */
+.wxch{background:var(--glass);border-color:var(--edge);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:scale .3s var(--ease-pop),background .2s,border-color .2s,color .2s,box-shadow .2s}
+.wxch:hover{background:var(--glass-hi);border-color:var(--edge-hi);color:var(--text)}
+.wxch.on{background:var(--acc);border-color:transparent;color:#04200e;box-shadow:0 8px 22px -10px var(--acc)}
+:root[data-theme="light"] .wxch.on{color:#fff}
+.ql{background:var(--glass);border-color:var(--edge);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+/* nhấn & hover */
+.btn:active,.tgl:active,.wxch:active{scale:.96;transition-duration:.08s}
+@media (hover:hover){.btn:hover{scale:1.035}.tgl:not(.sw):hover{scale:1.1}.tgl.lang:hover{scale:1.04}.wxch:hover{scale:1.05}}
+.btn:focus-visible,.tgl:focus-visible,.wxch:focus-visible,.ql:focus-visible{outline:2px solid var(--acc);outline-offset:3px;border-radius:999px}
+:root[data-motion="off"] :is(.btn,.tgl,.wxch){scale:none!important;transition:none}
+@media (prefers-reduced-motion:reduce){.btn,.tgl,.wxch{scale:none!important;transition:none}}
+/* máy yếu (lite): bỏ lớp kính mờ cho nhẹ */
+.lite :is(.btn.line,.tgl,.wxch,.ql,#netpill){-webkit-backdrop-filter:none;backdrop-filter:none}
+/* ẩn GIF */
+.nogif .gsk,.nogif .gbar{display:none!important}
+/* trạng thái mạng + chế độ offline */
+#netpill{position:fixed;left:50%;bottom:calc(1.25rem + env(safe-area-inset-bottom,0px));z-index:60;transform:translate(-50%,12px);opacity:0;padding:.55rem 1.1rem;border-radius:999px;border:1px solid var(--edge);background:rgba(var(--bgrgb),.82);-webkit-backdrop-filter:blur(14px) saturate(160%);backdrop-filter:blur(14px) saturate(160%);color:var(--text);font:500 .85rem/1.4 var(--body);box-shadow:0 16px 40px -18px rgba(0,0,0,.6);pointer-events:none;transition:opacity .35s,transform .35s var(--ease-pop);max-width:calc(100vw - 2rem);text-align:center}
+#netpill.on{opacity:1;transform:translate(-50%,0)}
+#netpill::before{content:"";display:inline-block;width:.5rem;height:.5rem;border-radius:50%;background:var(--acc);margin-right:.55rem;vertical-align:.05em}
+.offl #netpill::before{background:#ffb454}
+.offl .mapfr{position:relative}
+.offl .mapfr iframe{visibility:hidden}
+.offl .mapfr::after{content:attr(data-off);position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:1rem;color:var(--muted);font-size:.9rem}
+</style>
 </head>
 <body>
 <div id="ldr" role="presentation" aria-hidden="true"><div class="ldrg z"><div class="ldgl"><div class="ldring ldtr"></div><div class="ldring ldpg" id="ldp2"></div><i class="lddot ldd1"></i><i class="lddot ldd2"></i></div><div class="ldnm"><span id="ldn">0</span><small>%</small></div></div></div>
@@ -2601,6 +2638,7 @@ window.__autoLang=function(){
       <button class="tgl" id="bgmlist" type="button" aria-label="Mở danh sách nhạc" aria-expanded="false" aria-controls="bgmp" title="Danh sách nhạc"><svg class="g" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="11" height="2.6" rx="1.3"/><rect x="3.5" y="10.7" width="11" height="2.6" rx="1.3"/><rect x="3.5" y="16.4" width="7" height="2.6" rx="1.3"/><rect x="17.2" y="6" width="2.4" height="11" rx="1.2"/><circle cx="16.4" cy="17" r="3"/></svg></button>
       <button class="tgl" id="bgmtop" type="button" aria-label="Bật nhạc" aria-pressed="false" title="Bật hoặc tắt nhạc"><svg class="g" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6.8" cy="17.5" r="3"/><circle cx="17.6" cy="15.5" r="3"/><path d="M8 17.5V6.1L20.6 3.5V15.5H18.8V6L9.8 7.9V17.5Z"/><path class="sl" d="M3 3l18 18"/></svg></button>
       <button class="tgl" id="sfx" type="button" aria-label="Âm thanh khi nhấn" aria-pressed="true" title="Âm thanh khi nhấn (bật/tắt)"><svg class="g" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 8.5l10.5 4.2-4.7 1.8-1.8 4.7z"/><path class="ln" d="M6.2 6.2L4.8 4.8M9.5 4.5V2.8M4.5 9.5H2.8"/><path class="sl" d="M3 3l18 18"/></svg></button>
+      <button class="tgl gifb" id="gifbtn" type="button" aria-label="Ẩn GIF (G)" aria-pressed="true" title="Ẩn GIF (G)"><span class="gt" aria-hidden="true">GIF</span></button>
       <button class="tgl" id="search" type="button" aria-label="Tìm nhanh" title="Tìm nhanh (/ hoặc Ctrl+K)"><svg class="b" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.2"/><path d="M15.6 15.6l5 5"/></svg></button>
       <button class="tgl" id="colors" type="button" aria-label="Bật hoặc tắt màu chữ" aria-pressed="true" title="Tắt/bật màu chữ (C)"><svg class="g" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2.8a9.2 9.2 0 1 0 0 18.4c1.5 0 2.2-1 2.2-2.1 0-1.7-1.3-1.9-1.3-3.1 0-1 .8-1.8 1.9-1.8H17a4.2 4.2 0 0 0 4.2-4.2C21.2 5.9 17.2 2.8 12 2.8zM7.4 10.1a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2zm2.6-3.8a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2zm4.3 0a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2z"/><path class="sl" d="M3 3l18 18"/></svg></button>
       <button class="tgl" id="motion" type="button" aria-label="Tắt hoặc bật hiệu ứng chuyển động" aria-pressed="false" title="Tắt/bật hiệu ứng (M)">
@@ -3367,17 +3405,17 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
         <div class="wx" id="wx" aria-live="polite">
           <div class="wxm"><span class="wxi" id="wxi" aria-hidden="true">⛅</span><b class="wxt" id="wxt">--°</b></div>
           <div class="wxd"><b id="wxc">Đang lấy thời tiết…</b><small id="wxp">Phù Liễn, Hải Phòng · cập nhật mỗi 15 phút</small><small id="wxx"></small><small id="wxe"></small></div>
-          <button class="btn line" id="wxb" type="button" aria-pressed="true">Tắt hiệu ứng thời tiết</button>
+          <button class="btn line" id="wxb" type="button" aria-pressed="false">Bật hiệu ứng thời tiết</button>
           <details class="wxtest" id="wxtest"><summary>Thử thời tiết</summary>
             <div class="wxtr" role="group" aria-label="Chọn hiệu ứng để thử">
-              <button type="button" class="wxch on" data-f="">Thời tiết thật</button><button type="button" class="wxch" data-f="rain">Mưa</button><button type="button" class="wxch" data-f="snow">Tuyết</button><button type="button" class="wxch" data-f="sun">Nắng chói</button><button type="button" class="wxch" data-f="none">Không có</button>
+              <button type="button" class="wxch on" data-f="">Thời tiết thật</button><button type="button" class="wxch" data-f="rain">Mưa</button><button type="button" class="wxch" data-f="snow">Tuyết</button><button type="button" class="wxch" data-f="none">Không có</button>
             </div>
             <div class="wxtr sim">
               <label>Giả lập nhiệt độ <b id="wxtv">27°</b><input id="wxts" type="range" min="10" max="40" step="1" value="27"></label>
               <label class="ck"><input type="checkbox" id="wxtr"> Đang mưa</label>
               <label class="ck"><input type="checkbox" id="wxtd" checked> Ban ngày</label>
             </div>
-            <small>Kéo thanh nhiệt độ để thử luật: dưới 26° có tuyết, từ 26° trở lên (ban ngày) có nắng chói, tick "Đang mưa" thì có mưa. Bỏ tick "Ban ngày" để xem ban đêm có sao và trăng. Bấm "Thời tiết thật" để quay lại.</small>
+            <small>Kéo thanh nhiệt độ để thử luật: dưới 26° có tuyết, tick "Đang mưa" thì có mưa, còn lại không có hiệu ứng. Bỏ tick "Ban ngày" để xem ban đêm có sao và trăng. Bấm "Thời tiết thật" để quay lại.</small>
           </details>
         </div>
       </div>
@@ -3398,13 +3436,14 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
         <li><kbd>T</kbd><span>Đổi giao diện sáng hoặc tối</span></li>
         <li><kbd>M</kbd><span>Tắt hoặc bật hiệu ứng</span></li>
         <li><kbd>H</kbd><span>Lên đầu trang</span></li>
+        <li><kbd>G</kbd><span>Ẩn hoặc hiện GIF</span></li>
         <li><kbd>/</kbd><span>Tìm nhanh (hoặc Ctrl + K)</span></li>
         <li><kbd>R</kbd><span>Ngẫu nhiên một điều về trang này</span></li>
         <li><kbd>P</kbd><span>Bật hoặc tắt nhạc</span></li>
         <li><kbd>F</kbd><span>Hiện hoặc ẩn FPS</span></li>
       </ul></div>
     </div>
-    <div class="copy"><span>© <span id="year">2026</span> Ming</span><span id="visits"></span><span id="upd">Cập nhật lần cuối: 25/10/26</span></div>
+    <div class="copy"><span>© <span id="year">2026</span> Ming</span><span id="visits"></span><span id="upd">Cập nhật lần cuối: 28/10/26 · 17:35:00</span></div>
     <div class="bye rv"><p class="bye-t">Cảm ơn bạn đã ghé qua</p><p class="bye-s">Hẹn gặp lại ở lần cập nhật sau.</p></div>
   </div>
 </footer>
@@ -3496,7 +3535,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
   Object.assign(EN,{"Danh hiệu":"Title","Game thủ kiêm dịch giả":"Gamer and translator","Cú đêm":"Night owl","Dịch giả":"Translator","Game thủ":"Gamer","Mê nhạc":"Music lover","Hay thức khuya":"Often up late","Dịch mod sang tiếng Việt":"Translates mods into Vietnamese","Chơi game mỗi ngày":"Plays games every day","Nhạc là bạn đồng hành":"Music is my companion","Xem ảnh động":"View animated image"});
   Object.assign(EN,{"Bấm để tắt":"Tap to turn off","Giới hạn 60 FPS":"60 FPS limit","Số này đếm khung hình của các hiệu ứng JavaScript trên trang, được giữ tối đa 60 để máy đỡ nóng và đỡ tốn pin. Màn hình 60Hz trở xuống thì không bị ảnh hưởng. Cuộn trang và hiệu ứng CSS vẫn chạy theo tần số quét của màn hình.":"This counts frames of the page’s JavaScript effects, which are capped at 60 to keep your device cooler and save battery. Screens at 60Hz or lower are not affected. Scrolling and CSS effects still follow your screen’s refresh rate.","Trang này giới hạn tối đa 60 FPS, bấm nút tròn FPS để xem ghi chú.":"This page is capped at 60 FPS, press the round FPS button for a note.","Tạm dừng (R)":"Pause (R)","Chạy tiếp (R)":"Resume (R)"});
   Object.assign(EN,{"Tắt tiếng":"Mute","Bật tiếng":"Unmute","Lùi 10 giây":"Back 10 seconds","Tua tới 10 giây":"Forward 10 seconds","Bắt đầu":"Start","Đóng":"Close","Tua nhạc":"Seek","Vào trang, có nhạc":"Enter with music","Vào trang, không nhạc":"Enter without music","Vào trang":"Enter","Sẵn sàng rồi":"Ready","Lời bài hát":"Lyrics","Ẩn":"Hide","Hiện":"Show","Đang tìm lời...":"Looking for lyrics...","Chưa tìm thấy lời đồng bộ cho bài này.":"No synced lyrics found for this track.","Bài này chưa có lời chạy theo nhạc, đây là lời thường.":"No time-synced lyrics for this track, showing plain lyrics.","Không tải được lời lúc này (có thể đang mất mạng).":"Could not load lyrics right now (you may be offline).","Tìm":"Search","Bấm phát để tải lời.":"Press play to load lyrics.","Xem hồ sơ":"View profile","Lịch sử đấu":"Match history","Đăng ký":"Subscribe","Xem ảnh":"View image"});
-  Object.assign(EN,{"Góc chơi":"Playground","Thử tay một chút":"Try your hands","Test chuột, test bàn phím hoặc đánh combo cho vui. Mọi thứ chạy ngay trên máy bạn, không gửi đi đâu.":"Test your mouse, test your keyboard or chain combos for fun. Everything runs on your device and nothing is sent anywhere.","Chọn công cụ":"Choose a tool","Test chuột":"Mouse test","Test bàn phím":"Keyboard test","Combo":"Combo","Số lần bấm mỗi giây (CPS)":"Clicks per second (CPS)","Số lần bấm":"Clicks","Giây còn lại":"Seconds left","Kỷ lục":"Best","5 giây":"5 seconds","10 giây":"10 seconds","30 giây":"30 seconds","Thời gian thử":"Test length","Bấm vào đây để bắt đầu":"Click here to start","Bấm tiếp đi!":"Keep clicking!","Hết giờ":"Time's up","Kỷ lục mới!":"New record!","Bấm để thử lại":"Click to try again","Chuột trái":"Left","Chuột giữa":"Middle","Chuột phải":"Right","Cuộn":"Scroll","Bắt đầu test":"Start test","Dừng test":"Stop test","Đặt lại":"Reset","Chưa bấm phím nào":"No key pressed yet","Phím vừa bấm":"Last key","Phím đã thử":"Keys tested","Lần bấm":"Presses","Nhiều phím cùng lúc":"Keys at once (rollover)","Bấm \"Bắt đầu test\" rồi gõ thử. Khi đang test, các phím tắt của trang tạm thời bị tắt. Phím Windows và tổ hợp của hệ điều hành thì trình duyệt không bắt được. Cần bàn phím thật để thử.":"Press \"Start test\" and type. While testing, the page shortcuts are turned off. The browser can't catch the Windows key or OS shortcuts. You need a real keyboard.","Điểm":"Score","Combo cao nhất":"Best combo","Bắt đầu 30 giây":"Start 30 seconds","Chơi lại":"Play again","Lên":"Up","Xuống":"Down","Trái":"Left","Phải":"Right","Hạng":"Rank","điểm":"points","Đang chạy... bấm đúng mũi tên hiện trên màn hình!":"Running... press the arrow shown on screen!","Bấm đúng mũi tên (hoặc W A S D) hiện trên màn hình. Đúng liên tiếp thì combo tăng và nhân điểm, bấm sai là mất combo.":"Press the arrow shown on screen (or W A S D). Hit them in a row to grow the combo and multiply points; a wrong key resets it.","Mỗi ngày chia thành các khung 3 giờ: tôi làm gì, vào lúc nào.":"Each day is split into 3-hour blocks: what I do and when.","Ba playlist tôi hay bật. Bấm nghe ngay tại đây hoặc mở bằng app.":"Three playlists I play a lot. Listen right here or open them in the app.","Đọc truyện":"Reading comics","Xem phim":"Watching movies","Game PC":"PC games","Game điện thoại":"Mobile games","Sắp cập nhật, tôi sẽ thêm dần.":"Coming soon, I'll add more over time.","Bấm vào một playlist để nghe ngay tại đây.":"Click a playlist to listen right here.","Đang phát trực tiếp":"Live streaming","Đang xem":"Watching","Đang thi đấu":"Competing","Chưa nhận được trạng thái Discord. Hãy vào server discord.gg/lanyard bằng đúng tài khoản này, bật hiển thị hoạt động trong Discord và kiểm tra lại ID.":"No Discord status received yet. Join discord.gg/lanyard with this exact account, turn on activity sharing in Discord and double-check the ID.","Ngủ":"Sleep","Nghỉ ngơi":"Rest","Dậy, ăn sáng, đến trường":"Wake up, breakfast, head to school","Các môn buổi sáng":"Morning classes","Đi học hoặc học thêm":"School or extra classes","Việc buổi chiều":"Afternoon stuff","Ăn tối, học bài":"Dinner, homework","Chơi game, nghe nhạc":"Gaming, music","Thức khuya, chơi game":"Up late, gaming","Ngủ nướng":"Sleeping in","Dậy, ăn sáng, việc riêng":"Wake up, breakfast, own stuff","Dịch mod, việc riêng":"Translating mods, own stuff","Ăn tối, đọc truyện, xem phim":"Dinner, comics, movies","Dọn dẹp, chuẩn bị cho tuần mới":"Tidy up, get ready for the week","Nghe nhạc, thư giãn":"Music, chill","Tháng 5, 2026":"May 2026","Tháng 4, 2026":"April 2026","Tháng 3, 2026":"March 2026","Tháng 2, 2026":"February 2026","Tháng 1, 2026":"January 2026","Đi học trên lớp, chuẩn bị kết thúc kỳ học.":"Going to class, getting ready to wrap up the term.","Đi học và làm bài đều đặn.":"Going to school and doing assignments steadily.","Đi học sau kỳ nghỉ Tết.":"Back to school after the Tet break.","Bắt đầu năm mới, vẫn đi học như thường.":"A new year begins, school as usual."});
+  Object.assign(EN,{"Ẩn hoặc hiện GIF":"Hide or show GIFs","Góc chơi":"Playground","Thử tay một chút":"Try your hands","Test chuột, test bàn phím hoặc đánh combo cho vui. Mọi thứ chạy ngay trên máy bạn, không gửi đi đâu.":"Test your mouse, test your keyboard or chain combos for fun. Everything runs on your device and nothing is sent anywhere.","Chọn công cụ":"Choose a tool","Test chuột":"Mouse test","Test bàn phím":"Keyboard test","Combo":"Combo","Số lần bấm mỗi giây (CPS)":"Clicks per second (CPS)","Số lần bấm":"Clicks","Giây còn lại":"Seconds left","Kỷ lục":"Best","5 giây":"5 seconds","10 giây":"10 seconds","30 giây":"30 seconds","Thời gian thử":"Test length","Bấm vào đây để bắt đầu":"Click here to start","Bấm tiếp đi!":"Keep clicking!","Hết giờ":"Time's up","Kỷ lục mới!":"New record!","Bấm để thử lại":"Click to try again","Chuột trái":"Left","Chuột giữa":"Middle","Chuột phải":"Right","Cuộn":"Scroll","Bắt đầu test":"Start test","Dừng test":"Stop test","Đặt lại":"Reset","Chưa bấm phím nào":"No key pressed yet","Phím vừa bấm":"Last key","Phím đã thử":"Keys tested","Lần bấm":"Presses","Nhiều phím cùng lúc":"Keys at once (rollover)","Bấm \"Bắt đầu test\" rồi gõ thử. Khi đang test, các phím tắt của trang tạm thời bị tắt. Phím Windows và tổ hợp của hệ điều hành thì trình duyệt không bắt được. Cần bàn phím thật để thử.":"Press \"Start test\" and type. While testing, the page shortcuts are turned off. The browser can't catch the Windows key or OS shortcuts. You need a real keyboard.","Điểm":"Score","Combo cao nhất":"Best combo","Bắt đầu 30 giây":"Start 30 seconds","Chơi lại":"Play again","Lên":"Up","Xuống":"Down","Trái":"Left","Phải":"Right","Hạng":"Rank","điểm":"points","Đang chạy... bấm đúng mũi tên hiện trên màn hình!":"Running... press the arrow shown on screen!","Bấm đúng mũi tên (hoặc W A S D) hiện trên màn hình. Đúng liên tiếp thì combo tăng và nhân điểm, bấm sai là mất combo.":"Press the arrow shown on screen (or W A S D). Hit them in a row to grow the combo and multiply points; a wrong key resets it.","Mỗi ngày chia thành các khung 3 giờ: tôi làm gì, vào lúc nào.":"Each day is split into 3-hour blocks: what I do and when.","Ba playlist tôi hay bật. Bấm nghe ngay tại đây hoặc mở bằng app.":"Three playlists I play a lot. Listen right here or open them in the app.","Đọc truyện":"Reading comics","Xem phim":"Watching movies","Game PC":"PC games","Game điện thoại":"Mobile games","Sắp cập nhật, tôi sẽ thêm dần.":"Coming soon, I'll add more over time.","Bấm vào một playlist để nghe ngay tại đây.":"Click a playlist to listen right here.","Đang phát trực tiếp":"Live streaming","Đang xem":"Watching","Đang thi đấu":"Competing","Chưa nhận được trạng thái Discord. Hãy vào server discord.gg/lanyard bằng đúng tài khoản này, bật hiển thị hoạt động trong Discord và kiểm tra lại ID.":"No Discord status received yet. Join discord.gg/lanyard with this exact account, turn on activity sharing in Discord and double-check the ID.","Ngủ":"Sleep","Nghỉ ngơi":"Rest","Dậy, ăn sáng, đến trường":"Wake up, breakfast, head to school","Các môn buổi sáng":"Morning classes","Đi học hoặc học thêm":"School or extra classes","Việc buổi chiều":"Afternoon stuff","Ăn tối, học bài":"Dinner, homework","Chơi game, nghe nhạc":"Gaming, music","Thức khuya, chơi game":"Up late, gaming","Ngủ nướng":"Sleeping in","Dậy, ăn sáng, việc riêng":"Wake up, breakfast, own stuff","Dịch mod, việc riêng":"Translating mods, own stuff","Ăn tối, đọc truyện, xem phim":"Dinner, comics, movies","Dọn dẹp, chuẩn bị cho tuần mới":"Tidy up, get ready for the week","Nghe nhạc, thư giãn":"Music, chill","Tháng 5, 2026":"May 2026","Tháng 4, 2026":"April 2026","Tháng 3, 2026":"March 2026","Tháng 2, 2026":"February 2026","Tháng 1, 2026":"January 2026","Đi học trên lớp, chuẩn bị kết thúc kỳ học.":"Going to class, getting ready to wrap up the term.","Đi học và làm bài đều đặn.":"Going to school and doing assignments steadily.","Đi học sau kỳ nghỉ Tết.":"Back to school after the Tet break.","Bắt đầu năm mới, vẫn đi học như thường.":"A new year begins, school as usual."});
   function T(s){return (LANG==='en'&&typeof s==='string'&&Object.prototype.hasOwnProperty.call(EN,s))?EN[s]:s}
   function LOC(){return LANG==='en'?'en-US':'vi-VN'}
   /* Nội dung còn để mẫu thì trang tự ẩn đi, điền thật vào là hiện ra:
@@ -3888,7 +3927,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
   (function(){
     var more=document.getElementById('more'),pan=document.getElementById('morep');if(!more||!pan||!window.matchMedia)return;
     Object.assign(EN,{"Thêm tuỳ chọn":"More options","Thêm":"More"});
-    var items=['bgmlist','bgmtop','sfx','motion','lang'].map(function(i){return document.getElementById(i)}).filter(Boolean),
+    var items=['bgmlist','bgmtop','sfx','gifbtn','motion','lang'].map(function(i){return document.getElementById(i)}).filter(Boolean),
         marks=items.map(function(b){var m=document.createComment('');b.parentNode.insertBefore(m,b);return m}),
         mq=matchMedia('(max-width:40rem)');
     function close(){pan.hidden=true;more.setAttribute('aria-expanded','false')}
@@ -4216,7 +4255,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
   });
   /* ===== hồ sơ game: sửa ở đây =====
      champs: tên tướng viết liền, đúng tên trong Data Dragon (ví dụ MissFortune, KaiSa, LeeSin) */
-  var ME={steam:'https://steamcommunity.com/profiles/76561199474355109/',steamName:'ming',discordId:'873073921589661698' /* ID Discord (dãy số) để hiện trạng thái trực tiếp ở mục "Tôi đang làm gì lúc này". Bật Developer Mode > chuột phải vào tên tôi > Copy User ID, rồi vào server discord.gg/lanyard */,address:'Hải Phòng, Việt Nam' /* vị trí hiện ở bản đồ cuối trang: chỉ để thành phố cho riêng tư */,discordUser:'ming0811_' /* tên Discord hiển thị trên trang */,discordInvite:'' /* link mời vào server hoặc link kết bạn, dạng https://discord.gg/xxxx. Để trống thì nút Discord mở discord.com */,manualGame:'' /* chế độ thủ công khi Lanyard không nhận được game. Điền tên game, ví dụ 'League of Legends', thì thẻ Discord sẽ hiện "Đang chơi" game đó. Xoá trắng để tắt. Chỉ hiện khi Lanyard không gửi game nào khác. */,manualDetails:'' /* dòng phụ, ví dụ 'ARAM: Hỗn Loạn'. Có thể để trống */,hideRecent:[],riot:'ming#0811',opgg:'https://playaram.gg/en/profile/vn/ming%230811',champs:['LeeSin','Zed','Yasuo'],hideEmpty:false /* true: tự ẩn link chưa điền. false: hiện hết các link mẫu */,updated:'2026-10-25T22:35:32+07:00' /* lúc bạn sửa trang lần cuối (năm-tháng-ngàyTgiờ:phút:giây+07:00), hiện ở chân trang kèm giờ, phút, giây */,goatcounter:'ming' /* tên tài khoản GoatCounter (ming.goatcounter.com) để đếm lượt xem thật. Để trống thì không đếm */,cfBeacon:'' /* hoặc token Cloudflare Web Analytics */};
+  var ME={steam:'https://steamcommunity.com/profiles/76561199474355109/',steamName:'ming',discordId:'873073921589661698' /* ID Discord (dãy số) để hiện trạng thái trực tiếp ở mục "Tôi đang làm gì lúc này". Bật Developer Mode > chuột phải vào tên tôi > Copy User ID, rồi vào server discord.gg/lanyard */,address:'Hải Phòng, Việt Nam' /* vị trí hiện ở bản đồ cuối trang: chỉ để thành phố cho riêng tư */,discordUser:'ming0811_' /* tên Discord hiển thị trên trang */,discordInvite:'' /* link mời vào server hoặc link kết bạn, dạng https://discord.gg/xxxx. Để trống thì nút Discord mở discord.com */,manualGame:'' /* chế độ thủ công khi Lanyard không nhận được game. Điền tên game, ví dụ 'League of Legends', thì thẻ Discord sẽ hiện "Đang chơi" game đó. Xoá trắng để tắt. Chỉ hiện khi Lanyard không gửi game nào khác. */,manualDetails:'' /* dòng phụ, ví dụ 'ARAM: Hỗn Loạn'. Có thể để trống */,hideRecent:[],riot:'ming#0811',opgg:'https://playaram.gg/en/profile/vn/ming%230811',champs:['LeeSin','Zed','Yasuo'],hideEmpty:false /* true: tự ẩn link chưa điền. false: hiện hết các link mẫu */,updated:'2026-10-28T17:35:00+07:00' /* lúc bạn sửa trang lần cuối (năm-tháng-ngàyTgiờ:phút:giây+07:00), hiện ở chân trang kèm giờ, phút, giây */,goatcounter:'ming' /* tên tài khoản GoatCounter (ming.goatcounter.com) để đếm lượt xem thật. Để trống thì không đếm */,cfBeacon:'' /* hoặc token Cloudflare Web Analytics */};
   (function(){
     var e=document.getElementById('upd');
     if(e){
@@ -4225,7 +4264,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
         var u=String(ME.updated||''),d=new Date(u.length<=10?u+'T00:00:00+07:00':u),p={};
         if(isNaN(d))return;
         try{new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Ho_Chi_Minh',hourCycle:'h23',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit'}).formatToParts(d).forEach(function(x){p[x.type]=x.value})}catch(x){return}
-        var ds=p.day+'/'+p.month+'/'+String(p.year).slice(-2);
+        var ds=p.day+'/'+p.month+'/'+String(p.year).slice(-2)+' · '+p.hour+':'+p.minute+':'+p.second;
         e.textContent=(LANG==='en'?'Last updated: ':'Cập nhật lần cuối: ')+ds};
       r();document.addEventListener('langchange',r);
     }
@@ -5420,14 +5459,14 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     {t:"Ảnh ở mục Vài tấm ảnh xoay được theo bốn kiểu: Helix, Barrel, Ring và Sphere.",h:"#photos"},
     {t:"Trình phát nhạc nền của trang có cả lời bài hát.",h:"#hero"},
     {t:"Thẻ Discord ở mục Ngay lúc này có tab Hoạt động, hiện cả lịch sử hoạt động đã ghi lại.",h:"#live"},
-    {t:"Mưa, tuyết hay nắng chói trên trang chạy theo thời tiết thật nơi tôi ở.",h:"#hero"},
+    {t:"Mưa hoặc tuyết trên trang chạy theo thời tiết thật nơi tôi ở (mặc định tắt, bật ở mục Bản đồ).",h:"#hero"},
     {t:"Đồng hồ ở đầu trang chạy theo giờ thật ở chỗ tôi.",h:"#hero"},
     {t:"Mấy con thú ASCII chạy quanh trang mặc định đang tắt, bấm nút hình dấu chân để gọi chúng ra.",h:"#hero"},
     {t:"Bản đồ cuối trang chỉ hiện thành phố, không hiện địa chỉ cụ thể.",h:"#map"},
     {t:"Mục Nghệ sĩ cho bấm vào từng người để xem vì sao tôi thích và vài bài hát của họ.",h:"#idol"},
     {t:"Mục Playlist có những playlist tôi chia sẻ để bạn mở nghe luôn.",h:"#playlist"}
   ];
-  Object.assign(EN,{"Bấm phím M để tắt hoặc bật toàn bộ hiệu ứng của trang.":"Press M to turn all of the page's effects off or on.", "Bấm phím H để về đầu trang thật nhanh.":"Press H to jump back to the top of the page.", "Trang không bao giờ tự phát nhạc. Bấm phím P hoặc nút nhạc thì mới nghe.":"The page never plays music by itself. Press P or the music button to listen.", "Bấm phím F để xem số khung hình mỗi giây của các hiệu ứng trên trang.":"Press F to see the frames per second of the page's effects.", "Trang có thể đổi giữa tiếng Việt và tiếng Anh ngay trên thanh menu.":"You can switch the page between Vietnamese and English from the menu bar.", "Các ô ở Nhật ký tự sáng lên mỗi ngày bạn ghé trang, không cần bấm gì cả.":"The squares in the Log light up on their own each day you visit, no clicking needed.", "Ảnh ở mục Vài tấm ảnh xoay được theo bốn kiểu: Helix, Barrel, Ring và Sphere.":"The photos can spin in four layouts: Helix, Barrel, Ring and Sphere.", "Khung ảnh 3D xoay chậm 0.25x theo mặc định, chỉnh được tới 3x.":"The 3D photo gallery spins at 0.25x by default, adjustable up to 3x.", "Trình phát nhạc nền của trang có cả lời bài hát.":"The page's music player shows song lyrics too.", "Thẻ Discord ở mục Ngay lúc này có tab Hoạt động, hiện cả lịch sử hoạt động đã ghi lại.":"The Discord card in Right now has an Activity tab that also shows the recorded activity history.", "Mưa, tuyết hay nắng chói trên trang chạy theo thời tiết thật nơi tôi ở.":"Rain, snow or bright sun on the page follows the real weather where I live.", "Đồng hồ ở đầu trang chạy theo giờ thật ở chỗ tôi.":"The clock at the top shows the real time where I am.", "Mấy con thú ASCII chạy quanh trang mặc định đang tắt, bấm nút hình dấu chân để gọi chúng ra.":"The ASCII animals that roam the page are off by default. Press the paw button to call them out.", "Chữ giải mã dần và ảnh vỡ thành khối pixel rồi gộp lại là hiệu ứng ASCII của trang.":"Text that decodes bit by bit and photos that break into pixel blocks and merge back are the page's ASCII effect.", "Hiệu ứng chỉ chạy khi phần đó đang nằm trên màn hình, rời đi là tạm dừng cho đỡ nóng máy.":"Effects only run while their part is on screen; they pause when you scroll away to save your device.", "Máy yếu hoặc bật chế độ giảm chuyển động thì trang tự tắt hiệu ứng.":"On weak devices or with reduced motion on, the page turns its effects off by itself.", "Bản đồ cuối trang chỉ hiện thành phố, không hiện địa chỉ cụ thể.":"The map at the bottom shows only the city, not a specific address.", "Mục Nghệ sĩ cho bấm vào từng người để xem vì sao tôi thích và vài bài hát của họ.":"In Artists, click each one to see why I like them and a few of their songs.", "Mục Playlist có những playlist tôi chia sẻ để bạn mở nghe luôn.":"The Playlist section has playlists I share so you can open and listen right away.", "Cả trang này nằm trong một file index.html dài hơn năm nghìn dòng.":"This whole page lives in a single index.html file of more than five thousand lines."});
+  Object.assign(EN,{"Bấm phím M để tắt hoặc bật toàn bộ hiệu ứng của trang.":"Press M to turn all of the page's effects off or on.", "Bấm phím H để về đầu trang thật nhanh.":"Press H to jump back to the top of the page.", "Trang không bao giờ tự phát nhạc. Bấm phím P hoặc nút nhạc thì mới nghe.":"The page never plays music by itself. Press P or the music button to listen.", "Bấm phím F để xem số khung hình mỗi giây của các hiệu ứng trên trang.":"Press F to see the frames per second of the page's effects.", "Trang có thể đổi giữa tiếng Việt và tiếng Anh ngay trên thanh menu.":"You can switch the page between Vietnamese and English from the menu bar.", "Các ô ở Nhật ký tự sáng lên mỗi ngày bạn ghé trang, không cần bấm gì cả.":"The squares in the Log light up on their own each day you visit, no clicking needed.", "Ảnh ở mục Vài tấm ảnh xoay được theo bốn kiểu: Helix, Barrel, Ring và Sphere.":"The photos can spin in four layouts: Helix, Barrel, Ring and Sphere.", "Khung ảnh 3D xoay chậm 0.25x theo mặc định, chỉnh được tới 3x.":"The 3D photo gallery spins at 0.25x by default, adjustable up to 3x.", "Trình phát nhạc nền của trang có cả lời bài hát.":"The page's music player shows song lyrics too.", "Thẻ Discord ở mục Ngay lúc này có tab Hoạt động, hiện cả lịch sử hoạt động đã ghi lại.":"The Discord card in Right now has an Activity tab that also shows the recorded activity history.", "Mưa hoặc tuyết trên trang chạy theo thời tiết thật nơi tôi ở (mặc định tắt, bật ở mục Bản đồ).":"Rain or snow on the page follows the real weather where I live (off by default, switch it on in the Map section).", "Đồng hồ ở đầu trang chạy theo giờ thật ở chỗ tôi.":"The clock at the top shows the real time where I am.", "Mấy con thú ASCII chạy quanh trang mặc định đang tắt, bấm nút hình dấu chân để gọi chúng ra.":"The ASCII animals that roam the page are off by default. Press the paw button to call them out.", "Chữ giải mã dần và ảnh vỡ thành khối pixel rồi gộp lại là hiệu ứng ASCII của trang.":"Text that decodes bit by bit and photos that break into pixel blocks and merge back are the page's ASCII effect.", "Hiệu ứng chỉ chạy khi phần đó đang nằm trên màn hình, rời đi là tạm dừng cho đỡ nóng máy.":"Effects only run while their part is on screen; they pause when you scroll away to save your device.", "Máy yếu hoặc bật chế độ giảm chuyển động thì trang tự tắt hiệu ứng.":"On weak devices or with reduced motion on, the page turns its effects off by itself.", "Bản đồ cuối trang chỉ hiện thành phố, không hiện địa chỉ cụ thể.":"The map at the bottom shows only the city, not a specific address.", "Mục Nghệ sĩ cho bấm vào từng người để xem vì sao tôi thích và vài bài hát của họ.":"In Artists, click each one to see why I like them and a few of their songs.", "Mục Playlist có những playlist tôi chia sẻ để bạn mở nghe luôn.":"The Playlist section has playlists I share so you can open and listen right away.", "Cả trang này nằm trong một file index.html dài hơn năm nghìn dòng.":"This whole page lives in a single index.html file of more than five thousand lines."});
   Object.assign(EN,{"Câu nói dối phổ biến nhất của game thủ: \"chỉ một trận nữa thôi\".": "The most common lie a gamer tells: \"just one more match\".", "Lag không bao giờ đến lúc đang đi dạo, nó chỉ đến đúng lúc giao tranh.": "Lag never shows up while you're just walking around, only in the middle of a fight.", "Thắng là nhờ kỹ năng, thua là do lag. Luật bất thành văn của game thủ.": "Winning is skill, losing is lag. The unwritten rule of every gamer.", "Game nào cũng vậy: nhặt đầy túi đồ rồi vẫn tiếc không dám bỏ món nào.": "Every game: your bag is full and you still can't bring yourself to drop anything.", "Cái hay của game nhập vai là được làm một người khác trong một buổi tối.": "The best thing about RPGs is getting to be someone else for an evening.", "Con boss nào cũng có quy luật, chỉ là mình chưa nhìn ra thôi.": "Every boss has a pattern, you just haven't spotted it yet.", "Nút \"bỏ qua cắt cảnh\" là phát minh vĩ đại, cho tới lúc cần hiểu cốt truyện.": "The \"skip cutscene\" button is a great invention, right up until you need to understand the plot.", "Dịch xong câu nào cũng thấy chưa ổn, còn câu ổn rồi thì chẳng ai để ý.": "Every line feels not quite right once translated, and the ones that are right go unnoticed.", "Dịch game là nghề lạ: làm tốt thì vô hình, làm dở thì cả server biết.": "Game translation is a strange job: done well it's invisible, done badly the whole server knows.", "Có từ tiếng Anh dịch ra nghe lạ hơn là để nguyên, và đó là lúc đau đầu nhất.": "Some English words sound stranger translated than left alone, and that's when the headache starts.", "Sai một dấu câu trong bản dịch cũng đủ làm cả đoạn thoại mất cảm xúc.": "One wrong punctuation mark in a translation can drain all the emotion from a scene.", "Người góp ý sửa bản dịch là người đọc kỹ nhất mà mình từng có.": "Whoever sends corrections for a translation is the most careful reader you'll ever have.", "Nhạc không lời là lựa chọn an toàn nhất khi cần tập trung.": "Music without lyrics is the safest pick when you need to focus.", "Bài nào nghe đi nghe lại cả tuần rồi cũng có ngày chán, rồi vài tháng sau lại nghiện.": "Any song on repeat for a week gets old, then months later you're hooked again.", "Có những bài chỉ cần nghe vài giây đầu là nhớ ra đúng một khoảng thời gian.": "Some songs only need a few seconds to bring back one exact stretch of time.", "Đọc truyện kiểu \"thêm một chương\" và xong là hai giờ sáng.": "Reading \"just one more chapter\" and suddenly it's two in the morning.", "Tập cuối của một bộ truyện hay luôn đến sớm hơn mình nghĩ.": "The last chapter of a good series always arrives sooner than you expect.", "Lỗi biến mất khi mở dev tools, rồi quay lại ngay khi đóng nó.": "The bug disappears when you open dev tools and comes back the moment you close them.", "Bấm F5 là cách sửa lỗi đầu tiên, và đôi khi cũng là cách cuối cùng.": "Pressing F5 is the first fix, and sometimes the last.", "Cả trang này nằm trong một file index.html, và nó đã dài hơn ba nghìn dòng.": "This whole page lives in a single index.html, and it's now over three thousand lines.", "Comment trong code là viết cho chính mình sáu tháng sau, người sẽ chẳng nhớ gì.": "Code comments are written for yourself six months from now, who will remember nothing.", "Việc nào làm xong rồi mới thấy dễ, trước đó ai cũng thấy khó.": "Everything feels easy once it's done, and hard before that.", "Đừng so bản nháp của mình với bản hoàn chỉnh của người khác.": "Don't compare your rough draft to someone else's finished version.", "Chậm nhưng không dừng thì vẫn là tiến độ.": "Slow but not stopping is still progress.", "Nghỉ một chút không phải lười, máy tính cũng cần khởi động lại.": "Taking a break isn't laziness, even computers need a restart.", "Nước, giấc ngủ và một bài nhạc hay: ba thứ sửa được hầu hết những hôm tệ.": "Water, sleep and a good song: three things that fix most bad days.", "Mục điểm danh ở Nhật ký đếm chuỗi ngày ghé trang của riêng bạn, lưu ngay trong trình duyệt.": "The check-in in the Log counts your own streak of visits, saved right in your browser."});
   Object.assign(EN,{"Bản dịch tốt là bản mà người chơi không nhận ra đó là bản dịch.": "A good translation is one the player never notices is a translation.", "Dịch một câu thoại sao cho nghe như người thật nói còn khó hơn dịch đúng nghĩa.": "Making a line sound like a real person said it is harder than translating it correctly.", "Dịch Stardew Valley là làm quen dần với từng người trong làng, mỗi người một giọng.": "Translating Stardew Valley means getting to know the villagers one by one, each with their own voice.", "Minecraft có những câu rất ngắn mà dịch mãi không ra, câu ngắn khó hơn câu dài.": "Minecraft has very short lines that are hard to translate. Short is harder than long.", "Việt hoá không cần hoàn hảo ngay, cứ chạy được rồi sửa dần.": "A localization does not have to be perfect on day one. Get it running, then fix it little by little.", "Lúc mệt thì chơi game, lúc rảnh thì dịch game, đúng một vòng lặp.": "Tired: play games. Free: translate games. A perfect loop.", "Một trận LoL dài hơn một tập phim, vậy mà vẫn bấm thêm trận nữa.": "A LoL match is longer than an episode, and I still queue one more.", "Vừa thua một trận LoL thì cách tốt nhất là tắt máy đi đọc truyện.": "Just lost a LoL match? The best move is to switch off and read a comic.", "Cây kỹ năng của Path of Exile 2 to tới mức ngắm nó cũng là một phần của trò chơi.": "The Path of Exile 2 skill tree is so big that staring at it is part of the game.", "Link hồ sơ LoL của tôi dùng PlayARAM thay vì OP.GG.": "My LoL profile link uses PlayARAM instead of OP.GG.", "Double click chuột là kẻ thù thầm lặng của mọi game thủ.": "A double-clicking mouse is every gamer's quiet enemy.", "Chuột và bàn phím xịn không làm bạn giỏi hơn, chỉ làm bạn bớt cớ.": "A fancy mouse and keyboard will not make you better, only leave you with fewer excuses.", "Câu hay nhất trong mọi trò chơi là \"đã lưu\".": "The best line in any game is \"game saved\".", "Có hai kiểu người: tắt nhạc để tập trung và bật nhạc để tập trung. Tôi thuộc kiểu thứ hai.": "There are two kinds of people: those who turn music off to focus and those who turn it on. I am the second kind.", "Playlist hay nhất là cái bật lên rồi quên mất mình đang nghe.": "The best playlist is the one you put on and forget you are listening to.", "Heal or broken heart là playlist cho lúc cần chữa lành hoặc đang tan vỡ, tuỳ hôm.": "Heal or broken heart is for when I need healing or am falling apart, depending on the day.", "Vietnam songs là playlist nhạc Việt tôi nghe nhiều nhất.": "Vietnam songs is the Vietnamese playlist I listen to the most.", "Đọc truyện, xem phim và chơi game đều là cách tôi nạp lại năng lượng.": "Reading, watching films and playing games are all how I recharge.", "Marvel hay DC? Tôi xem cả hai, không chọn phe.": "Marvel or DC? I watch both and pick no side.", "Discord của tôi là ming0811_, ghé nói chuyện cũng được.": "My Discord is ming0811_, feel free to drop by and talk.", "GitHub của tôi là nameisminh.": "My GitHub is nameisminh.", "PreMiD giúp Discord của tôi hiện đang xem gì trên YouTube.": "PreMiD lets my Discord show what I am watching on YouTube.", "Làm web: sửa một dòng, hỏng ba chỗ, sửa ba chỗ, hỏng thêm một dòng.": "Web work: fix one line, break three things, fix three things, break one more line.", "Làm trang web này giống dọn phòng: sửa mãi vẫn thấy còn chỗ chưa vừa ý.": "Building this site is like tidying a room: there is always one more spot that is not quite right.", "Trang này cố tình để tối, ít màu, ít chữ, giống cách tôi thích dọn bàn làm việc.": "This page is dark, with few colours and few words on purpose, like I like my desk.", "Bấm phím T để đổi giao diện sáng hoặc tối.": "Press T to switch between the light and dark theme."});
   (function(){
@@ -7228,18 +7267,18 @@ addEventListener('hashchange',function(){setTimeout(rf,400)});
 })();</script>
 <script>(function(){
 /* THỜI TIẾT: lấy nhiệt độ thật ở Phù Liễn (Open-Meteo, miễn phí, không cần khoá) rồi quyết định hiệu ứng toàn trang:
-   đang mưa -> mưa; không mưa và dưới COLD độ -> tuyết; không mưa, từ COLD độ trở lên, trời quang hoặc ít mây ban ngày -> nắng chói nhẹ; còn lại không có gì.
-   Hạt (mưa/tuyết) chỉ chạy trên máy có chuột (đổi PARTICLES_ON_MOBILE nếu muốn bật cả trên điện thoại). Nắng chói là một lớp gradient tĩnh nên điện thoại vẫn có.
-   Xem thử không cần chờ thời tiết: thêm ?wx=rain, ?wx=snow hoặc ?wx=sun vào đường dẫn. Toạ độ ở LAT, LON là ước lượng khu Phù Liễn. */
+   đang mưa -> mưa; không mưa và dưới COLD độ -> tuyết; còn lại không có gì. Mặc định TẮT: bấm "Bật hiệu ứng thời tiết" ở mục Bản đồ để bật (trang nhớ lựa chọn).
+   Hạt (mưa/tuyết) chỉ chạy trên máy có chuột (đổi PARTICLES_ON_MOBILE nếu muốn bật cả trên điện thoại).
+   Xem thử không cần chờ thời tiết: thêm ?wx=rain hoặc ?wx=snow vào đường dẫn. Toạ độ ở LAT, LON là ước lượng khu Phù Liễn. */
 var LAT=20.81,LON=106.63,COLD=26,PARTICLES_ON_MOBILE=false,TTL=15*60e3;
 var R=document.documentElement,wx=document.getElementById('wx');if(!wx)return;
 function $(i){return document.getElementById(i)}
 var E={i:$('wxi'),t:$('wxt'),c:$('wxc'),x:$('wxx'),e:$('wxe'),b:$('wxb')};
 var desk=matchMedia('(hover:hover) and (pointer:fine) and (min-width:40.01rem)');
-var data=null,sim=null,enabled=true,kind='none',force=null,perfOff=false,fetched=0;
+var data=null,sim=null,enabled=false,kind='none',force=null,perfOff=false,fetched=0;
 function D(){return sim||data}
-try{enabled=localStorage.getItem('wxfx')!=='0'}catch(e){}
-try{var fm=/[?&]wx=(rain|snow|sun|none)/.exec(location.search);if(fm)force=fm[1]}catch(e){}
+try{enabled=localStorage.getItem('wxfx')==='1'}catch(e){}
+try{var fm=/[?&]wx=(rain|snow|none)/.exec(location.search);if(fm)force=fm[1]}catch(e){}
 function calm(){return R.classList.contains('lite')||R.getAttribute('data-motion')==='off'||matchMedia('(prefers-reduced-motion: reduce)').matches}
 var CODES={0:['Trời quang','☀️'],1:['Gần như quang mây','🌤️'],2:['Có mây rải rác','⛅'],3:['Nhiều mây','☁️'],45:['Sương mù','🌫️'],48:['Sương mù','🌫️'],51:['Mưa phùn nhẹ','🌦️'],53:['Mưa phùn','🌦️'],55:['Mưa phùn dày','🌦️'],56:['Mưa phùn lạnh','🌦️'],57:['Mưa phùn lạnh','🌦️'],61:['Mưa nhỏ','🌧️'],63:['Mưa vừa','🌧️'],65:['Mưa to','🌧️'],66:['Mưa lạnh','🌧️'],67:['Mưa lạnh','🌧️'],71:['Tuyết nhẹ','🌨️'],73:['Tuyết','🌨️'],75:['Tuyết dày','❄️'],77:['Hạt tuyết','🌨️'],80:['Mưa rào nhẹ','🌦️'],81:['Mưa rào','🌧️'],82:['Mưa rào rất to','⛈️'],85:['Tuyết rào','🌨️'],86:['Tuyết rào dày','🌨️'],95:['Dông','⛈️'],96:['Dông kèm mưa đá','⛈️'],99:['Dông kèm mưa đá','⛈️']};
 function isRain(d){var c=d.code;return (c>=51&&c<=67)||(c>=80&&c<=82)||c>=95||d.pr>0}
@@ -7248,10 +7287,9 @@ function decide(){
   var d=D();
   if(calm())return 'none';
   if(force)return force;
-  if(!enabled||!d)return 'none';
+  if(!d||(!enabled&&!sim))return 'none';
   if(isRain(d))return 'rain';
   if(isSnowCode(d.code)||Math.round(d.temp)<COLD)return 'snow';
-  if(d.day&&d.code<=2)return 'sun';
   return 'none';
 }
 /* ===== hạt mưa / tuyết trên một canvas nhỏ (nửa độ phân giải), một path cho tất cả hạt ===== */
@@ -7292,20 +7330,17 @@ function startP(k){
   colors();size();N=k==='rain'?90:70;cuts=0;acc=0;fc=0;last=0;spawn(k);cv.style.display='block';raf=requestAnimationFrame(tick);
 }
 addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){if(cv&&raf){size();spawn(cur)}},200)});
-document.addEventListener('visibilitychange',function(){last=0;if(!document.hidden&&Date.now()-fetched>TTL)load()});
-/* ===== nắng chói: một lớp gradient cố định ===== */
-var sun=document.createElement('div');sun.id='sunfx';sun.setAttribute('aria-hidden','true');document.body.appendChild(sun);
+document.addEventListener('visibilitychange',function(){last=0;if(!document.hidden&&started&&Date.now()-fetched>TTL)load()});
 /* ===== giao diện ===== */
 function note(){
   var t='',d=D(),res='';
   if(kind==='rain')res='Trời đang mưa nên trang có mưa.';
   else if(kind==='snow')res='Dưới '+COLD+'°C nên trang có tuyết.';
-  else if(kind==='sun')res='Trời nắng, từ '+COLD+'°C trở lên nên trang hơi chói.';
   else res='Lúc này không có hiệu ứng thời tiết.';
   if(calm())t='Hiệu ứng đang tắt (chế độ lite, giảm chuyển động hoặc phím M).';
   else if(perfOff)t='Đã tự tắt mưa/tuyết vì máy hơi chậm. Tải lại trang để thử lại.';
-  else if(force)t='Đang xem thử hiệu ứng: '+({rain:'mưa',snow:'tuyết',sun:'nắng chói',none:'không có'})[force]+'.';
-  else if(!enabled)t='Bạn đã tắt hiệu ứng thời tiết.';
+  else if(force)t='Đang xem thử hiệu ứng: '+({rain:'mưa',snow:'tuyết',none:'không có'})[force]+'.';
+  else if(!enabled&&!sim)t='Hiệu ứng thời tiết đang tắt. Bấm nút bên trên để bật.';
   else if(!d)t='';
   else if(sim)t='Đang thử giả lập. '+res;
   else t=res;
@@ -7321,7 +7356,7 @@ function render(){
   }
   E.b.textContent=enabled?'Tắt hiệu ứng thời tiết':'Bật hiệu ứng thời tiết';E.b.setAttribute('aria-pressed',enabled?'true':'false');
 }
-/* ===== bầu trời theo giờ thật (giờ Việt Nam) + is_day của thời tiết: ban đêm có sao và trăng, bình minh/hoàng hôn có màu ấm. Xem thử: ?sky=night|dawn|dusk|day, hoặc bỏ tick "Ban ngày" ở bảng thử ===== */
+/* ===== bầu trời theo giờ thật (giờ Việt Nam) + is_day của thời tiết: ban đêm có sao và trăng, chỉ khi bật hiệu ứng thời tiết. Xem thử: ?sky=night|day, hoặc bỏ tick "Ban ngày" ở bảng thử ===== */
 var sky=document.createElement('div');sky.id='skyfx';sky.setAttribute('aria-hidden','true');
 (function(){
   function st(n,withSpread){var a=[],i;for(i=0;i<n;i++)a.push((Math.random()*100).toFixed(1)+'vw '+(Math.random()*100).toFixed(1)+'vh 0 '+(withSpread&&Math.random()<.2?'.5px ':'0 ')+'rgba(255,255,255,'+(.4+Math.random()*.6).toFixed(2)+')');return a.join(',')}
@@ -7330,13 +7365,10 @@ var sky=document.createElement('div');sky.id='skyfx';sky.setAttribute('aria-hidd
 })();
 function hourVN(){try{return +new Intl.DateTimeFormat('en-GB',{hour:'numeric',hourCycle:'h23',timeZone:'Asia/Ho_Chi_Minh'}).format(new Date())}catch(e){return new Date().getHours()}}
 function phase(){
-  if(calm()||!enabled)return 'day';
-  var q=/[?&]sky=(day|dawn|dusk|night)/.exec(location.search);if(q)return q[1];
+  if(calm()||(!enabled&&!sim))return 'day';
+  var q=/[?&]sky=(day|night)/.exec(location.search);if(q)return q[1];
   var h=hourVN(),d=D(),night=d?!d.day:(h>=19||h<5);
-  if(night)return 'night';
-  if(h>=5&&h<7)return 'dawn';
-  if(h>=17&&h<19)return 'dusk';
-  return 'day';
+  return night?'night':'day';
 }
 function applySky(){R.setAttribute('data-sky',phase())}
 function apply(){
@@ -7344,7 +7376,7 @@ function apply(){
   if((kind==='rain'||kind==='snow')&&(desk.matches||PARTICLES_ON_MOBILE))startP(kind);else stopP();
   render();note();
 }
-E.b.addEventListener('click',function(){enabled=!enabled;try{localStorage.setItem('wxfx',enabled?'1':'0')}catch(e){}apply()});
+E.b.addEventListener('click',function(){enabled=!enabled;try{localStorage.setItem('wxfx',enabled?'1':'0')}catch(e){}if(enabled)start();apply()});
 new MutationObserver(function(){colors();apply()}).observe(R,{attributes:true,attributeFilter:['data-motion','data-theme']});
 /* ===== bảng thử thời tiết ===== */
 var chips=Array.prototype.slice.call(document.querySelectorAll('.wxch')),ts=$('wxts'),tv=$('wxtv'),tr=$('wxtr'),td=$('wxtd'),tb=$('wxtest');
@@ -7364,12 +7396,13 @@ function load(){
   fetch('https://api.open-meteo.com/v1/forecast?latitude='+LAT+'&longitude='+LON+'&current=temperature_2m,apparent_temperature,relative_humidity_2m,precipitation,weather_code,wind_speed_10m,is_day&timezone=Asia%2FBangkok',ac?{signal:ac.signal}:{})
     .then(function(r){if(!r.ok)throw 0;return r.json()})
     .then(function(j){clearTimeout(tm);var d=parse(j);if(!d)throw 0;data=d;fetched=Date.now();try{localStorage.setItem('wx_cache',JSON.stringify({t:fetched,d:d}))}catch(e){}apply()})
-    .catch(function(){clearTimeout(tm);if(!data){E.c.textContent='Không lấy được thời tiết';E.t.textContent='--°';E.x.textContent='';apply()}});
+    .catch(function(){clearTimeout(tm);if(!data){try{var st=JSON.parse(localStorage.getItem('wx_cache')||'null');if(st&&st.d){data=st.d;fetched=st.t||0}}catch(e){}}if(data){apply();return}E.c.textContent=navigator.onLine===false?'Đang offline, chưa có dữ liệu thời tiết':'Không lấy được thời tiết';E.t.textContent='--°';E.x.textContent='';apply()});
 }
 try{var ch=JSON.parse(localStorage.getItem('wx_cache')||'null');if(ch&&ch.d&&Date.now()-ch.t<TTL){data=ch.d;fetched=ch.t}}catch(e){}
 colors();syncChips();apply();
-if(!data||Date.now()-fetched>=TTL)load();
-setInterval(function(){if(!document.hidden)load()},TTL);
+var started=false;function start(){if(started)return;started=true;if(!data||Date.now()-fetched>=TTL)load()}
+if(enabled||force||!window.IntersectionObserver)start();else{var wio=new IntersectionObserver(function(es){if(es[0].isIntersecting){wio.disconnect();start()}},{rootMargin:'700px 0px'});wio.observe(wx)}
+setInterval(function(){if(started&&!document.hidden)load()},TTL);
 })();</script>
 <style>.offscr{--aps:paused}.offscr,.offscr *,.offscr *::before,.offscr *::after{animation-play-state:paused!important}</style>
 <script>/* chỉ phần đang nằm trên màn hình mới chạy hiệu ứng; rời đi thì tạm dừng animation CSS, quay lại thì chạy tiếp */
@@ -7611,6 +7644,44 @@ if(nv&&window.MutationObserver){new MutationObserver(function(){
 var hid=false;
 document.addEventListener('visibilitychange',function(){if(document.hidden){hid=true}else if(hid){hid=false;if(live())play('welcome')}});
 document.addEventListener('langchange',lab);lab();
+})();</script>
+<script>/* NÚT GIF: ẩn hoặc hiện toàn bộ ảnh động (GIF nổi trong từng mục và 3 khung ngang). Chỉ ảnh động bị ẩn, mọi thứ khác giữ nguyên. Phím tắt G. Nhớ lựa chọn. Ảnh bị ẩn thì cũng không tải (tiết kiệm mạng). */
+(function(){
+var R=document.documentElement,b=document.getElementById('gifbtn');if(!b)return;
+var off=false;try{off=localStorage.getItem('gifoff')==='1'}catch(e){}
+function en(){return (window.LANG||R.lang)==='en'}
+function ap(){R.classList.toggle('nogif',off);b.setAttribute('aria-pressed',off?'false':'true');var l=off?(en()?'Show GIFs (G)':'Hiện GIF (G)'):(en()?'Hide GIFs (G)':'Ẩn GIF (G)');b.title=l;b.setAttribute('aria-label',l)}
+function tg(){off=!off;try{localStorage.setItem('gifoff',off?'1':'0')}catch(e){}ap()}
+b.addEventListener('click',tg);
+document.addEventListener('langchange',ap);
+document.addEventListener('keydown',function(e){
+ if(e.defaultPrevented||e.metaKey||e.ctrlKey||e.altKey)return;
+ var t=e.target;if(t&&(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)))return;
+ if((e.key||'').toLowerCase()==='g')tg()});
+ap();
+})();</script>
+<script>/* OFFLINE: đăng ký service worker (sw.js) để trang, ảnh và font đã xem được lưu lại, mất mạng vẫn lướt được. Chỉ chạy khi trang được phục vụ qua http(s). Thông báo nhỏ khi mất mạng hoặc có mạng lại. */
+(function(){
+var R=document.documentElement;
+function en(){return (window.LANG||R.lang)==='en'}
+var pill=document.createElement('div');pill.id='netpill';pill.setAttribute('role','status');pill.setAttribute('aria-live','polite');pill.hidden=true;document.body.appendChild(pill);
+var tm=0,tm2=0;
+function hide(){pill.classList.remove('on');clearTimeout(tm2);tm2=setTimeout(function(){if(!pill.classList.contains('on'))pill.hidden=true},450)}
+function show(msg,keep){clearTimeout(tm);clearTimeout(tm2);pill.textContent=msg;pill.hidden=false;void pill.offsetWidth;pill.classList.add('on');if(!keep)tm=setTimeout(hide,3200)}
+function mapMsg(){var m=document.querySelector('.mapfr');if(m)m.setAttribute('data-off',en()?'The map needs internet. Open it again when you are back online.':'Bản đồ cần có mạng. Hãy mở lại khi có mạng.')}
+function off(){R.classList.add('offl');mapMsg();show(en()?'You are offline. Showing the saved version.':'Bạn đang offline. Đang xem bản đã lưu trên máy.',true)}
+function on(){R.classList.remove('offl');show(en()?'Back online.':'Đã có mạng trở lại.',false)}
+addEventListener('offline',off);addEventListener('online',on);
+document.addEventListener('langchange',function(){if(R.classList.contains('offl')){mapMsg();show(en()?'You are offline. Showing the saved version.':'Bạn đang offline. Đang xem bản đã lưu trên máy.',true)}});
+if(navigator.onLine===false)off();
+if(!('serviceWorker' in navigator)||!/^https?:$/.test(location.protocol))return;
+addEventListener('load',function(){
+ navigator.serviceWorker.register('sw.js').then(function(reg){
+  var sv=false;try{var c=navigator.connection;sv=!!(c&&c.saveData)}catch(e){}
+  function warm(){var w=reg.active||navigator.serviceWorker.controller;if(w&&!sv)w.postMessage({type:'WARM'})}
+  if(reg.active)setTimeout(warm,4000);else navigator.serviceWorker.ready.then(function(){setTimeout(warm,2500)});
+ }).catch(function(){});
+});
 })();</script>
 </body>
 </html>
