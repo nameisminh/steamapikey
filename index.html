@@ -1504,7 +1504,7 @@ body{overscroll-behavior-y:none}
 @media (min-width:80rem){
 .bar.mini{background:transparent;border-bottom-color:transparent;pointer-events:none}
 .bar.mini .prog{opacity:0}
-.bar.mini .wrap{max-width:36rem;margin-top:.5rem;padding:.35rem .6rem .35rem .5rem;border-color:var(--line-hi);border-radius:999px;background:rgba(var(--bgrgb),.92);box-shadow:0 8px 28px rgba(0,0,0,.28);pointer-events:auto}
+.bar.mini .wrap{max-width:min(42rem,calc(100vw - 2rem));margin-top:.5rem;padding:.35rem .6rem .35rem .5rem;border-color:var(--line-hi);border-radius:999px;background:rgba(var(--bgrgb),.92);box-shadow:0 8px 28px rgba(0,0,0,.28);pointer-events:auto}
 .bar.mini .brand .badge{display:none}
 .bar.mini nav{position:fixed;left:1rem;top:50%;transform:translateY(-50%);z-index:11;width:auto;flex-direction:column;align-items:stretch;gap:.1rem;padding:.55rem .45rem;max-height:calc(100vh - 7rem);overflow:hidden auto;border:1px solid var(--line-hi);border-radius:1.2rem;background:rgba(var(--bgrgb),.92);box-shadow:0 8px 28px rgba(0,0,0,.28);pointer-events:auto;animation:dockin .5s cubic-bezier(.2,.8,.2,1) both}
 .bar.mini nav a{padding:.32rem .75rem;border-radius:.6rem;background-position:.75rem calc(100% - .2rem);background-size:0 1px}
