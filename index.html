@@ -6788,12 +6788,17 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       el.setAttribute('aria-label',T('Xem ảnh'));
     })}
     /* nhóm ảnh để chuyển qua lại: các ảnh xem được cùng nằm trong một khung (vd. cả mục "Vài tấm ảnh"), chỉ lấy ảnh đang hiện */
+    function srcOf(c){var m=c.querySelector('img');return m?(m.getAttribute('src')||''):''}
     function groupOf(el){
       var g3=el.closest('.g3d'),par=el.parentElement;if(!par)return [el];
-      /* ảnh xoay 3D: ảnh nằm sâu trong khung xoay, nên lấy tất cả ảnh của khung đó theo thứ tự trong trang */
-      var all=g3?[].slice.call(g3.querySelectorAll('.ph')):[].slice.call(par.children);
-      var g=all.filter(function(c){return c.matches(ZSEL)&&c.getClientRects().length&&c.querySelector('img[src]')});
-      return g.indexOf(el)<0?[el]:g;
+      /* ảnh xoay 3D: khung nhân mỗi ảnh ra nhiều ô cho đủ hình dạng, nên chỉ lấy mỗi ảnh một lần, theo thứ tự data-i */
+      var all=g3?[].slice.call(g3.querySelectorAll('.ph')):[].slice.call(par.children),seen={},g=[];
+      all.forEach(function(c){
+        if(!c.matches(ZSEL)||c.__on===false||!c.getClientRects().length)return;
+        var u=srcOf(c);if(!u||seen[u])return;seen[u]=1;g.push(c);
+      });
+      if(g3)g.sort(function(a,b){return (+a.getAttribute('data-i')||0)-(+b.getAttribute('data-i')||0)});
+      return g.length?g:[el];
     }
     function showAt(i){
       var el=grp[i],m=el&&el.querySelector('img');if(!m)return;
@@ -6805,7 +6810,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     function step(d){if(grp.length<2)return;showAt((gi+d+grp.length)%grp.length)}
     function zoomOpen(el){
       var m=el.querySelector('img');if(!m||!m.getAttribute('src'))return;
-      grp=groupOf(el);showAt(grp.indexOf(el));lb.hidden=false;document.body.style.overflow='hidden';
+      grp=groupOf(el);var u0=srcOf(el),i0=0;grp.forEach(function(c,k){if(srcOf(c)===u0)i0=k});showAt(i0);lb.hidden=false;document.body.style.overflow='hidden';
     }
     document.getElementById('lbp').addEventListener('click',function(e){e.stopPropagation();step(-1)});
     document.getElementById('lbx').addEventListener('click',function(e){e.stopPropagation();step(1)});
