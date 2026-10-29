@@ -46,7 +46,8 @@ window.cancelAnimationFrame=function(id){var it=m[id];if(it){it.c=true;delete m[
       Ảnh vỡ thành khối pixel rồi gộp lại, xong ảnh nào hiện ngay ảnh đó (không nháy). Đồng hồ ở đầu trang chỉ chạy số rồi dừng đúng giờ, không gộp chữ.
    2) Thú: nhện, ma, thỏ, bí ngô vẽ từ hình braille (mỗi ký tự = 2x4 chấm); mèo vẫn lấy hình từ emoji đổi sang ký tự. Vẽ sẵn 1 lần thành ảnh nên chuyển động rất nhẹ.
    Không sửa DOM chữ/ảnh. Tự bỏ qua khi bật lite, tắt hiệu ứng hoặc ưu tiên giảm chuyển động.
-   ENABLED=false tắt hết; ROAM=false tắt đám thú ASCII chạy quanh trang. */
+   ENABLED=false tắt hết; ROAM=false tắt đám thú ASCII chạy quanh trang.
+   Tối ưu: prep() đo theo dòng (lineGroups) thay vì từng ký tự; covered() chỉ so toạ độ với thanh menu (không elementFromPoint); draw()/loop() không đọc DOM (layoutShift xử lý khi bố cục đổi); cover() xếp hàng covQ, mỗi khung hình khởi tạo 1 khối. */
 (function(){
 var ENABLED=true,ROAM=true,R=document.documentElement;
 if(!ENABLED||R.getAttribute('data-motion')==='off'||R.classList.contains('lite')||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
@@ -65,6 +66,8 @@ function init(){
   layer=document.createElement('div');layer.setAttribute('aria-hidden','true');
   layer.style.cssText='position:absolute;left:0;top:0;width:0;height:0;z-index:9;pointer-events:none';
   document.body.appendChild(layer);
+  /* trang xê dịch giữa chừng: xử lý trong ResizeObserver (chạy sau layout, không phải trong vòng vẽ) */
+  try{if(window.ResizeObserver)new ResizeObserver(layoutShift).observe(document.body)}catch(e){}
   tx=document.createElement('canvas').getContext('2d');
   /* chữ thật vẫn nằm đúng chỗ của nó; chỉ phần chưa giải mã được tô trong suốt bằng CSS Custom Highlight (::highlight(axh)) nên khi xong không thể lệch */
   try{if(window.CSS&&CSS.highlights&&window.Highlight){HL=new Highlight();CSS.highlights.set('axh',HL)}}catch(e){HL=null}
@@ -101,15 +104,17 @@ function hiddenAnc(p){
   }
   return false;
 }
-/* bị phần tử nổi (thanh menu dính, hộp thoại, bảng nổi) che mất tại điểm giữa dòng */
+/* bị thanh menu che: chỉ so toạ độ với khung thanh menu đã đo sẵn 1 lần ở đầu prep() (không dò cây DOM nữa) */
+var barEl=null,barL=0,barR=0,barH=0;
+function measureBar(){
+  barEl=barEl&&barEl.isConnected?barEl:document.querySelector('header.bar');barH=0;
+  if(!barEl)return;
+  var w=barEl.classList.contains('mini')?barEl.querySelector('.wrap'):null,r=(w||barEl).getBoundingClientRect();
+  barL=r.left;barR=r.right;barH=Math.max(0,r.bottom)
+}
 function covered(p,x,y){
-  if(y<0||y>=innerHeight||x<0||x>=innerWidth)return false;
-  var h=document.elementFromPoint(x,y);if(!h||p.contains(h)||h.contains(p))return false;
-  for(var e=h;e&&e!==document.body;e=e.parentElement){
-    var ps=getComputedStyle(e).position;
-    if(ps==='fixed'||ps==='sticky')return !(p.closest&&(function(){for(var q=p;q&&q!==document.body;q=q.parentElement){var pp=getComputedStyle(q).position;if(pp==='fixed'||pp==='sticky')return true}return false})());
-  }
-  return false;
+  if(!(y>=0&&y<barH&&x>=barL&&x<=barR))return false;
+  return !(p.closest&&p.closest('header.bar'));
 }
 var cstamp=0;
 function clipRect(ce){
@@ -126,8 +131,67 @@ function inClip(ce,x0,y0,x1,y1){
   return my>=c.t&&my<=c.b&&x1>c.l&&x0<c.r;
 }
 function clearC(c){return !c||c==='transparent'||/,\s*0\)$/.test(c)}
+/* đo theo dòng: 1 lần getClientRects cho cả đoạn chữ để biết các dòng, rồi tìm ranh giới dòng bằng tìm kiếm nhị phân (đoán trước bằng độ rộng canvas nên chỉ cần vài lần hỏi mỗi dòng).
+   toạ độ X từng ký tự lấy từ measureText của canvas (đúng với font tỉ lệ, kerning), co giãn cho vừa bề ngang thật của dòng (đúng với letter-spacing, căn đều).
+   trả về null nếu không chắc chắn -> prep() quay về cách đo từng ký tự cũ */
+function lineGroups(n,nm,txt,disp,rs,cr){
+  var len=txt.length,lines=[],i,k,N,mp=nm.mp;
+  for(i=0;i<rs.length;i++){
+    var r=rs[i],mid=(r.top+r.bottom)/2,Lq=lines.length?lines[lines.length-1]:null;
+    if(Lq&&Math.abs(mid-Lq.mid)<=Math.min(Lq.h,r.height)*.5){Lq.l=Math.min(Lq.l,r.left);Lq.r=Math.max(Lq.r,r.right);Lq.top=Math.min(Lq.top,r.top);Lq.bot=Math.max(Lq.bot,r.bottom);Lq.h=Lq.bot-Lq.top}
+    else lines.push({l:r.left,r:r.right,top:r.top,bot:r.bottom,h:r.height,mid:mid})
+  }
+  N=lines.length;if(!N)return null;
+  for(i=1;i<N;i++)if(lines[i].mid<=lines[i-1].mid)return null;
+  var memo=new Int16Array(len+1).fill(-1),calls=0;
+  function rectOf(p){
+    cr.setStart(n,mp[p]);cr.setEnd(n,mp[p]+1);calls++;
+    var cl=cr.getClientRects(),u;for(u=0;u<cl.length;u++)if(cl[u].height>=1)return cl[u];return null
+  }
+  function idx(q){
+    if(q>=len)return N;if(memo[q]>=0)return memo[q];
+    var p=q,r=null,best=0,bd=1e9;
+    for(;p>=0;p--){r=rectOf(p);if(r&&(r.width>=.01||txt.charAt(p)===' '))break;r=null}
+    if(r){var m=(r.top+r.bottom)/2,d,kx;for(kx=0;kx<N;kx++){d=Math.abs(m-lines[kx].mid);if(d<bd){bd=d;best=kx}}}
+    return memo[q]=best
+  }
+  var starts=[0];
+  if(N>1){
+    var cw=new Float32Array(len+1),tot=0,sc,cumW=0;
+    for(i=1;i<=len;i++)cw[i]=tx.measureText(disp.substr(0,i)).width;
+    for(i=0;i<N;i++)tot+=lines[i].r-lines[i].l;
+    sc=cw[len]>0?tot/cw[len]:1;
+    for(k=0;k<N-1;k++){
+      var lo=starts[k],hi=len,g,st,P=function(q){return idx(q)>=k+1};
+      if(idx(lo)>k)return null;
+      cumW+=lines[k].r-lines[k].l;
+      for(g=lo+1;g<len&&cw[g]*sc<cumW;g++);
+      g=Math.min(Math.max(g,lo+1),len);
+      if(P(g)){hi=g;st=1;while(hi-st>lo&&P(hi-st)){hi-=st;st*=2}lo=Math.max(lo,hi-st)}
+      else{lo=g;st=1;while(lo+st<len&&!P(lo+st)){lo+=st;st*=2}hi=Math.min(len,lo+st)}
+      while(hi-lo>1){var md=(lo+hi)>>1;if(P(md))hi=md;else lo=md}
+      if(hi>=len)return null;
+      starts.push(hi)
+    }
+    if(idx(len-1)!==N-1)return null;
+  }
+  var out=[];
+  for(k=0;k<N;k++){
+    var a=starts[k],e=k<N-1?starts[k+1]:len,Ln=lines[k];
+    while(a<e&&txt.charAt(a)===' ')a++;
+    while(e>a&&txt.charAt(e-1)===' ')e--;
+    var ln=e-a;if(ln<=0)continue;
+    var wd=Ln.r-Ln.l,seg=disp.substr(a,ln),mw=tx.measureText(seg).width,cum=new Float32Array(ln+1),z;
+    for(z=1;z<ln;z++)cum[z]=mw>0?tx.measureText(seg.substr(0,z)).width*wd/mw:wd*z/ln;
+    cum[ln]=wd;
+    for(z=1;z<=ln;z++)if(cum[z]<cum[z-1])cum[z]=cum[z-1];
+    out.push({a:a,len:ln,l:Ln.l,top:Ln.top,h:Ln.h,w:wd,cum:cum})
+  }
+  return out
+}
 /* gom chữ theo dòng (mỗi đoạn chữ chỉ hỏi layout 1 lần) và ảnh trong khối */
 function prep(j,er){
+  measureBar();
   var rg=document.createRange(),total=0,li=0,x0=1e9,y0=1e9,x1=-1e9,y1=-1e9,H=innerHeight,n;
   if(HL){
     var w=document.createTreeWalker(j.el,NodeFilter.SHOW_TEXT);
@@ -145,7 +209,9 @@ function prep(j,er){
       var font=cs.fontStyle+' '+cs.fontWeight+' '+cs.fontSize+' '+cs.fontFamily,fpx=parseFloat(cs.fontSize)||16;
       tx.font=font;
       var m=tx.measureText('Hg'),asc=m.fontBoundingBoxAscent,dsc=m.fontBoundingBoxDescent,got=0,cr=document.createRange(),grp=[],gcur=null,q;cstamp++;var ce=clipEls(p);
-      /* hỏi trình duyệt vị trí thật của từng ký tự rồi gom theo dòng: đúng với mọi font, letter-spacing, căn giữa, căn đều, xuống dòng */
+      var CP=ce.length?clipRect(ce):null,fg=cs.direction==='rtl'?null:lineGroups(n,nm,txt,disp,rs,cr);
+      if(!fg){
+      /* (dự phòng) hỏi trình duyệt vị trí thật của từng ký tự rồi gom theo dòng: đúng với mọi font, letter-spacing, căn giữa, căn đều, xuống dòng */
       for(q=0;q<txt.length;q++){
         cr.setStart(n,nm.mp[q]);cr.setEnd(n,nm.mp[q]+1);
         var cl=cr.getClientRects(),r0=null,u;
@@ -157,26 +223,30 @@ function prep(j,er){
           gcur={a:q,n:0,l:r0.left,top:r0.top,h:r0.height,mid:(r0.top+r0.bottom)/2,r:[]};grp.push(gcur)}
         if(gcur.n===0&&txt.charAt(q)===' '){gcur.a=q+1;continue}
         gcur.r.push(r0);gcur.n++;gcur.top=Math.min(gcur.top,r0.top);gcur.h=Math.max(gcur.h,r0.height)}
-      for(var k=0;k<grp.length;k++){
-        var G=grp[k],cur,len=G.n;
-        while(len>0&&txt.charAt(G.a+len-1)===' ')len--;
-        if(!len)continue;
-        cur=disp.substr(G.a,len);
-        var r1=G.r[0],rl=G.r[len-1],wd=rl.right-r1.left;
+      }
+      for(var k=0,K=fg?fg.length:grp.length;k<K;k++){
+        var G=fg?fg[k]:grp[k],cur,len,ga,left,wd,gtop,gh,cum,z;
+        if(fg){len=G.len;ga=G.a;left=G.l;wd=G.w;gtop=G.top;gh=G.h;cum=G.cum;cur=disp.substr(ga,len)}
+        else{
+          len=G.n;ga=G.a;
+          while(len>0&&txt.charAt(ga+len-1)===' ')len--;
+          if(!len)continue;
+          cur=disp.substr(ga,len);
+          var r1=G.r[0],rl=G.r[len-1];left=r1.left;wd=rl.right-r1.left;gtop=G.top;gh=G.h;
+          cum=new Float32Array(len+1);
+          for(z=0;z<len;z++)cum[z]=G.r[z].left-r1.left;
+          cum[len]=wd;
+          for(z=1;z<=len;z++)if(cum[z]<cum[z-1])cum[z]=cum[z-1]
+        }
         if(wd<1)continue;
-        if(!inClip(ce,r1.left,G.top,rl.right,G.top+G.h))continue;
-        if(G.top+G.h<-40||G.top>H+40){j.off++;continue}
-        if(r1.left>=innerWidth||rl.right<=0)continue;
-        if(covered(p,Math.min(innerWidth-1,Math.max(0,(r1.left+rl.right)/2)),G.top+G.h/2))continue;
-        var L={ce:ce,s:cur,a:G.a,nd:n,mp:nm.mp,ox:r1.left-er.left,oy:G.top-er.top,h:G.h,w:wd,color:cs.color,d:Math.min(li++*55,600),span:Math.min(650,200+cur.length*12),kk:0,sd:(Math.random()*997)|0};
+        if(!inClip(ce,left,gtop,left+wd,gtop+gh))continue;
+        if(gtop+gh<-40||gtop>H+40){j.off++;continue}
+        if(left>=innerWidth||left+wd<=0)continue;
+        if(covered(p,Math.min(innerWidth-1,Math.max(0,left+wd/2)),gtop+gh/2))continue;
+        var L={clp:CP?{l:CP.l-er.left,t:CP.t-er.top,w:CP.r-CP.l,h:CP.b-CP.t}:null,s:cur,a:ga,nd:n,mp:nm.mp,ox:left-er.left,oy:gtop-er.top,h:gh,w:wd,color:cs.color,d:Math.min(li++*55,600),span:Math.min(650,200+cur.length*12),kk:0,sd:(Math.random()*997)|0};
         L.by=asc>0?L.oy+(L.h-asc-dsc)/2+asc:L.oy+L.h*.8;
-        var cum=new Float32Array(len+1),z;
-        for(z=0;z<len;z++)cum[z]=G.r[z].left-r1.left;
-        cum[len]=wd;
-        for(z=1;z<=len;z++)if(cum[z]<cum[z-1])cum[z]=cum[z-1];
         L.xs=cum;L.sf=Math.max(5,Math.min(fpx,(wd/len)/AR));
         L.rg=document.createRange();L.rg.setStart(n,nm.mp[L.a]);L.rg.setEnd(n,nm.mp[Math.min(txt.length,L.a+len)]);
-        L.rf=document.createRange();L.rf.setStart(n,nm.mp[L.a]);L.rf.setEnd(n,nm.mp[Math.min(txt.length,L.a+len)]);
         HL.add(L.rg);
         x0=Math.min(x0,L.ox);y0=Math.min(y0,L.oy);x1=Math.max(x1,L.ox+L.w);y1=Math.max(y1,L.oy+L.h);
         j.dur=Math.max(j.dur,L.d+L.span+80);j.lines.push(L);got++;
@@ -219,26 +289,15 @@ function glyph(cx,L,c,x,y,step){
 }
 function draw(j,e){
   var cx=j.cx,d=j.dp,a,L,c,step=(j.t0+e)/80|0,ls='letterSpacing' in cx;
-  /* khối phủ luôn bám theo phần tử thật nếu trang xê dịch */
-  var er=j.el.getBoundingClientRect(),ex=er.left+pageXOffset,ey=er.top+pageYOffset;
-  if(Math.abs(ex-j.ex)>.4||Math.abs(ey-j.ey)>.4){j.ex=ex;j.ey=ey;place(j)}
+  /* không đọc DOM trong khung hình: lớp phủ nằm tuyệt đối theo tài liệu nên toạ độ giữ nguyên khi cuộn; trang đổi kích thước thì ResizeObserver (cuối khối) kết thúc hiệu ứng */
   cx.setTransform(d,0,0,d,0,0);cx.clearRect(0,0,j.bw,j.bh);cx.textBaseline='alphabetic';cx.textAlign='center';
-  cstamp++;
   for(a=0;a<j.lines.length;a++){
     L=j.lines[a];
-    var rr=L.rf.getBoundingClientRect();
-    if(Math.abs(rr.width-L.w)>2.5||Math.abs(rr.height-L.h)>4){end(j);return}
-    var nox=rr.left+pageXOffset-j.ex,noy=rr.top+pageYOffset-j.ey;
-    if(Math.abs(nox-L.ox)>.3||Math.abs(noy-L.oy)>.3){L.by+=noy-L.oy;L.ox=nox;L.oy=noy}
     var len=L.s.length,le=e-L.d,kk=le<=0?0:Math.min(len,Math.floor(le/L.span*len));
     if(kk!==L.kk){L.kk=kk;L.rg.setStart(L.nd,L.mp[L.a+kk])}
     if(kk>=len)continue;
-    var clp=null;
-    if(L.ce.length){
-      if(!inClip(L.ce,rr.left,rr.top,rr.right,rr.bottom))continue;
-      clp=clipRect(L.ce);cx.save();cx.beginPath();
-      cx.rect(clp.l+pageXOffset-(j.ex+j.bx),clp.t+pageYOffset-(j.ey+j.by),clp.r-clp.l,clp.b-clp.t);cx.clip();
-    }
+    var clp=L.clp;
+    if(clp){cx.save();cx.beginPath();cx.rect(clp.l-j.bx,clp.t-j.by,clp.w,clp.h);cx.clip()}
     var x=L.ox-j.bx,y=L.by-j.by;
     cx.font=L.sf+'px '+MONO;if(ls)cx.letterSpacing='0px';
     cx.fillStyle=L.color;cx.globalAlpha=.45;
@@ -253,8 +312,7 @@ function draw(j,e){
     if(!I.done&&p>=1)imgDone(I,1);
     /* vài khung hình sau khi ảnh thật hiện, canvas vẫn vẽ đúng ảnh đó để không bị hở */
     if(I.done){if(I.hold<=0)continue;I.hold--;p=.999}
-    var im=I.im,ir=im.getBoundingClientRect();if(ir.width<2||ir.height<2)continue;
-    var ix=ir.left+pageXOffset-(j.ex+j.bx),iy=ir.top+pageYOffset-(j.ey+j.by),iw=ir.width,ih=ir.height,
+    var im=I.im,ix=I.x-j.bx,iy=I.y-j.by,iw=I.w,ih=I.h,
         cols=I.done?Math.ceil(Math.max(iw,ih)*d):[3,6,12,24,48,96,192][Math.max(0,Math.floor(p*7))],bs=Math.max(iw,ih)/cols,
         tw=Math.max(1,Math.round(iw/bs)),th=Math.max(1,Math.round(ih/bs)),
         nw=im.naturalWidth,nh=im.naturalHeight,sc=Math.max(iw/nw,ih/nh),sw=iw/sc,sh=ih/sc;
@@ -269,7 +327,7 @@ function loop(){
   raf=0;var t=performance.now();
   for(var k=jobs.length-1;k>=0;k--){var j=jobs[k],e=t-j.t0;
     if(e>=j.dur||!j.el.isConnected||document.hidden)end(j);
-    else{if((j.fc=(j.fc||0)+1)%10===0){var jr=j.el.getBoundingClientRect();if(jr.bottom<-80||jr.top>innerHeight+80){end(j);j.el.__axp=1;continue}}draw(j,Math.max(0,e))}}
+    else{if((j.fc=(j.fc||0)+1)%10===0){var jt=j.ey-pageYOffset;if(jt+j.eh<-80||jt>innerHeight+80){end(j);j.el.__axp=1;continue}}draw(j,Math.max(0,e))}}
   var c=performance.now()-t;
   if(c>12){if(++slow>8){jobs.slice().forEach(end);dead=true}}else if(slow>0)slow--;
   if(jobs.length)raf=requestAnimationFrame(loop);
@@ -277,13 +335,36 @@ function loop(){
 var fontsOK=!(document.fonts&&document.fonts.status==='loading'),fontQ=[];
 if(!fontsOK){var fgo=function(){if(fontsOK)return;fontsOK=true;fontQ.splice(0).forEach(function(e){if(e.isConnected)cover(e)})};
   document.fonts.ready.then(function(){setTimeout(fgo,60)});setTimeout(fgo,2500)}
+/* chỉ khi bố cục thật sự đổi (ResizeObserver chạy sau layout, nên đọc ở đây không gây layout thrashing; vòng vẽ thì không đọc gì):
+   khối đổi kích thước thật -> dừng hiệu ứng (chữ thật đã đúng chỗ); chỉ trôi vị trí nhẹ (vd. content-visibility chỉnh chiều cao) -> dời canvas theo */
+function layoutShift(){
+  if(!jobs.length)return;
+  jobs.slice().forEach(function(j){
+    var er=j.el.getBoundingClientRect(),ex=er.left+pageXOffset,ey=er.top+pageYOffset;
+    if(Math.abs(er.height-j.eh)>3||Math.abs(er.width-j.ew)>3){end(j);return}
+    if(Math.abs(ex-j.ex)>.4||Math.abs(ey-j.ey)>.4){j.ex=ex;j.ey=ey;place(j)}
+  })
+}
+/* hàng đợi: cuộn nhanh qua nhiều khối cùng lúc thì mỗi khung hình chỉ khởi tạo 1 khối (prep + canvas), FPS không bị dồn cục */
+var covQ=[],covRaf=0;
 function cover(el){
+  if(dead||frozen||!el)return;
+  if(covQ.indexOf(el)<0)covQ.push(el);
+  if(!covRaf)covRaf=requestAnimationFrame(runCovQ)
+}
+function runCovQ(){
+  covRaf=0;
+  var el=covQ.shift();
+  if(el&&el.isConnected)coverNow(el);
+  if(covQ.length&&!dead&&!frozen)covRaf=requestAnimationFrame(runCovQ);else covQ.length=0
+}
+function coverNow(el){
   if(dead||frozen||!el)return;
   if(!fontsOK){if(fontQ.indexOf(el)<0)fontQ.push(el);return}
   if(!layer)init();
   if(!el.__axw){el.__axw=1;el.__axt=performance.now();watch.push(el);setTimeout(function(){if(el.isConnected){el.__axp=1;sched()}},350)}
   var now=performance.now(),er=el.getBoundingClientRect();
-  var j={el:el,t0:now,lines:[],imgs:[],dur:0,off:0,ex:er.left+pageXOffset,ey:er.top+pageYOffset};
+  var j={el:el,t0:now,lines:[],imgs:[],dur:0,off:0,ex:er.left+pageXOffset,ey:er.top+pageYOffset,eh:er.height,ew:er.width};
   prep(j,er);el.__axp=j.off>0;
   if(!j.dur||j.bw<4||j.bh<4){end(j);return}
   var t0=now-last<350?Math.min(Math.max(now,last+80),now+400):now;last=t0;j.t0=t0;
@@ -759,7 +840,7 @@ footer{border-top:1px solid var(--line);padding:3rem 0 6rem;color:var(--muted);f
 .idc .nm{display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.9rem 1.1rem;font-weight:600}
 .idc .nm i{color:var(--muted);font-style:normal;font-weight:400;transition:transform .25s,color .25s}
 .idc:hover .nm i{transform:translateX(3px);color:var(--white)}
-.idm{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:1rem;background:rgba(0,0,0,.65);backdrop-filter:blur(4px)}
+.idm{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:1rem;background:rgba(0,0,0,.82)}
 .idm[hidden]{display:none}
 .idbox{position:relative;display:grid;grid-template-columns:minmax(0,14rem) 1fr;gap:1.5rem;width:min(44rem,100%);max-height:90vh;overflow:auto;padding:1.5rem;border:1px solid var(--line-hi);border-radius:1.25rem;background:var(--card);animation:cmdin .25s cubic-bezier(.2,.7,.2,1)}
 .idx{position:absolute;top:.6rem;right:.6rem;z-index:2;width:2.2rem;height:2.2rem;padding:0;border-radius:50%;border:1px solid var(--line-hi);background:var(--card);color:var(--text);font-size:1.3rem;line-height:1;cursor:pointer}
@@ -856,7 +937,6 @@ footer{border-top:1px solid var(--line);padding:3rem 0 6rem;color:var(--muted);f
 .tgl .moon{display:none}
 :root[data-theme="light"] .tgl .sun{display:none}
 :root[data-theme="light"] .tgl .moon{display:block}
-html.tt,html.tt *{transition:background-color .4s,color .4s,border-color .4s,fill .4s,stroke .4s!important}
 .totop{position:fixed;right:1.25rem;bottom:calc(1.25rem + env(safe-area-inset-bottom,0px));width:3rem;height:3rem;padding:0;border-radius:50%;border:0;background:rgba(var(--bgrgb),.96);color:var(--text);display:grid;place-items:center;cursor:pointer;opacity:0;visibility:hidden;transform:translateY(12px);z-index:20;transition:opacity .3s,transform .3s,visibility .3s}
 .totop.show{opacity:1;visibility:visible;transform:none}
 .totop:hover{transform:translateY(-3px)}
@@ -894,9 +974,9 @@ body.in-view .dots{display:none}
 .dots a:hover::before{opacity:1;transform:none}
 .rip{position:fixed;width:1.4rem;height:1.4rem;margin:-.7rem 0 0 -.7rem;border:1px solid var(--white);border-radius:50%;pointer-events:none;z-index:45}
 .pt{position:fixed;width:.45rem;height:.45rem;margin:-.22rem 0 0 -.22rem;background:var(--white);pointer-events:none;z-index:70}
-.cmd{position:fixed;inset:0;z-index:80;background:rgba(var(--bgrgb),.7);backdrop-filter:blur(6px);display:grid;align-items:start;justify-items:center;padding:12vh 1rem 1rem}
+.cmd{position:fixed;inset:0;z-index:80;background:rgba(var(--bgrgb),.86);display:grid;align-items:start;justify-items:center;padding:12vh 1rem 1rem}
 .cmd[hidden]{display:none}
-.cmdbox{width:min(36rem,100%);border:1px solid var(--line-hi);border-radius:1rem;background:var(--card);box-shadow:0 30px 80px -20px rgba(0,0,0,.6);overflow:hidden;animation:cmdin .25s cubic-bezier(.2,.7,.2,1)}
+.cmdbox{width:min(36rem,100%);border:1px solid var(--line-hi);border-radius:1rem;background:var(--card);box-shadow:0 20px 44px -18px rgba(0,0,0,.6);will-change:transform,opacity;overflow:hidden;animation:cmdin .25s cubic-bezier(.2,.7,.2,1)}
 @keyframes cmdin{from{opacity:0;transform:translateY(-10px) scale(.98)}}
 .cmdbox input{width:100%;padding:1rem 1.2rem;background:transparent;border:0;border-bottom:1px solid var(--line);color:var(--text);font:400 1rem var(--body);outline:none}
 .cmdbox ul{list-style:none;margin:0;padding:.4rem;max-height:50vh;overflow:auto}
@@ -1378,7 +1458,7 @@ section.s,section.intro{position:relative}
 .act .el{font-family:var(--mono)}
 .sbar{height:3px;margin-top:.55rem;border-radius:2px;background:var(--line)}
 .sbar i{display:block;width:0;height:100%;border-radius:2px;background:var(--acc)}
-.lb{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:1rem;background:rgba(0,0,0,.82);backdrop-filter:blur(6px);cursor:zoom-out}
+.lb{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:1rem;background:rgba(0,0,0,.88);cursor:zoom-out}
 .lb[hidden]{display:none}
 .lb figure{display:grid;justify-items:center;gap:.6rem;max-width:min(60rem,100%);margin:0}
 .lb img{max-width:100%;max-height:80vh;border:1px solid var(--line-hi);border-radius:1rem;background:var(--card)}
@@ -1458,8 +1538,11 @@ section.s,section.intro{position:relative}
 @media (max-width:40rem){#skyfx .moon{display:none}}
 @keyframes twk{from{opacity:.35}to{opacity:1}}
 :root[data-motion="off"] #skyfx .st{animation:none!important}
-:root[data-wx="rain"] :is(.bar,.bgm,.bgq,#totop,.rndb,.fpsb),:root[data-wx="snow"] :is(.bar,.bgm,.bgq,#totop,.rndb,.fpsb){-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
-:root[data-wx="rain"] .bar:not(.mini),:root[data-wx="snow"] .bar:not(.mini){background-color:rgba(var(--bgrgb),.93)!important}
+:is(.bar,.bgm,.bgq,#totop,.rndb,.fpsb){-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+.bar:not(.mini){background-color:rgba(var(--bgrgb),.93)!important}
+/* nút bật/tắt thời tiết: trạng thái "đang bật" không tô trắng đặc (chữ trắng trên nền trắng bị loé), chỉ nhuộm nhẹ màu nhấn */
+#wxb,#wxb[aria-pressed="true"],#wxb[aria-pressed="true"]:hover{transition:border-color .2s,background-color .2s,color .2s}
+#wxb[aria-pressed="true"],#wxb[aria-pressed="true"]:hover{background:color-mix(in srgb,var(--acc) 14%,transparent);border-color:var(--acc);color:var(--acc);box-shadow:none}
 @media (prefers-reduced-motion:reduce){#skyfx .st{animation:none!important}}
 @media (max-width:40rem){.mapfr{aspect-ratio:4/5;min-height:20rem}}
 section.s,footer{content-visibility:auto;contain-intrinsic-size:auto 42rem}
@@ -2630,6 +2713,13 @@ footer{border-top:1px solid var(--line);background:linear-gradient(180deg,rgba(v
 .offl .mapfr{position:relative}
 .offl .mapfr iframe{visibility:hidden}
 .offl .mapfr::after{content:attr(data-off);position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:1rem;color:var(--muted);font-size:.9rem}
+</style>
+<style id="frame-hue">
+/* viền các khung theo màu chủ đề của từng phần (chỉ khi bật màu chữ; bấm C để tắt/bật) — màu lấy từ bảng màu có sẵn --c1…--c6 của từng section */
+:root:not([data-color="off"]) :is(#intro,.s){--bc:var(--gB);--bl:color-mix(in srgb,var(--bc) 34%,var(--line));--bh:color-mix(in srgb,var(--bc) 72%,var(--line-hi))}
+:root:not([data-color="off"]) #intro{--bc:var(--c3)}
+:root:not([data-color="off"]) :is(#intro,.s) :is(.panel,.lk,.card,.gc,.idc,.hob,.labtabs,.labp,.lstats>div,.tshow,.stats>div,.dds>div,.tkb-list li:not(.now),.faq details,.ffs,.ffshow,.mapfr,.wx,.wxtest){border-color:var(--bl)}
+:root:not([data-color="off"]) :is(#intro,.s) :is(.panel,.lk,.card,.gc,.idc,.hob,.labtabs,.labp,.lstats>div,.tshow,.stats>div,.dds>div,.tkb-list li:not(.now),.faq details,.ffs,.ffshow,.mapfr,.wx,.wxtest):is(:hover,:focus-visible,[open],.on){border-color:var(--bh)}
 </style>
 </head>
 <body>
@@ -7463,7 +7553,7 @@ function apply(){
   render();note();
 }
 E.b.addEventListener('click',function(){enabled=!enabled;try{localStorage.setItem('wxfx',enabled?'1':'0')}catch(e){}if(enabled)start();apply()});
-new MutationObserver(function(){colors();apply()}).observe(R,{attributes:true,attributeFilter:['data-motion','data-theme']});
+new MutationObserver(function(ms){var mo=false;for(var i=0;i<ms.length;i++)if(ms[i].attributeName==='data-motion')mo=true;colors();if(mo)apply()}).observe(R,{attributes:true,attributeFilter:['data-motion','data-theme']});
 /* ===== bảng thử thời tiết ===== */
 var chips=Array.prototype.slice.call(document.querySelectorAll('.wxch')),ts=$('wxts'),tv=$('wxtv'),tr=$('wxtr'),td=$('wxtd'),tb=$('wxtest');
 function syncChips(){chips.forEach(function(c){var f=c.getAttribute('data-f');c.classList.toggle('on',(f||null)===force&&!sim||(!f&&!force&&!sim))})}
@@ -7788,6 +7878,10 @@ document.addEventListener('click',function(e){
  var h=a.getAttribute('href');if(h.length>1&&h.charAt(1)!=='/')openSec(h.slice(1))},true);
 addEventListener('hashchange',function(){var h=location.hash;if(h.length>1&&h.charAt(1)!=='/')openSec(h.slice(1))});
 if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.slice(1));
+})();</script>
+</body>
+</html>
+tion.hash.slice(1));
 })();</script>
 </body>
 </html>
