@@ -1941,6 +1941,7 @@ body:has(#bgmp:not([hidden])) .bar.mini nav{top:calc(50% - 14.5rem);max-height:c
 .ddf.glow svg{filter:none}
 @media(prefers-reduced-motion:reduce){.ddf.on svg{animation:none}}
 
+@keyframes nmbl{0%,56%,100%{opacity:1;text-shadow:0 0 .22em currentColor}60%{opacity:.18;text-shadow:none}64%{opacity:1;text-shadow:0 0 .5em currentColor}68%{opacity:.3;text-shadow:none}72%{opacity:1;text-shadow:0 0 .5em currentColor}}
 #steamn,#steamname,.pci>b{animation:var(--nmb,nmbl) 4.2s linear infinite}
 :root[data-motion="off"]{--nmb:none}
 @media (prefers-reduced-motion:reduce){:root{--nmb:none}}
@@ -3003,6 +3004,19 @@ window.__autoLang=function(){
 #dcp .sr{display:flex;gap:10px;align-items:center;padding:6px;border-radius:8px;cursor:pointer}
 #dcp .sr:hover{background:#2b2d31}#dcp .sr img{width:92px;height:35px;object-fit:cover;border-radius:4px;background:#111}
 #dcp .g img~.ic{display:none}
+/* giao diện sáng: đảo bảng màu theo nút sáng/tối của trang (JS gắn class lt) */
+#dcp.lt{--bg:#fff;--pn:#f2f3f5;--cd:#e3e5e8;--tx:#060607;--mu:#5c5e66;box-shadow:0 0 0 1px rgba(0,0,0,.09)}
+#dcp.lt .l a{color:#0068e0}
+#dcp.lt .hl{background:rgba(0,0,0,.07)}
+#dcp.lt .rl{border-color:#c4c9ce;background:#e3e5e8}
+#dcp.lt .tb{border-bottom-color:#d4d7dc}
+#dcp.lt .pl,#dcp.lt .bar button,#dcp.lt .act .ar{background:#d4d7dc}
+#dcp.lt .tgs span{background:#d4d7dc}
+#dcp.lt .sb{background:#c4c9ce}
+#dcp.lt .hist li{border-top-color:rgba(0,0,0,.1)}
+#dcp.lt .mdl input{background:#fff}
+#dcp.lt .sr:hover{background:#e3e5e8}
+#dcp .g,#dcp .nt b{color:#fff}
 @media(max-width:760px){#dcp{grid-template-columns:1fr}#dcp .l,#dcp .bn,#dcp .l::before{border-radius:14px 14px 0 0}#dcp .r{max-height:none}#dcp .gr{grid-template-columns:repeat(3,1fr)}#dcp.hf .r{margin-top:var(--fb,62px)}}
 </style><div id="dcp"></div></template>
 <div class="wrap">
@@ -3165,7 +3179,9 @@ var rt;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(rende
 function loadBanner(){var l=[],s0;try{s0=localStorage.getItem('dcpb')}catch(e){}if(s0)l.push(s0);l=l.concat(D.banner);D.bannerUrl='';render();(function nx(i){if(i>=l.length)return;var im=new Image();im.onload=function(){D.bannerUrl=l[i];render()};im.onerror=function(){nx(i+1)};im.src=l[i]})(0)}
 loadBanner();
 document.addEventListener('lanyard',onL);
-try{new MutationObserver(function(){render()}).observe(document.documentElement,{attributes:true,attributeFilter:['lang']})}catch(e){}
+function applyTheme(){root.classList.toggle('lt',document.documentElement.getAttribute('data-theme')==='light')}
+applyTheme();
+try{new MutationObserver(function(ms){applyTheme();for(var i=0;i<ms.length;i++)if(ms[i].attributeName==='lang'){render();break}}).observe(document.documentElement,{attributes:true,attributeFilter:['lang','data-theme']})}catch(e){}
 document.addEventListener('lanydbg',function(){if(tab==='hd')render()});
 if(!shown){new IntersectionObserver(function(es,io){if(es.some(function(e){return e.isIntersecting})){io.disconnect();shown=true;renderNow()}},{rootMargin:'700px 0px'}).observe(host)}else renderNow();
 if(window.LANY)onL();
