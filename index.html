@@ -6789,8 +6789,10 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     })}
     /* nhóm ảnh để chuyển qua lại: các ảnh xem được cùng nằm trong một khung (vd. cả mục "Vài tấm ảnh"), chỉ lấy ảnh đang hiện */
     function groupOf(el){
-      var par=el.parentElement;if(!par||el.closest('.g3d'))return [el];
-      var g=[].filter.call(par.children,function(c){return c.matches(ZSEL)&&c.getClientRects().length&&c.querySelector('img[src]')});
+      var g3=el.closest('.g3d'),par=el.parentElement;if(!par)return [el];
+      /* ảnh xoay 3D: ảnh nằm sâu trong khung xoay, nên lấy tất cả ảnh của khung đó theo thứ tự trong trang */
+      var all=g3?[].slice.call(g3.querySelectorAll('.ph')):[].slice.call(par.children);
+      var g=all.filter(function(c){return c.matches(ZSEL)&&c.getClientRects().length&&c.querySelector('img[src]')});
       return g.indexOf(el)<0?[el]:g;
     }
     function showAt(i){
