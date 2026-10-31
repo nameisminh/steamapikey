@@ -25,7 +25,7 @@ window.TRACKS=[
   {t:'Đi theo bóng mặt trời',a:'Đen',src:'music/spotidownloader-com-di-theo-bong-mat-troi-den.mp3'},
   {t:'Sinh Ra Đã Là Thứ Đối Lập Nhau',a:'Emcee L (Da LAB)',src:'music/spotidownloader-com-sinh-ra-da-la-thu-doi-lap-nhau-emcee-l-da-lab.mp3'},
   {t:'Đừng Gọi Anh Là Idol',a:'Đen',src:'music/spotidownloader-com-dung-goi-anh-la-idol-den.mp3'},
-  {t:'SpotiDownloader.com   Chờ Đợi Có Đáng Sợ   Andiez',a:'',src:'music/spotidownloader-com-cho-doi-co-dang-so-andiez.mp3'},
+  {t:'Chờ Đợi Có Đáng Sợ',a:'Andiez',src:'music/spotidownloader-com-cho-doi-co-dang-so-andiez.mp3'},
   {t:'Let Me Go',a:'KIMLONG',src:'music/let-me-go-55-radar-kimlong.mp3'},
   {t:'Mở Mắt',a:'Lil Wuyn ft Đen',src:'music/mo-mat-lil-wuyn.mp3'},
   {t:'Vu Vơ',a:'Lil Wuyn ft 16 BRT',src:'music/vu-vo-lil-wuyn.mp3'},
