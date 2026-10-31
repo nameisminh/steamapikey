@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-31T11:29:19.159Z",
+  "updated": "2026-10-31T16:36:55.766Z",
   "name": "ming",
   "avatar": "https://avatars.steamstatic.com/7d8c1937b7bf439198974eae0be807f4ea8cc2ac_full.jpg",
   "url": "https://steamcommunity.com/profiles/76561199474355109/",
@@ -7,32 +7,12 @@
   "games": 108,
   "badges": 7,
   "achievements": 6468,
-  "hours2w": 192.8,
+  "hours2w": 192.6,
   "recent": [
     {
       "n": "ShareX",
-      "h": 1707.9,
+      "h": 1712.9,
       "id": 400040
-    },
-    {
-      "n": "Where Winds Meet",
-      "h": 478.9,
-      "id": 3564740
-    },
-    {
-      "n": "Supermarket Together",
-      "h": 1.6,
-      "id": 2709570
-    },
-    {
-      "n": "Dead Island Riptide Definitive Edition",
-      "h": 2.1,
-      "id": 383180
-    },
-    {
-      "n": "Brawlhalla",
-      "h": 0.5,
-      "id": 291550
     }
   ]
 }
