@@ -3957,6 +3957,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+<script src="music/tracks.js"></script>
 <script>
 (function(){
   /* ===== ngôn ngữ: tự chọn theo múi giờ + ngôn ngữ trình duyệt (xem __autoLang ở đầu trang), đổi tay bằng nút VI·EN. Thêm bản dịch ở EN: 'câu tiếng Việt':'English' ===== */
@@ -5940,37 +5941,12 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     if(!calm&&!off()){if(document.readyState==='complete')setTimeout(start,2500);else addEventListener('load',function(){setTimeout(start,2500)})}
     document.addEventListener('langchange',function(){if(cur&&!t.hidden){tx.textContent=T(cur.t);t.title=touch?T('Bấm để tắt'):(cur.h?T('Bấm để tới chỗ này'):'')}});
   })();
-  /* ===== nhạc nền: sửa danh sách bài ở TRACKS =====
-     Cách thêm một bài:
-       1) Bỏ file .mp3 vào thư mục music/ (đặt tên không dấu, không khoảng trắng, ví dụ music/bai-01.mp3).
-       2) Có sẵn 10 chỗ: sửa t (tên bài), a (ca sĩ) và src (tên file) của dòng tương ứng. Chỗ nào chưa có file thì tự bị bỏ qua.
-       Muốn thêm nhiều hơn 10 bài: chép một dòng, đổi số (dòng nào cũng có dấu phẩy, trừ dòng cuối)
+  /* ===== nhạc nền: danh sách bài nằm ở file riêng music/tracks.js (không cần sửa trong này) =====
+     Thêm nhạc: bỏ file .mp3 vào thư mục music/ rồi bấm đúp them-nhac.bat (hoặc kéo thả mp3 lên nó).
+     Tool tự đọc tên bài, ca sĩ và ghi vào music/tracks.js. Xem thêm đầu file music/tracks.js.
      Nên dùng mp3 128 đến 192 kbps, mỗi file dưới khoảng 6 MB. Dùng nhạc bạn có quyền dùng.
      Trang KHÔNG tự phát nhạc: chỉ phát khi người xem bấm nút, và file chỉ tải khi bấm nghe. File nào thiếu thì tự bỏ qua. */
-  var TRACKS=[
-    {t:'Dành Hết Xuân Thì Để Chờ Nhau',a:'Vũ ft. Hà Anh Tuấn',src:'music/danh-het-xuan-thi-de-cho-nhau-vu-ft-ha-anh-tuan-tu-album-bao-tang-cua-nuoi-tiec-vu-official.mp3'},
-    {t:'Đánh Đổi',a:'OBITO ft. MCK',src:'music/obito-danh-doi-ft-mck-obito-official.mp3'},
-    {t:'BẢN NHẠC CUỐI (cho em)',a:'B Ray',src:'music/fyily-6-ban-nhac-cuoi-cho-em-b-ray-evb-records.mp3'},
-    {t:'Exit Sign',a:'HIEUTHUHAI (prod. by Kewtiie) ft. marzuz',src:'music/hieuthuhai-exit-sign-prod-by-kewtiie-ft-marzuz-official-lyric-video-hieuthuhai.mp3'},
-    {t:'An',a:'Lil Wuyn (feat. Minstu)',src:'music/lil-wuyn-an-feat-minstu-an-album-lil-wuyn-official.mp3'},
-    {t:'Vùng Ký Ức',a:'Chillies',src:'music/vung-ky-uc-chillies-official-music-video-chillies.mp3'},
-    {t:'TOKYO Cypher',a:'Lil Wuyn, 16 BrT, 16 Typh',src:'music/lil-wuyn-16-brt-16-typh-tokyo-cypher-lil-wuyn-official.mp3'},
-    {t:'Mặc Kệ Anh',a:'Gia ft. Tín',src:'music/mac-ke-anh-gia-ft-tin-chang.mp3'},
-    {t:'Ta đã từng yêu nhau chưa',a:'Hào',src:'music/ta-da-tung-yeu-nhau-chua-official-audio-hao-hao.mp3'},
-    {t:'Anh Sai Rồi',a:'Sơn Tùng M-TP',src:'music/anh-sai-roi-son-tung-m-tp.mp3'},
-    {t:'Một Ngày Khác',a:'Young H ft B Ray X Roy P,EvB Records',src:'music/officical-audio-mot-ngay-khac-young-h-ft-b-ray-x-roy-p-evb-records.mp3'},
-    {t:'YÊU EM RẤT NHIỀU',a:'HOÀNG TÔN   ',src:'music/hoang-ton-yeu-em-rat-nhieu-lyrics-video-hoang-ton.mp3'},
-    {t:'Yêu Lại Từ Đầu',a:'Khắc Việt GiomuaHa',src:'music/lyric-ll-yeu-lai-tu-dau-khac-viet-giomuaha.mp3'},
-    {t:'Một Ngày Khác',a:'Young H ft B Ray X Roy P,EvB Records',src:'music/officical-audio-mot-ngay-khac-young-h-ft-b-ray-x-roy-p-evb-records.mp3'},
-    {t:'YÊU EM RẤT NHIỀU',a:'HOÀNG TÔN   ',src:'music/hoang-ton-yeu-em-rat-nhieu-lyrics-video-hoang-ton.mp3'},
-    {t:'Yêu Lại Từ Đầu',a:'Khắc Việt GiomuaHa',src:'music/lyric-ll-yeu-lai-tu-dau-khac-viet-giomuaha.mp3'},
-    {t:'Tháng Mấy Em Nhớ Anh',a:'  Hà Anh Tuấn',src:'music/thang-may-em-nho-anh-ha-anh-tuan.mp3'},
-    {t:'Chuyện những người yêu xa ',a:'Vũ.',src:'music/chuyen-nhung-nguoi-yeu-xa-vu-original-vu-official.mp3'},
-    {t:'Anh thèm được ngủ',a:'Khói   ',src:'music/khoi-anh-them-duoc-ngu-official-khoi.mp3'},
-    {t:'Dù Có Cách Xa',a:'Đinh Mạnh Ninh',src:'music/lyrics-video-du-co-cach-xa-dinh-manh-ninh-dccx-dinh-manh-ninh.mp3'},
-    {t:'10 Ngàn Năm',a:'PC',src:'music/pc-10-ngan-nam-prod-duckie-official-audio-pc-feelingsoundz.mp3'},
-    {t:'Dự báo thời tiết hômm nay mưa',a:'GREY D',src:'music/grey-d-du-bao-thoi-tiet-hom-nay-mua-official-visualizer-st-319-entertainment.mp3'}
-  ];
+  var TRACKS=window.TRACKS||[];
 
   /* ===== thư viện ảnh 3D (Helix / Barrel / Ring / Sphere), dựng từ các ảnh của #gallery ===== */
   Object.assign(EN,{"Profile":"Profile","Số liệu":"Numbers","Sự thật ngẫu nhiên":"Random fact","Lật hết":"Flip all","Úp lại":"Hide all","Xem thêm sự thật":"More facts","Xem một sự thật ngẫu nhiên":"Show a random fact","Chọn danh mục rồi bấm nút để xem một sự thật. Sự thật đã xem sẽ không hiện lại, muốn xem lại thì bấm Xem lại.":"Pick a category and press the button for a fact. Seen facts will not repeat, press Review to see them again.","Tìm: game, nhạc, sự thật, bản đồ...":"Search: games, music, facts, map...","Về đầu trang":"Back to top"});
@@ -6365,9 +6341,9 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     /* ===== lời bài hát chạy theo nhạc =====
        Thứ tự tìm lời cho mỗi bài:
          1) File lời cùng tên với file nhạc, đuôi .lrc (ví dụ music/bai-01.mp3 thì lời là music/bai-01.lrc). Cách này chắc nhất.
-         2) Thêm lrc:'music/ten-file.lrc' vào dòng bài trong TRACKS nếu muốn đặt tên khác.
+         2) Thêm lrc:'music/ten-file.lrc' vào dòng bài trong music/tracks.js nếu muốn đặt tên khác.
          3) Tự tìm trên LRCLIB (lrclib.net, kho lời miễn phí). Khi tìm, tên bài được gửi tới trang đó.
-            Nếu tìm sai bài, thêm q:'tên bài ca sĩ' vào dòng bài trong TRACKS.
+            Nếu tìm sai bài, thêm q:'tên bài ca sĩ' vào dòng bài trong music/tracks.js.
        Lời tìm được được nhớ trong trình duyệt nên lần sau không phải tìm lại. */
     function g(id){return document.getElementById(id)}
     var lyb=g('lyb'),lyn=g('lyn'),lys=g('lys'),lyx=g('lyx'),lyw=g('lyw');
