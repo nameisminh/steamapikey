@@ -2,9 +2,10 @@
    Đổi VERSION (ví dụ 'v2') khi muốn ép mọi máy xoá cache cũ và tải lại từ đầu.
    Cách hoạt động:
    - Trang chính: ưu tiên mạng (luôn thấy bản mới nhất), mất mạng thì mở bản đã lưu.
+   - music/tracks.js và các file lời .lrc: ưu tiên mạng (thêm bài mới là thấy ngay), mất mạng thì dùng bản đã lưu.
    - Ảnh, font, steam.json: cho xem bản đã lưu ngay, đồng thời tải bản mới ngầm.
    - Nhạc, video, API (thời tiết, Discord, lời bài hát, thống kê): không lưu, để trình duyệt tự xử lý. */
-const VERSION = 'v1';
+const VERSION = 'v2';
 const CORE = 'ming-core-' + VERSION;
 const RT = 'ming-rt-' + VERSION;
 const MAX_RT = 300;
@@ -49,6 +50,7 @@ self.addEventListener('fetch', (e) => {
   if (url.origin === self.location.origin) {
     if (url.pathname.endsWith('/sw.js')) return;
     if (req.mode === 'navigate') { e.respondWith(navigate(req)); return; }
+    if (/\/music\/(tracks\.js|[^/]+\.lrc)$/i.test(url.pathname)) { e.respondWith(netFirst(req)); return; }
     e.respondWith(swr(e, req));
     return;
   }
@@ -71,6 +73,18 @@ async function navigate(req) {
     return new Response('Bạn đang offline và trang chưa được lưu. Hãy mở lại khi có mạng.', {
       status: 503, headers: { 'Content-Type': 'text/plain; charset=utf-8' }
     });
+  }
+}
+
+async function netFirst(req) {
+  const c = await caches.open(RT);
+  try {
+    const res = await race(fetch(req, { cache: 'no-cache' }), 4000);
+    if (res && res.ok) c.put(req, res.clone()).catch(() => {});
+    return res;
+  } catch (_) {
+    const hit = await c.match(req);
+    return hit || Response.error();
   }
 }
 
