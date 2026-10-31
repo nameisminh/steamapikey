@@ -2759,8 +2759,8 @@ footer{border-top:1px solid var(--line);background:linear-gradient(180deg,rgba(v
 .dd-tab svg{width:1rem;height:1rem;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s cubic-bezier(.34,1.4,.5,1)}
 .dd.open .dd-tab svg{transform:rotate(180deg)}
 .bar.mini .dd-tab{border-color:var(--line-hi);box-shadow:0 8px 20px -10px rgba(0,0,0,.4)}
-.dd-panel{position:absolute;left:50%;top:calc(100% + 1.65rem);translate:-50% -.6rem;z-index:40;box-sizing:border-box;width:min(22rem,calc(100vw - 1.5rem));max-height:calc(100dvh - 6rem);overflow:auto;--ac:#a78bfa;background:radial-gradient(130% 75% at 50% -8%,color-mix(in srgb,var(--ac) 26%,transparent),transparent 62%),linear-gradient(172deg,#15131d,#09090b 58%);color:#fff;border:1px solid color-mix(in srgb,var(--ac) 28%,rgba(255,255,255,.1));border-radius:1.4rem;box-shadow:0 22px 46px -16px rgba(0,0,0,.75),0 0 0 1px rgba(0,0,0,.4),0 0 3.2rem -1.2rem var(--ac);font-size:.82rem;line-height:1.3;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s,translate .28s cubic-bezier(.2,.8,.2,1),visibility 0s .28s,--ac .45s,border-color .45s,box-shadow .45s}
-.dd.open .dd-panel{opacity:1;visibility:visible;pointer-events:auto;translate:-50% 0;transition:opacity .22s,translate .28s cubic-bezier(.2,.8,.2,1),visibility 0s,--ac .45s,border-color .45s,box-shadow .45s}
+.dd-panel{position:absolute;left:50%;top:calc(100% + 1.65rem);translate:-50% -.6rem;z-index:40;box-sizing:border-box;width:min(22rem,calc(100vw - 1.5rem));max-height:calc(100dvh - 6rem);overflow:auto;--ac:#a78bfa;background:radial-gradient(130% 75% at 50% -8%,color-mix(in srgb,var(--ac) 26%,transparent),transparent 62%),linear-gradient(172deg,#15131d,#09090b 58%);color:#fff;border:1px solid color-mix(in srgb,var(--ac) 28%,rgba(255,255,255,.1));border-radius:1.4rem;box-shadow:0 22px 46px -16px rgba(0,0,0,.75),0 0 0 1px rgba(0,0,0,.4),0 0 3.2rem -1.2rem var(--ac);font-size:.82rem;line-height:1.3;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s,translate .28s cubic-bezier(.2,.8,.2,1),visibility 0s .28s,--ac .45s,border-color .45s,box-shadow .45s,scale .3s ease}
+.dd.open .dd-panel{opacity:1;visibility:visible;pointer-events:auto;translate:-50% 0;transition:opacity .22s,translate .28s cubic-bezier(.2,.8,.2,1),visibility 0s,--ac .45s,border-color .45s,box-shadow .45s,scale .45s cubic-bezier(.34,1.45,.5,1)}
 :root[data-motion="off"] .dd-tab svg,:root[data-motion="off"] .dd-panel,:root.lite .dd-panel{transition-duration:.001s!important}
 @media print{.dd{display:none}}
 .dd-panel .isl-in{padding-top:.9rem}
@@ -2769,7 +2769,6 @@ footer{border-top:1px solid var(--line);background:linear-gradient(180deg,rgba(v
 .dd-panel .isl-tab{transition:scale .2s cubic-bezier(.34,1.5,.5,1),box-shadow .3s,background-color .3s}
 .dd-panel .isl-tab:hover{scale:1.1}
 .dd-panel .isl-tab[aria-selected="true"]{scale:1.08;box-shadow:0 0 0 2px var(--c),0 8px 20px -6px var(--c)}
-.dd-panel .isl-card.on{animation:ddin .38s cubic-bezier(.2,.8,.2,1)}
 @keyframes ddin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .dd-panel .isl-k{font-weight:600;letter-spacing:.1em;color:color-mix(in srgb,var(--ac) 70%,#fff)}
 .isl-eq{margin-left:auto;display:flex;align-items:flex-end;gap:2px;height:.9rem}
@@ -2804,13 +2803,45 @@ footer{border-top:1px solid var(--line);background:linear-gradient(180deg,rgba(v
 .isl-fs output{min-width:2.6rem;text-align:center;font-size:.75rem;font-variant-numeric:tabular-nums;color:#a1a1aa}
 .isl-fs .isl-b{width:1.9rem;height:1.9rem;font-weight:700;font-size:.8rem}
 .isl-fs .isl-b.reset{width:auto;padding:0 .6rem;border-radius:99px;font-size:.68rem;font-weight:500}
+.isl-ly.n{color:var(--ac);font-weight:400;letter-spacing:.3em}
+.isl-ly.sm{font-size:.8rem}
+.isl-ly.chg{animation:ddin .35s cubic-bezier(.2,.8,.2,1)}
+.isl-chip[hidden]{display:none}
+.isl-fact{margin-top:.5rem;padding:.7rem .85rem;border-radius:1rem;background:linear-gradient(135deg,color-mix(in srgb,var(--ac) 20%,transparent),rgba(255,255,255,.04));border:1px solid color-mix(in srgb,var(--ac) 35%,transparent);animation:ddin .35s cubic-bezier(.2,.8,.2,1)}
+.isl-fact[hidden]{display:none}
+.isl-fact p{margin:0;font-size:.82rem;line-height:1.5;color:#f4f4f5}
+.isl-fact .isl-chip{flex:none;margin-top:.55rem;height:1.7rem;display:inline-flex;padding:0 .8rem}
 .isl-hint{margin-top:.85rem;padding-top:.65rem;border-top:1px solid rgba(255,255,255,.08);font-size:.68rem;color:#71717a;text-align:center}
+/* ---- hiệu ứng bấm ---- */
+.dd-panel{scale:.9;transform-origin:50% 0}
+.dd.open .dd-panel{scale:1}
+.dd-tab{background-image:linear-gradient(90deg,#34d399 var(--mp,0%),transparent var(--mp,0%));background-size:100% 2px;background-position:0 100%;background-repeat:no-repeat}
+.dd-tab:active{scale:.86}
+.dd-tab::before{content:"";position:absolute;inset:-1px;border-radius:inherit;pointer-events:none;opacity:0}
+.dd-tab.pop::before{animation:dd-ring .7s ease-out}
+.dd-tab.pop svg{animation:dd-bump .55s cubic-bezier(.34,1.8,.5,1)}
+@keyframes dd-ring{0%{opacity:.95;box-shadow:0 0 0 0 var(--ac,#a78bfa)}100%{opacity:0;box-shadow:0 0 0 1.3rem transparent}}
+@keyframes dd-bump{0%{scale:1}40%{scale:1.55}100%{scale:1}}
+.dd.alert .dd-tab{animation:dd-alert 1s ease-in-out infinite}
+@keyframes dd-alert{50%{box-shadow:0 8px 22px -4px #f472b6;color:#f472b6}}
+.rpw{position:absolute;inset:0;overflow:hidden;border-radius:inherit;pointer-events:none}
+.dd .isl-b,.dd .isl-chip,.dd .isl-tile,.dd .isl-tab{position:relative;overflow:hidden}
+.rp{position:absolute;border-radius:50%;pointer-events:none;background:currentColor;opacity:.34;transform:scale(0);animation:dd-rp .65s ease-out forwards}
+@keyframes dd-rp{to{transform:scale(1);opacity:0}}
+.dd.open .isl-tab{animation:dd-tabpop .5s cubic-bezier(.34,1.6,.5,1) both}
+.dd.open .isl-tab:nth-child(2){animation-delay:.04s}.dd.open .isl-tab:nth-child(3){animation-delay:.08s}.dd.open .isl-tab:nth-child(4){animation-delay:.12s}.dd.open .isl-tab:nth-child(5){animation-delay:.16s}.dd.open .isl-tab:nth-child(6){animation-delay:.2s}
+@keyframes dd-tabpop{from{opacity:0;transform:translateY(-10px) scale(.4)}to{opacity:1;transform:none}}
+.dd-panel .isl-card.on>*{animation:ddin .42s cubic-bezier(.2,.8,.2,1) both}
+.dd-panel .isl-card.on>:nth-child(2){animation-delay:.04s}.dd-panel .isl-card.on>:nth-child(3){animation-delay:.08s}.dd-panel .isl-card.on>:nth-child(4){animation-delay:.12s}.dd-panel .isl-card.on>:nth-child(5){animation-delay:.16s}.dd-panel .isl-card.on>:nth-child(6){animation-delay:.2s}.dd-panel .isl-card.on>:nth-child(7){animation-delay:.24s}.dd-panel .isl-card.on>:nth-child(8){animation-delay:.28s}
+:root[data-motion="off"] .rp,:root[data-motion="off"] .dd-tab::before{display:none}
+:root[data-motion="off"] .dd.open .isl-tab,:root[data-motion="off"] .isl-card.on>*,:root[data-motion="off"] .dd.alert .dd-tab,:root[data-motion="off"] .dd-tab.pop svg{animation:none!important}
+.isl-seg{gap:.3rem}.isl-seg button{flex:1}
 .dd-panel .isl-ctl{gap:.3rem}
 .dd-panel .isl-b{width:2.05rem;height:2.05rem}
 .dd-panel .isl-b.main{width:2.7rem;height:2.7rem}
 .isl-b.on{background:#34d399;color:#04140d}
 .isl-b svg.st{fill:none;stroke-width:1.9;stroke-linecap:round}
-.isl-ly{margin:.6rem 0 .15rem;min-height:1.9rem;display:flex;align-items:center;justify-content:center;padding:.3rem .7rem;border-radius:.7rem;background:rgba(255,255,255,.07);color:#fff;font-weight:600;font-size:.9rem;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.isl-ly{margin:.6rem 0 .15rem;min-height:1.9rem;display:block;line-height:1.3rem;padding:.3rem .7rem;border-radius:.7rem;background:rgba(255,255,255,.07);color:#fff;font-weight:600;font-size:.9rem;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .isl-ly.e{color:rgba(255,255,255,.4);font-weight:400;font-size:.78rem}
 .isl-rg{-webkit-appearance:none;appearance:none;display:block;width:100%;height:1rem;margin:.55rem 0 .1rem;padding:0;background:transparent;cursor:pointer;--p:0%}
 .isl-rg:disabled{opacity:.45;cursor:default}
@@ -5813,6 +5844,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     {t:"Mục Nghệ sĩ cho bấm vào từng người để xem vì sao tôi thích và vài bài hát của họ.",h:"#idol"},
     {t:"Mục Playlist có những playlist tôi chia sẻ để bạn mở nghe luôn.",h:"#playlist"}
   ];
+  window.__FACTS=FACTS;window.__T=(typeof T==='function')?T:null;
   Object.assign(EN,{"Bấm phím M để tắt hoặc bật toàn bộ hiệu ứng của trang.":"Press M to turn all of the page's effects off or on.", "Bấm phím H để về đầu trang thật nhanh.":"Press H to jump back to the top of the page.", "Trang không bao giờ tự phát nhạc. Bấm phím P hoặc nút nhạc thì mới nghe.":"The page never plays music by itself. Press P or the music button to listen.", "Bấm phím F để xem số khung hình mỗi giây của các hiệu ứng trên trang.":"Press F to see the frames per second of the page's effects.", "Trang có thể đổi giữa tiếng Việt và tiếng Anh ngay trên thanh menu.":"You can switch the page between Vietnamese and English from the menu bar.", "Các ô ở Nhật ký tự sáng lên mỗi ngày bạn ghé trang, không cần bấm gì cả.":"The squares in the Log light up on their own each day you visit, no clicking needed.", "Ảnh ở mục Vài tấm ảnh xoay được theo bốn kiểu: Helix, Barrel, Ring và Sphere.":"The photos can spin in four layouts: Helix, Barrel, Ring and Sphere.", "Khung ảnh 3D xoay chậm 0.25x theo mặc định, chỉnh được tới 3x.":"The 3D photo gallery spins at 0.25x by default, adjustable up to 3x.", "Trình phát nhạc nền của trang có cả lời bài hát.":"The page's music player shows song lyrics too.", "Thẻ Discord ở mục Ngay lúc này có tab Hoạt động, hiện cả lịch sử hoạt động đã ghi lại.":"The Discord card in Right now has an Activity tab that also shows the recorded activity history.", "Mưa hoặc tuyết trên trang chạy theo thời tiết thật nơi tôi ở (mặc định tắt, bật ở mục Bản đồ).":"Rain or snow on the page follows the real weather where I live (off by default, switch it on in the Map section).", "Đồng hồ ở đầu trang chạy theo giờ thật ở chỗ tôi.":"The clock at the top shows the real time where I am.", "Mấy con thú ASCII chạy quanh trang mặc định đang tắt, bấm nút hình dấu chân để gọi chúng ra.":"The ASCII animals that roam the page are off by default. Press the paw button to call them out.", "Chữ giải mã dần và ảnh vỡ thành khối pixel rồi gộp lại là hiệu ứng ASCII của trang.":"Text that decodes bit by bit and photos that break into pixel blocks and merge back are the page's ASCII effect.", "Hiệu ứng chỉ chạy khi phần đó đang nằm trên màn hình, rời đi là tạm dừng cho đỡ nóng máy.":"Effects only run while their part is on screen; they pause when you scroll away to save your device.", "Máy yếu hoặc bật chế độ giảm chuyển động thì trang tự tắt hiệu ứng.":"On weak devices or with reduced motion on, the page turns its effects off by itself.", "Bản đồ cuối trang chỉ hiện thành phố, không hiện địa chỉ cụ thể.":"The map at the bottom shows only the city, not a specific address.", "Mục Nghệ sĩ cho bấm vào từng người để xem vì sao tôi thích và vài bài hát của họ.":"In Artists, click each one to see why I like them and a few of their songs.", "Mục Playlist có những playlist tôi chia sẻ để bạn mở nghe luôn.":"The Playlist section has playlists I share so you can open and listen right away.", "Cả trang này nằm trong một file index.html dài hơn năm nghìn dòng.":"This whole page lives in a single index.html file of more than five thousand lines."});
   Object.assign(EN,{"Câu nói dối phổ biến nhất của game thủ: \"chỉ một trận nữa thôi\".": "The most common lie a gamer tells: \"just one more match\".", "Lag không bao giờ đến lúc đang đi dạo, nó chỉ đến đúng lúc giao tranh.": "Lag never shows up while you're just walking around, only in the middle of a fight.", "Thắng là nhờ kỹ năng, thua là do lag. Luật bất thành văn của game thủ.": "Winning is skill, losing is lag. The unwritten rule of every gamer.", "Game nào cũng vậy: nhặt đầy túi đồ rồi vẫn tiếc không dám bỏ món nào.": "Every game: your bag is full and you still can't bring yourself to drop anything.", "Cái hay của game nhập vai là được làm một người khác trong một buổi tối.": "The best thing about RPGs is getting to be someone else for an evening.", "Con boss nào cũng có quy luật, chỉ là mình chưa nhìn ra thôi.": "Every boss has a pattern, you just haven't spotted it yet.", "Nút \"bỏ qua cắt cảnh\" là phát minh vĩ đại, cho tới lúc cần hiểu cốt truyện.": "The \"skip cutscene\" button is a great invention, right up until you need to understand the plot.", "Dịch xong câu nào cũng thấy chưa ổn, còn câu ổn rồi thì chẳng ai để ý.": "Every line feels not quite right once translated, and the ones that are right go unnoticed.", "Dịch game là nghề lạ: làm tốt thì vô hình, làm dở thì cả server biết.": "Game translation is a strange job: done well it's invisible, done badly the whole server knows.", "Có từ tiếng Anh dịch ra nghe lạ hơn là để nguyên, và đó là lúc đau đầu nhất.": "Some English words sound stranger translated than left alone, and that's when the headache starts.", "Sai một dấu câu trong bản dịch cũng đủ làm cả đoạn thoại mất cảm xúc.": "One wrong punctuation mark in a translation can drain all the emotion from a scene.", "Người góp ý sửa bản dịch là người đọc kỹ nhất mà mình từng có.": "Whoever sends corrections for a translation is the most careful reader you'll ever have.", "Nhạc không lời là lựa chọn an toàn nhất khi cần tập trung.": "Music without lyrics is the safest pick when you need to focus.", "Bài nào nghe đi nghe lại cả tuần rồi cũng có ngày chán, rồi vài tháng sau lại nghiện.": "Any song on repeat for a week gets old, then months later you're hooked again.", "Có những bài chỉ cần nghe vài giây đầu là nhớ ra đúng một khoảng thời gian.": "Some songs only need a few seconds to bring back one exact stretch of time.", "Đọc truyện kiểu \"thêm một chương\" và xong là hai giờ sáng.": "Reading \"just one more chapter\" and suddenly it's two in the morning.", "Tập cuối của một bộ truyện hay luôn đến sớm hơn mình nghĩ.": "The last chapter of a good series always arrives sooner than you expect.", "Lỗi biến mất khi mở dev tools, rồi quay lại ngay khi đóng nó.": "The bug disappears when you open dev tools and comes back the moment you close them.", "Bấm F5 là cách sửa lỗi đầu tiên, và đôi khi cũng là cách cuối cùng.": "Pressing F5 is the first fix, and sometimes the last.", "Cả trang này nằm trong một file index.html, và nó đã dài hơn ba nghìn dòng.": "This whole page lives in a single index.html, and it's now over three thousand lines.", "Comment trong code là viết cho chính mình sáu tháng sau, người sẽ chẳng nhớ gì.": "Code comments are written for yourself six months from now, who will remember nothing.", "Việc nào làm xong rồi mới thấy dễ, trước đó ai cũng thấy khó.": "Everything feels easy once it's done, and hard before that.", "Đừng so bản nháp của mình với bản hoàn chỉnh của người khác.": "Don't compare your rough draft to someone else's finished version.", "Chậm nhưng không dừng thì vẫn là tiến độ.": "Slow but not stopping is still progress.", "Nghỉ một chút không phải lười, máy tính cũng cần khởi động lại.": "Taking a break isn't laziness, even computers need a restart.", "Nước, giấc ngủ và một bài nhạc hay: ba thứ sửa được hầu hết những hôm tệ.": "Water, sleep and a good song: three things that fix most bad days.", "Mục điểm danh ở Nhật ký đếm chuỗi ngày ghé trang của riêng bạn, lưu ngay trong trình duyệt.": "The check-in in the Log counts your own streak of visits, saved right in your browser."});
   Object.assign(EN,{"Bản dịch tốt là bản mà người chơi không nhận ra đó là bản dịch.": "A good translation is one the player never notices is a translation.", "Dịch một câu thoại sao cho nghe như người thật nói còn khó hơn dịch đúng nghĩa.": "Making a line sound like a real person said it is harder than translating it correctly.", "Dịch Stardew Valley là làm quen dần với từng người trong làng, mỗi người một giọng.": "Translating Stardew Valley means getting to know the villagers one by one, each with their own voice.", "Minecraft có những câu rất ngắn mà dịch mãi không ra, câu ngắn khó hơn câu dài.": "Minecraft has very short lines that are hard to translate. Short is harder than long.", "Việt hoá không cần hoàn hảo ngay, cứ chạy được rồi sửa dần.": "A localization does not have to be perfect on day one. Get it running, then fix it little by little.", "Lúc mệt thì chơi game, lúc rảnh thì dịch game, đúng một vòng lặp.": "Tired: play games. Free: translate games. A perfect loop.", "Một trận LoL dài hơn một tập phim, vậy mà vẫn bấm thêm trận nữa.": "A LoL match is longer than an episode, and I still queue one more.", "Vừa thua một trận LoL thì cách tốt nhất là tắt máy đi đọc truyện.": "Just lost a LoL match? The best move is to switch off and read a comic.", "Cây kỹ năng của Path of Exile 2 to tới mức ngắm nó cũng là một phần của trò chơi.": "The Path of Exile 2 skill tree is so big that staring at it is part of the game.", "Link hồ sơ LoL của tôi dùng PlayARAM thay vì OP.GG.": "My LoL profile link uses PlayARAM instead of OP.GG.", "Double click chuột là kẻ thù thầm lặng của mọi game thủ.": "A double-clicking mouse is every gamer's quiet enemy.", "Chuột và bàn phím xịn không làm bạn giỏi hơn, chỉ làm bạn bớt cớ.": "A fancy mouse and keyboard will not make you better, only leave you with fewer excuses.", "Câu hay nhất trong mọi trò chơi là \"đã lưu\".": "The best line in any game is \"game saved\".", "Có hai kiểu người: tắt nhạc để tập trung và bật nhạc để tập trung. Tôi thuộc kiểu thứ hai.": "There are two kinds of people: those who turn music off to focus and those who turn it on. I am the second kind.", "Playlist hay nhất là cái bật lên rồi quên mất mình đang nghe.": "The best playlist is the one you put on and forget you are listening to.", "Heal or broken heart là playlist cho lúc cần chữa lành hoặc đang tan vỡ, tuỳ hôm.": "Heal or broken heart is for when I need healing or am falling apart, depending on the day.", "Vietnam songs là playlist nhạc Việt tôi nghe nhiều nhất.": "Vietnam songs is the Vietnamese playlist I listen to the most.", "Đọc truyện, xem phim và chơi game đều là cách tôi nạp lại năng lượng.": "Reading, watching films and playing games are all how I recharge.", "Marvel hay DC? Tôi xem cả hai, không chọn phe.": "Marvel or DC? I watch both and pick no side.", "Discord của tôi là ming0811_, ghé nói chuyện cũng được.": "My Discord is ming0811_, feel free to drop by and talk.", "GitHub của tôi là nameisminh.": "My GitHub is nameisminh.", "PreMiD giúp Discord của tôi hiện đang xem gì trên YouTube.": "PreMiD lets my Discord show what I am watching on YouTube.", "Làm web: sửa một dòng, hỏng ba chỗ, sửa ba chỗ, hỏng thêm một dòng.": "Web work: fix one line, break three things, fix three things, break one more line.", "Làm trang web này giống dọn phòng: sửa mãi vẫn thấy còn chỗ chưa vừa ý.": "Building this site is like tidying a room: there is always one more spot that is not quite right.", "Trang này cố tình để tối, ít màu, ít chữ, giống cách tôi thích dọn bàn làm việc.": "This page is dark, with few colours and few words on purpose, like I like my desk."});
@@ -6381,7 +6413,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       return r;
     }
     function tickLy(force,instant){
-      if(!LY.lines||LY.plain||pan.hidden||!LY.show)return;
+      var fz=window.__lyForce;if(!LY.lines||LY.plain||(pan.hidden&&!fz)||(!LY.show&&!fz))return;
       var i=lyBsearch(au.currentTime);
       if(i===LY.idx&&!force)return;
       var ps=lyb.children,p0=LY.idx+1,p1=i+1;
@@ -6396,7 +6428,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       var reduce=instant||(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)||document.documentElement.getAttribute('data-motion')==='off';
       try{lyb.scrollTo({top:top,behavior:reduce?'auto':'smooth'})}catch(e){lyb.scrollTop=top}
     }
-    function lyLoop(on){clearInterval(LY.timer);LY.timer=0;if(on&&LY.show&&!pan.hidden)LY.timer=setInterval(function(){if(!document.hidden)tickLy()},200)}
+    function lyLoop(on){clearInterval(LY.timer);LY.timer=0;if(on&&((LY.show&&!pan.hidden)||window.__lyForce))LY.timer=setInterval(function(){if(!document.hidden)tickLy()},200)}
     function lySetShow(v){
       LY.show=v;try{localStorage.setItem('lyshow',v?'1':'0')}catch(e){}
       lyw.hidden=!v;lyx.textContent=T(v?'Ẩn':'Hiện');lyx.setAttribute('aria-expanded',v?'true':'false');
@@ -6411,8 +6443,9 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     au.addEventListener('seeked',function(){tickLy()});
     document.addEventListener('langchange',function(){lyx.textContent=T(LY.show?'Ẩn':'Hiện')});
     lySetShow(LY.show);
+    window.__ly={loop:lyLoop,tick:tickLy};
     /* mở trình phát thì canh lại dòng đang hát */
-    new MutationObserver(function(){if(!pan.hidden){lyLoop(!au.paused);setTimeout(function(){tickLy(true,true)},60)}else lyLoop(false)}).observe(pan,{attributes:true,attributeFilter:['hidden']});
+    new MutationObserver(function(){if(!pan.hidden){lyLoop(!au.paused);setTimeout(function(){tickLy(true,true)},60)}else lyLoop(!!window.__lyForce&&!au.paused)}).observe(pan,{attributes:true,attributeFilter:['hidden']});
     /* bật trình phát thì tắt nhạc mở đầu */
     au.addEventListener('play',function(){try{Intro.stop(.5)}catch(e){}});
 
@@ -8088,7 +8121,7 @@ if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.s
     'Trực tuyến':'Online','Vắng mặt':'Away','Đừng làm phiền':'Do not disturb','Ngoại tuyến':'Offline',
     'Đang chơi':'Playing','Đang nghe Spotify':'Listening to Spotify','Đang nghe':'Listening','Đang xem':'Watching','Đang phát trực tiếp':'Streaming','Đang thi đấu':'Competing',
     'Không làm gì cả':'Not doing anything','Sáng':'Light','Tối':'Dark','Chuyển động':'Motion','Mưa / tuyết':'Rain / snow','Ảnh GIF':'GIFs','Màu chữ':'Text colours','Âm thanh khi nhấn':'Click sounds',
-    'Tua nhạc':'Seek','Âm lượng':'Volume','Phát ngẫu nhiên':'Shuffle','Lùi 10 giây':'Back 10 seconds','Tua tới 10 giây':'Forward 10 seconds','Bật hoặc tắt tiếng':'Mute or unmute','Lời bài hát sẽ hiện ở đây':'Lyrics will show here','Tiện ích':'Tools','Lên đầu trang':'Back to top','Toàn màn hình':'Fullscreen','Thoát toàn màn hình':'Exit fullscreen','Sao chép liên kết':'Copy link','Đã sao chép':'Copied','Ngẫu nhiên':'Surprise me','Cỡ chữ':'Text size','Lặp bài':'Repeat','Tốc độ phát':'Playback speed','Hẹn giờ':'Sleep timer','Hẹn giờ tắt nhạc':'Sleep timer','Giảm cỡ chữ':'Smaller text','Tăng cỡ chữ':'Larger text','Mặc định':'Reset','Phím tắt: P nhạc · R ngẫu nhiên · M hiệu ứng · Esc đóng':'Shortcuts: P music · R surprise · M effects · Esc close','Mở bảng chức năng':'Open quick panel','Đóng bảng chức năng':'Close quick panel'};
+    'Tua nhạc':'Seek','Âm lượng':'Volume','Phát ngẫu nhiên':'Shuffle','Lùi 10 giây':'Back 10 seconds','Tua tới 10 giây':'Forward 10 seconds','Bật hoặc tắt tiếng':'Mute or unmute','Lời bài hát sẽ hiện ở đây':'Lyrics will show here','Tiện ích':'Tools','Lên đầu trang':'Back to top','Toàn màn hình':'Fullscreen','Thoát toàn màn hình':'Exit fullscreen','Sao chép liên kết':'Copy link','Đã sao chép':'Copied','Ngẫu nhiên':'Surprise me','Cỡ chữ':'Text size','Lặp bài':'Repeat','Tốc độ phát':'Playback speed','Hẹn giờ':'Sleep timer','Hẹn giờ tắt nhạc':'Sleep timer','Giảm cỡ chữ':'Smaller text','Tăng cỡ chữ':'Larger text','Mặc định':'Reset','Phím tắt: P nhạc · R ngẫu nhiên · M hiệu ứng':'Keys: P music · R surprise · M effects','Tập trung':'Focus','Hết giờ! Nghỉ chút nhé':'Time is up! Take a break','Chia sẻ':'Share','Tự động':'Auto','Tới chỗ này':'Take me there','Mở bảng chức năng':'Open quick panel','Đóng bảng chức năng':'Close quick panel'};
   function EN(){return R.lang==='en'}
   function T(s){return EN()&&DICT.hasOwnProperty(s)?DICT[s]:s}
   var PL=[
@@ -8103,7 +8136,7 @@ if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.s
   PL.forEach(function(p){tabs+='<button type="button" class="isl-tab" role="tab" data-tab="'+p.k+'" style="--c:'+p.c+'" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true">'+p.ic+'</svg></button>'});
   var dd=document.createElement('div');dd.id='isl';dd.className='dd';
   dd.innerHTML=
-   '<button type="button" class="dd-tab" aria-expanded="false" aria-controls="isl-panel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>'+
+   '<button type="button" class="dd-tab" aria-expanded="false" aria-controls="isl-panel"><span class="rpw"></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>'+
    '<div class="dd-panel" id="isl-panel" role="region"><div class="isl-in"><div class="isl-tabs" role="tablist">'+tabs+'</div>'+
     '<div class="isl-card" data-card="music"><div class="isl-k"><span data-l="Nhạc"></span><span class="isl-eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div><b class="isl-t" data-f="mt"></b><div class="isl-s" data-f="ma"></div>'+
       '<div class="isl-ly e" data-f="ly" aria-live="off"></div>'+
@@ -8123,7 +8156,7 @@ if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.s
         '<button type="button" class="isl-chip" data-act="spd" data-lt="Tốc độ phát"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 14l4-5"/><path d="M4.5 18a9 9 0 1 1 15 0"/></svg><span data-f="spdv">1×</span></button>'+
         '<button type="button" class="isl-chip" data-act="slp" data-lt="Hẹn giờ tắt nhạc"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2.5h6"/></svg><span data-f="slpv"></span></button></div></div>'+
     '<div class="isl-card" data-card="discord"><div class="isl-k"><i class="isl-dot" data-f="dd"></i><span data-f="ds"></span></div><b class="isl-t" data-f="dn"></b><div class="isl-s" data-f="dx"></div><div class="isl-s" data-f="dk"></div></div>'+
-    '<div class="isl-card" data-card="theme"><div class="isl-k" data-l="Giao diện"></div><div class="isl-seg"><button type="button" data-act="th-light" data-l="Sáng" aria-pressed="false"></button><button type="button" data-act="th-dark" data-l="Tối" aria-pressed="false"></button></div></div>'+
+    '<div class="isl-card" data-card="theme"><div class="isl-k" data-l="Giao diện"></div><div class="isl-seg"><button type="button" data-act="th-light" data-l="Sáng" aria-pressed="false"></button><button type="button" data-act="th-dark" data-l="Tối" aria-pressed="false"></button><button type="button" data-act="th-auto" data-l="Tự động" aria-pressed="false"></button></div></div>'+
     '<div class="isl-card" data-card="fx"><div class="isl-k" data-l="Hiệu ứng"></div>'+
       '<button type="button" class="isl-row" data-act="fx-motion" aria-pressed="false"><span data-l="Chuyển động"></span><i class="isl-sw"></i></button>'+
       '<button type="button" class="isl-row" data-act="fx-color" aria-pressed="false"><span data-l="Màu chữ"></span><i class="isl-sw"></i></button>'+
@@ -8135,10 +8168,13 @@ if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.s
         '<button type="button" class="isl-tile" data-act="top"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V6M6 11l6-6 6 6"/></svg><span data-l="Lên đầu trang"></span></button>'+
         '<button type="button" class="isl-tile" data-act="fs" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span data-f="fst"></span></button>'+
         '<button type="button" class="isl-tile" data-act="cp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg><span data-l="Sao chép liên kết"></span></button>'+
-        '<button type="button" class="isl-tile" data-act="rnd"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3.5"/><circle cx="9" cy="9" r="1.1" fill="currentColor"/><circle cx="15" cy="15" r="1.1" fill="currentColor"/><circle cx="15" cy="9" r="1.1" fill="currentColor"/><circle cx="9" cy="15" r="1.1" fill="currentColor"/></svg><span data-l="Ngẫu nhiên"></span></button></div>'+
+        '<button type="button" class="isl-tile" data-act="rnd"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3.5"/><circle cx="9" cy="9" r="1.1" fill="currentColor"/><circle cx="15" cy="15" r="1.1" fill="currentColor"/><circle cx="15" cy="9" r="1.1" fill="currentColor"/><circle cx="9" cy="15" r="1.1" fill="currentColor"/></svg><span data-l="Ngẫu nhiên"></span></button>'+
+        '<button type="button" class="isl-tile" data-act="foc"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="7.5"/><circle cx="12" cy="13" r="3"/><path d="M12 5.5V3M9.5 3h5"/></svg><span data-f="focv"></span></button>'+
+        '<button type="button" class="isl-tile" data-act="sh"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="12" r="2.4"/><circle cx="18" cy="6" r="2.4"/><circle cx="18" cy="18" r="2.4"/><path d="M8.1 10.9l7.8-3.8M8.1 13.1l7.8 3.8"/></svg><span data-l="Chia sẻ"></span></button></div>'+
+      '<div class="isl-fact" data-f="fact" hidden><p data-f="factx"></p><button type="button" class="isl-chip" data-act="factgo" hidden><span data-l="Tới chỗ này"></span></button></div>'+
       '<div class="isl-fs"><span data-l="Cỡ chữ"></span><button type="button" class="isl-b" data-act="fs-" data-lt="Giảm cỡ chữ">A−</button><output data-f="fsv">100%</output><button type="button" class="isl-b" data-act="fs+" data-lt="Tăng cỡ chữ">A+</button><button type="button" class="isl-b reset" data-act="fs0" data-l="Mặc định"></button></div></div>'+
     '<div class="isl-card" data-card="lang"><div class="isl-k" data-l="Ngôn ngữ"></div><div class="isl-seg"><button type="button" data-act="lg-vi" aria-pressed="false">Tiếng Việt</button><button type="button" data-act="lg-en" aria-pressed="false">English</button></div></div>'+
-   '<div class="isl-hint" data-l="Phím tắt: P nhạc · R ngẫu nhiên · M hiệu ứng · Esc đóng"></div></div></div>';
+   '<div class="isl-hint" data-l="Phím tắt: P nhạc · R ngẫu nhiên · M hiệu ứng"></div></div></div>';
   (document.querySelector('header.bar')||document.body).appendChild(dd);
   var btn=dd.querySelector('.dd-tab');
   function F(n){return dd.querySelector('[data-f="'+n+'"]')}
@@ -8186,11 +8222,55 @@ if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.s
   });
   /* một dòng lời: lấy đúng dòng đang sáng trong khung lời của trình phát nhạc gốc */
   function lyric(){
-    var lb=$('lyb'),on=lb&&lb.querySelector('p.on'),tx=on?on.textContent.replace(/\u00a0/g,' ').trim():'',el=F('ly');
-    el.textContent=tx||T('Lời bài hát sẽ hiện ở đây');el.classList.toggle('e',!tx);
+    var lb=$('lyb'),ln=$('lyn'),el=F('ly'),on=lb&&lb.querySelector('p.on'),tx='',cls='',st=ln&&!ln.hidden?ln.textContent.trim():'';
+    if(lb&&lb.classList.contains('plain')){tx=st;cls='e'}
+    else{
+      if(on)tx=on.textContent.replace(/\u00a0/g,' ').trim();
+      if(!tx&&lb&&lb.querySelectorAll('p').length){tx='\u266a \u266a \u266a';cls='n'}
+      else if(!tx&&st){tx=st;cls='e'}
+    }
+    if(!tx){tx=T('Lời bài hát sẽ hiện ở đây');cls='e'}
+    if(el.textContent===tx)return;
+    el.textContent=tx;el.className='isl-ly'+(cls?' '+cls:'')+(tx.length>34?' sm':'');
+    void el.offsetWidth;el.classList.add('chg');
   }
+  /* cho trình phát gốc biết bảng này đang cần dòng lời, để nó vẫn cập nhật dù khung nhạc gốc đang đóng */
+  function lyOn(){
+    window.__lyForce=!!(open&&tab==='music');
+    if(window.__ly){try{window.__ly.loop(!!(au&&!au.paused));if(window.__lyForce)window.__ly.tick(true,true)}catch(e){}}
+  }
+
   /* ---- tính năng thêm: lặp bài, tốc độ, hẹn giờ tắt nhạc, toàn màn hình, cỡ chữ ---- */
   var SPD=[1,1.25,1.5,0.75],slp={m:0,end:0,h:0},SLP=[0,15,30,60],FS=100;
+  var foc={m:0,end:0,h:0,done:0},FOC=[0,15,25,45],actx=null,AUTO=false;
+  try{AUTO=localStorage.getItem('islauto')==='1'}catch(e){}
+  var mql=matchMedia('(prefers-color-scheme: light)');
+  function saveAuto(){try{localStorage.setItem('islauto',AUTO?'1':'0')}catch(e){}}
+  function autoTheme(){
+    if(!AUTO)return;var want=mql.matches?'light':'dark',cur=R.getAttribute('data-theme')==='light'?'light':'dark';
+    if(want!==cur){var b=$('theme');if(b)b.click()}
+  }
+  if(mql.addEventListener)mql.addEventListener('change',autoTheme);else if(mql.addListener)mql.addListener(autoTheme);
+  setTimeout(autoTheme,500);
+  function beep(){
+    try{
+      actx=actx||new (window.AudioContext||window.webkitAudioContext)();if(actx.resume)actx.resume();
+      [0,.3].forEach(function(d,i){var o=actx.createOscillator(),g=actx.createGain(),t=actx.currentTime+d;
+        o.frequency.value=i?880:660;o.connect(g);g.connect(actx.destination);
+        g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.18,t+.03);g.gain.exponentialRampToValueAtTime(.0001,t+.26);o.start(t);o.stop(t+.28)});
+    }catch(e){}
+  }
+  function focTick(){
+    var b=row('foc'),sp=F('focv');
+    if(foc.done){sp.textContent=T('Hết giờ! Nghỉ chút nhé');b.classList.add('on');return}
+    if(!foc.end){sp.textContent=T('Tập trung');b.classList.remove('on');return}
+    var r=Math.max(0,Math.round((foc.end-Date.now())/1000));
+    sp.textContent=mmss(r)+' · '+foc.m+'′';b.classList.add('on');
+    if(r<=0){
+      clearInterval(foc.h);foc.end=0;foc.m=0;foc.done=1;beep();if(!open)dd.classList.add('alert');
+      setTimeout(function(){foc.done=0;dd.classList.remove('alert');focTick()},7000);
+    }
+  }
   try{FS=+localStorage.getItem('fsz')||100}catch(e){}
   if(FS<85||FS>130)FS=100;
   function applyFS(){R.style.fontSize=FS===100?'':FS+'%';try{localStorage.setItem('fsz',FS)}catch(e){}}
@@ -8209,10 +8289,30 @@ if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.s
     }
     var fe=document.fullscreenEnabled,t=row('fs'),on=!!document.fullscreenElement;
     t.hidden=!fe;pr(t,on);F('fst').textContent=T(on?'Thoát toàn màn hình':'Toàn màn hình');
-    row('rnd').hidden=!$('rndb');
+    row('rnd').hidden=!(window.__FACTS||$('rndb'));
     F('fsv').textContent=FS+'%';
-    slpTick();
+    row('sh').hidden=!navigator.share;
+    slpTick();focTick();
   }
+  /* câu ngẫu nhiên: lấy từ danh sách FACTS của trang, hiện ngay trong bảng, mỗi lần bấm một câu mới */
+  var lastF=-1,curF=null;
+  function T2(x){return typeof window.__T==='function'?window.__T(x):x}
+  function fact(){
+    var L=window.__FACTS;
+    if(!L||!L.length){var r=$('rndb');if(r){setOpen(false);r.click()}return}
+    var i;do{i=Math.floor(Math.random()*L.length)}while(i===lastF&&L.length>1);
+    lastF=i;curF=L[i];
+    var box=F('fact');box.hidden=false;box.style.animation='none';void box.offsetWidth;box.style.animation='';
+    F('factx').textContent=T2(curF.t);row('factgo').hidden=!curF.h;
+  }
+  function factGo(){
+    var h=curF&&curF.h;if(!h)return;setOpen(false);
+    if(h.charAt(1)==='/'){location.hash=h;return}
+    var el=document.getElementById(h.slice(1));
+    if(location.hash===h){if(window.__openSec)window.__openSec(h.slice(1));if(el)el.scrollIntoView({behavior:R.getAttribute('data-motion')==='off'?'auto':'smooth'})}
+    else location.hash=h;
+  }
+  document.addEventListener('langchange',function(){if(curF&&!F('fact').hidden)F('factx').textContent=T2(curF.t)});
   function copyLink(t){
     var u=location.href.split('#')[0],s=t.querySelector('span');
     function ok(){s.textContent=T('Đã sao chép');t.classList.add('on');setTimeout(function(){s.textContent=T('Sao chép liên kết');t.classList.remove('on')},1600)}
@@ -8226,7 +8326,16 @@ if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.s
         try{if(document.fullscreenElement)document.exitFullscreen();else R.requestFullscreen()}catch(e){}
         return true;
       case 'cp':copyLink(t);return true;
-      case 'rnd':var r=$('rndb');if(r){setOpen(false);r.click()}return true;
+      case 'sh':if(navigator.share)navigator.share({title:document.title,url:location.href.split('#')[0]}).catch(function(){});return true;
+      case 'foc':
+        if(foc.done){foc.done=0;dd.classList.remove('alert')}
+        foc.m=FOC[(FOC.indexOf(foc.m)+1)%FOC.length];clearInterval(foc.h);
+        if(foc.m){foc.end=Date.now()+foc.m*60000;foc.h=setInterval(focTick,1000);try{actx=actx||new (window.AudioContext||window.webkitAudioContext)()}catch(e){}}else foc.end=0;
+        focTick();return true;
+      case 'th-auto':AUTO=true;saveAuto();autoTheme();setTimeout(sync,200);return true;
+      case 'th-light':case 'th-dark':if(AUTO){AUTO=false;saveAuto()}return false;
+      case 'rnd':fact();return true;
+      case 'factgo':factGo();return true;
       case 'fs-':FS=Math.max(85,FS-5);applyFS();extras();return true;
       case 'fs+':FS=Math.min(130,FS+5);applyFS();extras();return true;
       case 'fs0':FS=100;applyFS();extras();return true;
@@ -8260,7 +8369,7 @@ if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.s
   function row(a){return dd.querySelector('[data-act="'+a+'"]')}
   function sync(){
     var light=R.getAttribute('data-theme')==='light';
-    pr(row('th-light'),light);pr(row('th-dark'),!light);
+    pr(row('th-light'),light&&!AUTO);pr(row('th-dark'),!light&&!AUTO);pr(row('th-auto'),AUTO);
     pr(row('fx-motion'),R.getAttribute('data-motion')!=='off');
     var wx=$('wxb'),gf=$('gifbtn'),cb=$('colors'),sb=$('sfx');
     row('fx-wx').hidden=!wx;row('fx-gif').hidden=!gf;row('fx-color').hidden=!cb;row('fx-sfx').hidden=!sb;
@@ -8273,13 +8382,25 @@ if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.s
   }
   function show(k){
     tab=k;
-    var pc=PL.filter(function(x){return x.k===k})[0];if(pc)dd.querySelector('.dd-panel').style.setProperty('--ac',pc.c);
+    var pc=PL.filter(function(x){return x.k===k})[0];if(pc){dd.querySelector('.dd-panel').style.setProperty('--ac',pc.c);dd.style.setProperty('--ac',pc.c)}
     [].forEach.call(dd.querySelectorAll('.isl-card'),function(c){c.classList.toggle('on',c.getAttribute('data-card')===k)});
     [].forEach.call(dd.querySelectorAll('.isl-tab'),function(t){t.setAttribute('aria-selected',t.getAttribute('data-tab')===k?'true':'false')});
-    sync();
+    sync();lyOn();
   }
-  function setOpen(o){open=o;dd.classList.toggle('open',o);btn.setAttribute('aria-expanded',o?'true':'false');labels();if(o)show(tab)}
-  btn.addEventListener('click',function(){setOpen(!open)});
+  function setOpen(o){open=o;dd.classList.toggle('open',o);if(o)dd.classList.remove('alert');setTimeout(lyOn,0);btn.setAttribute('aria-expanded',o?'true':'false');labels();if(o)show(tab)}
+  btn.addEventListener('click',function(){
+    btn.classList.remove('pop');void btn.offsetWidth;btn.classList.add('pop');setTimeout(function(){btn.classList.remove('pop')},750);
+    setOpen(!open);
+  });
+  /* hiệu ứng sóng lan khi bấm bất kì nút nào trong bảng (và rung nhẹ trên điện thoại) */
+  dd.addEventListener('pointerdown',function(e){
+    var h=e.target.closest&&e.target.closest('.dd-tab,.isl-b,.isl-chip,.isl-tile,.isl-tab,.isl-seg button,.isl-row');if(!h||!dd.contains(h))return;
+    if(e.pointerType==='touch'&&navigator.vibrate){try{navigator.vibrate(6)}catch(x){}}
+    if(R.getAttribute('data-motion')==='off')return;
+    var host=h.querySelector(':scope>.rpw')||h,r=h.getBoundingClientRect(),z=Math.max(r.width,r.height)*2.2,sp=document.createElement('span');
+    sp.className='rp';sp.style.cssText='width:'+z+'px;height:'+z+'px;left:'+(e.clientX-r.left-z/2)+'px;top:'+(e.clientY-r.top-z/2)+'px';
+    host.appendChild(sp);sp.addEventListener('animationend',function(){sp.remove()});
+  });
   dd.addEventListener('click',function(e){
     var t=e.target.closest('[data-tab],[data-act]');if(!t||!dd.contains(t))return;
     if(t.hasAttribute('data-tab')){show(t.getAttribute('data-tab'));return}
@@ -8296,9 +8417,10 @@ if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.s
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&open){setOpen(false);btn.focus()}});
   if(au){
     ['play','pause','ended','emptied','loadedmetadata','durationchange'].forEach(function(ev){au.addEventListener(ev,function(){music()})});
-    au.addEventListener('timeupdate',function(){if(open&&tab==='music')prog()});
+    au.addEventListener('timeupdate',function(){var d=au.duration;dd.style.setProperty('--mp',(d&&isFinite(d)?Math.min(100,(au.currentTime||0)/d*100):0)+'%');if(open&&tab==='music')prog()});
     au.addEventListener('volumechange',volUI);
     var lb=$('lyb');if(lb)new MutationObserver(lyric).observe(lb,{subtree:true,childList:true,attributes:true,attributeFilter:['class']});
+    var lq=$('lyn');if(lq)new MutationObserver(lyric).observe(lq,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['hidden']});
     var sh=$('bgmshuf');if(sh)new MutationObserver(music).observe(sh,{attributes:true,attributeFilter:['aria-pressed','class']});
     var bt=$('bgmt');if(bt)new MutationObserver(music).observe(bt,{childList:true,characterData:true,subtree:true});
   }
