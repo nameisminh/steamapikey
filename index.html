@@ -2764,6 +2764,28 @@ footer{border-top:1px solid var(--line);background:linear-gradient(180deg,rgba(v
 :root[data-motion="off"] .dd-tab svg,:root[data-motion="off"] .dd-panel,:root.lite .dd-panel{transition-duration:.001s!important}
 @media print{.dd{display:none}}
 .dd-panel .isl-in{padding-top:.8rem}
+.dd-panel .isl-ctl{gap:.3rem}
+.dd-panel .isl-b{width:2.05rem;height:2.05rem}
+.dd-panel .isl-b.main{width:2.7rem;height:2.7rem}
+.isl-b.on{background:#34d399;color:#04140d}
+.isl-b svg.st{fill:none;stroke-width:1.9;stroke-linecap:round}
+.isl-ly{margin:.6rem 0 .15rem;min-height:1.9rem;display:flex;align-items:center;justify-content:center;padding:.3rem .7rem;border-radius:.7rem;background:rgba(255,255,255,.07);color:#fff;font-weight:600;font-size:.9rem;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.isl-ly.e{color:rgba(255,255,255,.4);font-weight:400;font-size:.78rem}
+.isl-rg{-webkit-appearance:none;appearance:none;display:block;width:100%;height:1rem;margin:.55rem 0 .1rem;padding:0;background:transparent;cursor:pointer;--p:0%}
+.isl-rg:disabled{opacity:.45;cursor:default}
+.isl-rg::-webkit-slider-runnable-track{height:.28rem;border-radius:99px;background:linear-gradient(90deg,#a78bfa var(--p),rgba(255,255,255,.16) var(--p))}
+.isl-rg::-webkit-slider-thumb{-webkit-appearance:none;width:.85rem;height:.85rem;margin-top:-.285rem;border-radius:50%;background:#fff;border:0;box-shadow:0 0 0 3px rgba(0,0,0,.35)}
+.isl-rg::-moz-range-track{height:.28rem;border-radius:99px;background:rgba(255,255,255,.16)}
+.isl-rg::-moz-range-progress{height:.28rem;border-radius:99px;background:#a78bfa}
+.isl-rg::-moz-range-thumb{width:.85rem;height:.85rem;border:0;border-radius:50%;background:#fff}
+.isl-rg:focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:99px}
+.isl-vol{display:flex;align-items:center;gap:.55rem;margin-top:.5rem}
+.isl-vol .isl-b{flex:none;width:1.9rem;height:1.9rem;background:transparent}
+.isl-vol .isl-b:hover{background:#232328}
+.isl-vol .isl-rg{margin:0;flex:1}
+.isl-b .w,.isl-b .x{display:none;fill:none;stroke-width:1.9;stroke-linecap:round}
+.isl-b[aria-pressed="false"] .w{display:block}
+.isl-b[aria-pressed="true"] .x{display:block}
 :root[data-motion="off"] .petb{display:none}
 .isl-in{padding:.15rem .85rem .85rem}
 .isl-tabs{display:flex;justify-content:center;gap:.5rem;margin:0 0 .75rem}
@@ -8025,7 +8047,7 @@ if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.s
     'Trực tuyến':'Online','Vắng mặt':'Away','Đừng làm phiền':'Do not disturb','Ngoại tuyến':'Offline',
     'Đang chơi':'Playing','Đang nghe Spotify':'Listening to Spotify','Đang nghe':'Listening','Đang xem':'Watching','Đang phát trực tiếp':'Streaming','Đang thi đấu':'Competing',
     'Không làm gì cả':'Not doing anything','Sáng':'Light','Tối':'Dark','Chuyển động':'Motion','Mưa / tuyết':'Rain / snow','Ảnh GIF':'GIFs','Màu chữ':'Text colours','Âm thanh khi nhấn':'Click sounds',
-    'Mở bảng chức năng':'Open quick panel','Đóng bảng chức năng':'Close quick panel'};
+    'Tua nhạc':'Seek','Âm lượng':'Volume','Phát ngẫu nhiên':'Shuffle','Lùi 10 giây':'Back 10 seconds','Tua tới 10 giây':'Forward 10 seconds','Bật hoặc tắt tiếng':'Mute or unmute','Lời bài hát sẽ hiện ở đây':'Lyrics will show here','Mở bảng chức năng':'Open quick panel','Đóng bảng chức năng':'Close quick panel'};
   function EN(){return R.lang==='en'}
   function T(s){return EN()&&DICT.hasOwnProperty(s)?DICT[s]:s}
   var PL=[
@@ -8042,10 +8064,18 @@ if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.s
    '<button type="button" class="dd-tab" aria-expanded="false" aria-controls="isl-panel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>'+
    '<div class="dd-panel" id="isl-panel" role="region"><div class="isl-in"><div class="isl-tabs" role="tablist">'+tabs+'</div>'+
     '<div class="isl-card" data-card="music"><div class="isl-k" data-l="Nhạc"></div><b class="isl-t" data-f="mt"></b><div class="isl-s" data-f="ma"></div>'+
-      '<div class="isl-bar"><i data-f="mp"></i></div><div class="isl-tm"><span data-f="mc">0:00</span><span data-f="md">0:00</span></div>'+
-      '<div class="isl-ctl"><button type="button" class="isl-b" data-act="prev" data-lt="Bài trước"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5v14M19 5l-9 7 9 7z"/></svg></button>'+
-      '<button type="button" class="isl-b main" data-act="play" data-lt="Phát hoặc tạm dừng" aria-pressed="false"><svg class="pl" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg><svg class="pa" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14" stroke-width="3.2" stroke-linecap="round"/></svg></button>'+
-      '<button type="button" class="isl-b" data-act="next" data-lt="Bài sau"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 5v14M5 5l9 7-9 7z"/></svg></button></div></div>'+
+      '<div class="isl-ly e" data-f="ly" aria-live="off"></div>'+
+      '<input class="isl-rg" type="range" min="0" max="1000" value="0" step="1" disabled data-f="sk" data-lt="Tua nhạc">'+
+      '<div class="isl-tm"><span data-f="mc">0:00</span><span data-f="md">0:00</span></div>'+
+      '<div class="isl-ctl">'+
+        '<button type="button" class="isl-b" data-act="shuf" data-lt="Phát ngẫu nhiên" aria-pressed="false"><svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h3.5c5 0 6 10 11 10H21M3 17h3.5c1.8 0 3-1.2 4-2.6M13.5 9.6C14.5 8.2 15.7 7 17.5 7H21M18.5 4.5L21 7l-2.5 2.5M18.5 14.5L21 17l-2.5 2.5"/></svg></button>'+
+        '<button type="button" class="isl-b" data-act="prev" data-lt="Bài trước"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5v14M19 5l-9 7 9 7z"/></svg></button>'+
+        '<button type="button" class="isl-b" data-act="back" data-lt="Lùi 10 giây"><svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.4-5.5M4.5 4v4h4"/><text x="12" y="15.2" font-size="7" text-anchor="middle" fill="currentColor" stroke="none">10</text></svg></button>'+
+        '<button type="button" class="isl-b main" data-act="play" data-lt="Phát hoặc tạm dừng" aria-pressed="false"><svg class="pl" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg><svg class="pa" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14" stroke-width="3.2" stroke-linecap="round"/></svg></button>'+
+        '<button type="button" class="isl-b" data-act="fwd" data-lt="Tua tới 10 giây"><svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 12a7.5 7.5 0 1 1-2.4-5.5M19.5 4v4h-4"/><text x="12" y="15.2" font-size="7" text-anchor="middle" fill="currentColor" stroke="none">10</text></svg></button>'+
+        '<button type="button" class="isl-b" data-act="next" data-lt="Bài sau"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 5v14M5 5l9 7-9 7z"/></svg></button></div>'+
+      '<div class="isl-vol"><button type="button" class="isl-b" data-act="mute" data-lt="Bật hoặc tắt tiếng" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z"/><path class="w" d="M15.5 9a4 4 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11"/><path class="x" d="M16 9.5l5 5M21 9.5l-5 5"/></svg></button>'+
+      '<input class="isl-rg" type="range" min="0" max="100" value="35" step="1" data-f="vol" data-lt="Âm lượng"></div></div>'+
     '<div class="isl-card" data-card="discord"><div class="isl-k"><i class="isl-dot" data-f="dd"></i><span data-f="ds"></span></div><b class="isl-t" data-f="dn"></b><div class="isl-s" data-f="dx"></div><div class="isl-s" data-f="dk"></div></div>'+
     '<div class="isl-card" data-card="theme"><div class="isl-k" data-l="Giao diện"></div><div class="isl-seg"><button type="button" data-act="th-light" data-l="Sáng" aria-pressed="false"></button><button type="button" data-act="th-dark" data-l="Tối" aria-pressed="false"></button></div></div>'+
     '<div class="isl-card" data-card="fx"><div class="isl-k" data-l="Hiệu ứng"></div>'+
@@ -8068,16 +8098,42 @@ if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.s
     var l=T(open?'Đóng bảng chức năng':'Mở bảng chức năng');btn.setAttribute('aria-label',l);btn.title=l;
   }
   var au=$('bgmau');
+  var sk=F('sk'),vr=F('vol'),seeking=false;
   function music(){
     var t=($('bgmt')||{}).textContent||'',a=($('bgma')||{}).textContent||'',has=au&&(au.currentSrc||au.getAttribute('src'));
     F('mt').textContent=has?(t||T('Nhạc nền')):T('Nhạc nền');
     F('ma').textContent=has?a:T('Bấm ▶ để bật nhạc');
-    dd.querySelector('[data-act="play"]').setAttribute('aria-pressed',au&&!au.paused?'true':'false');prog();
+    dd.querySelector('[data-act="play"]').setAttribute('aria-pressed',au&&!au.paused?'true':'false');
+    var sh=$('bgmshuf'),sb=dd.querySelector('[data-act="shuf"]');
+    if(sh){sb.classList.toggle('on',sh.getAttribute('aria-pressed')==='true');sb.setAttribute('aria-pressed',sh.getAttribute('aria-pressed'))}
+    prog();volUI();lyric();
   }
   function prog(){
-    if(!au)return;var d=au.duration,c=au.currentTime||0;
-    F('mp').style.transform='scaleX('+(d&&isFinite(d)?Math.min(1,c/d):0)+')';
-    F('mc').textContent=mmss(c);F('md').textContent=d&&isFinite(d)?mmss(d):'0:00';
+    if(!au)return;var d=au.duration,c=au.currentTime||0,ok=d&&isFinite(d);
+    sk.disabled=!ok;
+    if(!seeking)sk.value=ok?Math.round(c/d*1000):0;
+    sk.style.setProperty('--p',(sk.value/10)+'%');
+    F('mc').textContent=mmss(seeking&&ok?sk.value/1000*d:c);F('md').textContent=ok?mmss(d):'0:00';
+  }
+  /* tua: kéo thanh trượt, thả ra thì nhảy tới vị trí đó */
+  sk.addEventListener('input',function(){seeking=true;prog()});
+  sk.addEventListener('change',function(){var d=au&&au.duration;if(d&&isFinite(d)){try{au.currentTime=sk.value/1000*d}catch(e){}}seeking=false;prog()});
+  /* âm lượng: nối với thanh âm lượng của trình phát nhạc gốc */
+  function volUI(){
+    if(!au)return;var m=au.muted||au.volume===0;
+    vr.value=m?0:Math.round(au.volume*100);vr.style.setProperty('--p',vr.value+'%');
+    dd.querySelector('[data-act="mute"]').setAttribute('aria-pressed',m?'true':'false');
+  }
+  vr.addEventListener('input',function(){
+    if(!au)return;if(au.muted)au.muted=false;
+    var pv=$('bgmvol');
+    if(pv){pv.value=vr.value;pv.dispatchEvent(new Event('input',{bubbles:true}))}else au.volume=vr.value/100;
+    volUI();
+  });
+  /* một dòng lời: lấy đúng dòng đang sáng trong khung lời của trình phát nhạc gốc */
+  function lyric(){
+    var lb=$('lyb'),on=lb&&lb.querySelector('p.on'),tx=on?on.textContent.replace(/\u00a0/g,' ').trim():'',el=F('ly');
+    el.textContent=tx||T('Lời bài hát sẽ hiện ở đây');el.classList.toggle('e',!tx);
   }
   var STL={online:'Trực tuyến',idle:'Vắng mặt',dnd:'Đừng làm phiền',offline:'Ngoại tuyến'},SC={online:'#23a55a',idle:'#f0b232',dnd:'#f23f43',offline:'#80848e'};
   var KT={0:'Đang chơi',1:'Đang phát trực tiếp',2:'Đang nghe',3:'Đang xem',5:'Đang thi đấu'};
@@ -8122,7 +8178,7 @@ if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.s
     if(t.hasAttribute('data-tab')){show(t.getAttribute('data-tab'));return}
     var a=t.getAttribute('data-act'),th=function(){return R.getAttribute('data-theme')==='light'};
     function c(id){var b=$(id);if(b)b.click()}
-    if(a==='prev')c('bgmprev');else if(a==='next')c('bgmn');else if(a==='play')c('bgmq');
+    if(a==='prev')c('bgmprev');else if(a==='next')c('bgmn');else if(a==='play')c('bgmq');else if(a==='back')c('bgmback');else if(a==='fwd')c('bgmfwd');else if(a==='shuf')c('bgmshuf');else if(a==='mute')c('bgmmute');
     else if(a==='th-light'){if(!th())c('theme')}else if(a==='th-dark'){if(th())c('theme')}
     else if(a==='fx-motion')c('motion');else if(a==='fx-color')c('colors');else if(a==='fx-sfx')c('sfx');else if(a==='fx-wx')c('wxb');else if(a==='fx-gif')c('gifbtn');
     else if(a==='lg-vi'){if(EN())c('lang')}else if(a==='lg-en'){if(!EN())c('lang')}
@@ -8131,8 +8187,11 @@ if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.s
   document.addEventListener('pointerdown',function(e){if(open&&!dd.contains(e.target))setOpen(false)},true);
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&open){setOpen(false);btn.focus()}});
   if(au){
-    ['play','pause','ended','emptied','loadedmetadata'].forEach(function(ev){au.addEventListener(ev,function(){music()})});
-    var lastT=0;au.addEventListener('timeupdate',function(){var n=Date.now();if(n-lastT<500)return;lastT=n;if(open&&tab==='music')prog()});
+    ['play','pause','ended','emptied','loadedmetadata','durationchange'].forEach(function(ev){au.addEventListener(ev,function(){music()})});
+    au.addEventListener('timeupdate',function(){if(open&&tab==='music')prog()});
+    au.addEventListener('volumechange',volUI);
+    var lb=$('lyb');if(lb)new MutationObserver(lyric).observe(lb,{subtree:true,childList:true,attributes:true,attributeFilter:['class']});
+    var sh=$('bgmshuf');if(sh)new MutationObserver(music).observe(sh,{attributes:true,attributeFilter:['aria-pressed','class']});
     var bt=$('bgmt');if(bt)new MutationObserver(music).observe(bt,{childList:true,characterData:true,subtree:true});
   }
   document.addEventListener('lanyard',disc);
