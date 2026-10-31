@@ -22,4 +22,13 @@ window.TRACKS=[
   {t:'10 Ngàn Năm',a:'PC',src:'music/pc-10-ngan-nam-prod-duckie-official-audio-pc-feelingsoundz.mp3'},
   {t:'Dự báo thời tiết hôm nay mưa',a:'GREY D',src:'music/grey-d-du-bao-thoi-tiet-hom-nay-mua-official-visualizer-st-319-entertainment.mp3'},
   {t:'Hư không',a:'Kha',src:'music/hu-khong-kha.mp3'},
+  {t:'Đi theo bóng mặt trời',a:'Đen',src:'music/spotidownloader-com-di-theo-bong-mat-troi-den.mp3'},
+  {t:'Sinh Ra Đã Là Thứ Đối Lập Nhau',a:'Emcee L (Da LAB)',src:'music/spotidownloader-com-sinh-ra-da-la-thu-doi-lap-nhau-emcee-l-da-lab.mp3'},
+  {t:'Đừng Gọi Anh Là Idol',a:'Đen',src:'music/spotidownloader-com-dung-goi-anh-la-idol-den.mp3'},
+  {t:'SpotiDownloader.com   Chờ Đợi Có Đáng Sợ   Andiez',a:'',src:'music/spotidownloader-com-cho-doi-co-dang-so-andiez.mp3'},
+  {t:'Let Me Go',a:'KIMLONG',src:'music/let-me-go-55-radar-kimlong.mp3'},
+  {t:'Mở Mắt',a:'Lil Wuyn ft Đen',src:'music/mo-mat-lil-wuyn.mp3'},
+  {t:'Vu Vơ',a:'Lil Wuyn ft 16 BRT',src:'music/vu-vo-lil-wuyn.mp3'},
+  {t:'No Way Back',a:'Lil Wuyn (feat. B Wine)',src:'music/lil-wuyn-no-way-back-feat-b-wine-an-album-lil-wuyn-official.mp3'},
+  {t:'Thay Đổi',a:'Lil Wuyn',src:'music/thay-doi-lil-wuyn.mp3'},
 ];
