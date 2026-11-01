@@ -2765,6 +2765,12 @@ footer{border-top:1px solid var(--line);background:linear-gradient(180deg,rgba(v
 @media print{.dd{display:none}}
 /* danh sách chọn bài trong bảng mũi tên xuống */
 .isl-pl{margin-top:.8rem;padding-top:.6rem;border-top:1px solid rgba(255,255,255,.09)}
+.isl-plh{all:unset;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;gap:.5rem;width:100%;cursor:pointer;border-radius:.4rem}
+.isl-plh:hover{color:#fff}
+.isl-plh:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.isl-plh svg{width:1rem;height:1rem;flex:none;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s}
+.isl-plh[aria-expanded="false"] svg{transform:rotate(-90deg)}
+.isl-ml[hidden]{display:none}
 .isl-ml{list-style:none;margin:.4rem 0 0;padding:0 .15rem 0 0;position:relative;max-height:min(9.5rem,24dvh);overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.28) transparent}
 .isl-ml::-webkit-scrollbar{width:6px}
 .isl-ml::-webkit-scrollbar-thumb{background:rgba(255,255,255,.28);border-radius:99px}
@@ -3279,7 +3285,7 @@ var D={name:'ming',sub:'Check out my profile',user:'ming0811_',tag:'COZY',avatar
  {t:'Trò Chơi Luân Phiên',s:'Thêm tối đa 5 trò chơi',max:5,rows:1,games:[{n:'ELDEN RING',c:1245620,tags:['Khá thích nó','Đang tìm nhóm']},{n:'Delta Force',c:2507950,tags:['Trung Cấp','Say Mê','Mê đắm nó','Khá thích nó','Đang tìm nhóm','+1']},{n:'Path of Exile 2',c:2694490,tags:['Trung Cấp','Mê đắm nó','Khá thích nó','Say Mê']},{n:'Minecraft',c:'https://upload.wikimedia.org/wikipedia/en/5/51/Minecraft_cover.png',bg:'linear-gradient(160deg,#5aa02c,#2d5016)',tags:['Tốt hơn bạn','Khá thích nó','Đang tìm kiếm mẹo','Mở để dạy']},{n:'Stardew Valley',c:413150,tags:['Mê đắm nó','Say Mê','Mở để dạy','Đang tìm kiếm thảo luận','+1']}]},
  {t:'Trò Chơi Tôi Thích',s:'Thêm tối đa 20 trò chơi',max:20,games:[{n:'Path of Exile 2',c:2694490},{n:'GTA San Andreas',c:12120},{n:'Dead Island 2',c:934700},{n:'Skyrim',c:489830},{n:'MEGABONK',c:3405340},{n:'inZOI',c:2456740},{n:'Cornerpond',c:3454590},{n:'Remnant II',c:1282100}]},
  {t:'Muốn Chơi',s:'Thêm tối đa 20 trò chơi',max:20,games:[{n:'Red Dead Redemption 2',c:1174180},{n:'osu!',c:'',bg:'linear-gradient(160deg,#ff66aa,#c2347a)'},{n:'Lethal Company',c:1966720},{n:'GTA V',c:271590}]}]};
-var DCEN={"Danh sách bài":"Playlist","Trò chơi ưa thích":"Favorite game","Chọn 1 trò chơi":"Pick 1 game","Trò Chơi Luân Phiên":"Games in rotation","Thêm tối đa 5 trò chơi":"Add up to 5 games","Trò Chơi Tôi Thích":"Games I like","Thêm tối đa 20 trò chơi":"Add up to 20 games","Muốn Chơi":"Want to play","Chưa từng bỏ sót chế độ nào của game =))":"Never skipped a single mode of this game =))","Say Mê":"Obsessed","Mê đắm nó":"Loving it","Khá thích nó":"Pretty into it","Đang tìm nhóm":"Looking for a group","Mở để chơi":"Open to play","Trung Cấp":"Intermediate","Tốt hơn bạn":"Better than you","Đang tìm kiếm mẹo":"Looking for tips","Mở để dạy":"Open to teach","Đang tìm kiếm thảo luận":"Looking for discussion","Rút gọn":"Show less","Hiện thêm":"Show more","Chơi":"Playing","Phát trực tiếp":"Streaming","Nghe":"Listening","Xem":"Watching","Thi đấu":"Competing","Lịch sử hoạt động":"Activity history","Chưa có hoạt động nào được ghi lại.":"No activity recorded yet.","Đang diễn ra":"Happening now","Lịch sử chung, tự cập nhật từ Discord của Ming.":"Shared history, auto-updated from Ming's Discord.","Đang kết nối Discord…":"Connecting to Discord…","Đang chơi":"Playing","Đang phát trực tiếp":"Streaming","Đang nghe":"Listening","Đang xem":"Watching","Đang thi đấu":"Competing","Đang nghe Spotify":"Listening to Spotify","Không làm gì cả. Chưa có hoạt động nào trên Discord.":"Not doing anything. No activity on Discord right now.","1 Vật Phẩm":"1 Item","Xem ảnh đại diện":"View avatar","Tin nhắn":"Message","Tiểu sử":"About me","Gia Nhập Từ":"Member since","Vai trò":"Roles","Ghi chú (chỉ hiển thị cho bạn)":"Note (only visible to you)","6 thg 8, 2021":"Aug 6, 2021","6 thg 8, 2022":"Aug 6, 2022","Game thủ":"Gamer","Dịch giả":"Translator","Nghe nhạc":"Music lover","Cú đêm":"Night owl","Mèo":"Cat","Cà phê":"Coffee","Bảng":"Board","Hoạt động":"Activity","Danh Sách Mong Muốn":"Wishlist"};
+var DCEN={"Trò chơi ưa thích":"Favorite game","Chọn 1 trò chơi":"Pick 1 game","Trò Chơi Luân Phiên":"Games in rotation","Thêm tối đa 5 trò chơi":"Add up to 5 games","Trò Chơi Tôi Thích":"Games I like","Thêm tối đa 20 trò chơi":"Add up to 20 games","Muốn Chơi":"Want to play","Chưa từng bỏ sót chế độ nào của game =))":"Never skipped a single mode of this game =))","Say Mê":"Obsessed","Mê đắm nó":"Loving it","Khá thích nó":"Pretty into it","Đang tìm nhóm":"Looking for a group","Mở để chơi":"Open to play","Trung Cấp":"Intermediate","Tốt hơn bạn":"Better than you","Đang tìm kiếm mẹo":"Looking for tips","Mở để dạy":"Open to teach","Đang tìm kiếm thảo luận":"Looking for discussion","Rút gọn":"Show less","Hiện thêm":"Show more","Chơi":"Playing","Phát trực tiếp":"Streaming","Nghe":"Listening","Xem":"Watching","Thi đấu":"Competing","Lịch sử hoạt động":"Activity history","Chưa có hoạt động nào được ghi lại.":"No activity recorded yet.","Đang diễn ra":"Happening now","Lịch sử chung, tự cập nhật từ Discord của Ming.":"Shared history, auto-updated from Ming's Discord.","Đang kết nối Discord…":"Connecting to Discord…","Đang chơi":"Playing","Đang phát trực tiếp":"Streaming","Đang nghe":"Listening","Đang xem":"Watching","Đang thi đấu":"Competing","Đang nghe Spotify":"Listening to Spotify","Không làm gì cả. Chưa có hoạt động nào trên Discord.":"Not doing anything. No activity on Discord right now.","1 Vật Phẩm":"1 Item","Xem ảnh đại diện":"View avatar","Tin nhắn":"Message","Tiểu sử":"About me","Gia Nhập Từ":"Member since","Vai trò":"Roles","Ghi chú (chỉ hiển thị cho bạn)":"Note (only visible to you)","6 thg 8, 2021":"Aug 6, 2021","6 thg 8, 2022":"Aug 6, 2022","Game thủ":"Gamer","Dịch giả":"Translator","Nghe nhạc":"Music lover","Cú đêm":"Night owl","Mèo":"Cat","Cà phê":"Coffee","Bảng":"Board","Hoạt động":"Activity","Danh Sách Mong Muốn":"Wishlist"};
 function EN_(){return document.documentElement.lang==='en'}
 function T(s){if(!EN_())return s;if(Object.prototype.hasOwnProperty.call(DCEN,s))return DCEN[s];var m=/^Huy hiệu (\d+)$/.exec(s);return m?'Badge '+m[1]:s}
 function bdAge(n){return EN_()?n+(n===1?' year ago':' years ago'):n+' năm trước'}
@@ -3973,7 +3979,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="music/tracks.js"></script>
+<script>document.write('<script src="music/tracks.js?v='+Math.floor(Date.now()/60000)+'"><\/script>')</script>
 <script>
 (function(){
   /* ===== ngôn ngữ: tự chọn theo múi giờ + ngôn ngữ trình duyệt (xem __autoLang ở đầu trang), đổi tay bằng nút VI·EN. Thêm bản dịch ở EN: 'câu tiếng Việt':'English' ===== */
@@ -8168,7 +8174,7 @@ if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.s
     'Trực tuyến':'Online','Vắng mặt':'Away','Đừng làm phiền':'Do not disturb','Ngoại tuyến':'Offline',
     'Đang chơi':'Playing','Đang nghe Spotify':'Listening to Spotify','Đang nghe':'Listening','Đang xem':'Watching','Đang phát trực tiếp':'Streaming','Đang thi đấu':'Competing',
     'Không làm gì cả':'Not doing anything','Sáng':'Light','Tối':'Dark','Chuyển động':'Motion','Mưa / tuyết':'Rain / snow','Ảnh GIF':'GIFs','Màu chữ':'Text colours','Âm thanh khi nhấn':'Click sounds',
-    'Tua nhạc':'Seek','Âm lượng':'Volume','Phát ngẫu nhiên':'Shuffle','Lùi 10 giây':'Back 10 seconds','Tua tới 10 giây':'Forward 10 seconds','Bật hoặc tắt tiếng':'Mute or unmute','Lời bài hát sẽ hiện ở đây':'Lyrics will show here','Tiện ích':'Tools','Lên đầu trang':'Back to top','Toàn màn hình':'Fullscreen','Thoát toàn màn hình':'Exit fullscreen','Sao chép liên kết':'Copy link','Đã sao chép':'Copied','Ngẫu nhiên':'Surprise me','Cỡ chữ':'Text size','Lặp bài':'Repeat','Tốc độ phát':'Playback speed','Hẹn giờ':'Sleep timer','Hẹn giờ tắt nhạc':'Sleep timer','Giảm cỡ chữ':'Smaller text','Tăng cỡ chữ':'Larger text','Mặc định':'Reset','Phím tắt: P nhạc · R ngẫu nhiên · M hiệu ứng':'Keys: P music · R surprise · M effects','Tập trung':'Focus','Hết giờ! Nghỉ chút nhé':'Time is up! Take a break','Chia sẻ':'Share','Tự động':'Auto','Tới chỗ này':'Take me there','Mở bảng chức năng':'Open quick panel','Đóng bảng chức năng':'Close quick panel'};
+    'Danh sách bài':'Playlist','Ẩn danh sách bài':'Hide playlist','Hiện danh sách bài':'Show playlist','Tua nhạc':'Seek','Âm lượng':'Volume','Phát ngẫu nhiên':'Shuffle','Lùi 10 giây':'Back 10 seconds','Tua tới 10 giây':'Forward 10 seconds','Bật hoặc tắt tiếng':'Mute or unmute','Lời bài hát sẽ hiện ở đây':'Lyrics will show here','Tiện ích':'Tools','Lên đầu trang':'Back to top','Toàn màn hình':'Fullscreen','Thoát toàn màn hình':'Exit fullscreen','Sao chép liên kết':'Copy link','Đã sao chép':'Copied','Ngẫu nhiên':'Surprise me','Cỡ chữ':'Text size','Lặp bài':'Repeat','Tốc độ phát':'Playback speed','Hẹn giờ':'Sleep timer','Hẹn giờ tắt nhạc':'Sleep timer','Giảm cỡ chữ':'Smaller text','Tăng cỡ chữ':'Larger text','Mặc định':'Reset','Phím tắt: P nhạc · R ngẫu nhiên · M hiệu ứng':'Keys: P music · R surprise · M effects','Tập trung':'Focus','Hết giờ! Nghỉ chút nhé':'Time is up! Take a break','Chia sẻ':'Share','Tự động':'Auto','Tới chỗ này':'Take me there','Mở bảng chức năng':'Open quick panel','Đóng bảng chức năng':'Close quick panel'};
   function EN(){return R.lang==='en'}
   function T(s){return EN()&&DICT.hasOwnProperty(s)?DICT[s]:s}
   var PL=[
@@ -8201,8 +8207,8 @@ if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.s
       '<div class="isl-chips">'+
         '<button type="button" class="isl-chip" data-act="rep" data-lt="Lặp bài" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 2l3 3-3 3M4 11V9a4 4 0 0 1 4-4h12M7 22l-3-3 3-3M20 13v2a4 4 0 0 1-4 4H4"/></svg><span data-l="Lặp bài"></span></button>'+
         '<button type="button" class="isl-chip" data-act="spd" data-lt="Tốc độ phát"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 14l4-5"/><path d="M4.5 18a9 9 0 1 1 15 0"/></svg><span data-f="spdv">1×</span></button>'+
-        '<button type="button" class="isl-chip" data-act="slp" data-lt="Hẹn giờ tắt nhạc"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2.5h6"/></svg><span data-f="slpv"></span></button></div>'+
-      '<div class="isl-pl"><div class="isl-k"><span data-l="Danh sách bài"></span><span data-f="plc"></span></div><ul class="isl-ml" data-f="pl" role="list"></ul></div></div>'+
+        '</div>'+
+      '<div class="isl-pl"><div class="isl-k"><button type="button" class="isl-plh" data-f="pltog" aria-expanded="true" aria-controls="isl-ml-list"><span><span data-l="Danh sách bài"></span><span data-f="plc"></span></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></div><ul class="isl-ml" id="isl-ml-list" data-f="pl" role="list"></ul></div></div>'+
     '<div class="isl-card" data-card="discord"><div class="isl-k"><i class="isl-dot" data-f="dd"></i><span data-f="ds"></span></div><b class="isl-t" data-f="dn"></b><div class="isl-s" data-f="dx"></div><div class="isl-s" data-f="dk"></div></div>'+
     '<div class="isl-card" data-card="theme"><div class="isl-k" data-l="Giao diện"></div><div class="isl-seg"><button type="button" data-act="th-light" data-l="Sáng" aria-pressed="false"></button><button type="button" data-act="th-dark" data-l="Tối" aria-pressed="false"></button><button type="button" data-act="th-auto" data-l="Tự động" aria-pressed="false"></button></div></div>'+
     '<div class="isl-card" data-card="fx"><div class="isl-k" data-l="Hiệu ứng"></div>'+
@@ -8229,6 +8235,7 @@ if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.s
   var open=false,tab='music';
   function mmss(s){s=Math.max(0,Math.floor(s||0));return Math.floor(s/60)+':'+('0'+s%60).slice(-2)}
   function labels(){
+    if(typeof plLab==='function')plLab();
     [].forEach.call(dd.querySelectorAll('[data-l]'),function(e){e.textContent=T(e.getAttribute('data-l'))});
     [].forEach.call(dd.querySelectorAll('[data-lt]'),function(e){var t=T(e.getAttribute('data-lt'));e.setAttribute('aria-label',t);e.title=t});
     [].forEach.call(dd.querySelectorAll('.isl-tab'),function(e){var p=PL.filter(function(x){return x.k===e.getAttribute('data-tab')})[0],t=T(p.n);e.setAttribute('aria-label',t);e.title=t});
@@ -8238,6 +8245,16 @@ if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.s
   var sk=F('sk'),vr=F('vol'),seeking=false;
   /* danh sách bài: sao chép từ danh sách của trình phát (giữ đúng thứ tự, bài đang phát, bài thiếu file) */
   var pl=F('pl'),plSig='',plCur=null;
+  var plOpen=true,pt=F('pltog');
+  try{plOpen=localStorage.getItem('ddpl')!=='0'}catch(e){}
+  function plLab(){if(!pt)return;var l=T(plOpen?'Ẩn danh sách bài':'Hiện danh sách bài');pt.title=l;pt.setAttribute('aria-label',l)}
+  function plShow(o,save){
+    plOpen=o;if(pl)pl.hidden=!o;
+    if(pt)pt.setAttribute('aria-expanded',o?'true':'false');
+    plLab();if(o)plReveal();
+    if(save){try{localStorage.setItem('ddpl',o?'1':'0')}catch(e){}}
+  }
+  if(pt)pt.addEventListener('click',function(){plShow(!plOpen,true)});
   function he(x){return String(x).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   function plReveal(){var c=pl&&pl.querySelector('.cur');if(!c||!pl.clientHeight)return;pl.scrollTop=Math.max(0,c.offsetTop-(pl.clientHeight-c.offsetHeight)/2)}
   function plist(){
@@ -8261,6 +8278,7 @@ if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.s
     var m=$('bgml');m=m&&m.querySelector('button[data-i="'+b.getAttribute('data-i')+'"]');
     if(m)m.click();
   });
+  plShow(plOpen,false);
   var bml=$('bgml');if(bml)new MutationObserver(plist).observe(bml,{childList:true,subtree:true,attributes:true,attributeFilter:['class','disabled']});
   function music(){
     var t=($('bgmt')||{}).textContent||'',a=($('bgma')||{}).textContent||'',has=au&&(au.currentSrc||au.getAttribute('src'));
@@ -8315,7 +8333,7 @@ if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.s
   }
 
   /* ---- tính năng thêm: lặp bài, tốc độ, hẹn giờ tắt nhạc, toàn màn hình, cỡ chữ ---- */
-  var SPD=[1,1.25,1.5,0.75],slp={m:0,end:0,h:0},SLP=[0,15,30,60],FS=100;
+  var SPD=[1,1.25,1.5,0.75],FS=100;
   var foc={m:0,end:0,h:0,done:0},FOC=[0,15,25,45],actx=null,AUTO=false;
   try{AUTO=localStorage.getItem('islauto')==='1'}catch(e){}
   var mql=matchMedia('(prefers-color-scheme: light)');
@@ -8349,13 +8367,6 @@ if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.s
   if(FS<85||FS>130)FS=100;
   function applyFS(){R.style.fontSize=FS===100?'':FS+'%';try{localStorage.setItem('fsz',FS)}catch(e){}}
   if(FS!==100)applyFS();
-  function slpTick(){
-    var b=row('slp'),sp=F('slpv');
-    if(!slp.end){sp.textContent=T('Hẹn giờ');b.classList.remove('on');return}
-    var r=Math.max(0,Math.round((slp.end-Date.now())/1000));
-    sp.textContent=mmss(r);b.classList.add('on');
-    if(r<=0){clearInterval(slp.h);slp.end=0;slp.m=0;if(au&&!au.paused){var q=$('bgmq');if(q)q.click();else au.pause()}slpTick()}
-  }
   function extras(){
     if(au){
       row('rep').setAttribute('aria-pressed',au.loop?'true':'false');
@@ -8366,7 +8377,7 @@ if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.s
     row('rnd').hidden=!(window.__FACTS||$('rndb'));
     F('fsv').textContent=FS+'%';
     row('sh').hidden=!navigator.share;
-    slpTick();focTick();
+    focTick();
   }
   /* câu ngẫu nhiên: lấy từ danh sách FACTS của trang, hiện ngay trong bảng, mỗi lần bấm một câu mới */
   var lastF=-1,curF=null;
@@ -8415,10 +8426,6 @@ if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.s
       case 'fs0':FS=100;applyFS();extras();return true;
       case 'rep':if(au)au.loop=!au.loop;extras();return true;
       case 'spd':if(au){var i=SPD.indexOf(au.playbackRate);au.defaultPlaybackRate=au.playbackRate=SPD[(i+1)%SPD.length];extras()}return true;
-      case 'slp':
-        slp.m=SLP[(SLP.indexOf(slp.m)+1)%SLP.length];clearInterval(slp.h);
-        if(slp.m){slp.end=Date.now()+slp.m*60000;slp.h=setInterval(slpTick,1000)}else slp.end=0;
-        slpTick();return true;
     }
     return false;
   }

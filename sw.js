@@ -2,10 +2,10 @@
    Đổi VERSION (ví dụ 'v2') khi muốn ép mọi máy xoá cache cũ và tải lại từ đầu.
    Cách hoạt động:
    - Trang chính: ưu tiên mạng (luôn thấy bản mới nhất), mất mạng thì mở bản đã lưu.
-   - music/tracks.js và các file lời .lrc: ưu tiên mạng (thêm bài mới là thấy ngay), mất mạng thì dùng bản đã lưu.
+   - music/tracks.js và các file lời .lrc: ưu tiên mạng và luôn bỏ qua cache cũ (thêm bài mới là thấy ngay), mất mạng thì dùng bản đã lưu.
    - Ảnh, font, steam.json: cho xem bản đã lưu ngay, đồng thời tải bản mới ngầm.
    - Nhạc, video, API (thời tiết, Discord, lời bài hát, thống kê): không lưu, để trình duyệt tự xử lý. */
-const VERSION = 'v2';
+const VERSION = 'v3';
 const CORE = 'ming-core-' + VERSION;
 const RT = 'ming-rt-' + VERSION;
 const MAX_RT = 300;
@@ -78,12 +78,16 @@ async function navigate(req) {
 
 async function netFirst(req) {
   const c = await caches.open(RT);
+  const u = new URL(req.url);
+  const key = new Request(u.origin + u.pathname);           /* khoá cache cố định, bỏ phần ?v=... */
+  const bust = new URL(u.origin + u.pathname);
+  bust.searchParams.set('_', Date.now());                   /* địa chỉ luôn mới: tránh cache cũ của trình duyệt và của Cloudflare */
   try {
-    const res = await race(fetch(req, { cache: 'no-cache' }), 4000);
-    if (res && res.ok) c.put(req, res.clone()).catch(() => {});
+    const res = await race(fetch(bust.href, { cache: 'no-store' }), 4000);
+    if (res && res.ok) c.put(key, res.clone()).catch(() => {});
     return res;
   } catch (_) {
-    const hit = await c.match(req);
+    const hit = await c.match(key);
     return hit || Response.error();
   }
 }
