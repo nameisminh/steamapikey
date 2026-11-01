@@ -3138,6 +3138,11 @@ li.hic::after{top:50%;right:.4rem;margin-top:-.75rem}
 .hib::before{content:"";flex:none;width:1.05em;height:1.05em;background:currentColor;-webkit-mask:var(--hi) center/contain no-repeat;mask:var(--hi) center/contain no-repeat}
 #bgic{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;color:var(--text)}
 #bgic i{position:absolute;width:var(--s);height:var(--s);background:currentColor;opacity:var(--o);-webkit-mask:var(--hi) center/contain no-repeat;mask:var(--hi) center/contain no-repeat;transform:rotate(var(--r));animation:bgf var(--d) ease-in-out var(--l) infinite alternate}
+#bgic i{translate:0 calc(var(--sy,0px) * var(--f,0))}
+.faq summary .sq.hib>[data-ic]{display:none}
+.faq summary .sq.hib::before{width:1.15rem;height:1.15rem}
+#gallery .ph.hic::after{left:.7rem;right:auto;color:#fff;opacity:.85;filter:drop-shadow(0 1px 3px rgba(0,0,0,.55));z-index:2}
+:root[data-motion="off"] #bgic i{translate:none}
 @keyframes bgf{to{transform:translate3d(var(--dx),-34px,0) rotate(calc(var(--r) * -1))}}
 :root[data-motion="off"] #bgic i{animation:none}
 :root.lite #bgic{display:none}
@@ -8819,6 +8824,9 @@ o.addEventListener('click',function(e){var b=e.target.closest('[data-o]');if(!b)
 <script id="ic-more-js">
 (function(){
 var P={
+coffee:'<path d="M5 8h11v6a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5zM16 10h1.5a2.5 2.5 0 0 1 0 5H16M8 3v2M12 3v2"/>',
+keyboard:'<rect x="2.5" y="6" width="19" height="12" rx="2.5"/><path d="M6.5 10h.01M10 10h.01M14 10h.01M17.5 10h.01M8 14h8"/>',
+mouse:'<rect x="6.5" y="3" width="11" height="18" rx="5.5"/><path d="M12 7v3.5"/>',
 star:'<path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.8 6.8 19.6l1-5.8L3.5 9.7l5.9-.9z"/>',
 heart:'<path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.3a4.3 4.3 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z"/>',
 music:'<path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/>',
@@ -8881,26 +8889,29 @@ function scan(){
     var s=h.closest('section[id]');
     mark(h,(s&&SEC[s.id])||'sparkle','hi');
   });
-  document.querySelectorAll('.hob,.card,.idgrid>*,.pls>*,.stats>div,.rows li').forEach(function(c,i){
+  document.querySelectorAll('.hob,.card,.idgrid>*,.pls>*,.stats>div,.rows li,.log li,.tkb-list li,#gallery .ph').forEach(function(c,i){
     if(c.hasAttribute('data-mi'))return;
-    mark(c,guess(c.textContent.slice(0,160)),'hic');
+    mark(c,c.classList.contains('ph')?['camera','image','sparkle','heart'][n++%4]:guess(c.textContent.slice(0,160)),'hic');
   });
-  document.querySelectorAll('.btn,.ffs button,.tkb-tabs button,.mapbar button').forEach(function(b){
+  document.querySelectorAll('.faq summary .sq').forEach(function(s){mark(s,guess(s.textContent),'hib')});
+  document.querySelectorAll('.btn,.ffs button,.tkb-tabs button,.mapbar button,.fgrid li a,.cta a,.more a,.more button').forEach(function(b){
     if(b.hasAttribute('data-mi')||b.querySelector('svg,[data-ic],img'))return;
     mark(b,guess(b.textContent,'arrowr'),'hib');
   });
 }
+var pt=0;
 function bg(){
   if(document.getElementById('bgic'))return;
   var d=document.createElement('div'),k=Object.keys(P),h='';
   d.id='bgic';d.setAttribute('aria-hidden','true');
-  for(var i=0;i<28;i++){
+  for(var i=0;i<44;i++){
     var ic=k[(i*7)%k.length];
-    h+='<i style="--hi:'+uri(ic)+';left:'+((i*37+11)%96)+'%;top:'+((i*61+7)%94)+'%;--s:'+(1.5+(i%4)*.7).toFixed(1)+'rem;--o:'+(.06+(i%3)*.025).toFixed(3)+';--r:'+(((i*47)%60)-30)+'deg;--d:'+(14+(i%7)*3)+'s;--l:-'+((i*3)%14)+'s;--dx:'+(((i%2)?1:-1)*(10+(i%5)*6))+'px"></i>';
+    h+='<i style="--hi:'+uri(ic)+';left:'+((i*37+11)%96)+'%;top:'+((i*61+7)%94)+'%;--s:'+(1.5+(i%4)*.7).toFixed(1)+'rem;--o:'+(.06+(i%3)*.025).toFixed(3)+';--r:'+(((i*47)%60)-30)+'deg;--d:'+(14+(i%7)*3)+'s;--l:-'+((i*3)%14)+'s;--f:'+(((i%5)-2)*.5)+';--dx:'+(((i%2)?1:-1)*(10+(i%5)*6))+'px"></i>';
   }
   d.innerHTML=h;
   document.body.appendChild(d);
 }
+addEventListener('scroll',function(){if(pt)return;pt=requestAnimationFrame(function(){pt=0;var e=document.getElementById('bgic');if(e)e.style.setProperty('--sy',(Math.sin((window.scrollY||0)/700)*160).toFixed(1)+'px')})},{passive:true});
 var q=0;
 function sched(){if(q)return;q=requestAnimationFrame(function(){q=0;scan()})}
 bg();scan();
