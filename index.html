@@ -3076,6 +3076,59 @@ html.orb-drag,html.orb-drag *{cursor:grabbing!important;user-select:none!importa
 .isl-chip.ddc svg{width:.95rem;height:.95rem;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 :root[data-motion="off"] .dd.snap .dd-tab,:root[data-motion="off"] .dd.snap .dd-panel{transition-duration:.001s!important}
 </style>
+<style id="dd-up">
+.bar .dd .dd-tab{transition:color .2s,background-color .2s,top .28s ease}
+.bar .dd.snap .dd-tab{transition:left .38s cubic-bezier(.2,.9,.3,1.1),top .28s ease,color .2s,background-color .2s}
+.bar .dd .dd-panel{transition:opacity .2s,translate .28s cubic-bezier(.2,.8,.2,1),visibility 0s .28s,--ac .45s,border-color .45s,box-shadow .45s,scale .3s ease,top .28s ease}
+.bar .dd.open .dd-panel{transition:opacity .22s,translate .28s cubic-bezier(.2,.8,.2,1),visibility 0s,--ac .45s,border-color .45s,box-shadow .45s,scale .45s cubic-bezier(.34,1.45,.5,1),top .28s ease}
+.bar .dd.dragging .dd-panel{transition:top .28s ease}
+.bar .dd.snap .dd-panel{transition:left .38s cubic-bezier(.2,.9,.3,1.1),opacity .22s,translate .28s cubic-bezier(.2,.8,.2,1),visibility 0s,--ac .45s,border-color .45s,box-shadow .45s,scale .45s cubic-bezier(.34,1.45,.5,1),top .28s ease}
+.bar.mini:not(.hide) .dd.up .dd-tab{top:0;translate:-50% 0}
+.bar.mini:not(.hide) .dd.up .dd-panel{top:1.65rem}
+:root[data-motion="off"] .dd-tab,:root.lite .dd-tab{transition-duration:.001s!important}
+</style>
+<style id="dd-light">
+:root[data-theme="light"] .dd-panel{background:radial-gradient(130% 75% at 50% -8%,color-mix(in srgb,var(--ac) 20%,transparent),transparent 62%),linear-gradient(172deg,#fff,#f2f1f7 58%);color:#0a0a0a;border-color:color-mix(in srgb,var(--ac) 32%,rgba(0,0,0,.08));box-shadow:0 22px 46px -18px rgba(30,30,60,.3),0 0 0 1px rgba(0,0,0,.04),0 0 3rem -1.4rem var(--ac)}
+:root[data-theme="light"] .dd-panel .isl-k{color:color-mix(in srgb,var(--ac) 80%,#000)}
+:root[data-theme="light"] .isl-k,:root[data-theme="light"] .isl-tm{color:#71717a}
+:root[data-theme="light"] .isl-s{color:#52525b}
+:root[data-theme="light"] .isl-pl,:root[data-theme="light"] .isl-row,:root[data-theme="light"] .isl-hint{border-top-color:rgba(0,0,0,.1)}
+:root[data-theme="light"] .isl-plh:hover{color:#000}
+:root[data-theme="light"] .isl-ml{scrollbar-color:rgba(0,0,0,.28) transparent}
+:root[data-theme="light"] .isl-ml::-webkit-scrollbar-thumb{background:rgba(0,0,0,.28)}
+:root[data-theme="light"] .isl-pi:hover{background:rgba(0,0,0,.06)}
+:root[data-theme="light"] .isl-pi.cur{background:rgba(0,0,0,.1)}
+:root[data-theme="light"] .isl-plh:focus-visible,:root[data-theme="light"] .isl-pi:focus-visible,:root[data-theme="light"] .isl-chip:focus-visible,:root[data-theme="light"] .isl-tile:focus-visible,:root[data-theme="light"] .isl-tab:focus-visible,:root[data-theme="light"] .isl-b:focus-visible,:root[data-theme="light"] .isl-row:focus-visible,:root[data-theme="light"] .isl-seg button:focus-visible,:root[data-theme="light"] .isl-rg:focus-visible{outline-color:#0a0a0a}
+:root[data-theme="light"] .isl-chip{color:#3f3f46;background:rgba(0,0,0,.06)}
+:root[data-theme="light"] .isl-chip:hover{background:rgba(0,0,0,.1)}
+:root[data-theme="light"] .isl-chip.on,:root[data-theme="light"] .isl-chip[aria-pressed="true"]{color:#0a0a0a;background:color-mix(in srgb,var(--ac) 22%,#fff);box-shadow:inset 0 0 0 1px var(--ac)}
+:root[data-theme="light"] .isl-tile{color:#27272a;background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.08)}
+:root[data-theme="light"] .isl-tile:hover{background:rgba(0,0,0,.07);border-color:color-mix(in srgb,var(--ac) 55%,transparent)}
+:root[data-theme="light"] .isl-tile.on,:root[data-theme="light"] .isl-tile[aria-pressed="true"]{background:color-mix(in srgb,var(--ac) 18%,#fff);border-color:var(--ac)}
+:root[data-theme="light"] .isl-fs{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.08)}
+:root[data-theme="light"] .isl-fs>span{color:#27272a}
+:root[data-theme="light"] .isl-fs output{color:#71717a}
+:root[data-theme="light"] .isl-fact{background:linear-gradient(135deg,color-mix(in srgb,var(--ac) 14%,transparent),rgba(0,0,0,.02))}
+:root[data-theme="light"] .isl-fact p{color:#18181b}
+:root[data-theme="light"] .isl-ly{background:rgba(0,0,0,.05);color:#0a0a0a}
+:root[data-theme="light"] .isl-ly.e{color:rgba(0,0,0,.4)}
+:root[data-theme="light"] .dd-panel .isl-rg::-webkit-slider-runnable-track{background:linear-gradient(90deg,var(--ac) var(--p),rgba(0,0,0,.14) var(--p))}
+:root[data-theme="light"] .isl-rg::-moz-range-track{background:rgba(0,0,0,.14)}
+:root[data-theme="light"] .isl-bar{background:rgba(0,0,0,.12)}
+:root[data-theme="light"] .isl-tab{color:#18181b;background:color-mix(in srgb,var(--c) 22%,#fff)}
+:root[data-theme="light"] .isl-tab[aria-selected="true"]{background:color-mix(in srgb,var(--c) 40%,#fff)}
+:root[data-theme="light"] .isl-b{color:#18181b;background:#e7e7ec}
+:root[data-theme="light"] .isl-b:hover{background:#d9d9e0}
+:root[data-theme="light"] .isl-b.main{background:#0a0a0a;color:#fff}
+:root[data-theme="light"] .isl-b.main:hover{background:#27272a}
+:root[data-theme="light"] .isl-b.on{background:#34d399;color:#04140d}
+:root[data-theme="light"] .isl-vol .isl-b{background:transparent}
+:root[data-theme="light"] .isl-vol .isl-b:hover{background:#e7e7ec}
+:root[data-theme="light"] .isl-sw{background:#c4c4cc}
+:root[data-theme="light"] .isl-row[aria-pressed="true"] .isl-sw{background:#23a55a}
+:root[data-theme="light"] .isl-seg button{background:#ececf1}
+:root[data-theme="light"] .isl-seg button[aria-pressed="true"]{border-color:#0a0a0a;background:#fff}
+</style>
 </head>
 <body>
 <div id="ldr" role="presentation" aria-hidden="true"><div class="ldrg z"><div class="ldgl"><div class="ldring ldtr"></div><div class="ldring ldpg" id="ldp2"></div><i class="lddot ldd1"></i><i class="lddot ldd2"></i></div><div class="ldnm"><span id="ldn">0</span><small>%</small></div></div></div>
@@ -8601,15 +8654,37 @@ if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.s
     if(k==='music'){plist();plReveal()}
   }
   var plT;function playAnim(){dd.classList.add('pl');clearTimeout(plT);plT=setTimeout(function(){dd.classList.remove('pl')},800)}
-  function setOpen(o){open=o;dd.classList.toggle('open',o);if(o)playAnim();if(o)dd.classList.remove('alert');setTimeout(lyOn,0);btn.setAttribute('aria-expanded',o?'true':'false');labels();if(o)show(tab)}
+  function setOpen(o){open=o;dd.classList.toggle('open',o);if(o)playAnim();if(o)dd.classList.remove('alert');setTimeout(lyOn,0);btn.setAttribute('aria-expanded',o?'true':'false');labels();if(o)show(tab);if(window.__ddLift)window.__ddLift()}
   /* kéo mũi tên sang trái/phải (nhớ vị trí), bấm đúp hoặc nút "Đặt về giữa" để về giữa */
   (function(){
     var cur=0,sx=0,x0=0,pid=null,drag=false,sup=false,KEY='ddx';
+    var curP=0;
+    function lift(){
+      var bar=dd.parentNode,up=false;
+      if(bar&&bar.classList&&bar.classList.contains('mini')){
+        var wrap=bar.querySelector('.wrap');
+        if(wrap){
+          var br=bar.getBoundingClientRect(),wr=wrap.getBoundingClientRect(),mid=br.left+br.width/2,
+              lo=mid+cur-btn.offsetWidth/2,hi=mid+cur+btn.offsetWidth/2,pn=dd.querySelector('.dd-panel');
+          if(open&&pn){lo=Math.min(lo,mid+curP-pn.offsetWidth/2);hi=Math.max(hi,mid+curP+pn.offsetWidth/2)}
+          up=hi<wr.left-12||lo>wr.right+12;
+        }
+      }
+      dd.classList.toggle('up',up);
+    }
+    window.__ddLift=lift;
+    (function(){
+      var bar=dd.parentNode;if(!bar||!bar.classList)return;
+      new MutationObserver(function(){lift();setTimeout(lift,600)}).observe(bar,{attributes:true,attributeFilter:['class']});
+      var w=bar.querySelector('.wrap');
+      if(w)w.addEventListener('transitionend',function(e){if(e.propertyName==='max-width')lift()});
+    })();
+    
     function W(){return document.documentElement.clientWidth}
     function setX(px,save){
       var m=Math.max(0,W()/2-btn.offsetWidth/2-8);px=Math.max(-m,Math.min(m,px));cur=px;
       var pn=dd.querySelector('.dd-panel'),mp=Math.max(0,W()/2-(pn?pn.offsetWidth:0)/2-8),pp=Math.max(-mp,Math.min(mp,px));
-      dd.style.setProperty('--ddx',px+'px');dd.style.setProperty('--ddp',pp+'px');
+      dd.style.setProperty('--ddx',px+'px');dd.style.setProperty('--ddp',pp+'px');curP=pp;lift();
       var c=dd.querySelector('[data-act="ddc"]');if(c)c.hidden=Math.abs(px)<2;
       if(save){try{localStorage.setItem(KEY,(px/W()).toFixed(4))}catch(e){}}
     }
