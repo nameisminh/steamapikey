@@ -2003,7 +2003,7 @@ body.bgm-on:not(#bgx) .bar.mini nav{top:calc(50% - 14.5rem);max-height:calc(100v
 .ddf.glow svg{filter:none}
 @media(prefers-reduced-motion:reduce){.ddf.on svg{animation:none}}
 
-@keyframes nmbl{0%,56%,100%{opacity:1;text-shadow:0 0 .22em currentColor}60%{opacity:.18;text-shadow:none}64%{opacity:1;text-shadow:0 0 .5em currentColor}68%{opacity:.3;text-shadow:none}72%{opacity:1;text-shadow:0 0 .5em currentColor}}
+@keyframes nmbl{0%,56%,100%{opacity:1}60%{opacity:.18}64%{opacity:1}68%{opacity:.3}72%{opacity:1}}
 #steamn,#steamname,.pci>b{animation:var(--nmb,nmbl) 4.2s linear infinite}
 :root[data-motion="off"]{--nmb:none}
 @media (prefers-reduced-motion:reduce){:root{--nmb:none}}
@@ -3013,6 +3013,17 @@ html.orb-drag,html.orb-drag *{cursor:grabbing!important;user-select:none!importa
 :root[data-motion="off"] #orb .core{transition:none!important}
 @media (prefers-reduced-motion:reduce){#orb .core{transition:none!important}}
 </style>
+<style id="perf-anim">/* tối ưu: animation chỉ đổi opacity (chạy được trên GPU); vầng sáng để tĩnh thay vì animate text-shadow (bắt buộc vẽ lại mỗi khung hình) */
+:root:not([data-motion="off"]) :is(#steamn,#steamname,.pci>b,#dcp .in>h3){text-shadow:0 0 .3em currentColor}
+/* chấm ping: thay animate box-shadow bằng vòng ::after chỉ đổi transform/opacity */
+.dot{position:relative;animation:none}
+.dot::after{content:"";position:absolute;inset:0;border-radius:50%;background:rgba(var(--fx),.5);animation:ping2 2.4s ease-out infinite;pointer-events:none}
+#dcp .dot::after{inset:-4px}
+@keyframes ping2{0%{transform:scale(1);opacity:.5}70%,100%{transform:scale(2.6);opacity:0}}
+:root[data-motion="off"] .dot::after{animation:none;opacity:0}
+@media (prefers-reduced-motion:reduce){.dot::after{animation:none;opacity:0}}</style>
+<style id="perf-orb">/* tối ưu: vòng tròn ở mép trái nằm ngoài màn hình khi chưa rê chuột, đừng cho nó quay/nhấp nháy vô ích (mỗi khung hình đều buộc trình duyệt tính lại style + vẽ lại box-shadow) */
+#orb:not(:hover):not(:focus-within):not(.open) .core i,#orb:not(:hover):not(:focus-within):not(.open) .core i .og,#orb:not(:hover):not(:focus-within):not(.open) .mk::after{animation-play-state:paused}</style>
 <style id="decor-icons">
 /* ===== Icon trang trí: bên trong mũi tên xuống (giữa thanh trên) và hình tròn trượt ra ở mép trái. Chỉ dùng màu sẵn có (đen, trắng, xanh nhạt), icon là mặt nạ nên ăn theo màu chữ. ===== */
 :root{--ic-spark:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z'/%3E%3C/svg%3E");--ic-heart:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 21.2C6.2 17 3 13.3 3 9.4 3 6.6 5.1 4.6 7.6 4.6c1.7 0 3.4.9 4.4 2.5 1-1.6 2.7-2.5 4.4-2.5C18.9 4.6 21 6.6 21 9.4c0 3.9-3.2 7.6-9 11.8z'/%3E%3C/svg%3E");--ic-moon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20.5 14.8A9 9 0 1 1 9.2 3.5a7.2 7.2 0 0 0 11.3 11.3z'/%3E%3C/svg%3E");--ic-bolt:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M13.5 2L4 13.6h6.4L9.5 22 20 9.8h-6.6z'/%3E%3C/svg%3E");--ic-note:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9.5 18V5.5l11-2.5v12.5' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='6.5' cy='18' r='3.4'/%3E%3Ccircle cx='17.5' cy='15.5' r='3.4'/%3E%3C/svg%3E");}
@@ -3338,7 +3349,7 @@ window.__autoLang=function(){
 #dcp .bb{position:absolute;left:128px;top:128px;min-width:52px;height:40px;padding:0 12px;border-radius:12px;background:var(--cd);display:grid;place-items:center;font-size:22px;z-index:3}
 #dcp .in{padding:62px 22px 0;position:relative;z-index:4}
 #dcp h3{margin:0;font-size:22px}
-@keyframes nmbl{0%,56%,100%{opacity:1;text-shadow:0 0 .22em currentColor}60%{opacity:.18;text-shadow:none}64%{opacity:1;text-shadow:0 0 .5em currentColor}68%{opacity:.3;text-shadow:none}72%{opacity:1;text-shadow:0 0 .5em currentColor}}
+@keyframes nmbl{0%,56%,100%{opacity:1}60%{opacity:.18}64%{opacity:1}68%{opacity:.3}72%{opacity:1}}
 #dcp .in>h3{animation:var(--nmb,nmbl) 4.2s linear infinite;animation-play-state:var(--aps,running)}
 #dcp .un{color:var(--mu);margin:2px 0 8px}
 #dcp .cs{color:var(--tx);margin:0 0 8px;font-size:13px}
@@ -8060,7 +8071,7 @@ var started=false;function start(){if(started)return;started=true;if(!data||Date
 if(enabled||force||!window.IntersectionObserver)start();else{var wio=new IntersectionObserver(function(es){if(es[0].isIntersecting){wio.disconnect();start()}},{rootMargin:'700px 0px'});wio.observe(wx)}
 setInterval(function(){if(started&&!document.hidden)load()},TTL);
 })();</script>
-<style>.offscr{--aps:paused}.offscr,.offscr::before,.offscr::after,.offscr .dot,.offscr .caret,.offscr .js .rv.in .hand > *,.offscr .gbox,.offscr .gc,.offscr .idbox,.offscr .bgm.on .ic2,.offscr .clock-label,.offscr .big,.offscr .sep,.offscr .clock-date,.offscr .cue,.offscr .eq i,.offscr .cmdbox,.offscr ::view-transition-old(root),.offscr ::view-transition-new(root),.offscr .bob,.offscr .js .rv.in .ph img,.offscr .view .ph img,.offscr .js .rv.in :is(.grid,.offscr .gallery,.offscr .faq,.offscr .stats) > *,.offscr .view .items > *,.offscr .big span.tk,.offscr .run,.offscr .g3d,.offscr .view > *,.offscr .big span.tk2,.offscr .rv :is(.grid,.offscr .ph img,.offscr body::after,.offscr .js .rv.in .rows > *,.offscr .rv .rows > *,.offscr .avatar.on,.offscr .card:hover .ic.pad,.offscr .card:hover .ic.eye,.offscr .btn:hover .bi.chat .d1,.offscr .btn:hover .bi.chat .d2,.offscr .btn:hover .bi.chat .d3,.offscr .btn.ok .bi .ck,.offscr .card:hover .ic,.offscr .btn:hover .bi *,.offscr .btn .bi .ck,.offscr .js .rv.in .eyebrow .ic2,.offscr .ic2.terminal .cur,.offscr :is(.card,.offscr .hob,.offscr .rows a,.offscr .kv li,.offscr .stats > div,.offscr .eyebrow,.offscr .btn,.offscr .cp):hover .ic2.flame,.offscr .cp):hover .ic2.sprout,.offscr .cp):hover .ic2.gamepad,.offscr .cp):hover .ic2.music,.offscr .cp):hover .ic2.pulse path,.offscr .cp):hover .ic2.heart,.offscr .cp):hover .ic2.medal,.offscr .cp):hover .ic2.arrowdown,.offscr .ic2,.offscr .ic2 *,.offscr .avf::before,.offscr .avf::after,.offscr .pci .ptitle b,.offscr .gsk.in,.offscr .ptitle b,.offscr .lite .gsk.in,.offscr .lite .avf::before,.offscr .lite .avf::after,.offscr .lite .ptitle b,.offscr #skyfx .st,.offscr .bar.mini nav,.offscr .cpad.pop,.offscr .cprompt.hit,.offscr .cprompt.miss,.offscr .cprompt.miss),.offscr .ddf.on svg,.offscr #steamn,.offscr #steamname,.offscr .pci > b,.offscr .ax .rv.in :is(.grid,.offscr .stats,.offscr .rows,.offscr .hand) > *,.offscr .ax .rv.in .ph img,.offscr .ax .view .items > *,.offscr .ax .view .ph img,.offscr .axd,.offscr .clkx .big span.tk,.offscr .clkx .big span.tk2,.offscr #theme.sw .st,.offscr .bye-t),.offscr h2,.offscr .bye-t,.offscr #greet,.offscr .brand,.offscr .bar nav a.on){animation-play-state:paused!important}</style>
+<style>.offscr{--aps:paused}.offscr,.offscr *,.offscr *::before,.offscr *::after,.offscr::before,.offscr::after{animation-play-state:paused!important}</style>
 <script>/* chỉ phần đang nằm trên màn hình mới chạy hiệu ứng; rời đi thì tạm dừng animation CSS, quay lại thì chạy tiếp */
 (function(){if(!window.IntersectionObserver)return;
 var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('offscr',!e.isIntersecting)})},{rootMargin:'60px 0px'});
