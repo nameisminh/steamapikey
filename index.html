@@ -3129,6 +3129,21 @@ html.orb-drag,html.orb-drag *{cursor:grabbing!important;user-select:none!importa
 :root[data-theme="light"] .isl-seg button{background:#ececf1}
 :root[data-theme="light"] .isl-seg button[aria-pressed="true"]{border-color:#0a0a0a;background:#fff}
 </style>
+<style id="ic-more">
+h2.hi::before{content:"";display:inline-block;width:.74em;height:.74em;margin-right:.42em;vertical-align:-.04em;background:currentColor;opacity:.8;-webkit-mask:var(--hi) center/contain no-repeat;mask:var(--hi) center/contain no-repeat}
+.hic{position:relative}
+.hic::after{content:"";position:absolute;right:.9rem;top:.9rem;width:1.5rem;height:1.5rem;background:currentColor;opacity:.2;pointer-events:none;transition:opacity .25s,transform .35s cubic-bezier(.3,1.5,.5,1);-webkit-mask:var(--hi) center/contain no-repeat;mask:var(--hi) center/contain no-repeat}
+.hic:hover::after{opacity:.5;transform:rotate(-8deg) scale(1.15)}
+li.hic::after{top:50%;right:.4rem;margin-top:-.75rem}
+.hib::before{content:"";flex:none;width:1.05em;height:1.05em;background:currentColor;-webkit-mask:var(--hi) center/contain no-repeat;mask:var(--hi) center/contain no-repeat}
+#bgic{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;color:var(--text)}
+#bgic i{position:absolute;width:var(--s);height:var(--s);background:currentColor;opacity:var(--o);-webkit-mask:var(--hi) center/contain no-repeat;mask:var(--hi) center/contain no-repeat;transform:rotate(var(--r));animation:bgf var(--d) ease-in-out var(--l) infinite alternate}
+@keyframes bgf{to{transform:translate3d(var(--dx),-34px,0) rotate(calc(var(--r) * -1))}}
+:root[data-motion="off"] #bgic i{animation:none}
+:root.lite #bgic{display:none}
+@media (prefers-reduced-motion:reduce){#bgic i{animation:none}}
+@media (max-width:47.99rem){#bgic i:nth-child(n+15){display:none}}
+</style>
 </head>
 <body>
 <div id="ldr" role="presentation" aria-hidden="true"><div class="ldrg z"><div class="ldgl"><div class="ldring ldtr"></div><div class="ldring ldpg" id="ldp2"></div><i class="lddot ldd1"></i><i class="lddot ldd2"></i></div><div class="ldnm"><span id="ldn">0</span><small>%</small></div></div></div>
@@ -8799,6 +8814,97 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')setOpen(fals
 var map={top:function(){window.scrollTo({top:0,behavior:'smooth'})},theme:'theme',music:'bgmq',search:'search',rnd:'rndb'};
 o.addEventListener('click',function(e){var b=e.target.closest('[data-o]');if(!b)return;var a=map[b.getAttribute('data-o')];
  if(typeof a==='function')a();else{var el=document.getElementById(a);if(el)el.click()}});
+})();
+</script>
+<script id="ic-more-js">
+(function(){
+var P={
+star:'<path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.8 6.8 19.6l1-5.8L3.5 9.7l5.9-.9z"/>',
+heart:'<path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.3a4.3 4.3 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z"/>',
+music:'<path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/>',
+gamepad:'<rect x="2.5" y="7" width="19" height="11" rx="5.5"/><path d="M7.5 10.5v4M5.5 12.5h4M15.5 11.5h.01M18 13.5h.01"/>',
+headphones:'<path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/>',
+sparkle:'<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 17v4M17 19h4"/>',
+zap:'<path d="M13 2.5L4.5 13.5H12l-1 8 8.5-11H12z"/>',
+moon:'<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>',
+sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/>',
+globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.7 5.5 3.7 9s-1.2 6.5-3.7 9c-2.5-2.5-3.7-5.5-3.7-9S9.5 5.5 12 3z"/>',
+code:'<path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/>',
+camera:'<path d="M4 8h3l1.5-2.5h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.5"/>',
+book:'<path d="M12 6.5C10.5 5 8 4.5 4 4.5v13c4 0 6.5.5 8 2 1.5-1.5 4-2 8-2v-13c-4 0-6.5.5-8 2zM12 6.5v13"/>',
+mic:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3"/>',
+disc:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/>',
+flame:'<path d="M12 21c-4 0-6.5-2.7-6.5-6.2 0-3 2-4.8 3.2-6.8.6 1.5 1.3 2 2.3 2.4C11 7.5 12 5 13.5 3c.5 3 4.9 5.2 4.9 10.7 0 4-2.4 7.3-6.4 7.3z"/>',
+trophy:'<path d="M8 4h8v6a4 4 0 0 1-8 0zM8 6H4.5c0 3 1.5 4.5 3.5 4.5M16 6h3.5c0 3-1.5 4.5-3.5 4.5M12 14v4M8.5 20h7"/>',
+crown:'<path d="M4 17l-1.5-9 5 4 4.5-6 4.5 6 5-4L20 17zM4.5 20h15"/>',
+gem:'<path d="M6 4h12l3.5 5L12 20.5 2.5 9zM2.5 9h19M9 4L7.5 9 12 20.5 16.5 9 15 4"/>',
+dice:'<rect x="4" y="4" width="16" height="16" rx="3.5"/><path d="M8.5 8.5h.01M15.5 8.5h.01M12 12h.01M8.5 15.5h.01M15.5 15.5h.01"/>',
+chat:'<path d="M20.5 12a8 8 0 0 1-11.7 7L4 20.5l1.5-4.6A8 8 0 1 1 20.5 12z"/>',
+send:'<path d="M21 3L10 14M21 3l-6.5 18-3.5-7-7-3.5z"/>',
+arrowr:'<path d="M5 12h14M13 6l6 6-6 6"/>',
+ext:'<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
+play:'<path d="M7 4.5v15l12-7.5z"/>',
+user:'<circle cx="12" cy="8" r="4"/><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0"/>',
+palette:'<path d="M12 3a9 9 0 1 0 0 18c1.5 0 2-1 1.5-2.2-.6-1.4.2-2.8 1.8-2.8H18a3 3 0 0 0 3-3C21 7 17 3 12 3z"/><path d="M7.5 11h.01M10 7.5h.01M14.5 7.5h.01"/>',
+film:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4"/>',
+ghost:'<path d="M5 20V10a7 7 0 0 1 14 0v10l-2.5-2-2 2-2.5-2-2.5 2-2-2zM9.5 10h.01M14.5 10h.01"/>',
+target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r=".8"/>',
+pin:'<path d="M12 21s-6.5-5.7-6.5-11A6.5 6.5 0 0 1 12 3.5 6.5 6.5 0 0 1 18.5 10c0 5.3-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/>',
+clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+calendar:'<rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',
+image:'<rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><circle cx="9" cy="10" r="1.6"/><path d="M4 18l5.5-5 4 3.5 3-2.5 4 4"/>',
+info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
+terminal:'<rect x="3" y="4.5" width="18" height="15" rx="2.5"/><path d="M7 10l3 2.5L7 15M12.5 15H17"/>',
+link:'<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
+translate:'<path d="M4 6h9M8.5 4v2M6 6c0 4 3 7 6 8M11.5 6c0 3.5-3 7-7 8.5M13.5 20l4-9 4 9M15 17h5"/>'
+};
+var cache={},pool=['star','sparkle','gem','zap','heart','target','flame','crown','ghost','disc','sun','moon'],n=0;
+function uri(k){
+  if(!cache[k])cache[k]="url('data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+P[k]+'</svg>')+"')";
+  return cache[k];
+}
+var R=[[/game|chơi|steam|valorant|exile|lol/i,'gamepad'],[/nhạc|music|playlist|spotify|nghe|bài hát/i,'music'],[/việt hoá|dịch|translate/i,'translate'],[/ảnh|photo|hình/i,'image'],[/phim|film|anime/i,'film'],[/code|github|mod\b|lập trình/i,'code'],[/discord|chat|nhắn|nói chuyện/i,'chat'],[/đọc|sách|truyện|book/i,'book'],[/hát|ca sĩ|nghệ sĩ|mic|rapper/i,'mic'],[/màu|vẽ|giao diện|theme/i,'palette'],[/video|tiktok|phát|play|xem/i,'play'],[/ngày|lịch|tuần|thời/i,'calendar'],[/link|liên kết|mở|ghé|theo dõi|kết bạn/i,'ext']];
+function guess(t,d){
+  for(var i=0;i<R.length;i++)if(R[i][0].test(t))return R[i][1];
+  return d||pool[n++%pool.length];
+}
+function mark(el,k,cls){
+  if(el.hasAttribute('data-mi'))return;
+  el.setAttribute('data-mi',k);
+  el.style.setProperty('--hi',uri(k));
+  el.classList.add(cls);
+}
+var SEC={links:'globe',live:'chat',now:'target',play:'trophy',mod:'code',hobby:'sparkle',idol:'disc',playlist:'headphones',lab:'dice',photos:'camera',stats:'gem',facts:'star',log:'book',tkb:'clock',faq:'info',contact:'heart',map:'target'};
+function scan(){
+  document.querySelectorAll('h2:not([data-mi])').forEach(function(h){
+    if(h.closest('.ghd'))return;
+    var s=h.closest('section[id]');
+    mark(h,(s&&SEC[s.id])||'sparkle','hi');
+  });
+  document.querySelectorAll('.hob,.card,.idgrid>*,.pls>*,.stats>div,.rows li').forEach(function(c,i){
+    if(c.hasAttribute('data-mi'))return;
+    mark(c,guess(c.textContent.slice(0,160)),'hic');
+  });
+  document.querySelectorAll('.btn,.ffs button,.tkb-tabs button,.mapbar button').forEach(function(b){
+    if(b.hasAttribute('data-mi')||b.querySelector('svg,[data-ic],img'))return;
+    mark(b,guess(b.textContent,'arrowr'),'hib');
+  });
+}
+function bg(){
+  if(document.getElementById('bgic'))return;
+  var d=document.createElement('div'),k=Object.keys(P),h='';
+  d.id='bgic';d.setAttribute('aria-hidden','true');
+  for(var i=0;i<28;i++){
+    var ic=k[(i*7)%k.length];
+    h+='<i style="--hi:'+uri(ic)+';left:'+((i*37+11)%96)+'%;top:'+((i*61+7)%94)+'%;--s:'+(1.5+(i%4)*.7).toFixed(1)+'rem;--o:'+(.06+(i%3)*.025).toFixed(3)+';--r:'+(((i*47)%60)-30)+'deg;--d:'+(14+(i%7)*3)+'s;--l:-'+((i*3)%14)+'s;--dx:'+(((i%2)?1:-1)*(10+(i%5)*6))+'px"></i>';
+  }
+  d.innerHTML=h;
+  document.body.appendChild(d);
+}
+var q=0;
+function sched(){if(q)return;q=requestAnimationFrame(function(){q=0;scan()})}
+bg();scan();
+new MutationObserver(sched).observe(document.body,{childList:true,subtree:true});
 })();
 </script>
 </body>
