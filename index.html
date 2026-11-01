@@ -1359,6 +1359,48 @@ body::after{animation:none}
 }
 :root[data-motion="off"] .ic2,:root[data-motion="off"] .ic2 *{transition:none!important;animation:none!important}
 :root[data-motion="off"] .rv.in .eyebrow .ic2{animation:none}
+
+/* ===== icon phủ toàn trang ===== */
+.ghd .gic{grid-column:1/-1;justify-self:start;display:inline-flex;align-items:center;justify-content:center;width:3.4rem;height:3.4rem;margin-bottom:.4rem;border:1px solid color-mix(in srgb,var(--ga,var(--acc)) 45%,var(--line));border-radius:1.1rem;background:color-mix(in srgb,var(--ga,var(--acc)) 12%,transparent)}
+.ghd .gic .ic2{width:1.8rem;height:1.8rem;stroke:var(--ga,var(--acc));fill:var(--ga,var(--acc))}
+.js .ghd.in .gic .ic2,.js .rv.in .gic .ic2{animation:icpop .8s cubic-bezier(.3,1.6,.5,1) .15s backwards}
+.bar nav a{display:inline-flex;align-items:center;gap:.4rem}
+.bar nav a .ic2{width:.9rem;height:.9rem;stroke:currentColor}
+.bar .acts .btn .ic2{width:.95rem;height:.95rem;margin-right:.35rem}
+.faq summary .sq{display:inline-flex;align-items:center;gap:.7rem}
+.faq summary .sq .ic2{width:1.15rem;height:1.15rem}
+.log li b{display:flex!important;align-items:center;gap:.55rem}
+.log li b .ic2{width:1.05rem;height:1.05rem}
+p.mini{display:flex;align-items:center;gap:.5rem}
+p.mini .ic2{width:.9rem;height:.9rem}
+.tkb-list li b{display:flex!important;align-items:center;gap:.6rem}
+.tkb-list li b .ic2{width:1.1rem;height:1.1rem}
+.band .run span{display:inline-flex;align-items:center;gap:.6rem}
+.band .run .ic2{width:1.2rem;height:1.2rem}
+.fgrid h4{display:flex;align-items:center;gap:.5rem}
+.fgrid h4 .ic2{width:1.05rem;height:1.05rem}
+.fgrid li a{display:inline-flex;align-items:center;gap:.5rem}
+.fgrid li a .ic2{width:.95rem;height:.95rem}
+h3[class]>[data-ic],.card h3>[data-ic]{margin-right:.5rem}
+.ic2.user .hd,.ic2.sun{transform-origin:center}
+:is(.ghd,.faq details,.log li,.tkb-list li,.bar nav a,.fgrid li,.fgrid h4,.band .run span,p.mini,.btn):hover .ic2{transform:scale(1.14) rotate(-5deg)}
+:is(.ghd,.faq details,.log li,.tkb-list li,.bar nav a,.fgrid li,.fgrid h4,.band .run span,p.mini,.btn):hover .ic2.sun{animation:spinslow 4s linear infinite}
+:is(.ghd,.faq details,.log li,.tkb-list li,.bar nav a,.fgrid li,.fgrid h4,.band .run span,p.mini,.btn):hover .ic2.sunrise{transform:translateY(-2px)}
+:is(.ghd,.faq details,.log li,.tkb-list li,.bar nav a,.fgrid li,.fgrid h4,.band .run span,p.mini,.btn):hover .ic2.bed{animation:bob 1.6s ease-in-out infinite}
+:is(.ghd,.faq details,.log li,.tkb-list li,.bar nav a,.fgrid li,.fgrid h4,.band .run span,p.mini,.btn):hover .ic2.flag{animation:sway 1s ease-in-out infinite alternate;transform-origin:20% 90%}
+:is(.ghd,.faq details,.log li,.tkb-list li,.bar nav a,.fgrid li,.fgrid h4,.band .run span,p.mini,.btn):hover .ic2.joystick{animation:wob .6s ease}
+:is(.ghd,.faq details,.log li,.tkb-list li,.bar nav a,.fgrid li,.fgrid h4,.band .run span,p.mini,.btn):hover .ic2.palm{animation:sway 1.1s ease-in-out infinite alternate;transform-origin:50% 100%}
+:is(.ghd,.faq details,.log li,.tkb-list li,.bar nav a,.fgrid li,.fgrid h4,.band .run span,p.mini,.btn):hover .ic2.cap{transform:translateY(-2px) rotate(-6deg)}
+:is(.ghd,.faq details,.log li,.tkb-list li,.bar nav a,.fgrid li,.fgrid h4,.band .run span,p.mini,.btn):hover .ic2.sparkle{animation:beat .7s ease}
+:is(.ghd,.faq details,.log li,.tkb-list li,.bar nav a,.fgrid li,.fgrid h4,.band .run span,p.mini,.btn):hover .ic2.bulb{animation:flick .6s ease-in-out infinite}
+:is(.ghd,.faq details,.log li,.tkb-list li,.bar nav a,.fgrid li,.fgrid h4,.band .run span,p.mini,.btn):hover .ic2.code{letter-spacing:0;transform:scale(1.14)}
+:is(.ghd,.faq details,.log li,.tkb-list li,.bar nav a,.fgrid li,.fgrid h4,.band .run span,p.mini,.btn):hover .ic2.keycap{transform:scale(.9)}
+:is(.ghd,.faq details,.log li,.tkb-list li,.bar nav a,.fgrid li,.fgrid h4,.band .run span,p.mini,.btn):hover .ic2.plug{transform:translateY(-2px)}
+:is(.ghd,.faq details,.log li,.tkb-list li,.bar nav a,.fgrid li,.fgrid h4,.band .run span,p.mini,.btn):hover .ic2.smile{transform:rotate(12deg) scale(1.12)}
+@keyframes spinslow{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.ghd .gic .ic2,.ic2{animation:none!important}}
+:root[data-motion="off"] .ghd .gic .ic2,:root[data-motion="off"] .ic2{animation:none!important}
+.lite .ic2{animation:none!important}
 .final .eyebrow{justify-content:center}
 @media (min-width:56rem){.fgrid{grid-template-columns:1.3fr .7fr .8fr 1.5fr}}
 .keys li{display:flex;align-items:center;gap:.9rem;padding:.55rem 0;border-top:1px solid var(--line)}
@@ -3097,11 +3139,11 @@ window.__autoLang=function(){
     <div class="navx"><button class="nvb prev" type="button" aria-label="Cuộn mục sang trái" title="Sang trái">‹</button>
     <nav aria-label="Điều hướng chính">
       <button class="sbt" type="button" aria-label="Ẩn thanh bên" aria-expanded="true" title="Ẩn thanh bên">‹</button>
-      <a href="#g-about">Về Ming</a>
-      <a href="#g-likes">Sở thích</a>
-      <a href="#g-play">Chơi và xem</a>
-      <a href="#g-log">Nhật ký</a>
-      <a href="#g-end">Cuối trang</a>
+      <a href="#g-about"><i data-ic="user"></i>Về Ming</a>
+      <a href="#g-likes"><i data-ic="heart"></i>Sở thích</a>
+      <a href="#g-play"><i data-ic="joystick"></i>Chơi và xem</a>
+      <a href="#g-log"><i data-ic="notebook"></i>Nhật ký</a>
+      <a href="#g-end"><i data-ic="flag"></i>Cuối trang</a>
     </nav>
     <button class="nvb next" type="button" aria-label="Cuộn mục sang phải" title="Sang phải">›</button></div>
     <div class="acts">
@@ -3119,7 +3161,7 @@ window.__autoLang=function(){
       <button class="tgl sw" id="theme" type="button" aria-label="Đổi giao diện sáng hoặc tối" aria-pressed="false"><span class="sk" aria-hidden="true"><i class="nt"></i><i class="dy"></i><i class="st"></i><svg class="bd" viewBox="0 0 60 28"><path d="M4 6l3.5 4.5L11 6M16 14l3 4 3-4M30 5l3 4 3-4M44 12l2.6 3.6L49.2 12"/></svg><i class="cl"></i><i class="cf"></i><i class="dc"></i><i class="dd"></i></span><span class="kn" aria-hidden="true"></span></button>
       <button class="tgl" id="more" type="button" aria-label="Thêm tuỳ chọn" aria-expanded="false" aria-controls="morep" title="Thêm"><svg class="g" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="19" cy="12" r="1.9"/></svg></button>
       <div class="morep" id="morep" hidden></div>
-      <a class="btn line" href="#contact">Liên hệ</a>
+      <a class="btn line" href="#contact"><i data-ic="send"></i>Liên hệ</a>
     </div>
   </div>
 </header>
@@ -3189,14 +3231,14 @@ window.__autoLang=function(){
 
     <div class="band" aria-hidden="true">
     <div class="run">
-      <span>LoL</span><span>Delta Force</span><span>Path of Exile 2</span><span>Việt hoá game</span><span>Đọc truyện</span>
-      <span>LoL</span><span>Delta Force</span><span>Path of Exile 2</span><span>Việt hoá game</span><span>Đọc truyện</span>
-      <span>LoL</span><span>Delta Force</span><span>Path of Exile 2</span><span>Việt hoá game</span><span>Đọc truyện</span>
-      <span>LoL</span><span>Delta Force</span><span>Path of Exile 2</span><span>Việt hoá game</span><span>Đọc truyện</span>
+      <span><i data-ic="crosshair"></i>LoL</span><span><i data-ic="flag"></i>Delta Force</span><span><i data-ic="flame"></i>Path of Exile 2</span><span><i data-ic="translate"></i>Việt hoá game</span><span><i data-ic="book"></i>Đọc truyện</span>
+      <span><i data-ic="crosshair"></i>LoL</span><span><i data-ic="flag"></i>Delta Force</span><span><i data-ic="flame"></i>Path of Exile 2</span><span><i data-ic="translate"></i>Việt hoá game</span><span><i data-ic="book"></i>Đọc truyện</span>
+      <span><i data-ic="crosshair"></i>LoL</span><span><i data-ic="flag"></i>Delta Force</span><span><i data-ic="flame"></i>Path of Exile 2</span><span><i data-ic="translate"></i>Việt hoá game</span><span><i data-ic="book"></i>Đọc truyện</span>
+      <span><i data-ic="crosshair"></i>LoL</span><span><i data-ic="flag"></i>Delta Force</span><span><i data-ic="flame"></i>Path of Exile 2</span><span><i data-ic="translate"></i>Việt hoá game</span><span><i data-ic="book"></i>Đọc truyện</span>
     </div>
   </div>
 
-    <div class="wrap ghd rv"><div><h2>Về Ming</h2><p>Tôi là ai, tìm tôi ở đâu và dạo này tôi đang làm gì.</p></div></div>
+    <div class="wrap ghd rv"><div><i class="gic" data-ic="user"></i><h2>Về Ming</h2><p>Tôi là ai, tìm tôi ở đâu và dạo này tôi đang làm gì.</p></div></div>
 
     <section class="s" id="links">
     <div class="wrap">
@@ -3513,7 +3555,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
 </div>
 
 <div class="grp" id="g-likes">
-    <div class="wrap ghd rv"><div><h2>Sở thích</h2><p>Game, dự án việt hoá, nhạc và những thứ tôi mê.</p></div></div>
+    <div class="wrap ghd rv"><div><i class="gic" data-ic="heart"></i><h2>Sở thích</h2><p>Game, dự án việt hoá, nhạc và những thứ tôi mê.</p></div></div>
 
     <section class="s" id="play">
     <div class="wrap">
@@ -3539,7 +3581,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
               <li><span><i data-ic="trophy"></i>Thành tựu</span><b data-sv="achievements">6.468</b></li>
               <li><span><i data-ic="clock"></i>Giờ chơi hai tuần qua</span><b><span data-sv="hours2w">179,7</span> giờ</b></li>
             </ul>
-            <p class="mini">Chơi gần đây</p>
+            <p class="mini"><i data-ic="clock"></i>Chơi gần đây</p>
             <ul class="kv" id="steamrecent">
               <li><a href="https://store.steampowered.com/search/?term=ShareX" target="_blank" rel="noopener"><span>ShareX</span><b>1.518 giờ</b></a></li>
               <li><a href="https://store.steampowered.com/search/?term=Mini+Cozy+Room" target="_blank" rel="noopener"><span>Mini Cozy Room: Lo-Fi</span><b>42 giờ</b></a></li>
@@ -3556,9 +3598,9 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
               <li><span><i data-ic="gamepad"></i>Máy chủ</span><b>VN</b></li>
               <li><span><i data-ic="flame"></i>Xếp hạng</span><b>Không chơi rank</b></li>
             </ul>
-            <p class="mini">Tướng thông thạo cao nhất</p>
+            <p class="mini"><i data-ic="crown"></i>Tướng thông thạo cao nhất</p>
             <div class="champs" id="champs"></div>
-            <p class="mini">Ảnh chia sẻ</p>
+            <p class="mini"><i data-ic="image"></i>Ảnh chia sẻ</p>
             <a class="shot ph" data-i="L" data-opgg href="https://www.op.gg/" target="_blank" rel="noopener"><img src="images/lol-share.jpg" width="1100" height="619" alt="Hồ sơ League of Legends của ming, thông thạo Zed" loading="lazy" decoding="async" onerror="this.remove()"></a>
             <p class="note">Ghi chú: muốn chơi chung thì thêm tôi qua Riot ID ming#0811 (server VN).</p>
             <p class="note">Trang của người hâm mộ, không liên kết với Riot Games. League of Legends và ảnh tướng thuộc Riot Games.</p>
@@ -3622,7 +3664,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
 </div>
 
 <div class="grp" id="g-play">
-    <div class="wrap ghd rv"><div><h2>Chơi và xem</h2><p>Mấy món để nghịch, vài tấm ảnh và chuyện vui.</p></div></div>
+    <div class="wrap ghd rv"><div><i class="gic" data-ic="joystick"></i><h2>Chơi và xem</h2><p>Mấy món để nghịch, vài tấm ảnh và chuyện vui.</p></div></div>
 
     <section class="s" id="lab">
     <div class="wrap">
@@ -3654,7 +3696,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
           <div class="kbd" id="kbd" aria-hidden="true"></div>
           <p class="note">Cứ gõ thử, không cần bấm gì cả. Khi phần này đang hiện trên màn hình, các phím tắt của trang tạm thời bị tắt (bấm "Tạm dừng" để dùng lại). Phím Windows và tổ hợp của hệ điều hành thì trình duyệt không bắt được. Cần bàn phím thật để thử.</p>
           <div class="typ" id="typ">
-            <h3>Test tốc độ gõ chữ</h3>
+            <h3><i data-ic="keyboard"></i>Test tốc độ gõ chữ</h3>
             <div class="lrow" id="tmode" role="group" aria-label="Chọn chữ để gõ">
               <button class="btn line" type="button" data-m="vi" aria-pressed="true">Tiếng Việt</button>
               <button class="btn line" type="button" data-m="vih" aria-pressed="false">Tiếng Việt khó</button>
@@ -3814,7 +3856,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
   </div>
 
 <div class="grp" id="g-log">
-    <div class="wrap ghd rv"><div><h2>Nhật ký</h2><p>Chuyện gần đây và một tuần của tôi.</p></div></div>
+    <div class="wrap ghd rv"><div><i class="gic" data-ic="notebook"></i><h2>Nhật ký</h2><p>Chuyện gần đây và một tuần của tôi.</p></div></div>
 
     <section class="s" id="log">
     <div class="wrap">
@@ -3824,19 +3866,19 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
         <p class="lead">Mới nhất ở trên cùng.</p>
       </div>
       <div class="ddbox rv" id="ddbox"></div>
-      <p class="mini rv">Năm 2026 của tôi</p>
+      <p class="mini rv"><i data-ic="calendar"></i>Năm 2026 của tôi</p>
       <div class="yr rv" id="yr"></div>
       <ol class="log rv fold" id="logl">
-                <li><time>Tháng 10, 2026</time><b>Làm trang web này</b><p>Đây là lần thứ 3 tôi làm trang web này.</p></li>
-        <li><time>Tháng 9, 2026</time><b>Thực tập tại công ty</b><p>Vẫn đang đi thực tập, vừa làm vừa học thêm.</p></li>
-        <li><time>Tháng 8, 2026</time><b>Thực tập tại công ty</b><p>Đi thực tập và làm quen với môi trường làm việc.</p></li>
-        <li><time>Tháng 7, 2026</time><b>Nghỉ hè</b><p>Nghỉ ngơi, chơi game và nạp lại năng lượng.</p></li>
-        <li><time>Tháng 6, 2026</time><b>Nghỉ hè</b><p>Bắt đầu kỳ nghỉ hè.</p></li>
-        <li><time>Tháng 5, 2026</time><b>Đi học</b><p>Đi học trên lớp, chuẩn bị kết thúc kỳ học.</p></li>
-        <li><time>Tháng 4, 2026</time><b>Đi học</b><p>Đi học và làm bài đều đặn.</p></li>
-        <li><time>Tháng 3, 2026</time><b>Đi học</b><p>Đi học và làm bài đều đặn.</p></li>
-        <li><time>Tháng 2, 2026</time><b>Đi học</b><p>Đi học sau kỳ nghỉ Tết.</p></li>
-        <li><time>Tháng 1, 2026</time><b>Đi học</b><p>Bắt đầu năm mới, vẫn đi học như thường.</p></li>
+                <li><time>Tháng 10, 2026</time><b><i data-ic="code"></i>Làm trang web này</b><p>Đây là lần thứ 3 tôi làm trang web này.</p></li>
+        <li><time>Tháng 9, 2026</time><b><i data-ic="briefcase"></i>Thực tập tại công ty</b><p>Vẫn đang đi thực tập, vừa làm vừa học thêm.</p></li>
+        <li><time>Tháng 8, 2026</time><b><i data-ic="briefcase"></i>Thực tập tại công ty</b><p>Đi thực tập và làm quen với môi trường làm việc.</p></li>
+        <li><time>Tháng 7, 2026</time><b><i data-ic="palm"></i>Nghỉ hè</b><p>Nghỉ ngơi, chơi game và nạp lại năng lượng.</p></li>
+        <li><time>Tháng 6, 2026</time><b><i data-ic="palm"></i>Nghỉ hè</b><p>Bắt đầu kỳ nghỉ hè.</p></li>
+        <li><time>Tháng 5, 2026</time><b><i data-ic="cap"></i>Đi học</b><p>Đi học trên lớp, chuẩn bị kết thúc kỳ học.</p></li>
+        <li><time>Tháng 4, 2026</time><b><i data-ic="cap"></i>Đi học</b><p>Đi học và làm bài đều đặn.</p></li>
+        <li><time>Tháng 3, 2026</time><b><i data-ic="cap"></i>Đi học</b><p>Đi học và làm bài đều đặn.</p></li>
+        <li><time>Tháng 2, 2026</time><b><i data-ic="cap"></i>Đi học</b><p>Đi học sau kỳ nghỉ Tết.</p></li>
+        <li><time>Tháng 1, 2026</time><b><i data-ic="cap"></i>Đi học</b><p>Bắt đầu năm mới, vẫn đi học như thường.</p></li>
       </ol>
       <button type="button" class="foldbtn" id="logfold" aria-controls="logl" aria-expanded="false">Xem thêm</button>
     </div>
@@ -3862,7 +3904,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
 </div>
 
 <div class="grp" id="g-end">
-    <div class="wrap ghd rv"><div><h2>Cuối trang</h2><p>Hỏi đáp nhanh và cách liên hệ với tôi.</p></div></div>
+    <div class="wrap ghd rv"><div><i class="gic" data-ic="flag"></i><h2>Cuối trang</h2><p>Hỏi đáp nhanh và cách liên hệ với tôi.</p></div></div>
 
   <section class="s" id="faq">
     <div class="wrap">
@@ -3871,13 +3913,13 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
         <h2>Có thể bạn muốn biết</h2>
       </div>
       <div class="faq rv">
-        <details><summary>Trang này để làm gì?</summary><p>Chỉ để bạn bè và người quen biết dạo này tôi đang làm gì. Không có hàng bán, không có bảng giá.</p></details>
-        <details><summary>Tôi có nhận việc không?</summary><p>Hiện tại thì chưa. Tôi vẫn còn đang học nhiều thứ, nên muốn làm những gì tôi thích trước.</p></details>
-        <details><summary>Tôi đang học gì?</summary><p>Tôi hay thử nhiều hướng: thiết kế, code, mod game, dựng video. Cái nào vui thì tôi đào sâu hơn.</p></details>
-        <details><summary>Dạo này tôi bận gì?</summary><p>Tháng 8 và 9 tôi đang đi thực tập tại công ty. Tháng 6 và 7 thì tôi nghỉ hè.</p></details>
-        <details><summary>Tag LoL của tôi là gì?</summary><p>ming#0811, server VN. Tướng tôi thông thạo cao nhất là Lee Sin, Zed và Yasuo.</p></details>
-        <details><summary>Khi nào tôi có thời gian?</summary><p>Từ thứ 2 đến thứ 6 tôi đi học, nên có thể tôi sẽ trả lời chậm.</p></details>
-        <details><summary>Muốn chơi game chung thì sao?</summary><p>Cứ nhắn tôi qua Discord hoặc Facebook ở cuối trang, tôi sẽ trả lời khi online.</p></details>
+        <details><summary><span class="sq"><i data-ic="help"></i>Trang này để làm gì?</span></summary><p>Chỉ để bạn bè và người quen biết dạo này tôi đang làm gì. Không có hàng bán, không có bảng giá.</p></details>
+        <details><summary><span class="sq"><i data-ic="briefcase"></i>Tôi có nhận việc không?</span></summary><p>Hiện tại thì chưa. Tôi vẫn còn đang học nhiều thứ, nên muốn làm những gì tôi thích trước.</p></details>
+        <details><summary><span class="sq"><i data-ic="bulb"></i>Tôi đang học gì?</span></summary><p>Tôi hay thử nhiều hướng: thiết kế, code, mod game, dựng video. Cái nào vui thì tôi đào sâu hơn.</p></details>
+        <details><summary><span class="sq"><i data-ic="clock"></i>Dạo này tôi bận gì?</span></summary><p>Tháng 8 và 9 tôi đang đi thực tập tại công ty. Tháng 6 và 7 thì tôi nghỉ hè.</p></details>
+        <details><summary><span class="sq"><i data-ic="id"></i>Tag LoL của tôi là gì?</span></summary><p>ming#0811, server VN. Tướng tôi thông thạo cao nhất là Lee Sin, Zed và Yasuo.</p></details>
+        <details><summary><span class="sq"><i data-ic="calendar"></i>Khi nào tôi có thời gian?</span></summary><p>Từ thứ 2 đến thứ 6 tôi đi học, nên có thể tôi sẽ trả lời chậm.</p></details>
+        <details><summary><span class="sq"><i data-ic="gamepad"></i>Muốn chơi game chung thì sao?</span></summary><p>Cứ nhắn tôi qua Discord hoặc Facebook ở cuối trang, tôi sẽ trả lời khi online.</p></details>
       </div>
     </div>
   </section>
@@ -3945,10 +3987,10 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     </section>
     </details>
     <div class="fgrid">
-      <div><h4>Ming</h4><p style="margin:0">Một trang nhỏ để ghi lại dạo này tôi đang làm gì.</p></div>
-      <div><h4>Trang</h4><ul><li><a href="#g-about">Về Ming</a></li><li><a href="#g-likes">Sở thích</a></li><li><a href="#g-play">Chơi và xem</a></li><li><a href="#g-log">Nhật ký</a></li><li><a href="#contact">Liên hệ</a></li><li><a href="#map">Bản đồ</a></li></ul></div>
-      <div><h4>Kết nối</h4><ul id="fconn"></ul></div>
-      <div class="keys"><h4>Phím tắt</h4><ul>
+      <div><h4><i data-ic="smile"></i>Ming</h4><p style="margin:0">Một trang nhỏ để ghi lại dạo này tôi đang làm gì.</p></div>
+      <div><h4><i data-ic="compass"></i>Trang</h4><ul><li><a href="#g-about"><i data-ic="user"></i>Về Ming</a></li><li><a href="#g-likes"><i data-ic="heart"></i>Sở thích</a></li><li><a href="#g-play"><i data-ic="joystick"></i>Chơi và xem</a></li><li><a href="#g-log"><i data-ic="notebook"></i>Nhật ký</a></li><li><a href="#contact"><i data-ic="send"></i>Liên hệ</a></li><li><a href="#map"><i data-ic="pin"></i>Bản đồ</a></li></ul></div>
+      <div><h4><i data-ic="plug"></i>Kết nối</h4><ul id="fconn"></ul></div>
+      <div class="keys"><h4><i data-ic="keycap"></i>Phím tắt</h4><ul>
         <li><kbd>T</kbd><span>Đổi giao diện sáng hoặc tối</span></li>
         <li><kbd>M</kbd><span>Tắt hoặc bật hiệu ứng</span></li>
         <li><kbd>H</kbd><span>Lên đầu trang</span></li>
@@ -3972,8 +4014,8 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       <h3 id="gmt"></h3>
       <p class="idtag" id="gmm"></p>
       <div class="gtags" id="gmtags"></div>
-      <h4>Tôi chơi thế nào</h4><p id="gmd"></p>
-      <h4>Vì sao tôi thích</h4><p id="gmw"></p>
+      <h4><i data-ic="joystick"></i>Tôi chơi thế nào</h4><p id="gmd"></p>
+      <h4><i data-ic="heart"></i>Vì sao tôi thích</h4><p id="gmw"></p>
       <div class="cta"><a class="btn" id="gml" target="_blank" rel="noopener">Mở trang game</a><a class="btn line" id="gmv" href="#">Xem trang chi tiết</a></div>
     </div>
   </div>
@@ -3986,9 +4028,9 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     <div class="idbd">
       <h3 id="idmt"></h3>
       <p class="idtag" id="idtag"></p>
-      <h4>Vì sao tôi thích</h4><p id="idwhy"></p>
-      <h4>Đặc điểm</h4><ul id="idtr"></ul>
-      <h4>Bài hát trên YouTube</h4><div class="ytl" id="idsg"></div>
+      <h4><i data-ic="heart"></i>Vì sao tôi thích</h4><p id="idwhy"></p>
+      <h4><i data-ic="sparkle"></i>Đặc điểm</h4><ul id="idtr"></ul>
+      <h4><i data-ic="youtube"></i>Bài hát trên YouTube</h4><div class="ytl" id="idsg"></div>
     </div>
   </div>
 </div>
@@ -5897,7 +5939,28 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     zap:'<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',
     phone:'<rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/>',
     monitor:'<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>',
-    translate:'<path d="M4 5h9M8.5 3v2M6 5c.5 3 2.5 5.5 6 7M11 5c-.5 3-3 6-7 8"/><path d="M13 21l4-9 4 9M14.5 18h5"/>'
+    translate:'<path d="M4 5h9M8.5 3v2M6 5c.5 3 2.5 5.5 6 7M11 5c-.5 3-3 6-7 8"/><path d="M13 21l4-9 4 9M14.5 18h5"/>',
+    user:'<circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c.8-4 3.7-6 7.5-6s6.7 2 7.5 6"/>',
+    joystick:'<path d="M12 4v8"/><circle cx="12" cy="4.5" r="2"/><path d="M4 20v-2.5a2.5 2.5 0 0 1 2.5-2.5h11a2.5 2.5 0 0 1 2.5 2.5V20z"/><path d="M8 18h.01M16 18h.01"/>',
+    notebook:'<rect x="5" y="3.5" width="14" height="17" rx="2"/><path d="M9 3.5v17M12.5 8.5h3.5M12.5 12h3.5"/><path d="M3.5 7.5h3M3.5 12h3M3.5 16.5h3"/>',
+    flag:'<path d="M5 21V4"/><path d="M5 4.5c4-2 6 2 10 0 1.7-.8 3-.8 4-.3v8.3c-1-.5-2.3-.5-4 .3-4 2-6-2-10 0"/>',
+    cap:'<path d="M2.5 9.5L12 5l9.5 4.5L12 14z"/><path d="M6.5 11.5v4.5c1.5 1.5 3.3 2.2 5.5 2.2s4-.7 5.5-2.2v-4.5"/><path d="M21.5 9.5v5"/>',
+    briefcase:'<rect x="3" y="7.5" width="18" height="12.5" rx="2.2"/><path d="M9 7.5V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5M3 13h18"/><path d="M11 13h2"/>',
+    palm:'<path d="M12 21c0-5 .5-8 1.5-10.5"/><path d="M13.5 10.5C12 7 8.5 5.5 4.5 6.5c2.5.5 4 2 5 4"/><path d="M13.5 10.5C14 7 17 4.5 21 5c-2.5 1-4 2.5-4.5 5"/><path d="M13.5 10.5c-3-.5-5.5.5-7.5 3 2.5-.5 4.5 0 6 1.5"/><path d="M4 21h16"/>',
+    sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.5 1.5M17.2 17.2l1.5 1.5M5.3 18.700l1.5-1.5M17.2 6.8l1.5-1.5"/>',
+    sunrise:'<path d="M3 19h18"/><path d="M7 19a5 5 0 0 1 10 0"/><path d="M12 5v4M5.5 9.5l1.8 1.8M18.5 9.5l-1.8 1.8"/>',
+    bed:'<path d="M3 19V6M3 15h18v4M21 15v-3a3 3 0 0 0-3-3h-7v6"/><circle cx="7" cy="11" r="1.8"/>',
+    utensils:'<path d="M7 3v8M4.5 3v5a2.5 2.5 0 0 0 5 0V3M7 11v10"/><path d="M17 21V3c-2.5 1.5-3.5 4.5-3.5 8H17"/>',
+    broom:'<path d="M14.5 3.5l5 5"/><path d="M13 5l6 6-5.5 5.5c-2 2-5 3-9 3 .5-4 1.5-7 3.5-9z"/><path d="M8 13.5l2.5 2.5M5.5 16l2 2"/>',
+    sparkle:'<path d="M12 3c.8 4.5 2.5 6.2 7 7-4.5.8-6.2 2.5-7 7-.8-4.5-2.5-6.2-7-7 4.5-.8 6.2-2.5 7-7z"/><path d="M19 17v4M17 19h4"/>',
+    code:'<path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 5l-4 14"/>',
+    chat:'<path d="M4 5h16v11H9l-4 4v-4H4z"/><path d="M8.5 10.5h.01M12 10.5h.01M15.5 10.5h.01"/>',
+    keycap:'<rect x="3.5" y="3.5" width="17" height="17" rx="4"/><path d="M9 9l6 6M15 9l-6 6"/>',
+    home:'<path d="M4 11l8-7 8 7"/><path d="M6 9.5V20h12V9.5M10 20v-5h4v5"/>',
+    plug:'<path d="M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0zM12 17v4"/>',
+    bulb:'<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.600 1-2.1A6 6 0 0 0 12 3z"/>',
+    smile:'<circle cx="12" cy="12" r="9"/><path d="M8.5 14c1 1.5 2.2 2.2 3.5 2.2s2.5-.7 3.5-2.2M9 9.5h.01M15 9.5h.01"/>',
+    eye:'<path d="M2 12s3.600-7 10-7 10 7 10 7-3.600 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="2.8"/>'
   };
   function icn(n){return ICONS[n]?'<svg class="ic2 '+n+'" viewBox="0 0 24 24" aria-hidden="true">'+ICONS[n]+'</svg>':''}
   document.querySelectorAll('[data-ic]').forEach(function(el){el.innerHTML=icn(el.getAttribute('data-ic'))});
@@ -6786,9 +6849,10 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       var n=vn(),td=n.d,rows=TKB[sel]||[];
       cap.textContent=T(TKB_D[sel][0])+(sel===td?' · '+T('Hôm nay'):'');
       list.setAttribute('aria-labelledby','tkbt'+sel);
+      function tki(t){t=t.toLowerCase();return /thức khuya/.test(t)?'moon':/ngủ/.test(t)?'bed':/dậy/.test(t)?'sunrise':/đi học/.test(t)?'cap':/dịch mod/.test(t)?'translate':/dọn dẹp/.test(t)?'broom':/ăn tối|ăn trưa/.test(t)?'utensils':/chơi game/.test(t)?'gamepad':/nghe nhạc/.test(t)?'headphones':'clock'}
       list.innerHTML=rows.length?rows.map(function(r){
         var on=sel===td&&n.m>=mins(r[0])&&n.m<mins(r[1]);
-        return '<li'+(on?' class="now"':'')+'><time>'+esc(r[0])+' – '+esc(r[1])+'</time><div><b>'+esc(T(r[2]))+'</b>'+(r[3]?'<p>'+esc(T(r[3]))+'</p>':'')+(on?'<span class="nw"><span class="dot"></span>'+esc(T('Đang diễn ra'))+'</span>':'')+'</div></li>';
+        return '<li'+(on?' class="now"':'')+'><time>'+esc(r[0])+' – '+esc(r[1])+'</time><div><b>'+icn(tki(r[2]))+esc(T(r[2]))+'</b>'+(r[3]?'<p>'+esc(T(r[3]))+'</p>':'')+(on?'<span class="nw"><span class="dot"></span>'+esc(T('Đang diễn ra'))+'</span>':'')+'</div></li>';
       }).join(''):'<li><time>–</time><div><b>'+esc(T('Chưa có lịch'))+'</b></div></li>';
     }
     function render(){renderTabs();renderList()}
@@ -7020,7 +7084,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       var q=document.getElementById('qlinks');
       if(q)q.innerHTML=LK.filter(function(x){return x.k!=='mail'}).map(function(x){return '<a class="ql" role="listitem" href="'+esc(x.u)+'" target="_blank" rel="noopener">'+icn(x.k)+esc(x.n)+'</a>'}).join('');
       var f=document.getElementById('fconn');
-      if(f)f.innerHTML=LK.map(function(x){return '<li><a href="'+esc(x.u)+'"'+(x.k==='mail'?'':' target="_blank" rel="noopener"')+'>'+esc(x.n)+'</a></li>'}).join('');
+      if(f)f.innerHTML=LK.map(function(x){return '<li><a href="'+esc(x.u)+'"'+(x.k==='mail'?'':' target="_blank" rel="noopener"')+'>'+icn(x.k)+esc(x.n)+'</a></li>'}).join('');
     }
     build();
     document.addEventListener('langchange',build);
