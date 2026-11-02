@@ -3013,7 +3013,10 @@ html.orb-drag,html.orb-drag *{cursor:grabbing!important;user-select:none!importa
 :root[data-motion="off"] #orb .core{transition:none!important}
 @media (prefers-reduced-motion:reduce){#orb .core{transition:none!important}}
 </style>
-<style id="perf-anim">/* tối ưu: animation chỉ đổi opacity (chạy được trên GPU); vầng sáng để tĩnh thay vì animate text-shadow (bắt buộc vẽ lại mỗi khung hình) */
+<style id="perf-anim">/* icon xoay vòng ở thanh đầu trang: thay animation CSS 10s (chạy trên main thread, tick 60 lần/giây) bằng đổi trạng thái mỗi 2,5s + transition ngắn */
+.dd .dd-g.l i,.dd:not(.playing) .dd-g.r i{animation:none;opacity:0;scale:.2;rotate:-80deg;transition:opacity .35s,scale .35s,rotate .35s}
+.dd .dd-g:not([data-k]) i:first-child,.dd .dd-g[data-k="0"] i:nth-child(1),.dd .dd-g[data-k="1"] i:nth-child(2),.dd .dd-g[data-k="2"] i:nth-child(3),.dd .dd-g[data-k="3"] i:nth-child(4){opacity:1;scale:1;rotate:0deg}
+/* tối ưu: animation chỉ đổi opacity (chạy được trên GPU); vầng sáng để tĩnh thay vì animate text-shadow (bắt buộc vẽ lại mỗi khung hình) */
 :root:not([data-motion="off"]) :is(#steamn,#steamname,.pci>b,#dcp .in>h3){text-shadow:0 0 .3em currentColor}
 /* chấm ping: thay animate box-shadow bằng vòng ::after chỉ đổi transform/opacity */
 .dot{position:relative;animation:none}
@@ -8946,5 +8949,11 @@ var SEL='h2,.hob,.card,.idgrid>*,.pls>*,.stats>div,.rows li,.log li,.tkb-list li
 new MutationObserver(function(ms){for(var i=0;i<ms.length;i++){if(ms[i].target.classList&&ms[i].target.classList.contains('idgrid')){sched();return}var ad=ms[i].addedNodes;for(var j=0;j<ad.length;j++){var n=ad[j];if(n.nodeType===1&&(n.matches(SEL)||n.querySelector(SEL))){sched();return}}}}).observe(document.body,{childList:true,subtree:true});
 })();
 </script>
+<script>/* đổi icon ở thanh đầu trang mỗi 2,5s (thay cho animation CSS vô hạn) */
+(function(){var g=document.querySelectorAll('.dd-g'),k=0,R=document.documentElement;if(!g.length)return;
+function calm(){return R.classList.contains('lite')||R.getAttribute('data-motion')==='off'||matchMedia('(prefers-reduced-motion:reduce)').matches}
+g.forEach(function(e){e.setAttribute('data-k','0')});
+setInterval(function(){if(document.hidden||calm())return;k=(k+1)%4;g.forEach(function(e){e.setAttribute('data-k',k)})},2500);
+})();</script>
 </body>
 </html>
