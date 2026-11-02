@@ -1931,6 +1931,11 @@ body{padding-bottom:calc(4.5rem + env(safe-area-inset-bottom,0px))}
 .bgms{display:flex;align-items:center;gap:.5rem;margin:.35rem 0 0;font:400 .68rem var(--mono);color:var(--muted)}
 .bgms select{flex:1;min-width:0;padding:.2rem .4rem;border:1px solid var(--line-hi);border-radius:.4rem;background:var(--card);color:var(--text);font:inherit;cursor:pointer}
 .bgms select:hover,.bgms select:focus-visible{border-color:var(--white)}
+.bgmg{display:flex;flex-wrap:wrap;gap:.3rem;margin:.45rem 0 0}
+.bgmg button{padding:.22rem .6rem;border:1px solid var(--line-hi);border-radius:99px;background:transparent;color:var(--muted);font:400 .68rem var(--mono);cursor:pointer;transition:color .2s,border-color .2s,background .2s}
+.bgmg button:hover{color:var(--text);border-color:var(--white)}
+.bgmg button[aria-pressed="true"]{background:var(--white);color:var(--bg);border-color:var(--white)}
+.bgmg button:focus-visible{outline:2px solid var(--white);outline-offset:2px}
 .bgml{scrollbar-width:thin;scrollbar-color:var(--line-hi) transparent;scrollbar-gutter:stable;padding-right:.2rem;-webkit-mask-image:linear-gradient(transparent 0,#000 .6rem,#000 calc(100% - .8rem),transparent);mask-image:linear-gradient(transparent 0,#000 .6rem,#000 calc(100% - .8rem),transparent)}
 .bgml::-webkit-scrollbar{width:6px}
 .bgml::-webkit-scrollbar-track{background:transparent;margin:.5rem 0}
@@ -1951,8 +1956,8 @@ body{padding-bottom:calc(4.5rem + env(safe-area-inset-bottom,0px))}
 .bgmp .np b{font-size:.95rem}
 .lyb p{font-size:.92rem}
 .bgmp[hidden]{display:none}
-.bgmp>.np,.bgmp>.ctl,.bgmp>.seek,.bgmp>.vol,.bgmp>.bgmmsg,.bgmp>.bgms,.bgmp>.bgml{grid-column:1}
-.bgmp>.lyr{grid-column:2;grid-row:1/span 7;margin:0;padding:0 0 0 .75rem;border-top:0;border-left:1px solid var(--line);min-width:0}
+.bgmp>.np,.bgmp>.ctl,.bgmp>.seek,.bgmp>.vol,.bgmp>.bgmmsg,.bgmp>.bgms,.bgmp>.bgmg,.bgmp>.bgml{grid-column:1}
+.bgmp>.lyr{grid-column:2;grid-row:1/span 10;margin:0;padding:0 0 0 .75rem;border-top:0;border-left:1px solid var(--line);min-width:0}
 .bgmp>.lyr{display:flex;flex-direction:column;contain:size}
 .bgmp>.lyr #lyw{flex:1;min-height:0;display:flex;flex-direction:column}
 .bgmp .lyb{flex:1;height:auto;min-height:6rem}
@@ -3155,6 +3160,12 @@ li.hic::after{top:50%;right:.4rem;margin-top:-.75rem}
 :root.lite #bgic{display:none}
 @media (max-width:47.99rem){#bgic{background-size:520px 520px}}
 </style>
+<style>
+/* nút trong ô góc phải dưới: mũi tên xuống (.dn) hoặc lên (ở cuối trang) */
+.totop span{transition:transform .25s}
+.totop.dn span{transform:rotate(180deg)}
+:root[data-motion="off"] .totop span{transition:none}
+</style>
 </head>
 <body>
 <div id="ldr" role="presentation" aria-hidden="true"><div class="ldrg z"><div class="ldgl"><div class="ldring ldtr"></div><div class="ldring ldpg" id="ldp2"></div><i class="lddot ldd1"></i><i class="lddot ldd2"></i></div><div class="ldnm"><span id="ldn">0</span><small>%</small></div></div></div>
@@ -4134,7 +4145,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     </div>
   </div>
   <p class="bgmmsg" id="bgmmsg" hidden>Chưa tìm thấy file nhạc. Bỏ file vào thư mục music/ rồi tải lại trang.</p>
-  <label class="bgms"><span>Thể loại</span><select id="bgmgen" aria-label="Lọc theo thể loại"><option value="all">Tất cả</option><option value="vn">Nhạc Việt Nam</option><option value="en">Nhạc nước ngoài</option></select></label>
+  <div class="bgmg" id="bgmgen" role="group" aria-label="Lọc theo thể loại"><button type="button" data-g="all" aria-pressed="true">Tất cả</button><button type="button" data-g="vn" aria-pressed="false">Nhạc Việt</button><button type="button" data-g="en" aria-pressed="false">Nhạc nước ngoài</button></div>
   <label class="bgms"><span>Sắp xếp</span><select id="bgmsort" aria-label="Sắp xếp bài hát"><option value="0">Thứ tự gốc</option><option value="az">Tên A → Z</option><option value="za">Tên Z → A</option><option value="ar">Ca sĩ A → Z</option></select></label>
   <ol class="bgml" id="bgml"></ol>
 </div>
@@ -4299,9 +4310,33 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
 
   /* nút lên đầu trang */
   var totop=document.getElementById('totop');
-  function onScroll2(){totop.classList.toggle('show',scrollY>innerHeight*.6)}
-  addEventListener('scroll',onScroll2,{passive:true});onScroll2();
-  totop.addEventListener('click',function(){window.scrollTo({top:0,behavior:calm?'auto':'smooth'})});
+  /* nút này mặc định là nút XUỐNG: bấm một lần nhảy xuống mục kế tiếp. Chỉ khi đã xuống hẳn cuối trang nó mới đổi thành nút LÊN (về đầu trang) */
+  var tdTxt=function(x){try{return typeof T==='function'?T(x):x}catch(e){return x}};
+  function atBottom(){return document.documentElement.scrollHeight-innerHeight-scrollY<6}
+  function onScroll2(){
+    var up=atBottom();
+    totop.classList.add('show');
+    totop.classList.toggle('dn',!up);
+    var lb=up?'Lên đầu trang':'Xuống mục tiếp theo';
+    totop.setAttribute('aria-label',tdTxt(lb));totop.setAttribute('title',tdTxt(lb));
+  }
+  addEventListener('scroll',onScroll2,{passive:true});addEventListener('resize',onScroll2);onScroll2();
+  function nextSection(){
+    var hb=document.querySelector('header'),hh=hb?hb.getBoundingClientRect().height:0,list=document.querySelectorAll('main section[id]'),y=null;
+    for(var i=0;i<list.length;i++){
+      var r=list[i].getBoundingClientRect();
+      if(!r.height||list[i].offsetParent===null)continue;
+      if(r.top-hh>16){y=r.top+scrollY-hh;break}
+    }
+    return y;
+  }
+  totop.addEventListener('click',function(){
+    var b=calm?'auto':'smooth';
+    if(atBottom()){window.scrollTo({top:0,behavior:b});return}
+    var y=nextSection(),max=document.documentElement.scrollHeight-innerHeight;
+    window.scrollTo({top:y==null?max:Math.min(y,max),behavior:b});
+  });
+
 
   /* đổi giao diện sáng/tối, nhớ lựa chọn lần sau */
   var tgl=document.getElementById('theme'),rootEl=document.documentElement;
@@ -6437,17 +6472,18 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     io.observe(sec);
     document.addEventListener('visibilitychange',run);
   })();
-  Object.assign(EN,{"Sắp xếp":"Sort","Thứ tự gốc":"Original order","Tên A → Z":"Title A → Z","Tên Z → A":"Title Z → A","Ca sĩ A → Z":"Artist A → Z","Phát ngẫu nhiên":"Shuffle","Đang phát ngẫu nhiên":"Shuffle on","Thể loại":"Genre","Lọc theo thể loại":"Filter by genre","Tất cả":"All","Nhạc Việt Nam":"Vietnamese music","Nhạc nước ngoài":"International music","Chưa có bài nào ở mục này.":"No tracks in this category yet."});
+  Object.assign(EN,{"Xuống mục tiếp theo":"Next section","Sắp xếp":"Sort","Thứ tự gốc":"Original order","Tên A → Z":"Title A → Z","Tên Z → A":"Title Z → A","Ca sĩ A → Z":"Artist A → Z","Phát ngẫu nhiên":"Shuffle","Đang phát ngẫu nhiên":"Shuffle on","Thể loại":"Genre","Lọc theo thể loại":"Filter by genre","Tất cả":"All","Nhạc Việt":"Vietnamese","Nhạc Việt Nam":"Vietnamese music","Nhạc nước ngoài":"International","Chưa có bài nào ở mục này.":"No tracks in this category yet."});
   (function(){
     var au=document.getElementById('bgmau'),btn=document.getElementById('bgm'),top=document.getElementById('bgmtop'),lst=document.getElementById('bgmlist'),pan=document.getElementById('bgmp');
     if(!au||!btn||!pan||!TRACKS.length)return;
     var tt=document.getElementById('bgmt'),ta=document.getElementById('bgma'),list=document.getElementById('bgml'),vol=document.getElementById('bgmvol'),msg=document.getElementById('bgmmsg');
     var cur=0,bad={},want=false,shuf=false,hist=[],ord=[],sm='0',ss=document.getElementById('bgmsort'),gf='all',gs=document.getElementById('bgmgen');
+    function syncG(){if(gs)[].forEach.call(gs.querySelectorAll('button'),function(b){b.setAttribute('aria-pressed',b.getAttribute('data-g')===gf?'true':'false')})}
     try{sm=localStorage.getItem('bgsort')||'0'}catch(e){}
     if(ss){if(!/^(0|az|za|ar)$/.test(sm))sm='0';ss.value=sm}
     try{gf=localStorage.getItem('bggen')||'all'}catch(e){}
     if(!/^(all|vn|en)$/.test(gf))gf='all';
-    if(gs)gs.value=gf;
+    syncG();
     function mkOrd(){
       var o=TRACKS.map(function(_,i){return i}).filter(function(i){return gf==='all'||(TRACKS[i].g||'vn')===gf}),col=function(x){return String(x||'').trim()},cmp=function(a,b){return a.localeCompare(b,'vi',{sensitivity:'base'})};
       if(sm==='az')o.sort(function(a,b){return cmp(col(TRACKS[a].t),col(TRACKS[b].t))||a-b});
@@ -6556,7 +6592,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       toggle();
     });
     shufUI();
-    if(gs)gs.addEventListener('change',function(){gf=gs.value;try{localStorage.setItem('bggen',gf)}catch(e){}mkOrd();list.scrollTop=0;render()});
+    if(gs)gs.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('button[data-g]');if(!b)return;gf=b.getAttribute('data-g');try{localStorage.setItem('bggen',gf)}catch(x){}syncG();mkOrd();list.scrollTop=0;render()});
     if(ss)ss.addEventListener('change',function(){sm=ss.value;try{localStorage.setItem('bgsort',sm)}catch(e){}mkOrd();list.scrollTop=0;render()});
     document.getElementById('bgmprev').addEventListener('click',function(){step(-1)});
     document.getElementById('bgmnext').addEventListener('click',function(){step(1)});
