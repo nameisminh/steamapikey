@@ -1,0 +1,35 @@
+/* DANH SÁCH NHẠC NỀN — tool tools/add-music.mjs (them-nhac.bat) tự cập nhật file này.
+   Bạn cũng có thể sửa tay: mỗi bài một dòng, t = tên bài, a = ca sĩ, src = đường dẫn file.
+   g = thể loại: 'vn' = nhạc Việt Nam, 'en' = nhạc nước ngoài (bỏ trống thì tính là 'vn').
+   Muốn có lời bài hát thì thêm lrc:'music/ten-file.lrc' hoặc q:'tên bài ca sĩ' vào dòng bài đó. */
+window.TRACKS=[
+  {t:'Dành hết xuân thì để chờ nhau',a:'Vũ ft. Hà Anh Tuấn',g:'vn',src:'music/danh-het-xuan-thi-de-cho-nhau-vu-ft-ha-anh-tuan-tu-album-bao-tang-cua-nuoi-tiec-vu-official.mp3'},
+  {t:'Đánh Đổi',a:'OBITO ft. MCK',g:'vn',src:'music/obito-danh-doi-ft-mck-obito-official.mp3'},
+  {t:'Bản nhạc cuối (cho em)',a:'B Ray',g:'vn',src:'music/fyily-6-ban-nhac-cuoi-cho-em-b-ray-evb-records.mp3'},
+  {t:'Exit Sign',a:'HIEUTHUHAI (prod. by Kewtiie) ft. marzuz',g:'vn',src:'music/hieuthuhai-exit-sign-prod-by-kewtiie-ft-marzuz-official-lyric-video-hieuthuhai.mp3'},
+  {t:'An',a:'Lil Wuyn (feat. Minstu)',g:'vn',src:'music/lil-wuyn-an-feat-minstu-an-album-lil-wuyn-official.mp3'},
+  {t:'Vùng ký ức',a:'Chillies',g:'vn',src:'music/vung-ky-uc-chillies-official-music-video-chillies.mp3'},
+  {t:'TOKYO Cypher',a:'Lil Wuyn, 16 BrT, 16 Typh',g:'vn',src:'music/lil-wuyn-16-brt-16-typh-tokyo-cypher-lil-wuyn-official.mp3'},
+  {t:'Mặc kệ anh',a:'Gia ft. Tín',g:'vn',src:'music/mac-ke-anh-gia-ft-tin-chang.mp3'},
+  {t:'Ta đã từng yêu nhau chưa',a:'Hào',g:'vn',src:'music/ta-da-tung-yeu-nhau-chua-official-audio-hao-hao.mp3'},
+  {t:'Anh sai rồi',a:'Sơn Tùng M-TP',g:'vn',src:'music/anh-sai-roi-son-tung-m-tp.mp3'},
+  {t:'Một Ngày Khác',a:'Young H ft B Ray X Roy P,EvB Records',g:'vn',src:'music/officical-audio-mot-ngay-khac-young-h-ft-b-ray-x-roy-p-evb-records.mp3'},
+  {t:'Yêu em rất nhiều',a:'HOÀNG TÔN',g:'vn',src:'music/hoang-ton-yeu-em-rat-nhieu-lyrics-video-hoang-ton.mp3'},
+  {t:'Yêu Lại Từ Đầu',a:'Khắc Việt GiomuaHa',g:'vn',src:'music/lyric-ll-yeu-lai-tu-dau-khac-viet-giomuaha.mp3'},
+  {t:'Tháng mấy em nhớ anh',a:'Hà Anh Tuấn',g:'vn',src:'music/thang-may-em-nho-anh-ha-anh-tuan.mp3'},
+  {t:'Chuyện những người yêu xa',a:'Vũ.',g:'vn',src:'music/chuyen-nhung-nguoi-yeu-xa-vu-original-vu-official.mp3'},
+  {t:'Anh thèm được ngủ',a:'Khói',g:'vn',src:'music/khoi-anh-them-duoc-ngu-official-khoi.mp3'},
+  {t:'Dù có cách xa',a:'Đinh Mạnh Ninh',g:'vn',src:'music/lyrics-video-du-co-cach-xa-dinh-manh-ninh-dccx-dinh-manh-ninh.mp3'},
+  {t:'10 Ngàn Năm',a:'PC',g:'vn',src:'music/pc-10-ngan-nam-prod-duckie-official-audio-pc-feelingsoundz.mp3'},
+  {t:'Dự báo thời tiết hôm nay mưa',a:'GREY D',g:'vn',src:'music/grey-d-du-bao-thoi-tiet-hom-nay-mua-official-visualizer-st-319-entertainment.mp3'},
+  {t:'Hư không',a:'Kha',g:'vn',src:'music/hu-khong-kha.mp3'},
+  {t:'Đi theo bóng mặt trời',a:'Đen',g:'vn',src:'music/spotidownloader-com-di-theo-bong-mat-troi-den.mp3'},
+  {t:'Sinh Ra Đã Là Thứ Đối Lập Nhau',a:'Emcee L (Da LAB)',g:'vn',src:'music/spotidownloader-com-sinh-ra-da-la-thu-doi-lap-nhau-emcee-l-da-lab.mp3'},
+  {t:'Đừng Gọi Anh Là Idol',a:'Đen',g:'vn',src:'music/spotidownloader-com-dung-goi-anh-la-idol-den.mp3'},
+  {t:'Chờ Đợi Có Đáng Sợ',a:'Andiez',g:'vn',src:'music/spotidownloader-com-cho-doi-co-dang-so-andiez.mp3'},
+  {t:'Let Me Go',a:'KIMLONG',g:'vn',src:'music/let-me-go-55-radar-kimlong.mp3'},
+  {t:'Mở Mắt',a:'Lil Wuyn ft Đen',g:'vn',src:'music/mo-mat-lil-wuyn.mp3'},
+  {t:'Vu Vơ',a:'Lil Wuyn ft 16 BRT',g:'vn',src:'music/vu-vo-lil-wuyn.mp3'},
+  {t:'No Way Back',a:'Lil Wuyn (feat. B Wine)',g:'vn',src:'music/lil-wuyn-no-way-back-feat-b-wine-an-album-lil-wuyn-official.mp3'},
+  {t:'Thay Đổi',a:'Lil Wuyn',g:'vn',src:'music/thay-doi-lil-wuyn.mp3'},
+];

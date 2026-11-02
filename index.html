@@ -4134,6 +4134,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     </div>
   </div>
   <p class="bgmmsg" id="bgmmsg" hidden>Chưa tìm thấy file nhạc. Bỏ file vào thư mục music/ rồi tải lại trang.</p>
+  <label class="bgms"><span>Thể loại</span><select id="bgmgen" aria-label="Lọc theo thể loại"><option value="all">Tất cả</option><option value="vn">Nhạc Việt Nam</option><option value="en">Nhạc nước ngoài</option></select></label>
   <label class="bgms"><span>Sắp xếp</span><select id="bgmsort" aria-label="Sắp xếp bài hát"><option value="0">Thứ tự gốc</option><option value="az">Tên A → Z</option><option value="za">Tên Z → A</option><option value="ar">Ca sĩ A → Z</option></select></label>
   <ol class="bgml" id="bgml"></ol>
 </div>
@@ -6436,16 +6437,19 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     io.observe(sec);
     document.addEventListener('visibilitychange',run);
   })();
-  Object.assign(EN,{"Sắp xếp":"Sort","Thứ tự gốc":"Original order","Tên A → Z":"Title A → Z","Tên Z → A":"Title Z → A","Ca sĩ A → Z":"Artist A → Z","Phát ngẫu nhiên":"Shuffle","Đang phát ngẫu nhiên":"Shuffle on"});
+  Object.assign(EN,{"Sắp xếp":"Sort","Thứ tự gốc":"Original order","Tên A → Z":"Title A → Z","Tên Z → A":"Title Z → A","Ca sĩ A → Z":"Artist A → Z","Phát ngẫu nhiên":"Shuffle","Đang phát ngẫu nhiên":"Shuffle on","Thể loại":"Genre","Lọc theo thể loại":"Filter by genre","Tất cả":"All","Nhạc Việt Nam":"Vietnamese music","Nhạc nước ngoài":"International music","Chưa có bài nào ở mục này.":"No tracks in this category yet."});
   (function(){
     var au=document.getElementById('bgmau'),btn=document.getElementById('bgm'),top=document.getElementById('bgmtop'),lst=document.getElementById('bgmlist'),pan=document.getElementById('bgmp');
     if(!au||!btn||!pan||!TRACKS.length)return;
     var tt=document.getElementById('bgmt'),ta=document.getElementById('bgma'),list=document.getElementById('bgml'),vol=document.getElementById('bgmvol'),msg=document.getElementById('bgmmsg');
-    var cur=0,bad={},want=false,shuf=false,hist=[],ord=[],sm='0',ss=document.getElementById('bgmsort');
+    var cur=0,bad={},want=false,shuf=false,hist=[],ord=[],sm='0',ss=document.getElementById('bgmsort'),gf='all',gs=document.getElementById('bgmgen');
     try{sm=localStorage.getItem('bgsort')||'0'}catch(e){}
     if(ss){if(!/^(0|az|za|ar)$/.test(sm))sm='0';ss.value=sm}
+    try{gf=localStorage.getItem('bggen')||'all'}catch(e){}
+    if(!/^(all|vn|en)$/.test(gf))gf='all';
+    if(gs)gs.value=gf;
     function mkOrd(){
-      var o=TRACKS.map(function(_,i){return i}),col=function(x){return String(x||'').trim()},cmp=function(a,b){return a.localeCompare(b,'vi',{sensitivity:'base'})};
+      var o=TRACKS.map(function(_,i){return i}).filter(function(i){return gf==='all'||(TRACKS[i].g||'vn')===gf}),col=function(x){return String(x||'').trim()},cmp=function(a,b){return a.localeCompare(b,'vi',{sensitivity:'base'})};
       if(sm==='az')o.sort(function(a,b){return cmp(col(TRACKS[a].t),col(TRACKS[b].t))||a-b});
       else if(sm==='za')o.sort(function(a,b){return cmp(col(TRACKS[b].t),col(TRACKS[a].t))||a-b});
       else if(sm==='ar')o.sort(function(a,b){return cmp(col(TRACKS[a].a),col(TRACKS[b].a))||cmp(col(TRACKS[a].t),col(TRACKS[b].t))||a-b});
@@ -6459,6 +6463,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     function render(){
       tt.textContent=T(TRACKS[cur].t);ta.textContent=T(TRACKS[cur].a||'');
       var st=list.scrollTop,fi=document.activeElement&&list.contains(document.activeElement)?document.activeElement.getAttribute('data-i'):null;
+      if(!ord.length){list.innerHTML='<li class="bgmempty" style="padding:.6rem .4rem;color:var(--muted);font:400 .72rem var(--mono)">'+T('Chưa có bài nào ở mục này.')+'</li>';msg.hidden=!allBad();return}
       list.innerHTML=ord.map(function(i,p){var x=TRACKS[i];
         return '<li><button type="button" data-i="'+i+'" title="'+esc(((x.t||'').trim()+(x.a?' · '+x.a.trim():'')))+'"'+(i===cur?' class="cur" aria-current="true"':'')+(bad[i]?' disabled':'')+'><span class="ix">'+('0'+(p+1)).slice(-2)+'</span><span class="tx"><span class="nm">'+esc((x.t||'').trim())+'</span><small>'+(bad[i]?T('thiếu file'):esc((x.a||'').trim()))+'</small></span></button></li>';
       }).join('');
@@ -6481,18 +6486,18 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       var p=au.play();if(p&&p.catch)p.catch(function(){});
     }
     function pickRand(){
-      var c=[];for(var k=0;k<TRACKS.length;k++)if(k!==cur&&!bad[k])c.push(k);
+      var c=ord.filter(function(k){return k!==cur&&!bad[k]});
       return c.length?c[Math.floor(Math.random()*c.length)]:-1;
     }
     function step(d){
       if(allBad())return;
       if(shuf){
         var r=-1;
-        if(d<0){while(hist.length){var h=hist.pop();if(h!==cur&&!bad[h]){r=h;break}}}
+        if(d<0){while(hist.length){var h=hist.pop();if(h!==cur&&!bad[h]&&ord.indexOf(h)>=0){r=h;break}}}
         else{r=pickRand();if(r>=0){hist.push(cur);if(hist.length>100)hist.shift()}}
         if(r>=0){if(want)go(r);else load(r);return}
       }
-      var n=TRACKS.length,q=ord.indexOf(cur),i=cur;
+      var n=ord.length;if(!n)return;var q=ord.indexOf(cur),i=cur;if(q<0)q=d>0?-1:0;
       for(var k=0;k<n;k++){q=(q+d+n)%n;i=ord[q];if(!bad[i])break}
       if(bad[i])return;
       if(want)go(i);else load(i);
@@ -6551,6 +6556,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       toggle();
     });
     shufUI();
+    if(gs)gs.addEventListener('change',function(){gf=gs.value;try{localStorage.setItem('bggen',gf)}catch(e){}mkOrd();list.scrollTop=0;render()});
     if(ss)ss.addEventListener('change',function(){sm=ss.value;try{localStorage.setItem('bgsort',sm)}catch(e){}mkOrd();list.scrollTop=0;render()});
     document.getElementById('bgmprev').addEventListener('click',function(){step(-1)});
     document.getElementById('bgmnext').addEventListener('click',function(){step(1)});
