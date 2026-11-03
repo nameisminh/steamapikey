@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-03T13:22:15.128Z",
+  "updated": "2026-11-03T22:45:20.939Z",
   "name": "ming",
   "avatar": "https://avatars.steamstatic.com/7d8c1937b7bf439198974eae0be807f4ea8cc2ac_full.jpg",
   "url": "https://steamcommunity.com/profiles/76561199474355109/",
@@ -7,7 +7,7 @@
   "games": 108,
   "badges": 7,
   "achievements": 6468,
-  "hours2w": 196.6,
+  "hours2w": 193.6,
   "recent": [
     {
       "n": "ShareX",
@@ -18,6 +18,11 @@
       "n": "Mini Cozy Room: Lo-Fi",
       "h": 45.1,
       "id": 3511030
+    },
+    {
+      "n": "Mimic2 - Idle MMORPG",
+      "h": 0.1,
+      "id": 5191970
     }
   ]
 }
