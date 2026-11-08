@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-08T12:32:04.782Z",
+  "updated": "2026-11-08T21:31:15.523Z",
   "name": "ming",
   "avatar": "https://avatars.steamstatic.com/7d8c1937b7bf439198974eae0be807f4ea8cc2ac_full.jpg",
   "url": "https://steamcommunity.com/profiles/76561199474355109/",
@@ -7,11 +7,11 @@
   "games": 108,
   "badges": 7,
   "achievements": 6468,
-  "hours2w": 188.9,
+  "hours2w": 188.7,
   "recent": [
     {
       "n": "ShareX",
-      "h": 1813.9,
+      "h": 1819,
       "id": 400040
     },
     {
@@ -25,9 +25,14 @@
       "id": 5191970
     },
     {
-      "n": "TBH: Task Bar Hero",
-      "h": 327.6,
-      "id": 3678970
+      "n": "[WoG] War of Genesis: Idle Loot",
+      "h": 0,
+      "id": 4891320
+    },
+    {
+      "n": "Idle Iktah",
+      "h": 0,
+      "id": 3298520
     }
   ]
 }
