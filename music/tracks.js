@@ -33,4 +33,5 @@ window.TRACKS=[
   {t:'Thay Đổi',a:'Lil Wuyn',src:'music/thay-doi-lil-wuyn.mp3'},
   {t:'Hello em có khỏe không',a:'Dfoxie37, Myhoa, Tuann   ',g:'vn',src:'music/dfoxie37-myhoa-tuann-hello-em-co-khoe-khong-spotisaver.mp3'},
   {t:'Đô Trưởng',a:'Đạt G',g:'vn',src:'music/do-truong.mp3'},
+  {t:'2 4|3107',a:'W/N',g:'vn',src:'music/2-4.mp3'},
 ];
