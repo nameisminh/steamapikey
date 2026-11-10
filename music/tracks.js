@@ -32,4 +32,5 @@ window.TRACKS=[
   {t:'No Way Back',a:'Lil Wuyn (feat. B Wine)',src:'music/lil-wuyn-no-way-back-feat-b-wine-an-album-lil-wuyn-official.mp3'},
   {t:'Thay Đổi',a:'Lil Wuyn',src:'music/thay-doi-lil-wuyn.mp3'},
   {t:'Hello em có khỏe không',a:'Dfoxie37, Myhoa, Tuann   ',g:'vn',src:'music/dfoxie37-myhoa-tuann-hello-em-co-khoe-khong-spotisaver.mp3'},
+  {t:'Đô Trưởng',a:'Đạt G',g:'vn',src:'music/do-truong.mp3'},
 ];
