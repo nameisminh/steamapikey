@@ -35,4 +35,5 @@ window.TRACKS=[
   {t:'Đô Trưởng',a:'Đạt G',g:'vn',src:'music/do-truong.mp3'},
   {t:'2 4|3107',a:'W/N',g:'vn',src:'music/2-4.mp3'},
   {t:'Người Bình Thường',a:'Vũ Cát Tường',g:'vn',src:'music/nguoi-binh-thuong.mp3'},
+  {t:'Yêu 5',a:'',g:'vn',src:'music/yeu-5.mp3'},
 ];
