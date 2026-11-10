@@ -34,4 +34,5 @@ window.TRACKS=[
   {t:'Hello em có khỏe không',a:'Dfoxie37, Myhoa, Tuann   ',g:'vn',src:'music/dfoxie37-myhoa-tuann-hello-em-co-khoe-khong-spotisaver.mp3'},
   {t:'Đô Trưởng',a:'Đạt G',g:'vn',src:'music/do-truong.mp3'},
   {t:'2 4|3107',a:'W/N',g:'vn',src:'music/2-4.mp3'},
+  {t:'Người Bình Thường',a:'Vũ Cát Tường',g:'vn',src:'music/nguoi-binh-thuong.mp3'},
 ];
