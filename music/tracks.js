@@ -40,4 +40,5 @@ window.TRACKS=[
   {t:'YÊU EM DẠI KHỜ',a:'OnlyC,LOU HOÀNG',g:'vn',src:'music/yeu-em-dai-kho-lou-hoang-official-mv-onlyc-production.mp3'},
   {t:'Có Chàng Trai Viết Lên Cây',a:'Phan Mạnh Quỳnh',g:'vn',src:'music/co-chang-trai-viet-len-cay-original-phan-manh-quynh.mp3'},
   {t:'Ngã Tư Không Đèn',a:'TRANG, Khoa Vũ',g:'vn',src:'music/nga-tu-khong-den.mp3'},
+  {t:'Em Ơi Cứ Vui',a:'TOULIVER X SLIMV   ',g:'vn',src:'music/touliver-x-slimv-em-oi-cu-vui-official-video-slimv.mp3'},
 ];
