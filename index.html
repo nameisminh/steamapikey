@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="utf-8">
@@ -27,7 +27,7 @@
 <script>/* GIỚI HẠN FPS: mọi hiệu ứng chạy bằng JavaScript (requestAnimationFrame) được giữ tối đa khoảng FPS_CAP khung hình mỗi giây.
    Cách làm: bỏ bớt khung hình thừa trên màn hình có tần số quét cao (120Hz, 144Hz, 240Hz đều về trung bình 60). Màn hình 60Hz trở xuống không bị ảnh hưởng.
    Cuộn trang và hiệu ứng CSS do trình duyệt tự vẽ nên vẫn theo tần số quét của màn hình. Đổi số ở dòng dưới nếu muốn. */
-window.FPS_CAP=60;(function(){var real=window.requestAnimationFrame,realC=window.cancelAnimationFrame;if(!real)return;
+window.FPS_CAP=0;(function(){var real=window.requestAnimationFrame,realC=window.cancelAnimationFrame;if(!real||!window.FPS_CAP||window.FPS_CAP<=0)return;
 var STEP=1000/window.FPS_CAP,next=0,q=[],m={},sched=0,nid=0;
 function run(ts){sched=0;
   if(ts<next-1){sched=real.call(window,run);return}
@@ -3166,6 +3166,35 @@ li.hic::after{top:50%;right:.4rem;margin-top:-.75rem}
 .totop.dn span{transform:rotate(180deg)}
 :root[data-motion="off"] .totop span{transition:none}
 </style>
+<style id="qrcss">
+#qr .qrw{display:grid;gap:2rem;align-items:center}
+@media (min-width:56rem){#qr .qrw{grid-template-columns:minmax(0,23rem) 1fr;gap:3rem}}
+#qr .qrst{display:grid;place-items:center;padding:1rem;border:1px solid var(--line);border-radius:1.2rem;background:var(--card);position:relative;overflow:hidden;contain:paint;will-change:transform}
+#qr #qrcv{display:block;width:min(100%,22rem);height:auto;aspect-ratio:7/10;cursor:pointer;outline-offset:4px;user-select:none;-webkit-user-select:none;touch-action:none}
+#qr #qrfx{pointer-events:none;display:block;width:min(100%,22rem);height:auto;aspect-ratio:7/10}
+#qr .qrst canvas{grid-area:1/1}
+#qr .qrhint{position:absolute;bottom:1.1rem;left:50%;transform:translateX(-50%);padding:.4rem 1rem;border-radius:999px;background:rgba(var(--bgrgb),.85);border:1px solid var(--line-hi);color:var(--text);font:600 .8rem var(--body);backdrop-filter:blur(8px);pointer-events:none;white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,.35);transition:opacity .25s,transform .25s}
+#qr .qrhint::before{content:"✨ ";font-style:normal}
+#qr .qrin{margin-bottom:1rem}
+#qr .qrin input{width:100%;box-sizing:border-box;padding:.7rem 1rem;border:1px solid var(--line-hi);border-radius:999px;background:var(--card);color:var(--text);font:inherit;font-size:16px}
+#qr .qrin input:focus{outline:2px solid var(--white);outline-offset:2px}
+#qr .qse{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 1.1rem}
+#qr .qse button{display:inline-flex;align-items:center;gap:.5rem;padding:.45rem .95rem;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--text);font:inherit;font-size:.9rem;cursor:pointer;transition:border-color .2s,background .2s,transform .15s}
+#qr .qse button:hover{border-color:var(--line-hi)}
+#qr .qse button:active{transform:scale(.95)}
+#qr .qse button[aria-pressed="true"]{border-color:var(--acc);background:rgba(var(--fx),.06)}
+#qr .qse i{display:block;width:.7rem;height:.7rem;border-radius:50%;background:var(--c)}
+#qr .qact{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:.9rem}
+#qr .qrst[data-season="xuan"]{background:radial-gradient(circle at 50% 12%,#fff0f7 0,rgba(255,240,248,.6) 40%,transparent 70%),linear-gradient(180deg,#fce4ec,#f8bbd0 35%,#fce4ec 100%)}
+:root[data-theme="dark"] #qr .qrst[data-season="xuan"]{background:radial-gradient(circle at 50% 15%,rgba(244,143,177,.25),transparent 60%),linear-gradient(180deg,#1c121e,#28182b 60%,#160e18 100%)}
+#qr .qrst[data-season="ha"]{background:radial-gradient(circle at 82% 10%,#fffbe0 0 4%,rgba(255,244,170,.75) 5%,transparent 30%),linear-gradient(180deg,#bfe3ff,#eaf7ff 72%)}
+:root[data-theme="dark"] #qr .qrst[data-season="ha"]{background:radial-gradient(circle at 80% 12%,rgba(255,250,180,.15),transparent 45%),linear-gradient(180deg,#0a1b14,#112a20 60%,#091711 100%)}
+#qr .qrst[data-season="thu"]{background:radial-gradient(circle at 80% 10%,rgba(255,226,170,.9),transparent 34%),linear-gradient(180deg,#ffd7b0,#fff1df 72%)}
+:root[data-theme="dark"] #qr .qrst[data-season="thu"]{background:radial-gradient(circle at 75% 15%,rgba(255,160,80,.2),transparent 55%),linear-gradient(180deg,#24140e,#351d13 60%,#180e0a 100%)}
+#qr .qrst[data-season="dong"]{background:radial-gradient(circle at 50% 0,rgba(255,255,255,.85),transparent 45%),linear-gradient(180deg,#cfdced,#f3f7fc 72%)}
+:root[data-theme="dark"] #qr .qrst[data-season="dong"]{background:radial-gradient(circle at 50% 10%,rgba(200,225,255,.2),transparent 50%),linear-gradient(180deg,#0e1724,#162438 60%,#0a101a 100%)}
+#qr .qrst[data-season="den"]{background:radial-gradient(circle at 80% 11%,#fffbe0 0 4.5%,rgba(255,251,224,.35) 5.5%,transparent 24%),linear-gradient(180deg,#070b18,#1a2342 75%)}
+</style>
 </head>
 <body>
 <div id="ldr" role="presentation" aria-hidden="true"><div class="ldrg z"><div class="ldgl"><div class="ldring ldtr"></div><div class="ldring ldpg" id="ldp2"></div><i class="lddot ldd1"></i><i class="lddot ldd2"></i></div><div class="ldnm"><span id="ldn">0</span><small>%</small></div></div></div>
@@ -3934,6 +3963,47 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       <div class="ffs rv" id="ffs"></div>
     </div>
   </section>
+
+    <section class="s" id="qr">
+    <div class="wrap">
+      <div class="rv">
+        <p class="eyebrow ei"><i data-ic="hash"></i><span>Mã QR</span></p>
+        <h2>Quét để ghé trang tôi</h2>
+        <p class="lead">Mặc định là mã của ming-dev.id.vn, bạn dán link khác vào ô bên dưới để tạo mã của mình. Cây 3D vươn cao với tán lá xum xuê theo mùa (Hoa đào xuân, Đại thụ mùa hè, Phong đỏ mùa thu, Thông tuyết mùa đông, Cây dạ quang). Bấm hoặc chạm vào cây để xem mã QR quét chuẩn.</p>
+      </div>
+      <div class="qrw rv">
+        <div class="qrst" id="qrst" data-season="xuan">
+          <canvas id="qrcv" width="560" height="780" tabindex="0" role="img" aria-label="Cây QR 3D vươn cao hướng lên trời"></canvas>
+          <canvas id="qrfx" width="560" height="780" aria-hidden="true"></canvas>
+          <div class="qrhint" id="qrhint">Chạm vào cây để xem mã QR</div>
+        </div>
+        <div class="qrc">
+          <div class="qrin"><input id="qrin" type="text" maxlength="270" placeholder="Dán liên kết hoặc văn bản bất kỳ" aria-label="Dán liên kết hoặc văn bản bất kỳ" autocomplete="off" spellcheck="false" inputmode="url"></div>
+          <div class="qse" id="qse" role="group" aria-label="Chọn mùa">
+            <button type="button" data-s="xuan" aria-pressed="true"><i style="--c:#d6336c"></i>Xuân</button>
+            <button type="button" data-s="ha" aria-pressed="false"><i style="--c:#1b7f2e"></i>Hạ</button>
+            <button type="button" data-s="thu" aria-pressed="false"><i style="--c:#c2410c"></i>Thu</button>
+            <button type="button" data-s="dong" aria-pressed="false"><i style="--c:#1d4ed8"></i>Đông</button>
+            <button type="button" data-s="den" aria-pressed="false"><i style="--c:#111"></i>Đen</button>
+          </div>
+          <div class="qse" id="qvw" role="group" aria-label="Điều khiển xoay 4 góc và xem mã QR">
+            <button type="button" id="qrrotl" title="Xoay sang góc trước (1 trong 4 góc)">◀ Xoay trái</button>
+            <button type="button" id="qrcorner" title="Bấm để đổi góc nhìn (1 trong 4 góc)">Góc 1 / 4</button>
+            <button type="button" id="qrrotr" title="Xoay sang góc tiếp theo (1 trong 4 góc)">Xoay phải ▶</button>
+            <button type="button" id="qrtoggle" title="Chuyển đổi giữa dáng cây 3D và quét mã QR">👁 Xem mã QR</button>
+            <button type="button" id="qrre" aria-label="Dựng lại cây từ đầu" title="Dựng lại cây từ đầu">↻ Dựng lại</button>
+          </div>
+          <div class="qact">
+            <button class="btn" id="qrdl" type="button">Tải ảnh PNG</button>
+            <button class="btn line" id="qrcp" type="button">Sao chép liên kết</button>
+          </div>
+          <p class="mini" id="qrmsg" aria-live="polite"></p>
+          <p class="mini">Chạm vào cây để chuyển đổi góc nhìn quét mã QR hoặc chiêm ngưỡng cây 3D. Hỗ trợ xoay 4 góc mượt mà.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </div>
 
     <div class="band alt" aria-hidden="true">
@@ -4181,7 +4251,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
   /* ===== ngôn ngữ: tự chọn theo múi giờ + ngôn ngữ trình duyệt (xem __autoLang ở đầu trang), đổi tay bằng nút VI·EN. Thêm bản dịch ở EN: 'câu tiếng Việt':'English' ===== */
   var LANG='vi';
   try{LANG=window.__autoLang?window.__autoLang():((/^vi/i.test(navigator.language||''))?'vi':'en')}catch(e){}
-  var EN={"Thời khoá biểu": "Timetable", "Lịch học": "Schedule", "Một tuần của tôi": "My week", "Tôi làm gì, vào khung giờ nào, theo từng ngày trong tuần.": "What I do and when, day by day through the week.", "Thời khoá biểu: thứ 2 đến thứ 6 tôi đi học.": "Timetable: I'm at school Monday to Friday.", "Chọn ngày": "Choose a day", "Hôm nay": "Today", "Đang diễn ra": "Happening now", "Chưa có lịch": "Nothing planned", "Thứ 2": "Monday", "Thứ 3": "Tuesday", "Thứ 4": "Wednesday", "Thứ 5": "Thursday", "Thứ 6": "Friday", "Thứ 7": "Saturday", "Chủ nhật": "Sunday", "T2": "Mon", "T3": "Tue", "T4": "Wed", "T5": "Thu", "T6": "Fri", "T7": "Sat", "CN": "Sun", "Đi học": "School", "Ăn trưa, nghỉ ngơi": "Lunch and rest", "Khi nào tôi có thời gian?": "When are you free?", "Từ thứ 2 đến thứ 6 tôi đi học, nên có thể tôi sẽ trả lời chậm.": "I'm at school from Monday to Friday, so I might reply slowly.", "Nhóm nhạc": "Band", "Ca sĩ, nhà sản xuất âm nhạc": "Singer, music producer", "[Viết vì sao tôi thích MCK: flow, giai điệu, bài hay nghe lại.]": "[Write why you like MCK: the flow, the melodies, the songs you replay.]", "[Viết vì sao tôi thích Vũ Cát Tường: giọng hát, lời nhạc, bài làm tôi nhớ nhất.]": "[Write why you like Vũ Cát Tường: the voice, the lyrics, the song you remember most.]", "[Viết vì sao tôi thích Changg: giọng hát, màu nhạc, bài hay nghe.]": "[Write why you like Changg: the voice, the sound, the songs you play.]", "[Viết vì sao tôi thích DatG: giọng hát, màu nhạc, bài hay nghe.]": "[Write why you like DatG: the voice, the sound, the songs you play.]", "[Viết vì sao tôi thích GreyD: giọng hát, màu nhạc, bài hay nghe.]": "[Write why you like GreyD: the voice, the sound, the songs you play.]", "[Viết vì sao tôi thích Chillies: màu nhạc, thành viên, bài hay nghe.]": "[Write why you like Chillies: the sound, the members, the songs you play.]", "Tôi đã chơi game này hơn 11 năm rồi nên tới giờ vẫn chơi.": "I’ve been playing this game for over 11 years, so I still do.", "Tôi chơi vì game giải trí rất cao, nhịp độ nhanh.": "I play it because it’s very entertaining and fast-paced.", "Tôi chơi vì game có tính chi tiết rất cao, đồ hoạ ổn định và có nhiều thứ để học hỏi.": "I play it for its high level of detail, stable graphics and plenty to learn.", "Tôi đã chơi LoL hơn 11 năm rồi.": "I’ve played LoL for over 11 years.", "Bản đồ": "Map", "Tôi ở đây": "Find me here", "Tìm địa điểm trên Google Maps": "Search a place on Google Maps", "Chỉ đường": "Directions", "Mở Google Maps": "Open Google Maps", "Về chỗ của tôi": "Back to my place", "Không chơi rank": "I don’t play ranked", "Ghi chú: muốn chơi chung thì thêm tôi qua Riot ID ming#0811 (server VN).": "Note: to play together, add me with Riot ID ming#0811 (VN server).", "Hồ sơ League of Legends của ming, thông thạo Zed": "ming’s League of Legends profile, Zed mastery", "Playlist": "Playlist", "Playlist tôi muốn chia sẻ": "Playlists I want to share", "YouTube, Spotify hay nền tảng khác đều được. Bấm nghe ngay tại đây hoặc mở bằng app.": "YouTube, Spotify or any other platform. Listen right here or open it in the app.", "Sắp cập nhật": "Coming soon", "Nghe ngay": "Listen now", "Mở ở app": "Open in app", "Năm 2026 của tôi": "My 2026", "Playlist YouTube của tôi": "My YouTube playlist", "Nhạc tôi hay bật khi làm việc.": "Music I play while working.", "Playlist Spotify của tôi": "My Spotify playlist", "Những bài tôi nghe đi nghe lại.": "Songs I keep replaying.", "Playlist ở nền tảng khác": "Playlist on another platform", "SoundCloud, Apple Music, Zing MP3... cũng được.": "SoundCloud, Apple Music, Zing MP3... also work.", "Mở Discord": "Open Discord", "Máy chủ": "Server", "Tướng thông thạo cao nhất": "Top mastery champions", "Ghi chú: chơi LoL thì thêm tôi qua Riot ID ming#0811 (server VN).": "Note: for LoL, add me with Riot ID ming#0811 (VN server).", "Lee Sin, Zed và Yasuo là ba tướng tôi thông thạo cao nhất.": "Lee Sin, Zed and Yasuo are my top three champions by mastery.", "Tag LoL của tôi là ming#0811, server VN.": "My LoL tag is ming#0811, VN server.", "Tháng 8 và 9 tôi đang đi thực tập tại công ty.": "In August and September I’m doing an internship at a company.", "Tháng 6 và 7 là hai tháng nghỉ hè của tôi.": "June and July are my summer break.", "Thực tập tại công ty": "Internship at a company", "Vẫn đang đi thực tập, vừa làm vừa học thêm.": "Still interning, learning more while working.", "Đi thực tập và làm quen với môi trường làm việc.": "Interning and getting used to the working environment.", "Nghỉ hè": "Summer break", "Nghỉ ngơi, chơi game và nạp lại năng lượng.": "Resting, playing games and recharging.", "Bắt đầu kỳ nghỉ hè.": "The start of summer break.", "Tháng 8 và 9 tôi đang đi thực tập, vừa làm vừa học thêm.": "In August and September I’m interning, learning while I work.", "Dạo này tôi bận gì?": "What have you been busy with lately?", "Tháng 8 và 9 tôi đang đi thực tập tại công ty. Tháng 6 và 7 thì tôi nghỉ hè.": "In August and September I’m interning at a company. In June and July I was on summer break.", "Tag LoL của tôi là gì?": "What is your LoL tag?", "ming#0811, server VN. Tướng tôi thông thạo cao nhất là Lee Sin, Zed và Yasuo.": "ming#0811, VN server. My top mastery champions are Lee Sin, Zed and Yasuo.", "MOBA 5v5. Tag của tôi là ming#0811, server VN. Ba tướng tôi thông thạo cao nhất là Lee Sin, Zed và Yasuo.": "5v5 MOBA. My tag is ming#0811 on the VN server. My top three by mastery are Lee Sin, Zed and Yasuo.", "Đang tải trang của Ming": "Loading Ming’s page", "Trang nhỏ để mọi người biết dạo này tôi đang làm gì.": "A small page so people know what I’ve been up to lately.", "Trang nhỏ để mọi người biết dạo này tôi đang làm gì: chơi gì, dịch gì, nghe gì.": "A small page so people know what I’ve been up to lately: what I play, translate and listen to.", "Bỏ qua tới nội dung": "Skip to content", "Điều hướng chính": "Main navigation", "Liên kết": "Links", "Dạo này": "Lately", "Game": "Games", "Dự án": "Projects", "Sở thích": "Hobbies", "Nghệ sĩ": "Artists", "Nhật ký": "Log", "Hỏi đáp": "FAQ", "Mở danh sách nhạc": "Open playlist", "Danh sách nhạc": "Playlist", "Bật hoặc tắt nhạc": "Turn music on or off", "Bật hoặc tắt nhạc (P)": "Turn music on or off (P)", "Tìm nhanh": "Quick search", "Tìm nhanh (/ hoặc Ctrl+K)": "Quick search (/ or Ctrl+K)", "Tắt hoặc bật hiệu ứng chuyển động": "Turn motion effects off or on", "Tắt/bật hiệu ứng (M)": "Turn effects off/on (M)", "Bật lại hiệu ứng (M)": "Turn effects back on (M)", "Tắt hiệu ứng (M)": "Turn effects off (M)", "Đổi giao diện sáng hoặc tối": "Switch light or dark theme", "Đổi ngôn ngữ": "Change language", "Liên hệ": "Contact", "Bây giờ ở chỗ tôi là": "Right now where I am it’s", "Giờ hiện tại": "Current time", "Di chuột để thả ảnh ·": "Move your mouse to drop photos ·", "Cuộn xuống để gặp tôi": "Scroll down to meet me", "Rất vui được gặp bạn": "Nice to meet you", "Chào buổi sáng": "Good morning", "Chúc bạn buổi trưa vui vẻ": "Have a nice noon", "Chào buổi chiều": "Good afternoon", "Chào buổi tối": "Good evening", "Khuya rồi mà bạn vẫn ghé, cảm ơn nhé": "It’s late and you still dropped by, thank you", "Ảnh của Ming": "Photo of Ming", "Ngoại tuyến": "Offline", "Trực tuyến": "Online", "Vắng mặt": "Idle", "Đừng làm phiền": "Do not disturb", "game": "games", "thành tựu": "achievements", "Xin chào, tôi là Ming.": "Hi, I’m Ming.", "Tôi vẫn còn đang học.": "I’m still learning.", "Dạo này tôi đang mê": "Lately I’m into", "việt hoá game": "game localization", "phim Marvel và DC": "Marvel & DC movies", "nhạc chill": "chill music", "nhạc Việt": "Vietnamese music", "sao Hỏa": "Mars", "Trang nhỏ ghi lại dạo này tôi làm gì, chơi gì và học gì. Không bán gì cả, bạn ghé xem cho vui là được.": "A small page about what I’ve been doing, playing and learning lately. I’m not selling anything, just drop by for fun.", "Xem dạo này tôi làm gì": "See what I’ve been up to", "Liên kết nhanh": "Quick links", "Trạng thái hiện tại": "Current status", "Đang học:": "Learning:", "Đang làm:": "Making:", "Đang chơi:": "Playing:", "Đang dịch:": "Translating:", "Đang đọc:": "Reading:", "Đang nghe:": "Listening:", "[Điều tôi đang học]": "[What you’re learning]", "[Thứ tôi đang làm]": "[What you’re working on]", "Nhạc chill": "Chill music", "Việt hoá game": "Game localization", "Hồ sơ Discord của tôi, trạng thái và hoạt động cập nhật trực tiếp (bấm tab Hoạt động).": "My Discord profile, with my status and activity updating live (click the Activity tab).", "Hồ sơ Discord của ming": "ming's Discord profile", "Ảnh trước": "Previous photo", "Ảnh sau": "Next photo", "Hiệu ứng đang tắt, bật lại để ảnh tự quay.": "Effects are off. Turn them on to make the photos spin on their own.", "Bật lại": "Turn on", "Cày game thâu đêm": "Gaming all night", "Chill cùng nhạc Việt": "Chilling to Vietnamese music", "Đắm chìm trong manhwa": "Lost in manhwa", "Mơ về sao Hỏa": "Dreaming of Mars", "Tò mò đủ thứ": "Curious about everything", "Làm web cho vui": "Building websites for fun", "Đang học": "Learning", "Đang làm": "Making", "Đang chơi": "Playing", "Đang đọc": "Reading", "Tìm tôi ở đâu": "Find me here", "Bấm vào biểu tượng để tới đúng nơi tôi hay có mặt.": "Click an icon to go to where I usually hang out.", "Nghe cùng tôi": "Listen with me", "Theo dõi": "Follow", "Kết bạn": "Add friend", "Vào server": "Join server", "Gửi thư": "Send mail", "Ngay lúc này": "Right now", "Tôi đang làm gì lúc này?": "What am I doing right now?", "Trạng thái Discord của tôi, cập nhật trực tiếp.": "My Discord status, updated live.", "Discord · trực tiếp": "Discord · live", "Đang nghe Spotify": "Listening to Spotify", "Không làm gì cả": "Doing nothing special", "Chưa kết nối Discord. Điền Discord ID ở biến ME.discordId và vào server Lanyard (discord.gg/lanyard).": "Discord isn’t connected yet. Fill in your Discord ID in ME.discordId and join the Lanyard server (discord.gg/lanyard).", "Tôi đang bận những gì": "What I’m busy with", "Những thứ tôi đang bận dạo này. Có gì mới tôi sẽ cập nhật.": "What I’ve been busy with lately. I’ll update when there’s something new.", "Viết một hai câu: vì sao tôi học nó, học tới đâu rồi.": "Write a sentence or two: why you’re learning it and how far you’ve got.", "Việt hoá Minecraft và Stardew Valley": "Localizing Minecraft and Stardew Valley", "Dịch mod, dịch game, làm từng chút một.": "Translating mods and games, a little at a time.", "Chơi vì thấy vui, không cần giỏi.": "Playing because it’s fun, no need to be good.", "Đang đọc và xem": "Reading and watching", "Cuối ngày tôi hay nằm đọc hoặc xem một tập.": "At the end of the day I like to lie down and read or watch an episode.", "Nhạc chill, nhạc Việt": "Chill music, Vietnamese music", "Bật lên lúc nào cũng được, nhất là khi đang làm.": "Always on, especially while I work.", "Ba game dạo này": "Three games lately", "Ba lá bài, ba game. Bấm vào lá bài để lật xem chi tiết.": "Three cards, three games. Click a card to flip it open.", "Hồ sơ công khai": "Public profile", "Cấp độ": "Level", "Game trong thư viện": "Games in library", "Huy hiệu": "Badges", "Thành tựu": "Achievements", "Giờ chơi hai tuần qua": "Hours in the past 2 weeks", "giờ": "hrs", "Chơi gần đây": "Recently played", "Mở hồ sơ Steam": "Open Steam profile", "Vừa cập nhật": "Just updated", "Chế độ chơi": "Mode", "Chỉ chơi giải trí": "Casual only", "Xếp hạng": "Ranked", "Không chơi, không leo rank": "Not playing, not climbing", "Tướng hay chơi": "Favorite champions", "Ảnh chia sẻ": "Shared screenshot", "Ảnh chia sẻ từ League of Legends": "Screenshot shared from League of Legends", "Trang của người hâm mộ, không liên kết với Riot Games. League of Legends và ảnh tướng thuộc Riot Games.": "Fan page, not affiliated with Riot Games. League of Legends and champion art belong to Riot Games.", "Việt hoá những game tôi thích": "Localizing games I like", "Dịch mod cho những game tôi hay chơi, để bạn bè đọc cho dễ.": "Translating mods for games I play a lot, so friends can read them easily.", "Những thứ tôi thích": "Things I like", "Mỗi mục có một trang riêng: tôi thích gì và vì sao.": "Each one has its own page: what I like and why.", "Những game tôi chơi": "Games I play", "Truyện tranh": "Comics", "Nhạc": "Music", "Playlist tôi hay nghe": "Playlists I often listen to", "Phim": "Movies", "Marvel, DC và vài phim khác": "Marvel, DC and a few others", "Những người làm nhạc tôi mê": "Musicians I love", "Bấm vào từng người để xem vì sao tôi thích.": "Click each one to see why I like them.", "Xem thêm nghệ sĩ": "Show more artists", "Thu gọn": "Show less", "Xem thêm ảnh": "Show more photos", "Vì sao tôi thích": "Why I like it", "Đặc điểm": "Highlights", "Bài tôi hay nghe": "Songs I often play", "Tôi chơi thế nào": "How I play", "Mở trang game": "Open game page", "Xem trang chi tiết": "See details page", "Vài con số": "Numbers", "Những con số vu vơ": "Random numbers", "Không để khoe, chỉ để cho vui.": "Not for bragging, just for fun.", "ngày tôi có mặt trên đời": "days I’ve been alive", "game trong thư viện Steam": "games in my Steam library", "Không đếm được": "Uncountable", "bộ truyện đã đọc": "comics read", "bài hát trong playlist": "songs in my playlist", "Ảnh": "Photos", "Vài tấm ảnh": "A few photos", "Ảnh động": "GIFs", "Vài tấm ảnh động": "A few GIFs", "Bấm vào để xem lớn.": "Click to view larger.", "Gần đây": "Recently", "Mới nhất ở trên cùng.": "Newest at the top.", "Tháng 10, 2026": "October 2026", "Tháng 9, 2026": "September 2026", "Tháng 8, 2026": "August 2026", "Làm trang web này": "Made this website", "Lần đầu tự làm một trang giới thiệu về bản thân và đưa nó lên mạng với tên miền riêng.": "First time building a page about myself and putting it online with my own domain.", "[Việc tôi đã làm]": "[Something you did]", "Một hai câu về chuyện đó, kể cả khi nó chưa hoàn chỉnh.": "A sentence or two about it, even if it isn’t finished.", "Điều tôi học được hoặc thấy thú vị.": "Something you learned or found interesting.", "Có thể bạn muốn biết": "You might want to know", "Trang này để làm gì?": "What is this page for?", "Chỉ để bạn bè và người quen biết dạo này tôi đang làm gì. Không có hàng bán, không có bảng giá.": "Just so friends and acquaintances know what I’m up to lately. Nothing for sale, no price list.", "Tôi có nhận việc không?": "Do you take on work?", "Hiện tại thì chưa. Tôi vẫn còn đang học nhiều thứ, nên muốn làm những gì tôi thích trước.": "Not at the moment. I’m still learning a lot, so I want to do what I like first.", "Tôi đang học gì?": "What are you learning?", "Tôi hay thử nhiều hướng: thiết kế, code, mod game, dựng video. Cái nào vui thì tôi đào sâu hơn.": "I try many directions: design, code, game mods, video editing. Whatever is fun I dig into further.", "Muốn chơi game chung thì sao?": "What if I want to play together?", "Cứ nhắn tôi qua Discord hoặc Facebook ở cuối trang, tôi sẽ trả lời khi online.": "Just message me on Discord or Facebook at the bottom of the page, I’ll reply when I’m online.", "Muốn nói chuyện thì cứ ghé": "Want to chat? Just drop by", "Chào nhau, rủ chơi game hay chia sẻ một bài nhạc hay đều được.": "Say hi, invite me to a game or share a great song, anything works.", "Sao chép email": "Copy email", "Một trang nhỏ để ghi lại dạo này tôi đang làm gì.": "A small page to record what I’ve been up to lately.", "Trang": "Pages", "Kết nối": "Connect", "Phím tắt": "Shortcuts", "Tắt hoặc bật hiệu ứng": "Turn effects off or on", "Lên đầu trang": "Back to top", "Tìm nhanh (hoặc Ctrl + K)": "Quick search (or Ctrl + K)", "Ngẫu nhiên một điều về trang này": "A random fact about this page", "Cập nhật lần cuối: tháng 10/2026": "Last updated: October 2026", "Trình phát nhạc": "Music player", "Nhạc nền": "Background music", "Bài trước": "Previous track", "Phát nhạc": "Play", "Phát hoặc tạm dừng": "Play or pause", "Bài tiếp theo": "Next track", "Chưa tìm thấy file nhạc. Bỏ file vào thư mục music/ rồi tải lại trang.": "No music file found. Put files in the music/ folder and reload the page.", "Mở trình phát nhạc": "Open music player", "Bật nhạc": "Play music", "Tắt nhạc": "Stop music", "Tạm dừng": "Pause", "Nhạc mẫu 1": "Sample track 1", "Nhạc mẫu 2": "Sample track 2", "Nhạc mẫu 3": "Sample track 3", "Tạo bằng code": "Made with code", "thiếu file": "missing file", "Đang phát:": "Now playing:", "Đã tạm dừng nhạc": "Music paused", "Một điều ngẫu nhiên về trang này": "A random fact about this page", "Ngẫu nhiên (R)": "Random (R)", "Bấm để tới chỗ này": "Click to go there", "Gõ để tìm: game, nhạc, nhật ký, đổi giao diện...": "Type to search: games, music, log, switch theme...", "↑↓ Chọn": "↑↓ Select", "Enter Mở": "Enter Open", "Esc Đóng": "Esc Close", "Không tìm thấy gì": "Nothing found", "Mục": "Section", "Hành động": "Action", "Sao chép link trang này": "Copy this page link", "Đã sao chép link trang": "Page link copied", "Đã sao chép": "Copied", "Đã tắt hiệu ứng": "Effects turned off", "Đã bật hiệu ứng": "Effects turned on", "Bạn tìm ra điều bí mật rồi, tôi cũng hay ngồi bấm đồng hồ": "You found the secret, I also like sitting here clicking the clock", "Đi đâu đấy? Quay lại nhé": "Where are you going? Come back!", "Các mục trên trang": "Sections on this page", "Đồng hồ": "Clock", "Giới thiệu": "About", "Dự án việt hoá": "Localization projects", "Việt hoá": "Localization", "← Trang chủ": "← Home", "← Tất cả": "← All", "Tiến độ": "Progress", "tiến độ": "progress", "Xem thêm": "See more", "Tiến độ và cách cài": "Progress and how to install", "Những game tôi chơi nhiều nhất và lý do tôi quay lại với chúng.": "The games I play the most and why I keep coming back to them.", "Manhwa, manhua tôi đã đọc và đang theo dõi.": "Manhwa and manhua I’ve read and am following.", "Những playlist và bài hát tôi hay bật khi làm việc hoặc nằm nghỉ.": "Playlists and songs I put on while working or resting.", "Những dự án dịch tôi đang làm.": "The translation projects I’m working on.", "Những bộ phim tôi xem đi xem lại.": "Movies I watch again and again.", "Chơi hằng ngày": "Daily", "MOBA 5v5. Tôi chỉ chơi chế độ giải trí để xả hơi, không chơi xếp hạng.": "5v5 MOBA. I only play casual mode to unwind, no ranked.", "[Vì sao tôi thích: lên đồ, combo đẹp, chơi cùng bạn bè...]": "[Why you like it: builds, nice combos, playing with friends...]", "Giải trí": "Casual", "FPS chiến thuật · PC": "Tactical FPS · PC", "Đang cày": "Grinding", "Game bắn súng chiến thuật theo đội, có chế độ chiến dịch và đánh quy mô lớn.": "Team-based tactical shooter with a campaign mode and large-scale battles.", "[Điều khiến tôi thích: cảm giác súng, phối hợp đội, chế độ yêu thích...]": "[What you like: gunplay, teamwork, favorite mode...]", "Đồng đội": "Teamwork", "Đang build": "Building", "Game nhập vai hành động kiểu Diablo, build nhân vật rất sâu.": "Diablo-style action RPG with very deep character builds.", "[Build tôi đang làm, class tôi chọn, vì sao tôi mê...]": "[The build you’re making, your class, why you love it...]", "Tên bộ truyện 1": "Comic title 1", "Manhwa · Hành động": "Manhwa · Action", "Đang theo": "Following", "Bộ truyện này nói về điều gì, không cần kể hết nội dung.": "What this comic is about, no need to spoil it.", "Điều làm tôi muốn đọc tiếp mỗi tuần.": "What makes you want to keep reading every week.", "Tên bộ truyện 2": "Comic title 2", "Manhua · Tu tiên": "Manhua · Cultivation", "Đọc xong": "Finished", "Giới thiệu ngắn về bộ thứ hai.": "A short intro to the second one.", "Vì sao tôi nhớ bộ này.": "Why you remember this one.", "Tên bộ truyện 3": "Comic title 3", "Manhwa · Đời thường": "Manhwa · Slice of life", "Muốn đọc": "Want to read", "Giới thiệu ngắn về bộ thứ ba.": "A short intro to the third one.", "Vì sao tôi muốn đọc.": "Why you want to read it.", "Hay nghe": "Often played", "Playlist nhạc Việt tôi nghe nhiều nhất.": "The Vietnamese playlist I listen to the most.", "Nghe lúc nào, cảm giác ra sao.": "When I listen and how it feels.", "Nhạc Việt": "Vietnamese music", "Playlist để thư giãn, bật lên là quên hết mọi thứ.": "A playlist to relax, put it on and forget everything.", "Vì sao tôi thích nó.": "Why you like it.", "Tên bài hát": "Song title", "Ca sĩ": "Singer", "Lặp lại hoài": "On repeat", "Một bài tôi đang nghe đi nghe lại.": "A song you keep listening to on repeat.", "Câu chuyện nhỏ về bài hát này. Điền ID video vào \"yt\" để nhúng trình phát.": "A small story about this song. Fill the video ID into \"yt\" to embed a player.", "Yêu thích": "Favorite", "Việt hoá Minecraft": "Minecraft localization", "Gói ngôn ngữ cho mod và modpack": "Language packs for mods and modpacks", "Đang dịch": "Translating", "Dịch giao diện, vật phẩm và mô tả của các mod Minecraft sang tiếng Việt.": "Translating the interface, items and descriptions of Minecraft mods into Vietnamese.", "[Dịch tới đâu rồi, cách cài bản dịch.]": "[How far the translation is, how to install it.]", "Việt hoá Stardew Valley": "Stardew Valley localization", "Bản dịch cho mod · SMAPI": "Translations for mods · SMAPI", "Dịch các mod Stardew Valley sang tiếng Việt để bạn bè chơi cho dễ.": "Translating Stardew Valley mods into Vietnamese so friends can play easily.", "Tên phim 1": "Movie title 1", "Marvel · Hành động": "Marvel · Action", "Xem lại nhiều lần": "Rewatched often", "Phim nói về điều gì.": "What the movie is about.", "Cảnh hoặc nhân vật tôi thích nhất.": "Your favorite scene or character.", "Tên phim 2": "Movie title 2", "DC · Hành động": "DC · Action", "Mới xem": "Just watched", "Giới thiệu ngắn về phim thứ hai.": "A short intro to the second movie.", "Cảm nhận của tôi.": "Your thoughts.", "Ca sĩ, nhạc sĩ, nhà sản xuất âm nhạc": "Singer, songwriter, music producer", "Rapper, nhạc sĩ": "Rapper, songwriter", "Ca sĩ, nhạc sĩ": "Singer, songwriter", "Ca sĩ, diễn viên": "Singer, actress", "Rapper, ca sĩ": "Rapper, singer", "[Viết vì sao tôi thích Sơn Tùng: bài đầu tiên tôi nghe, điều làm tôi nhớ mãi.]": "[Write why you like Sơn Tùng: the first song you heard, what stuck with you.]", "Tự sáng tác và sản xuất nhiều bài hát của tôi": "Writes and produces many of his own songs", "Ra mắt từ khoảng năm 2012, nổi lên với \"Cơn mưa ngang qua\"": "Debuted around 2012 and rose to fame with \"Cơn mưa ngang qua\"", "MV thường được đầu tư kỹ về hình ảnh": "Music videos usually have strong visuals", "Pha pop với R&B, hip hop và điện tử": "Blends pop with R&B, hip hop and electronic", "[Viết vì sao tôi thích Đen: lời nhạc, giọng rap, hay cảm giác khi nghe.]": "[Write why you like Đen: the lyrics, the rap voice, how it feels to listen.]", "Lời nhạc giản dị, gần gũi, hay kể chuyện đời thường": "Simple, relatable lyrics that often tell everyday stories", "Nhiều bài vừa chill vừa có thông điệp": "Many songs are both chill and meaningful", "Giọng rap nhẹ, dễ nghe, hợp để bật lúc làm việc": "A soft, easy rap voice that suits working", "[Viết vì sao tôi thích Vũ.: giọng hát, lời nhạc, hay bài làm tôi nhớ nhất.]": "[Write why you like Vũ.: the voice, the lyrics, the song you remember most.]", "Giọng hát nhẹ, lời nhạc trữ tình": "A soft voice and lyrical songwriting", "Dòng nhạc nghiêng về indie và ballad": "Leans toward indie and ballads", "Hay viết về nỗi nhớ và những cảm xúc lặng": "Often writes about longing and quiet feelings", "[Viết vì sao tôi thích Mỹ Tâm: giọng hát, bài đầu tiên tôi nghe.]": "[Write why you like Mỹ Tâm: her voice, the first song you heard.]", "Giọng hát giàu cảm xúc, hợp những bản ballad": "An expressive voice that suits ballads", "Là một trong những ca sĩ pop nữ được biết đến lâu năm ở Việt Nam": "One of the long-standing female pop singers in Vietnam", "Thường tổ chức liveshow và có nhiều fan trung thành": "Often holds live shows and has many loyal fans", "[Viết vì sao tôi thích Hoàng Thùy Linh: giai điệu, hình ảnh, MV.]": "[Write why you like Hoàng Thùy Linh: the melodies, the imagery, the MVs.]", "Hay đưa chất liệu dân gian Việt Nam vào nhạc pop": "Often brings Vietnamese folk elements into pop", "MV và hình ảnh được đầu tư theo từng concept": "Music videos and visuals are built around each concept", "Nhiều bài sôi động, dễ nhớ": "Many upbeat, catchy songs", "[Viết vì sao tôi thích Binz: flow, lời nhạc, bài làm tôi nhớ.]": "[Write why you like Binz: the flow, the lyrics, the song you remember.]", "Nổi lên từ cộng đồng rap Việt": "Rose from the Vietnamese rap scene", "Flow mượt, hay kết hợp rap với giai điệu pop": "Smooth flow, often mixes rap with pop melodies", "Làm cả nhạc solo lẫn hợp tác với nhiều nghệ sĩ khác": "Makes both solo music and collaborations with many artists", "[Viết vì sao tôi thích HIEUTHUHAI: giọng, phong cách, bài hay nghe lại.]": "[Write why you like HIEUTHUHAI: the voice, the style, the song you replay.]", "Gương mặt trẻ của rap và pop Việt": "A young face of Vietnamese rap and pop", "Giọng trầm, flow gọn": "Deep voice, tight flow", "Hay hợp tác cùng producer và nghệ sĩ trẻ": "Often collaborates with young producers and artists", "[Viết vì sao tôi thích Jack: giai điệu, cảm xúc, bài đầu tiên tôi nghe.]": "[Write why you like Jack: the melodies, the emotion, the first song you heard.]", "Nổi tiếng với những bài pop ballad buồn": "Known for sad pop ballads", "Có lượng người nghe lớn trên mạng xã hội": "A large audience on social media", "Hay hợp tác cùng producer và nghệ sĩ khác": "Often collaborates with producers and other artists", "[Viết vì sao tôi thích MONO: giọng hát, màu nhạc, bài hay nghe.]": "[Write why you like MONO: the voice, the sound, the songs you play.]", "Giọng hát nhẹ, màu nhạc pop mang hơi hướng indie": "A soft voice and an indie-leaning pop sound", "Nổi lên cùng album \"22\"": "Rose to fame with the album \"22\"", "Có phong cách hình ảnh riêng": "Has a visual style of his own", "Chơi game vì thấy vui, không cần giỏi.": "I play games because they’re fun, not because I’m good.", "Thư viện Steam có hơn 80 game, chơi hết được vài cái.": "My Steam library has over 80 games and I’ve finished only a few.", "Thích nhạc chill, nhất là khi đang làm việc.": "I like chill music, especially while working.", "Dịch game từng chút một cũng là một kiểu chơi game.": "Translating a game bit by bit is also a way of playing it.", "Đang việt hoá Minecraft và Stardew Valley, chưa vội, làm tới đâu hay tới đó.": "Localizing Minecraft and Stardew Valley, no rush, one step at a time.", "Thành tựu Steam đã hơn 6.000, và chưa định dừng.": "Over 6,000 Steam achievements, and I’m not stopping yet.", "Ahri, Yasuo, Jinx là ba tướng tôi hay chọn nhất.": "Ahri, Yasuo and Jinx are the three champions I pick the most.", "Nghe nhạc Việt khi làm việc, nhạc chill khi mệt.": "Vietnamese music while working, chill music when tired.", "ShareX là thứ chạy lâu nhất trên Steam của tôi, hơn cả mọi game.": "ShareX has run longer on my Steam than any game.", "Mini Cozy Room: Lo-Fi hay được bật lên chỉ để làm nền.": "Mini Cozy Room: Lo-Fi often just plays in the background.", "Tôi vẫn còn đang học, và thấy vậy cũng ổn.": "I’m still learning, and that feels fine.", "Manhwa, manhua, Marvel, DC: cuối ngày nào cũng có một thứ để xem.": "Manhwa, manhua, Marvel, DC: there’s always something to watch at the end of the day.", "Delta Force và Path of Exile 2 là hai game tôi hay quay lại.": "Delta Force and Path of Exile 2 are two games I keep coming back to.", "Hay chơi game để xả hơi hơn là để lên rank.": "I play games to unwind more than to climb the ranks.", "LoL tôi chỉ chơi chế độ giải trí, không leo rank.": "I only play LoL in casual mode, no ranked climbing.", "Bật nhạc lên là làm việc nhanh hơn hẳn.": "With music on I work much faster.", "Thích những thứ nhỏ nhỏ và gọn, như trang này.": "I like small, tidy things, like this page.", "Dịch mod đôi khi mất cả buổi chỉ vì một câu thoại.": "Translating a mod sometimes takes a whole afternoon over a single line.", "Graveyard Keeper nằm trong danh sách chơi gần đây, nhưng mới chơi chút xíu.": "Graveyard Keeper is on my recently played list, but I’ve barely started.", "Có hơn 80 game mà vẫn hay chơi đi chơi lại vài game quen.": "Over 80 games and I still replay the same few favorites.", "Trang này có một mục riêng cho những nghệ sĩ tôi hay nghe.": "This page has a section just for the artists I listen to.", "Ảnh 1": "Photo 1", "Ảnh 2": "Photo 2", "Ảnh 3": "Photo 3", "Ảnh 4": "Photo 4", "Ảnh 5": "Photo 5", "Ảnh 6": "Photo 6", "Ảnh 7": "Photo 7", "Ảnh 8": "Photo 8", "Ảnh 9": "Photo 9"};
+  var EN={"Mã QR": "QR code", "Quét để ghé trang tôi": "Scan to visit my page", "Mặc định là mã của ming-dev.id.vn, bạn dán link khác vào ô bên dưới để tạo mã của mình. Cây 3D vươn cao với tán lá xum xuê theo mùa (Hoa đào xuân, Đại thụ mùa hè, Phong đỏ mùa thu, Thông tuyết mùa đông, Cây dạ quang). Bấm hoặc chạm vào cây để xem mã QR quét chuẩn.": "It defaults to the code for ming-dev.id.vn; paste another link below to make your own. A tall 3D tree with a lush canopy for every season (cherry blossom in spring, a great tree in summer, red maple in autumn, snowy pine in winter, a glowing night tree). Tap the tree to see a QR code that scans properly.", "Cây QR 3D vươn cao hướng lên trời": "Tall 3D QR tree reaching for the sky", "Dán liên kết hoặc văn bản bất kỳ": "Paste any link or text", "Chọn mùa": "Choose a season", "Xuân": "Spring", "Hạ": "Summer", "Thu": "Autumn", "Đông": "Winter", "Đen": "Black", "Điều khiển xoay 4 góc và xem mã QR": "Rotate (4 corners) and view QR controls", "◀ Xoay trái": "◀ Rotate left", "Xoay phải ▶": "Rotate right ▶", "Xoay sang góc trước (1 trong 4 góc)": "Rotate to the previous corner (1 of 4)", "Bấm để đổi góc nhìn (1 trong 4 góc)": "Press to change the view (1 of 4 corners)", "Xoay sang góc tiếp theo (1 trong 4 góc)": "Rotate to the next corner (1 of 4)", "Chuyển đổi giữa dáng cây 3D và quét mã QR": "Switch between the 3D tree and the scannable QR", "↻ Dựng lại": "↻ Rebuild", "Dựng lại cây từ đầu": "Rebuild the tree from the start", "Tải ảnh PNG": "Download PNG", "Sao chép liên kết": "Copy link", "Chạm vào cây để chuyển đổi góc nhìn quét mã QR hoặc chiêm ngưỡng cây 3D. Hỗ trợ xoay 4 góc mượt mà.": "Tap the tree to switch between the scannable QR view and the 3D tree. Rotates smoothly between 4 corners.", "Thời khoá biểu": "Timetable", "Lịch học": "Schedule", "Một tuần của tôi": "My week", "Tôi làm gì, vào khung giờ nào, theo từng ngày trong tuần.": "What I do and when, day by day through the week.", "Thời khoá biểu: thứ 2 đến thứ 6 tôi đi học.": "Timetable: I'm at school Monday to Friday.", "Chọn ngày": "Choose a day", "Hôm nay": "Today", "Đang diễn ra": "Happening now", "Chưa có lịch": "Nothing planned", "Thứ 2": "Monday", "Thứ 3": "Tuesday", "Thứ 4": "Wednesday", "Thứ 5": "Thursday", "Thứ 6": "Friday", "Thứ 7": "Saturday", "Chủ nhật": "Sunday", "T2": "Mon", "T3": "Tue", "T4": "Wed", "T5": "Thu", "T6": "Fri", "T7": "Sat", "CN": "Sun", "Đi học": "School", "Ăn trưa, nghỉ ngơi": "Lunch and rest", "Khi nào tôi có thời gian?": "When are you free?", "Từ thứ 2 đến thứ 6 tôi đi học, nên có thể tôi sẽ trả lời chậm.": "I'm at school from Monday to Friday, so I might reply slowly.", "Nhóm nhạc": "Band", "Ca sĩ, nhà sản xuất âm nhạc": "Singer, music producer", "[Viết vì sao tôi thích MCK: flow, giai điệu, bài hay nghe lại.]": "[Write why you like MCK: the flow, the melodies, the songs you replay.]", "[Viết vì sao tôi thích Vũ Cát Tường: giọng hát, lời nhạc, bài làm tôi nhớ nhất.]": "[Write why you like Vũ Cát Tường: the voice, the lyrics, the song you remember most.]", "[Viết vì sao tôi thích Changg: giọng hát, màu nhạc, bài hay nghe.]": "[Write why you like Changg: the voice, the sound, the songs you play.]", "[Viết vì sao tôi thích DatG: giọng hát, màu nhạc, bài hay nghe.]": "[Write why you like DatG: the voice, the sound, the songs you play.]", "[Viết vì sao tôi thích GreyD: giọng hát, màu nhạc, bài hay nghe.]": "[Write why you like GreyD: the voice, the sound, the songs you play.]", "[Viết vì sao tôi thích Chillies: màu nhạc, thành viên, bài hay nghe.]": "[Write why you like Chillies: the sound, the members, the songs you play.]", "Tôi đã chơi game này hơn 11 năm rồi nên tới giờ vẫn chơi.": "I’ve been playing this game for over 11 years, so I still do.", "Tôi chơi vì game giải trí rất cao, nhịp độ nhanh.": "I play it because it’s very entertaining and fast-paced.", "Tôi chơi vì game có tính chi tiết rất cao, đồ hoạ ổn định và có nhiều thứ để học hỏi.": "I play it for its high level of detail, stable graphics and plenty to learn.", "Tôi đã chơi LoL hơn 11 năm rồi.": "I’ve played LoL for over 11 years.", "Bản đồ": "Map", "Tôi ở đây": "Find me here", "Tìm địa điểm trên Google Maps": "Search a place on Google Maps", "Chỉ đường": "Directions", "Mở Google Maps": "Open Google Maps", "Về chỗ của tôi": "Back to my place", "Không chơi rank": "I don’t play ranked", "Ghi chú: muốn chơi chung thì thêm tôi qua Riot ID ming#0811 (server VN).": "Note: to play together, add me with Riot ID ming#0811 (VN server).", "Hồ sơ League of Legends của ming, thông thạo Zed": "ming’s League of Legends profile, Zed mastery", "Playlist": "Playlist", "Playlist tôi muốn chia sẻ": "Playlists I want to share", "YouTube, Spotify hay nền tảng khác đều được. Bấm nghe ngay tại đây hoặc mở bằng app.": "YouTube, Spotify or any other platform. Listen right here or open it in the app.", "Sắp cập nhật": "Coming soon", "Nghe ngay": "Listen now", "Mở ở app": "Open in app", "Năm 2026 của tôi": "My 2026", "Playlist YouTube của tôi": "My YouTube playlist", "Nhạc tôi hay bật khi làm việc.": "Music I play while working.", "Playlist Spotify của tôi": "My Spotify playlist", "Những bài tôi nghe đi nghe lại.": "Songs I keep replaying.", "Playlist ở nền tảng khác": "Playlist on another platform", "SoundCloud, Apple Music, Zing MP3... cũng được.": "SoundCloud, Apple Music, Zing MP3... also work.", "Mở Discord": "Open Discord", "Máy chủ": "Server", "Tướng thông thạo cao nhất": "Top mastery champions", "Ghi chú: chơi LoL thì thêm tôi qua Riot ID ming#0811 (server VN).": "Note: for LoL, add me with Riot ID ming#0811 (VN server).", "Lee Sin, Zed và Yasuo là ba tướng tôi thông thạo cao nhất.": "Lee Sin, Zed and Yasuo are my top three champions by mastery.", "Tag LoL của tôi là ming#0811, server VN.": "My LoL tag is ming#0811, VN server.", "Tháng 8 và 9 tôi đang đi thực tập tại công ty.": "In August and September I’m doing an internship at a company.", "Tháng 6 và 7 là hai tháng nghỉ hè của tôi.": "June and July are my summer break.", "Thực tập tại công ty": "Internship at a company", "Vẫn đang đi thực tập, vừa làm vừa học thêm.": "Still interning, learning more while working.", "Đi thực tập và làm quen với môi trường làm việc.": "Interning and getting used to the working environment.", "Nghỉ hè": "Summer break", "Nghỉ ngơi, chơi game và nạp lại năng lượng.": "Resting, playing games and recharging.", "Bắt đầu kỳ nghỉ hè.": "The start of summer break.", "Tháng 8 và 9 tôi đang đi thực tập, vừa làm vừa học thêm.": "In August and September I’m interning, learning while I work.", "Dạo này tôi bận gì?": "What have you been busy with lately?", "Tháng 8 và 9 tôi đang đi thực tập tại công ty. Tháng 6 và 7 thì tôi nghỉ hè.": "In August and September I’m interning at a company. In June and July I was on summer break.", "Tag LoL của tôi là gì?": "What is your LoL tag?", "ming#0811, server VN. Tướng tôi thông thạo cao nhất là Lee Sin, Zed và Yasuo.": "ming#0811, VN server. My top mastery champions are Lee Sin, Zed and Yasuo.", "MOBA 5v5. Tag của tôi là ming#0811, server VN. Ba tướng tôi thông thạo cao nhất là Lee Sin, Zed và Yasuo.": "5v5 MOBA. My tag is ming#0811 on the VN server. My top three by mastery are Lee Sin, Zed and Yasuo.", "Đang tải trang của Ming": "Loading Ming’s page", "Trang nhỏ để mọi người biết dạo này tôi đang làm gì.": "A small page so people know what I’ve been up to lately.", "Trang nhỏ để mọi người biết dạo này tôi đang làm gì: chơi gì, dịch gì, nghe gì.": "A small page so people know what I’ve been up to lately: what I play, translate and listen to.", "Bỏ qua tới nội dung": "Skip to content", "Điều hướng chính": "Main navigation", "Liên kết": "Links", "Dạo này": "Lately", "Game": "Games", "Dự án": "Projects", "Sở thích": "Hobbies", "Nghệ sĩ": "Artists", "Nhật ký": "Log", "Hỏi đáp": "FAQ", "Mở danh sách nhạc": "Open playlist", "Danh sách nhạc": "Playlist", "Bật hoặc tắt nhạc": "Turn music on or off", "Bật hoặc tắt nhạc (P)": "Turn music on or off (P)", "Tìm nhanh": "Quick search", "Tìm nhanh (/ hoặc Ctrl+K)": "Quick search (/ or Ctrl+K)", "Tắt hoặc bật hiệu ứng chuyển động": "Turn motion effects off or on", "Tắt/bật hiệu ứng (M)": "Turn effects off/on (M)", "Bật lại hiệu ứng (M)": "Turn effects back on (M)", "Tắt hiệu ứng (M)": "Turn effects off (M)", "Đổi giao diện sáng hoặc tối": "Switch light or dark theme", "Đổi ngôn ngữ": "Change language", "Liên hệ": "Contact", "Bây giờ ở chỗ tôi là": "Right now where I am it’s", "Giờ hiện tại": "Current time", "Di chuột để thả ảnh ·": "Move your mouse to drop photos ·", "Cuộn xuống để gặp tôi": "Scroll down to meet me", "Rất vui được gặp bạn": "Nice to meet you", "Chào buổi sáng": "Good morning", "Chúc bạn buổi trưa vui vẻ": "Have a nice noon", "Chào buổi chiều": "Good afternoon", "Chào buổi tối": "Good evening", "Khuya rồi mà bạn vẫn ghé, cảm ơn nhé": "It’s late and you still dropped by, thank you", "Ảnh của Ming": "Photo of Ming", "Ngoại tuyến": "Offline", "Trực tuyến": "Online", "Vắng mặt": "Idle", "Đừng làm phiền": "Do not disturb", "game": "games", "thành tựu": "achievements", "Xin chào, tôi là Ming.": "Hi, I’m Ming.", "Tôi vẫn còn đang học.": "I’m still learning.", "Dạo này tôi đang mê": "Lately I’m into", "việt hoá game": "game localization", "phim Marvel và DC": "Marvel & DC movies", "nhạc chill": "chill music", "nhạc Việt": "Vietnamese music", "sao Hỏa": "Mars", "Trang nhỏ ghi lại dạo này tôi làm gì, chơi gì và học gì. Không bán gì cả, bạn ghé xem cho vui là được.": "A small page about what I’ve been doing, playing and learning lately. I’m not selling anything, just drop by for fun.", "Xem dạo này tôi làm gì": "See what I’ve been up to", "Liên kết nhanh": "Quick links", "Trạng thái hiện tại": "Current status", "Đang học:": "Learning:", "Đang làm:": "Making:", "Đang chơi:": "Playing:", "Đang dịch:": "Translating:", "Đang đọc:": "Reading:", "Đang nghe:": "Listening:", "[Điều tôi đang học]": "[What you’re learning]", "[Thứ tôi đang làm]": "[What you’re working on]", "Nhạc chill": "Chill music", "Việt hoá game": "Game localization", "Hồ sơ Discord của tôi, trạng thái và hoạt động cập nhật trực tiếp (bấm tab Hoạt động).": "My Discord profile, with my status and activity updating live (click the Activity tab).", "Hồ sơ Discord của ming": "ming's Discord profile", "Ảnh trước": "Previous photo", "Ảnh sau": "Next photo", "Hiệu ứng đang tắt, bật lại để ảnh tự quay.": "Effects are off. Turn them on to make the photos spin on their own.", "Bật lại": "Turn on", "Cày game thâu đêm": "Gaming all night", "Chill cùng nhạc Việt": "Chilling to Vietnamese music", "Đắm chìm trong manhwa": "Lost in manhwa", "Mơ về sao Hỏa": "Dreaming of Mars", "Tò mò đủ thứ": "Curious about everything", "Làm web cho vui": "Building websites for fun", "Đang học": "Learning", "Đang làm": "Making", "Đang chơi": "Playing", "Đang đọc": "Reading", "Tìm tôi ở đâu": "Find me here", "Bấm vào biểu tượng để tới đúng nơi tôi hay có mặt.": "Click an icon to go to where I usually hang out.", "Nghe cùng tôi": "Listen with me", "Theo dõi": "Follow", "Kết bạn": "Add friend", "Vào server": "Join server", "Gửi thư": "Send mail", "Ngay lúc này": "Right now", "Tôi đang làm gì lúc này?": "What am I doing right now?", "Trạng thái Discord của tôi, cập nhật trực tiếp.": "My Discord status, updated live.", "Discord · trực tiếp": "Discord · live", "Đang nghe Spotify": "Listening to Spotify", "Không làm gì cả": "Doing nothing special", "Chưa kết nối Discord. Điền Discord ID ở biến ME.discordId và vào server Lanyard (discord.gg/lanyard).": "Discord isn’t connected yet. Fill in your Discord ID in ME.discordId and join the Lanyard server (discord.gg/lanyard).", "Tôi đang bận những gì": "What I’m busy with", "Những thứ tôi đang bận dạo này. Có gì mới tôi sẽ cập nhật.": "What I’ve been busy with lately. I’ll update when there’s something new.", "Viết một hai câu: vì sao tôi học nó, học tới đâu rồi.": "Write a sentence or two: why you’re learning it and how far you’ve got.", "Việt hoá Minecraft và Stardew Valley": "Localizing Minecraft and Stardew Valley", "Dịch mod, dịch game, làm từng chút một.": "Translating mods and games, a little at a time.", "Chơi vì thấy vui, không cần giỏi.": "Playing because it’s fun, no need to be good.", "Đang đọc và xem": "Reading and watching", "Cuối ngày tôi hay nằm đọc hoặc xem một tập.": "At the end of the day I like to lie down and read or watch an episode.", "Nhạc chill, nhạc Việt": "Chill music, Vietnamese music", "Bật lên lúc nào cũng được, nhất là khi đang làm.": "Always on, especially while I work.", "Ba game dạo này": "Three games lately", "Ba lá bài, ba game. Bấm vào lá bài để lật xem chi tiết.": "Three cards, three games. Click a card to flip it open.", "Hồ sơ công khai": "Public profile", "Cấp độ": "Level", "Game trong thư viện": "Games in library", "Huy hiệu": "Badges", "Thành tựu": "Achievements", "Giờ chơi hai tuần qua": "Hours in the past 2 weeks", "giờ": "hrs", "Chơi gần đây": "Recently played", "Mở hồ sơ Steam": "Open Steam profile", "Vừa cập nhật": "Just updated", "Chế độ chơi": "Mode", "Chỉ chơi giải trí": "Casual only", "Xếp hạng": "Ranked", "Không chơi, không leo rank": "Not playing, not climbing", "Tướng hay chơi": "Favorite champions", "Ảnh chia sẻ": "Shared screenshot", "Ảnh chia sẻ từ League of Legends": "Screenshot shared from League of Legends", "Trang của người hâm mộ, không liên kết với Riot Games. League of Legends và ảnh tướng thuộc Riot Games.": "Fan page, not affiliated with Riot Games. League of Legends and champion art belong to Riot Games.", "Việt hoá những game tôi thích": "Localizing games I like", "Dịch mod cho những game tôi hay chơi, để bạn bè đọc cho dễ.": "Translating mods for games I play a lot, so friends can read them easily.", "Những thứ tôi thích": "Things I like", "Mỗi mục có một trang riêng: tôi thích gì và vì sao.": "Each one has its own page: what I like and why.", "Những game tôi chơi": "Games I play", "Truyện tranh": "Comics", "Nhạc": "Music", "Playlist tôi hay nghe": "Playlists I often listen to", "Phim": "Movies", "Marvel, DC và vài phim khác": "Marvel, DC and a few others", "Những người làm nhạc tôi mê": "Musicians I love", "Bấm vào từng người để xem vì sao tôi thích.": "Click each one to see why I like them.", "Xem thêm nghệ sĩ": "Show more artists", "Thu gọn": "Show less", "Xem thêm ảnh": "Show more photos", "Vì sao tôi thích": "Why I like it", "Đặc điểm": "Highlights", "Bài tôi hay nghe": "Songs I often play", "Tôi chơi thế nào": "How I play", "Mở trang game": "Open game page", "Xem trang chi tiết": "See details page", "Vài con số": "Numbers", "Những con số vu vơ": "Random numbers", "Không để khoe, chỉ để cho vui.": "Not for bragging, just for fun.", "ngày tôi có mặt trên đời": "days I’ve been alive", "game trong thư viện Steam": "games in my Steam library", "Không đếm được": "Uncountable", "bộ truyện đã đọc": "comics read", "bài hát trong playlist": "songs in my playlist", "Ảnh": "Photos", "Vài tấm ảnh": "A few photos", "Ảnh động": "GIFs", "Vài tấm ảnh động": "A few GIFs", "Bấm vào để xem lớn.": "Click to view larger.", "Gần đây": "Recently", "Mới nhất ở trên cùng.": "Newest at the top.", "Tháng 10, 2026": "October 2026", "Tháng 9, 2026": "September 2026", "Tháng 8, 2026": "August 2026", "Làm trang web này": "Made this website", "Lần đầu tự làm một trang giới thiệu về bản thân và đưa nó lên mạng với tên miền riêng.": "First time building a page about myself and putting it online with my own domain.", "[Việc tôi đã làm]": "[Something you did]", "Một hai câu về chuyện đó, kể cả khi nó chưa hoàn chỉnh.": "A sentence or two about it, even if it isn’t finished.", "Điều tôi học được hoặc thấy thú vị.": "Something you learned or found interesting.", "Có thể bạn muốn biết": "You might want to know", "Trang này để làm gì?": "What is this page for?", "Chỉ để bạn bè và người quen biết dạo này tôi đang làm gì. Không có hàng bán, không có bảng giá.": "Just so friends and acquaintances know what I’m up to lately. Nothing for sale, no price list.", "Tôi có nhận việc không?": "Do you take on work?", "Hiện tại thì chưa. Tôi vẫn còn đang học nhiều thứ, nên muốn làm những gì tôi thích trước.": "Not at the moment. I’m still learning a lot, so I want to do what I like first.", "Tôi đang học gì?": "What are you learning?", "Tôi hay thử nhiều hướng: thiết kế, code, mod game, dựng video. Cái nào vui thì tôi đào sâu hơn.": "I try many directions: design, code, game mods, video editing. Whatever is fun I dig into further.", "Muốn chơi game chung thì sao?": "What if I want to play together?", "Cứ nhắn tôi qua Discord hoặc Facebook ở cuối trang, tôi sẽ trả lời khi online.": "Just message me on Discord or Facebook at the bottom of the page, I’ll reply when I’m online.", "Muốn nói chuyện thì cứ ghé": "Want to chat? Just drop by", "Chào nhau, rủ chơi game hay chia sẻ một bài nhạc hay đều được.": "Say hi, invite me to a game or share a great song, anything works.", "Sao chép email": "Copy email", "Một trang nhỏ để ghi lại dạo này tôi đang làm gì.": "A small page to record what I’ve been up to lately.", "Trang": "Pages", "Kết nối": "Connect", "Phím tắt": "Shortcuts", "Tắt hoặc bật hiệu ứng": "Turn effects off or on", "Lên đầu trang": "Back to top", "Tìm nhanh (hoặc Ctrl + K)": "Quick search (or Ctrl + K)", "Ngẫu nhiên một điều về trang này": "A random fact about this page", "Cập nhật lần cuối: tháng 10/2026": "Last updated: October 2026", "Trình phát nhạc": "Music player", "Nhạc nền": "Background music", "Bài trước": "Previous track", "Phát nhạc": "Play", "Phát hoặc tạm dừng": "Play or pause", "Bài tiếp theo": "Next track", "Chưa tìm thấy file nhạc. Bỏ file vào thư mục music/ rồi tải lại trang.": "No music file found. Put files in the music/ folder and reload the page.", "Mở trình phát nhạc": "Open music player", "Bật nhạc": "Play music", "Tắt nhạc": "Stop music", "Tạm dừng": "Pause", "Nhạc mẫu 1": "Sample track 1", "Nhạc mẫu 2": "Sample track 2", "Nhạc mẫu 3": "Sample track 3", "Tạo bằng code": "Made with code", "thiếu file": "missing file", "Đang phát:": "Now playing:", "Đã tạm dừng nhạc": "Music paused", "Một điều ngẫu nhiên về trang này": "A random fact about this page", "Ngẫu nhiên (R)": "Random (R)", "Bấm để tới chỗ này": "Click to go there", "Gõ để tìm: game, nhạc, nhật ký, đổi giao diện...": "Type to search: games, music, log, switch theme...", "↑↓ Chọn": "↑↓ Select", "Enter Mở": "Enter Open", "Esc Đóng": "Esc Close", "Không tìm thấy gì": "Nothing found", "Mục": "Section", "Hành động": "Action", "Sao chép link trang này": "Copy this page link", "Đã sao chép link trang": "Page link copied", "Đã sao chép": "Copied", "Đã tắt hiệu ứng": "Effects turned off", "Đã bật hiệu ứng": "Effects turned on", "Bạn tìm ra điều bí mật rồi, tôi cũng hay ngồi bấm đồng hồ": "You found the secret, I also like sitting here clicking the clock", "Đi đâu đấy? Quay lại nhé": "Where are you going? Come back!", "Các mục trên trang": "Sections on this page", "Đồng hồ": "Clock", "Giới thiệu": "About", "Dự án việt hoá": "Localization projects", "Việt hoá": "Localization", "← Trang chủ": "← Home", "← Tất cả": "← All", "Tiến độ": "Progress", "tiến độ": "progress", "Xem thêm": "See more", "Tiến độ và cách cài": "Progress and how to install", "Những game tôi chơi nhiều nhất và lý do tôi quay lại với chúng.": "The games I play the most and why I keep coming back to them.", "Manhwa, manhua tôi đã đọc và đang theo dõi.": "Manhwa and manhua I’ve read and am following.", "Những playlist và bài hát tôi hay bật khi làm việc hoặc nằm nghỉ.": "Playlists and songs I put on while working or resting.", "Những dự án dịch tôi đang làm.": "The translation projects I’m working on.", "Những bộ phim tôi xem đi xem lại.": "Movies I watch again and again.", "Chơi hằng ngày": "Daily", "MOBA 5v5. Tôi chỉ chơi chế độ giải trí để xả hơi, không chơi xếp hạng.": "5v5 MOBA. I only play casual mode to unwind, no ranked.", "[Vì sao tôi thích: lên đồ, combo đẹp, chơi cùng bạn bè...]": "[Why you like it: builds, nice combos, playing with friends...]", "Giải trí": "Casual", "FPS chiến thuật · PC": "Tactical FPS · PC", "Đang cày": "Grinding", "Game bắn súng chiến thuật theo đội, có chế độ chiến dịch và đánh quy mô lớn.": "Team-based tactical shooter with a campaign mode and large-scale battles.", "[Điều khiến tôi thích: cảm giác súng, phối hợp đội, chế độ yêu thích...]": "[What you like: gunplay, teamwork, favorite mode...]", "Đồng đội": "Teamwork", "Đang build": "Building", "Game nhập vai hành động kiểu Diablo, build nhân vật rất sâu.": "Diablo-style action RPG with very deep character builds.", "[Build tôi đang làm, class tôi chọn, vì sao tôi mê...]": "[The build you’re making, your class, why you love it...]", "Tên bộ truyện 1": "Comic title 1", "Manhwa · Hành động": "Manhwa · Action", "Đang theo": "Following", "Bộ truyện này nói về điều gì, không cần kể hết nội dung.": "What this comic is about, no need to spoil it.", "Điều làm tôi muốn đọc tiếp mỗi tuần.": "What makes you want to keep reading every week.", "Tên bộ truyện 2": "Comic title 2", "Manhua · Tu tiên": "Manhua · Cultivation", "Đọc xong": "Finished", "Giới thiệu ngắn về bộ thứ hai.": "A short intro to the second one.", "Vì sao tôi nhớ bộ này.": "Why you remember this one.", "Tên bộ truyện 3": "Comic title 3", "Manhwa · Đời thường": "Manhwa · Slice of life", "Muốn đọc": "Want to read", "Giới thiệu ngắn về bộ thứ ba.": "A short intro to the third one.", "Vì sao tôi muốn đọc.": "Why you want to read it.", "Hay nghe": "Often played", "Playlist nhạc Việt tôi nghe nhiều nhất.": "The Vietnamese playlist I listen to the most.", "Nghe lúc nào, cảm giác ra sao.": "When I listen and how it feels.", "Nhạc Việt": "Vietnamese music", "Playlist để thư giãn, bật lên là quên hết mọi thứ.": "A playlist to relax, put it on and forget everything.", "Vì sao tôi thích nó.": "Why you like it.", "Tên bài hát": "Song title", "Ca sĩ": "Singer", "Lặp lại hoài": "On repeat", "Một bài tôi đang nghe đi nghe lại.": "A song you keep listening to on repeat.", "Câu chuyện nhỏ về bài hát này. Điền ID video vào \"yt\" để nhúng trình phát.": "A small story about this song. Fill the video ID into \"yt\" to embed a player.", "Yêu thích": "Favorite", "Việt hoá Minecraft": "Minecraft localization", "Gói ngôn ngữ cho mod và modpack": "Language packs for mods and modpacks", "Đang dịch": "Translating", "Dịch giao diện, vật phẩm và mô tả của các mod Minecraft sang tiếng Việt.": "Translating the interface, items and descriptions of Minecraft mods into Vietnamese.", "[Dịch tới đâu rồi, cách cài bản dịch.]": "[How far the translation is, how to install it.]", "Việt hoá Stardew Valley": "Stardew Valley localization", "Bản dịch cho mod · SMAPI": "Translations for mods · SMAPI", "Dịch các mod Stardew Valley sang tiếng Việt để bạn bè chơi cho dễ.": "Translating Stardew Valley mods into Vietnamese so friends can play easily.", "Tên phim 1": "Movie title 1", "Marvel · Hành động": "Marvel · Action", "Xem lại nhiều lần": "Rewatched often", "Phim nói về điều gì.": "What the movie is about.", "Cảnh hoặc nhân vật tôi thích nhất.": "Your favorite scene or character.", "Tên phim 2": "Movie title 2", "DC · Hành động": "DC · Action", "Mới xem": "Just watched", "Giới thiệu ngắn về phim thứ hai.": "A short intro to the second movie.", "Cảm nhận của tôi.": "Your thoughts.", "Ca sĩ, nhạc sĩ, nhà sản xuất âm nhạc": "Singer, songwriter, music producer", "Rapper, nhạc sĩ": "Rapper, songwriter", "Ca sĩ, nhạc sĩ": "Singer, songwriter", "Ca sĩ, diễn viên": "Singer, actress", "Rapper, ca sĩ": "Rapper, singer", "[Viết vì sao tôi thích Sơn Tùng: bài đầu tiên tôi nghe, điều làm tôi nhớ mãi.]": "[Write why you like Sơn Tùng: the first song you heard, what stuck with you.]", "Tự sáng tác và sản xuất nhiều bài hát của tôi": "Writes and produces many of his own songs", "Ra mắt từ khoảng năm 2012, nổi lên với \"Cơn mưa ngang qua\"": "Debuted around 2012 and rose to fame with \"Cơn mưa ngang qua\"", "MV thường được đầu tư kỹ về hình ảnh": "Music videos usually have strong visuals", "Pha pop với R&B, hip hop và điện tử": "Blends pop with R&B, hip hop and electronic", "[Viết vì sao tôi thích Đen: lời nhạc, giọng rap, hay cảm giác khi nghe.]": "[Write why you like Đen: the lyrics, the rap voice, how it feels to listen.]", "Lời nhạc giản dị, gần gũi, hay kể chuyện đời thường": "Simple, relatable lyrics that often tell everyday stories", "Nhiều bài vừa chill vừa có thông điệp": "Many songs are both chill and meaningful", "Giọng rap nhẹ, dễ nghe, hợp để bật lúc làm việc": "A soft, easy rap voice that suits working", "[Viết vì sao tôi thích Vũ.: giọng hát, lời nhạc, hay bài làm tôi nhớ nhất.]": "[Write why you like Vũ.: the voice, the lyrics, the song you remember most.]", "Giọng hát nhẹ, lời nhạc trữ tình": "A soft voice and lyrical songwriting", "Dòng nhạc nghiêng về indie và ballad": "Leans toward indie and ballads", "Hay viết về nỗi nhớ và những cảm xúc lặng": "Often writes about longing and quiet feelings", "[Viết vì sao tôi thích Mỹ Tâm: giọng hát, bài đầu tiên tôi nghe.]": "[Write why you like Mỹ Tâm: her voice, the first song you heard.]", "Giọng hát giàu cảm xúc, hợp những bản ballad": "An expressive voice that suits ballads", "Là một trong những ca sĩ pop nữ được biết đến lâu năm ở Việt Nam": "One of the long-standing female pop singers in Vietnam", "Thường tổ chức liveshow và có nhiều fan trung thành": "Often holds live shows and has many loyal fans", "[Viết vì sao tôi thích Hoàng Thùy Linh: giai điệu, hình ảnh, MV.]": "[Write why you like Hoàng Thùy Linh: the melodies, the imagery, the MVs.]", "Hay đưa chất liệu dân gian Việt Nam vào nhạc pop": "Often brings Vietnamese folk elements into pop", "MV và hình ảnh được đầu tư theo từng concept": "Music videos and visuals are built around each concept", "Nhiều bài sôi động, dễ nhớ": "Many upbeat, catchy songs", "[Viết vì sao tôi thích Binz: flow, lời nhạc, bài làm tôi nhớ.]": "[Write why you like Binz: the flow, the lyrics, the song you remember.]", "Nổi lên từ cộng đồng rap Việt": "Rose from the Vietnamese rap scene", "Flow mượt, hay kết hợp rap với giai điệu pop": "Smooth flow, often mixes rap with pop melodies", "Làm cả nhạc solo lẫn hợp tác với nhiều nghệ sĩ khác": "Makes both solo music and collaborations with many artists", "[Viết vì sao tôi thích HIEUTHUHAI: giọng, phong cách, bài hay nghe lại.]": "[Write why you like HIEUTHUHAI: the voice, the style, the song you replay.]", "Gương mặt trẻ của rap và pop Việt": "A young face of Vietnamese rap and pop", "Giọng trầm, flow gọn": "Deep voice, tight flow", "Hay hợp tác cùng producer và nghệ sĩ trẻ": "Often collaborates with young producers and artists", "[Viết vì sao tôi thích Jack: giai điệu, cảm xúc, bài đầu tiên tôi nghe.]": "[Write why you like Jack: the melodies, the emotion, the first song you heard.]", "Nổi tiếng với những bài pop ballad buồn": "Known for sad pop ballads", "Có lượng người nghe lớn trên mạng xã hội": "A large audience on social media", "Hay hợp tác cùng producer và nghệ sĩ khác": "Often collaborates with producers and other artists", "[Viết vì sao tôi thích MONO: giọng hát, màu nhạc, bài hay nghe.]": "[Write why you like MONO: the voice, the sound, the songs you play.]", "Giọng hát nhẹ, màu nhạc pop mang hơi hướng indie": "A soft voice and an indie-leaning pop sound", "Nổi lên cùng album \"22\"": "Rose to fame with the album \"22\"", "Có phong cách hình ảnh riêng": "Has a visual style of his own", "Chơi game vì thấy vui, không cần giỏi.": "I play games because they’re fun, not because I’m good.", "Thư viện Steam có hơn 80 game, chơi hết được vài cái.": "My Steam library has over 80 games and I’ve finished only a few.", "Thích nhạc chill, nhất là khi đang làm việc.": "I like chill music, especially while working.", "Dịch game từng chút một cũng là một kiểu chơi game.": "Translating a game bit by bit is also a way of playing it.", "Đang việt hoá Minecraft và Stardew Valley, chưa vội, làm tới đâu hay tới đó.": "Localizing Minecraft and Stardew Valley, no rush, one step at a time.", "Thành tựu Steam đã hơn 6.000, và chưa định dừng.": "Over 6,000 Steam achievements, and I’m not stopping yet.", "Ahri, Yasuo, Jinx là ba tướng tôi hay chọn nhất.": "Ahri, Yasuo and Jinx are the three champions I pick the most.", "Nghe nhạc Việt khi làm việc, nhạc chill khi mệt.": "Vietnamese music while working, chill music when tired.", "ShareX là thứ chạy lâu nhất trên Steam của tôi, hơn cả mọi game.": "ShareX has run longer on my Steam than any game.", "Mini Cozy Room: Lo-Fi hay được bật lên chỉ để làm nền.": "Mini Cozy Room: Lo-Fi often just plays in the background.", "Tôi vẫn còn đang học, và thấy vậy cũng ổn.": "I’m still learning, and that feels fine.", "Manhwa, manhua, Marvel, DC: cuối ngày nào cũng có một thứ để xem.": "Manhwa, manhua, Marvel, DC: there’s always something to watch at the end of the day.", "Delta Force và Path of Exile 2 là hai game tôi hay quay lại.": "Delta Force and Path of Exile 2 are two games I keep coming back to.", "Hay chơi game để xả hơi hơn là để lên rank.": "I play games to unwind more than to climb the ranks.", "LoL tôi chỉ chơi chế độ giải trí, không leo rank.": "I only play LoL in casual mode, no ranked climbing.", "Bật nhạc lên là làm việc nhanh hơn hẳn.": "With music on I work much faster.", "Thích những thứ nhỏ nhỏ và gọn, như trang này.": "I like small, tidy things, like this page.", "Dịch mod đôi khi mất cả buổi chỉ vì một câu thoại.": "Translating a mod sometimes takes a whole afternoon over a single line.", "Graveyard Keeper nằm trong danh sách chơi gần đây, nhưng mới chơi chút xíu.": "Graveyard Keeper is on my recently played list, but I’ve barely started.", "Có hơn 80 game mà vẫn hay chơi đi chơi lại vài game quen.": "Over 80 games and I still replay the same few favorites.", "Trang này có một mục riêng cho những nghệ sĩ tôi hay nghe.": "This page has a section just for the artists I listen to.", "Ảnh 1": "Photo 1", "Ảnh 2": "Photo 2", "Ảnh 3": "Photo 3", "Ảnh 4": "Photo 4", "Ảnh 5": "Photo 5", "Ảnh 6": "Photo 6", "Ảnh 7": "Photo 7", "Ảnh 8": "Photo 8", "Ảnh 9": "Photo 9"};
   Object.assign(EN,{"Danh hiệu":"Title","Game thủ kiêm dịch giả":"Gamer and translator","Cú đêm":"Night owl","Dịch giả":"Translator","Game thủ":"Gamer","Mê nhạc":"Music lover","Hay thức khuya":"Often up late","Dịch mod sang tiếng Việt":"Translates mods into Vietnamese","Chơi game mỗi ngày":"Plays games every day","Nhạc là bạn đồng hành":"Music is my companion","Xem ảnh động":"View animated image"});
   Object.assign(EN,{"Bấm để tắt":"Tap to turn off","Giới hạn 60 FPS":"60 FPS limit","Số này đếm khung hình của các hiệu ứng JavaScript trên trang, được giữ tối đa 60 để máy đỡ nóng và đỡ tốn pin. Màn hình 60Hz trở xuống thì không bị ảnh hưởng. Cuộn trang và hiệu ứng CSS vẫn chạy theo tần số quét của màn hình.":"This counts frames of the page’s JavaScript effects, which are capped at 60 to keep your device cooler and save battery. Screens at 60Hz or lower are not affected. Scrolling and CSS effects still follow your screen’s refresh rate.","Trang này giới hạn tối đa 60 FPS, bấm nút tròn FPS để xem ghi chú.":"This page is capped at 60 FPS, press the round FPS button for a note.","Tạm dừng (R)":"Pause (R)","Chạy tiếp (R)":"Resume (R)"});
   Object.assign(EN,{"Tắt tiếng":"Mute","Bật tiếng":"Unmute","Lùi 10 giây":"Back 10 seconds","Tua tới 10 giây":"Forward 10 seconds","Đóng":"Close","Tua nhạc":"Seek","Vào trang, có nhạc":"Enter with music","Vào trang, không nhạc":"Enter without music","Vào trang":"Enter","Sẵn sàng rồi":"Ready","Lời bài hát":"Lyrics","Ẩn":"Hide","Hiện":"Show","Đang tìm lời...":"Looking for lyrics...","Chưa tìm thấy lời đồng bộ cho bài này.":"No synced lyrics found for this track.","Bài này chưa có lời chạy theo nhạc, đây là lời thường.":"No time-synced lyrics for this track, showing plain lyrics.","Không tải được lời lúc này (có thể đang mất mạng).":"Could not load lyrics right now (you may be offline).","Tìm":"Search","Bấm phát để tải lời.":"Press play to load lyrics.","Xem hồ sơ":"View profile","Lịch sử đấu":"Match history","Đăng ký":"Subscribe","Xem ảnh":"View image"});
@@ -4663,7 +4733,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){o.unobserve(e.target);fn(e.target)}})},{threshold:thr});
     els.forEach(function(el){o.observe(el)});
   }
-  var SECS=[['hero','Đồng hồ','profile hồ sơ clock'],['intro','Giới thiệu','profile ming avatar'],['links','Liên kết','link social mạng xã hội'],['live','Ngay lúc này','discord status trạng thái'],['now','Dạo này','now'],['play','Đang chơi','game'],['mod','Dự án việt hoá','mod dịch translate'],['hobby','Sở thích','hobby'],['idol','Nghệ sĩ','ca sĩ idol artist'],['playlist','Playlist','nhạc music bài hát'],['stats','Vài con số','số liệu thống kê numbers stats'],['facts','Sự thật thú vị','sự thật facts fun'],['lab','Góc chơi','mini game lab'],['photos','Vài tấm ảnh','ảnh hình photo gallery'],['log','Nhật ký','blog diary'],['tkb','Thời khoá biểu','lịch học tkb schedule timetable'],['faq','Hỏi đáp','faq câu hỏi'],['contact','Liên hệ','contact discord facebook email'],['map','Bản đồ','map địa chỉ vị trí thời tiết weather']];
+  var SECS=[['hero','Đồng hồ','profile hồ sơ clock'],['intro','Giới thiệu','profile ming avatar'],['links','Liên kết','link social mạng xã hội'],['live','Ngay lúc này','discord status trạng thái'],['now','Dạo này','now'],['play','Đang chơi','game'],['mod','Dự án việt hoá','mod dịch translate'],['hobby','Sở thích','hobby'],['idol','Nghệ sĩ','ca sĩ idol artist'],['playlist','Playlist','nhạc music bài hát'],['stats','Vài con số','số liệu thống kê numbers stats'],['facts','Sự thật thú vị','sự thật facts fun'],['qr','Mã QR','qr code quét mã'],['lab','Góc chơi','mini game lab'],['photos','Vài tấm ảnh','ảnh hình photo gallery'],['log','Nhật ký','blog diary'],['tkb','Thời khoá biểu','lịch học tkb schedule timetable'],['faq','Hỏi đáp','faq câu hỏi'],['contact','Liên hệ','contact discord facebook email'],['map','Bản đồ','map địa chỉ vị trí thời tiết weather']];
   /* bấm tên Ming: đang ở đầu trang thì tải lại, còn không thì cuộn lên đầu (không để lại #hero trên link) */
   (function(){
     var br=document.getElementById('brand');if(!br)return;
@@ -8928,7 +8998,7 @@ function mark(el,k,cls){
   el.style.setProperty('--hi',uri(k));
   el.classList.add(cls);
 }
-var SEC={links:'globe',live:'chat',now:'target',play:'trophy',mod:'code',hobby:'sparkle',idol:'disc',playlist:'headphones',lab:'dice',photos:'camera',stats:'gem',facts:'star',log:'book',tkb:'clock',faq:'info',contact:'heart',map:'target'};
+var SEC={links:'globe',live:'chat',now:'target',play:'trophy',mod:'code',hobby:'sparkle',idol:'disc',playlist:'headphones',lab:'dice',photos:'camera',stats:'gem',facts:'star',qr:'link',log:'book',tkb:'clock',faq:'info',contact:'heart',map:'target'};
 function syncState(){
   var bp=document.getElementById('bgmp'),b=document.body;
   if(bp){b.classList.toggle('bgm-on',!bp.hidden);b.classList.toggle('bgm-play',bp.classList.contains('playing'))}
@@ -8992,5 +9062,532 @@ function calm(){return R.classList.contains('lite')||R.getAttribute('data-motion
 g.forEach(function(e){e.setAttribute('data-k','0')});
 setInterval(function(){if(document.hidden||calm())return;k=(k+1)%4;g.forEach(function(e){e.setAttribute('data-k',k)})},2500);
 })();</script>
+<script>/* Bộ mã hoá QR (chế độ byte, mức sửa lỗi M, phiên bản 1 đến 12). Trả về {n, g(x,y)} hoặc null nếu nội dung quá dài. */
+function qrEncode(text){
+  var bytes=Array.prototype.slice.call(new TextEncoder().encode(text));
+  var ECC=[0,10,16,26,18,24,16,18,22,22,26,30,22],NB=[0,1,1,2,2,4,4,4,5,5,5,5,8];
+  function raw(v){var r=(16*v+128)*v+64;if(v>=2){var a=Math.floor(v/7)+2;r-=(25*a-10)*a-55;if(v>=7)r-=36}return r}
+  var ver=0,cap=0,v;
+  for(v=1;v<=12;v++){var dc=Math.floor(raw(v)/8)-ECC[v]*NB[v];if(4+(v<10?8:16)+bytes.length*8<=dc*8){ver=v;cap=dc;break}}
+  if(!ver)return null;
+  var bits=[];function put(x,n){for(var i=n-1;i>=0;i--)bits.push((x>>>i)&1)}
+  put(4,4);put(bytes.length,ver<10?8:16);bytes.forEach(function(b){put(b,8)});
+  put(0,Math.min(4,cap*8-bits.length));while(bits.length%8)bits.push(0);
+  for(var p=0xEC;bits.length<cap*8;p^=0xEC^0x11)put(p,8);
+  var data=[],i,j,k;for(i=0;i<bits.length;i+=8){var bb=0;for(j=0;j<8;j++)bb=bb<<1|bits[i+j];data.push(bb)}
+  function mul(x,y){var z=0;for(var q=7;q>=0;q--){z=(z<<1)^((z>>>7)*0x11D);z^=((y>>>q)&1)*x}return z}
+  function gen(d){var r=[];for(var q=0;q<d-1;q++)r.push(0);r.push(1);var rt=1;for(var q=0;q<d;q++){for(var w=0;w<r.length;w++){r[w]=mul(r[w],rt);if(w+1<r.length)r[w]^=r[w+1]}rt=mul(rt,2)}return r}
+  function rem(d,g){var r=g.map(function(){return 0});d.forEach(function(b){var f=b^r.shift();r.push(0);g.forEach(function(c,q){r[q]^=mul(c,f)})});return r}
+  var nb=NB[ver],eb=ECC[ver],rw=Math.floor(raw(ver)/8),ns=nb-rw%nb,sl=Math.floor(rw/nb),g=gen(eb),blocks=[];
+  k=0;for(i=0;i<nb;i++){var d=data.slice(k,k+sl-eb+(i<ns?0:1));k+=d.length;var e=rem(d,g);if(i<ns)d.push(0);blocks.push(d.concat(e))}
+  var cw=[];for(i=0;i<blocks[0].length;i++)for(j=0;j<nb;j++)if(i!==sl-eb||j>=ns)cw.push(blocks[j][i]);
+  var n=ver*4+17,m=[],f=[];for(i=0;i<n;i++){m.push(new Array(n).fill(false));f.push(new Array(n).fill(false))}
+  function sf(x,y,c){m[y][x]=c;f[y][x]=true}
+  for(i=0;i<n;i++){sf(6,i,i%2===0);sf(i,6,i%2===0)}
+  function fnd(cx,cy){for(var dy=-4;dy<=4;dy++)for(var dx=-4;dx<=4;dx++){var dd=Math.max(Math.abs(dx),Math.abs(dy)),x=cx+dx,y=cy+dy;if(x>=0&&x<n&&y>=0&&y<n)sf(x,y,dd!==2&&dd!==4)}}
+  fnd(3,3);fnd(n-4,3);fnd(3,n-4);
+  var al=[];if(ver>1){var na=Math.floor(ver/7)+2,st=Math.ceil((ver*4+4)/(na*2-2))*2;al=[6];for(var ps=n-7;al.length<na;ps-=st)al.splice(1,0,ps)}
+  for(i=0;i<al.length;i++)for(j=0;j<al.length;j++){if((i===0&&j===0)||(i===0&&j===al.length-1)||(i===al.length-1&&j===0))continue;for(var ay=-2;ay<=2;ay++)for(var ax=-2;ax<=2;ax++)sf(al[i]+ax,al[j]+ay,Math.max(Math.abs(ax),Math.abs(ay))!==1)}
+  function bit(x,q){return((x>>>q)&1)!==0}
+  function fmt(mask){var dt=mask,r=dt;for(var q=0;q<10;q++)r=(r<<1)^((r>>>9)*0x537);var b=((dt<<10)|r)^0x5412;
+    for(var q=0;q<=5;q++)sf(8,q,bit(b,q));sf(8,7,bit(b,6));sf(8,8,bit(b,7));sf(7,8,bit(b,8));for(var q=9;q<15;q++)sf(14-q,8,bit(b,q));
+    for(var q=0;q<8;q++)sf(n-1-q,8,bit(b,q));for(var q=8;q<15;q++)sf(8,n-15+q,bit(b,q));sf(8,n-8,true)}
+  fmt(0);
+  if(ver>=7){var r2=ver;for(i=0;i<12;i++)r2=(r2<<1)^((r2>>>11)*0x1F25);var vb=(ver<<12)|r2;for(i=0;i<18;i++){var c=bit(vb,i),a=n-11+i%3,b2=Math.floor(i/3);sf(a,b2,c);sf(b2,a,c)}}
+  var ix=0,tot=cw.length*8;
+  for(var rt=n-1;rt>=1;rt-=2){if(rt===6)rt=5;for(var vt=0;vt<n;vt++)for(j=0;j<2;j++){var x=rt-j,up=((rt+1)&2)===0,y=up?n-1-vt:vt;if(!f[y][x]&&ix<tot){m[y][x]=bit(cw[ix>>>3],7-(ix&7));ix++}}}
+  function mk(t,x,y){switch(t){case 0:return(x+y)%2===0;case 1:return y%2===0;case 2:return x%3===0;case 3:return(x+y)%3===0;case 4:return(Math.floor(x/3)+Math.floor(y/2))%2===0;case 5:return x*y%2+x*y%3===0;case 6:return(x*y%2+x*y%3)%2===0;default:return((x+y)%2+x*y%3)%2===0}}
+  function mask(t){for(var y=0;y<n;y++)for(var x=0;x<n;x++)if(!f[y][x]&&mk(t,x,y))m[y][x]=!m[y][x]}
+  function pen(){var s=0,y,x,dk=0,L=[];
+    for(var pass=0;pass<2;pass++){for(y=0;y<n;y++){var str='',run=1,pv=null;for(x=0;x<n;x++){var c=pass?m[x][y]:m[y][x];str+=c?'1':'0';if(c===pv){run++;if(run===5)s+=3;else if(run>5)s++}else{run=1;pv=c}}
+      s+=40*((str.match(/(?=10111010000|00001011101)/g)||[]).length)}}
+    for(y=0;y<n;y++)for(x=0;x<n;x++){if(m[y][x])dk++;if(x<n-1&&y<n-1&&m[y][x]===m[y][x+1]&&m[y][x]===m[y+1][x]&&m[y][x]===m[y+1][x+1])s+=3}
+    s+=10*(Math.ceil(Math.abs(dk*20-n*n*10)/(n*n))-1);return s}
+  var best=0,bp=1e9;
+  for(i=0;i<8;i++){mask(i);fmt(i);var pp=pen();if(pp<bp){bp=pp;best=i}mask(i)}
+  mask(best);fmt(best);
+  return{n:n,g:function(x,y){return m[y][x]}};
+}
+if(typeof module!=='undefined')module.exports=qrEncode;
+
+</script>
+<script id="qr-tree-js">
+/* MÃ QR CÂY 3D VƯƠN CAO HƯỚNG LÊN TRÊN (ISOMETRIC 3D TREE):
+   - Thân và tán cây vươn thẳng đứng lên trời, tán hoa/lá bồng bềnh xếp tầng theo từng mùa.
+   - Bệ đất dạng hình thoi isometric chứa ma trận mã QR chuẩn xác cùng 3 mắt định vị.
+   - Chạm vào cây (hoặc bấm Xem mã QR) để chuyển góc nhìn quét mã QR chuẩn xác.
+   - Hỗ trợ xoay 4 góc chuẩn xác (0°, 90°, 180°, 270°). */
+(function(){
+var cv=document.getElementById('qrcv');if(!cv)return;
+var R=document.documentElement,inp=document.getElementById('qrin'),msg=document.getElementById('qrmsg'),hint=document.getElementById('qrhint');
+var ctx=cv.getContext('2d'),CW=560,CH=780,TAU=Math.PI*2;
+var FX=document.getElementById('qrfx'),fctx=FX?FX.getContext('2d'):null,STG=document.getElementById('qrst');
+
+/* BẢNG MÀU THEO MÙA: Bệ bệ gạch lát mã QR, Thảm cỏ, Thân cây, Tán lá 3D, Cánh hoa rơi */
+var PAL={
+  xuan:{
+    dark:['#2f1b2c','#3a2037','#4c2647','#241422'],
+    light:['#fff5fa','#faebf4'],
+    lawn:['#9bc85e','#8bb752'],
+    bark:['#6d4c41','#5d4037','#795548','#4e342e'],
+    leaf:['#f8bbd0','#f48fb1','#ff80ab','#f06292','#ce93d8','#ba68c8'],
+    petal:['#f8bbd0','#f48fb1','#ff80ab','#ffd1dc']
+  },
+  ha:{
+    dark:['#142817','#1b351f','#102012','#234428'],
+    light:['#f4faf0','#e8f5e2'],
+    lawn:['#72b83a','#62a32f'],
+    bark:['#4e342e','#3e2723','#5d4037','#33201c'],
+    leaf:['#2e7d32','#388e3c','#43a047','#4caf50','#66bb6a','#81c784'],
+    petal:['#81c784','#a5d6a7','#c8e6c9']
+  },
+  thu:{
+    dark:['#30190f','#3f2014','#24120a','#4e2718'],
+    light:['#fdf6eb','#f7ebdc'],
+    lawn:['#bfa243','#af9339'],
+    bark:['#5d4037','#4e342e','#6d4c41','#3e2723'],
+    leaf:['#c62828','#d84315','#e65100','#f57c00','#ff9800','#ffb300'],
+    petal:['#e65100','#f57c00','#d84315','#ff9800']
+  },
+  dong:{
+    dark:['#142436','#1b3046','#0e1a27','#233d59'],
+    light:['#f4f8fc','#e8f1fa'],
+    lawn:['#d4e4f2','#c5d8ea'],
+    bark:['#37474f','#263238','#455a64','#1c2529'],
+    leaf:['#1b4332','#2d6a4f','#40916c','#ffffff','#e8f4f8','#ffffff'],
+    petal:['#ffffff','#e1f5fe','#ffffff']
+  },
+  den:{
+    dark:['#0a0a0a','#111111','#161616','#0d0d0d'],
+    light:['#ffffff','#f4f4f6'],
+    lawn:['#1b332b','#142922'],
+    bark:['#2b2622','#1f1b18','#35302b','#161311'],
+    leaf:['#2a2d34','#363a44','#454a56','#1e2026','#565c6a','#3a3f4b'],
+    petal:['#ffd54f','#80deea','#e0e0e0']
+  }
+};
+
+/* CÁC GÓC NHÌN ISOMETRIC (Snap chuẩn 4 góc 45, 135, 225, 315 độ) */
+var CORNER_ANGLES=[Math.PI*0.25, Math.PI*0.75, Math.PI*1.25, Math.PI*1.75];
+var curCorner=0;
+var season='xuan',q=null,text='',ready=false,tm=0,vis=false,raf=0,lastT=0,acc=0,fxOn=false,ftt=0,PT=[];
+var pitch=0.62,tpitch=0.62,yaw=CORNER_ANGLES[0],tyaw=CORNER_ANGLES[0];
+var isQRMode=false,qrProg=0,tQrProg=0;
+var te=1e9,TOT=0,ASP=1,anim=false;
+
+/* Mảng khối 3D */
+var NF=[],VX=[],VY=[],VZ0=[],VZ1=[],VW=[],VC=[],IS_LEAF=[],KIND=[],ALT=[],ST=[],DU=[],FA=[];
+var TOPS=[],FRS=[];
+var KEY=null,ORD=[],RX=null,RY=null,LAY={u:1,ox:0,oy:0};
+
+function L(vi,en){return R.lang==='en'?en:vi}
+function calm(){return R.classList.contains('lite')||R.getAttribute('data-motion')==='off'||matchMedia('(prefers-reduced-motion:reduce)').matches}
+function say(t){if(msg)msg.textContent=t}
+function rgb(h){var n=parseInt(h.slice(1),16);return[n>>16&255,n>>8&255,n&255]}
+function hash(t){var h=5381,i;for(i=0;i<t.length;i++)h=((h<<5)+h+t.charCodeAt(i))|0;return h>>>0}
+function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function cs(c){return'rgb('+c[0]+','+c[1]+','+c[2]+')'}
+
+/* Xuất ảnh mã QR phẳng chất lượng cao khi người dùng bấm Tải PNG */
+function plain(g,sz){
+  if(!q)return;
+  var n=q.n,pad=4,tot=n+pad*2,u=sz/tot;
+  g.fillStyle='#ffffff';g.fillRect(0,0,sz,sz);
+  g.fillStyle='#000000';
+  for(var y=0;y<n;y++)for(var x=0;x<n;x++){if(q.g(x,y))g.fillRect(Math.round((x+pad)*u),Math.round((y+pad)*u),Math.ceil(u),Math.ceil(u))}
+}
+
+/* DỰNG CẢNH 3D: BỆ MÃ QR ISOMETRIC VÀ CÂY VƯƠN THẲNG ĐỨNG HƯỚNG LÊN TRÊN */
+function scene(){
+  var n=q.n,half=n/2,rnd=rng(hash(text));
+  var col=PAL[season];
+  var darkCol=col.dark.map(rgb),lightCol=col.light.map(rgb),lawnCol=col.lawn.map(rgb),barkCol=col.bark.map(rgb),leafCol=col.leaf.map(rgb),petalCol=col.petal.map(rgb);
+  var i,j,a,b,x,y,k;
+
+  /* Thiết lập tỷ lệ màn hình để vừa vặn hoàn hảo cả bệ và cây cao */
+  var D=(half+1.5)*1.414;
+  var u=Math.min(CW*0.86/(2*D),CH*0.84/44);
+  var ox=CW/2,oy=CH/2+45;
+  var uq=Math.min(CW*0.9/(n+10),CH*0.78/(n+10));
+  LAY={u:u,ox:ox,oy:oy,uq:uq,oyq:CH/2-12};
+
+  /* Khởi tạo dữ liệu khối 3D */
+  NF=[];VX=[];VY=[];VZ0=[];VZ1=[];VW=[];VC=[];IS_LEAF=[];KIND=[];ALT=[];ST=[];DU=[];FA=[];TOPS=[];FRS=[];TOT=0;
+  function reg(c){TOPS.push(cs(c));FRS.push(cs([c[0]*0.72|0,c[1]*0.66|0,c[2]*0.78|0]));return TOPS.length-1}
+  /* loại khối (tham số leaf): 0 = nền/mã, 1 = lá, 2 = thân, cành, cánh hoa rơi (ẩn ở chế độ QR), 3 = vùng trắng quanh mã (chỉ hiện ở chế độ QR). alt = màu dùng ở chế độ QR. */
+  function put(px,py,pz0,pz1,pw,ci,st,du,fa,nf,leaf,alt){
+    NF.push(nf?1:0);VX.push(px);VY.push(py);VZ0.push(pz0);VZ1.push(pz1);VW.push(pw);VC.push(ci);
+    ST.push(st);DU.push(du);FA.push(fa);IS_LEAF.push(leaf===1?1:0);KIND.push(leaf|0);ALT.push(alt===undefined?-1:alt);
+    if(st+du>TOT)TOT=st+du;
+  }
+
+  var cDark=darkCol.map(reg),cLight=lightCol.map(reg),cLawn=lawnCol.map(reg),cBark=barkCol.map(reg),cLeaf=leafCol.map(reg),cPetal=petalCol.map(reg);
+  var cSlab=reg(season==='den'?[14,14,24]:season==='dong'?[180,195,210]:[170,165,155]);
+  var cLantern=reg([255,220,90]),cCrystal=reg([128,222,234]);
+
+  /* 1. MẶT BỆ ĐẤT / NỀN MÃ QR ISOMETRIC (z = 0 .. 0.8) */
+  for(y=0;y<n;y++)for(x=0;x<n;x++){
+    var qx=x,qy=y,dark=q.g(qx,qy);
+    var mx=qx-half,my=qy-half;
+    var st0=0.05+((qx+qy)/(2*n))*0.3+rnd()*0.1;
+
+    /* Xác định mắt định vị QR (Finder Patterns 7x7) tại 3 góc */
+    var isFnd=(qx<7&&qy<7)||(qx>=n-7&&qy<7)||(qx<7&&qy>=n-7);
+    var fndEdge=false,fndCore=false,fndRing=false;
+    if(isFnd){
+      var fx=qx<7?qx:qx-(n-7),fy=qy<7?qy:qy-(n-7);
+      if(fx===0||fx===6||fy===0||fy===6)fndEdge=true;
+      else if(fx>=2&&fx<=4&&fy>=2&&fy<=4)fndCore=true;
+      else fndRing=true;
+    }
+
+    if(dark){
+      var tc=cDark[(qx*5+qy*7+((qx*qy)%3))%cDark.length];
+      if(isFnd){
+        tc=fndCore?cDark[0]:cLawn[0];
+      }
+      put(mx,my,0,isFnd?0.85:0.75,1.0,tc,st0,0.3,2,false,0,(isFnd&&!fndCore)?cDark[0]:-1);
+    }else{
+      var lc=isFnd&&fndRing?cLight[0]:cLight[(qx+qy)%cLight.length];
+      put(mx,my,0,0.35,1.0,lc,st0,0.25,1.5,false,0);
+    }
+  }
+
+  /* Viền cỏ & bệ nổi 3D xung quanh mã QR */
+  for(i=-1;i<=n;i++){
+    var edges=[[i,-1],[i,n],[-1,i],[n,i]];
+    for(j=0;j<4;j++){
+      var ex=edges[j][0]-half,ey=edges[j][1]-half;
+      put(ex,ey,0,0.45,1.0,cLawn[(rnd()*cLawn.length)|0],0.1,0.25,2,false,0,cLight[0]);
+      /* Chân đế bệ 3D */
+      put(ex,ey,-1.1,0,1.0,cSlab,0.05,0.2,1,false,0);
+    }
+  }
+
+  /* Lề trắng 4 ô quanh mã (bắt buộc để máy quét nhận ra mã) và viền cỏ ngoài cùng: chỉ hiện ở chế độ QR */
+  for(y=-5;y<=n+4;y++)for(x=-5;x<=n+4;x++){
+    if(x>=0&&x<n&&y>=0&&y<n)continue;
+    if((x>=-1&&x<=n&&y>=-1&&y<=n))continue;
+    var frame=(x===-5||x===n+4||y===-5||y===n+4);
+    put(x-half,y-half,0,frame?0.45:0.35,1.0,frame?cLawn[(rnd()*cLawn.length)|0]:cLight[((x+y)&1)%cLight.length],0.1,0.2,1,false,3);
+  }
+
+  /* 2. CÂY VƯƠN THẲNG ĐỨNG HƯỚNG LÊN TRÊN (UPRIGHT TREE) */
+  /* THÂN CÂY (Trunk): mọc từ z = 0 vươn cao tới z = 16 */
+  var H_TRUNK=16;
+  for(k=0;k<H_TRUNK;k+=0.55){
+    var prog=k/H_TRUNK;
+    var w=2.7-1.3*prog+(k<3?1.5*(1-k/3):0);
+    var swayX=Math.sin(k*0.22)*0.4+(season==='xuan'?Math.sin(k*0.35)*0.5:0);
+    var swayY=Math.cos(k*0.18)*0.3;
+    var bc=cBark[(rnd()*cBark.length)|0];
+    put(swayX-w/2,swayY-w/2,k,k+0.6,w,bc,0.2+prog*0.4,0.3,3,false,2);
+  }
+
+  /* CÀNH CÂY (Branches): tỏa ra ở các tầng cao từ z = 8.5 đến z = 17 */
+  var nbBranches=season==='ha'?8:(season==='dong'?7:6);
+  var branchEnds=[];
+  for(i=0;i<nbBranches;i++){
+    var an=(i/nbBranches)*TAU+rnd()*0.35;
+    var bz0=8.5+(i%3)*2.5;
+    var bLen=5.5+rnd()*2.5;
+    var tx=Math.cos(an)*bLen,ty=Math.sin(an)*bLen,tz=bz0+3.5+rnd()*3.5;
+    branchEnds.push({x:tx,y:ty,z:tz});
+    var bSteps=16;
+    for(j=0;j<=bSteps;j++){
+      var f=j/bSteps,bw=1.7-1.0*f;
+      put(tx*f-bw/2,ty*f-bw/2,bz0+(tz-bz0)*f,bz0+(tz-bz0)*f+bw,bw,cBark[1+((rnd()*2)|0)],0.4+f*0.3,0.3,2,false,2);
+    }
+  }
+
+  /* 3. TÁN LÁ VƯƠN CAO DẠNG VÒM CHÓP / THÁP HOA (Canopy Voxel Clusters) */
+  /* Tạo các cụm mây hoa / lá bồng bềnh hình vòm chóp từ z = 11 đến z = 29 */
+  var clusters=[];
+  /* Cụm đỉnh chóp vươn cao nhất */
+  clusters.push({x:0,y:0,z:26.5,rx:3.8,ry:3.8,rz:4.5});
+  /* Tầng tán cao (z = 21..24) */
+  for(i=0;i<3;i++){
+    var a1=i*(TAU/3)+rnd()*0.3;
+    clusters.push({x:Math.cos(a1)*3.2,y:Math.sin(a1)*3.2,z:22,rx:4.8,ry:4.8,rz:4.0});
+  }
+  /* Tầng tán giữa (z = 16..19) - phình rộng đẹp mắt như ảnh hoa đào */
+  for(i=0;i<5;i++){
+    var a2=i*(TAU/5)+rnd()*0.35;
+    clusters.push({x:Math.cos(a2)*6.2,y:Math.sin(a2)*6.2,z:17,rx:5.6,ry:5.6,rz:4.5});
+  }
+  /* Tầng tán thấp (z = 12..15) */
+  for(i=0;i<5;i++){
+    var a3=(i+0.5)*(TAU/5)+rnd()*0.35;
+    clusters.push({x:Math.cos(a3)*5.2,y:Math.sin(a3)*5.2,z:13,rx:5.2,ry:5.2,rz:4.0});
+  }
+  /* Cụm ở đầu các nhánh cành */
+  for(i=0;i<branchEnds.length;i++){
+    clusters.push({x:branchEnds[i].x,y:branchEnds[i].y,z:branchEnds[i].z,rx:4.2,ry:4.2,rz:3.6});
+  }
+
+  /* Dựng các hạt voxel lá xếp tầng bồng bềnh */
+  var leafStep=1.1;
+  for(i=0;i<clusters.length;i++){
+    var cl=clusters[i];
+    for(var dz=-cl.rz;dz<=cl.rz;dz+=leafStep){
+      for(var dy=-cl.ry;dy<=cl.ry;dy+=leafStep){
+        for(var dx=-cl.rx;dx<=cl.rx;dx+=leafStep){
+          var dist=(dx/cl.rx)*(dx/cl.rx)+(dy/cl.ry)*(dy/cl.ry)+(dz/cl.rz)*(dz/cl.rz);
+          if(dist>1.0||rnd()<0.24)continue;
+          var lx=cl.x+dx,ly=cl.y+dy,lz=cl.z+dz;
+          var leafColIdx=(rnd()*cLeaf.length)|0;
+          var colIdx=cLeaf[leafColIdx];
+          /* Mùa đông: ngọn phủ tuyết trắng tinh */
+          if(season==='dong'&&dz>0&&rnd()<0.65)colIdx=cLeaf[cLeaf.length-1];
+          /* Mùa đen: đan xen lồng đèn / tinh thể phát sáng */
+          if(season==='den'&&rnd()<0.08)colIdx=rnd()<0.5?cLantern:cCrystal;
+          var stL=0.45+(lz/30)*0.4+rnd()*0.15;
+          put(lx-0.5,ly-0.5,lz,lz+0.95,1.0,colIdx,stL,0.4,4,false,1);
+        }
+      }
+    }
+  }
+
+  /* 4. CÁNH HOA / LÁ RƠI DƯỚI GỐC (Fallen Petals on Platform) */
+  for(i=0;i<75;i++){
+    var pr=(rnd()*3.8)+1.4,pa=rnd()*TAU;
+    var px=Math.cos(pa)*pr,py=Math.sin(pa)*pr;
+    if(Math.abs(px)<half&&Math.abs(py)<half){
+      put(px-0.2,py-0.2,0.76,0.86,0.42,cPetal[(rnd()*cPetal.length)|0],0.3+rnd()*0.4,0.3,1,false,2);
+    }
+  }
+
+  KEY=new Float32Array(VX.length);ORD=new Array(VX.length);RX=new Float32Array(VX.length);RY=new Float32Array(VX.length);
+}
+function cmp(a,b){return KEY[a]-KEY[b]}
+
+/* VẼ CẢNH 3D LÊN CANVAS VỚI GÓC NHÌN VÀ CHIỀU SÂU MƯỢT MÀ */
+function paint(){
+  if(!q)return;
+  var curPitch=pitch,curYaw=yaw,sp=Math.sin(curPitch),cy=Math.cos(curYaw),sy=Math.sin(curYaw);
+  var u=LAY.u+(LAY.uq-LAY.u)*qrProg,ox=LAY.ox,oy=LAY.oy+(LAY.oyq-LAY.oy)*qrProg,m=VX.length,i,o,c=0,zq=1-qrProg;
+  ctx.clearRect(0,0,CW,CH);
+
+  /* Khi ở chế độ quét mã QR (qrProg > 0): tán lá tự động bay tản ra/ẩn đi để hiện rõ mã QR */
+  var hideLeaf=qrProg>0.82;
+  var spreadLeaf=1+qrProg*1.5;
+  var scaleLeaf=Math.max(0.1,1-qrProg*0.9);
+
+  for(i=0;i<m;i++){
+    if(te<ST[i])continue;
+    var kd=KIND[i];
+    if(hideLeaf&&(kd===1||kd===2))continue;
+    if(kd===3&&qrProg<0.04)continue;
+
+    var off=0;
+    if(te<ST[i]+DU[i]){var p=(te-ST[i])/DU[i];off=FA[i]*Math.pow(1-p,3)}
+
+    var px=VX[i],py=VY[i];
+    if(IS_LEAF[i]&&qrProg>0.01){
+      px*=spreadLeaf;py*=spreadLeaf;
+    }
+
+    var rx=px*cy-py*sy,ry=px*sy+py*cy;
+    RX[i]=rx;RY[i]=ry;
+    KEY[i]=sp*(ry+VW[i]*0.5)+(VZ0[i]+VZ1[i])*0.5*(kd===2?zq:1)+off;
+    ORD[c++]=i;
+  }
+
+  ORD.length=c;ORD.sort(cmp);
+  var lastTop='',lastFrs='';
+
+  for(i=0;i<c;i++){
+    o=ORD[i];var off2=0;
+    if(te<ST[o]+DU[o]){off2=FA[o]*Math.pow(1-(te-ST[o])/DU[o],3)}
+
+    var rxo=RX[o],ryo=RY[o];
+    var pw=VW[o];
+    var kd2=KIND[o],zk=kd2===2?zq:1;
+    if(IS_LEAF[o]&&qrProg>0.01){pw*=scaleLeaf}
+    if(kd2===3)pw*=qrProg;
+
+    var s=pw*u,x=ox+rxo*u,z1=VZ1[o]*zk+off2,yt=oy+(ryo-sp*z1)*u,fh=sp*(VZ1[o]-VZ0[o])*zk*u;
+    var ci=VC[o];if(qrProg>0.5&&ALT[o]>=0)ci=ALT[o];
+    var topCol=TOPS[ci];
+    if(topCol!==lastTop){ctx.fillStyle=lastTop=topCol}
+    ctx.fillRect(x,yt,s+0.6,s+0.6);
+
+    if(fh>0.4&&!NF[o]&&curPitch<1.48){
+      var frsCol=FRS[ci];
+      if(frsCol!==lastFrs){ctx.fillStyle=lastFrs=frsCol;lastTop=''}
+      ctx.fillRect(x,yt+s,s+0.6,fh+0.6);
+    }
+  }
+  ORD.length=m;
+}
+
+/* HIỆU ỨNG HẠT RƠI THEO MÙA (Cánh hoa đào, lá phong, bông tuyết, đom đóm) */
+var FCOL={
+  xuan:['#f8bbd0','#f48fb1','#ff80ab','#ffd1dc'],
+  ha:['#fffbe0','#fff3b0','#ffe082'],
+  thu:['#e65100','#f57c00','#d84315','#ff9800'],
+  dong:['#ffffff','#f0f7ff','#e1f5fe'],
+  den:['#ffd54f','#80deea','#e0e0e0']
+};
+
+function mkfx(){
+  PT=[];var k=season,cnt=k==='dong'?46:k==='den'?34:k==='ha'?24:32,i;
+  for(i=0;i<cnt;i++){
+    PT.push({x:Math.random()*CW,y:Math.random()*CH,a:Math.random()*TAU,s:0.6+Math.random()*0.8,r:Math.random(),t:i<18?1:0});
+  }
+  fxOn=!!fctx&&!calm();if(fctx&&!fxOn)fctx.clearRect(0,0,CW,CH);
+}
+
+function fxDraw(dt){
+  if(!fctx||!fxOn)return;
+  fctx.clearRect(0,0,CW,CH);ftt+=dt;var k=season,i,p,c=FCOL[k]||FCOL.xuan;
+  for(i=0;i<PT.length;i++){
+    p=PT[i];
+    if(k==='xuan'||k==='thu'){
+      var th=k==='thu';
+      p.y+=(th?58:42)*p.s*dt;p.x+=Math.sin(ftt*1.3+p.a)*22*dt*p.s+(th?9:5)*dt;p.a+=dt*(th?2.4:1.6);
+      if(p.y>CH+12){p.y=-12;p.x=Math.random()*CW}if(p.x>CW+12)p.x=-12;
+      fctx.globalAlpha=0.9;fctx.fillStyle=c[(p.r*c.length)|0];
+      fctx.beginPath();fctx.ellipse(p.x,p.y,(th?5.5:4.2)*p.s,(th?3:2.4)*p.s,p.a,0,TAU);fctx.fill();
+    }else if(k==='dong'){
+      p.y+=(28+p.s*22)*dt;p.x+=Math.sin(ftt*0.9+p.a)*14*dt;
+      if(p.y>CH+6){p.y=-6;p.x=Math.random()*CW}
+      fctx.globalAlpha=0.6+0.35*p.r;fctx.fillStyle='#ffffff';
+      fctx.beginPath();fctx.arc(p.x,p.y,1.3+p.s*1.4,0,TAU);fctx.fill();
+    }else if(k==='ha'){
+      p.y-=(9+p.s*8)*dt;p.x+=Math.sin(ftt*0.8+p.a)*12*dt+7*dt;
+      if(p.y<-8){p.y=CH+8;p.x=Math.random()*CW}if(p.x>CW+8)p.x=-8;
+      fctx.globalAlpha=0.5+0.4*Math.sin(ftt*1.4+p.a);fctx.fillStyle='#fffbe0';
+      fctx.beginPath();fctx.arc(p.x,p.y,1.6+p.s*1.2,0,TAU);fctx.fill();
+    }else{
+      p.x+=Math.cos(ftt*0.7+p.a)*16*dt;p.y+=Math.sin(ftt*0.9+p.a*2)*11*dt;
+      var al=0.45+0.55*Math.sin(ftt*2+p.a);
+      fctx.globalAlpha=0.25*Math.max(0,al);fctx.fillStyle='#ffe078';
+      fctx.beginPath();fctx.arc(p.x,p.y,7,0,TAU);fctx.fill();
+      fctx.globalAlpha=Math.max(0,al);fctx.fillStyle='#fff3b0';
+      fctx.beginPath();fctx.arc(p.x,p.y,2.0,0,TAU);fctx.fill();
+    }
+  }
+  fctx.globalAlpha=1;
+}
+
+/* VÒNG LẶP ANIMATION MƯỢT MÀ TỐI ƯU HIỆU NĂNG */
+function frame(t){
+  raf=0;if(!ready||!vis||document.hidden)return;
+  var dt=Math.min(0.05,Math.max(0,(t-lastT)/1000)||0);lastT=t;
+  acc+=dt;
+  var pDiff=Math.abs(tpitch-pitch),yDiff=Math.abs(tyaw-yaw),qDiff=Math.abs(tQrProg-qrProg);
+  if(!anim&&pDiff<0.002&&yDiff<0.001&&qDiff<0.002&&acc<0.03){
+    if(fxOn)fxDraw(acc);
+    raf=requestAnimationFrame(frame);return;
+  }
+  var d=acc,dirty=false;acc=0;
+  if(anim){te+=d*ASP;if(te>=TOT+0.05){te=1e9;anim=false}dirty=true}
+  if(pDiff>0.002){pitch+=(tpitch-pitch)*Math.min(1,d*9);dirty=true}else if(pitch!==tpitch){pitch=tpitch;dirty=true}
+  if(yDiff>0.001){yaw+=(tyaw-yaw)*Math.min(1,d*8);dirty=true}else if(yaw!==tyaw){yaw=tyaw;dirty=true}
+  if(qDiff>0.002){qrProg+=(tQrProg-qrProg)*Math.min(1,d*8.5);dirty=true}else if(qrProg!==tQrProg){qrProg=tQrProg;dirty=true}
+
+  if(dirty)paint();
+  if(fxOn)fxDraw(d);
+  if(anim||fxOn||pDiff>0.002||yDiff>0.001||qDiff>0.002)raf=requestAnimationFrame(frame);
+}
+function kick(){if(!ready||!vis)return;lastT=performance.now();if(!raf)raf=requestAnimationFrame(frame)}
+function play(fast){if(calm()){anim=false;te=1e9;return}te=0;ASP=fast?1.8:1;anim=true}
+
+/* ĐIỀU KHIỂN XOAY 4 GÓC & CHUYỂN ĐỔI CHẾ ĐỘ QUÉT QR */
+var bCorner=document.getElementById('qrcorner');
+var bRotL=document.getElementById('qrrotl');
+var bRotR=document.getElementById('qrrotr');
+var bToggle=document.getElementById('qrtoggle');
+
+function updateUI(){
+  if(bCorner)bCorner.textContent=(R.lang==='en'?'Corner ':'Góc ')+(curCorner+1)+' / 4';
+  if(bToggle)bToggle.textContent=isQRMode?(R.lang==='en'?'🌳 3D Tree':'🌳 Dáng cây 3D'):(R.lang==='en'?'👁 View QR':'👁 Xem mã QR');
+  if(hint)hint.textContent=isQRMode?(R.lang==='en'?'Tap again to view 3D Tree':'Chạm lại để dựng cây 3D'):(R.lang==='en'?'Tap the tree to see QR code':'Chạm vào cây để xem mã QR');
+}
+
+function setCorner(idx){
+  curCorner=((idx%4)+4)%4;
+  if(isQRMode){
+    isQRMode=false;tQrProg=0;tpitch=0.62;
+  }
+  tyaw=CORNER_ANGLES[curCorner];
+  updateUI();
+  kick();
+}
+
+function toggleQRMode(){
+  isQRMode=!isQRMode;
+  if(isQRMode){
+    tQrProg=1;tpitch=0;tyaw=0;
+  }else{
+    tQrProg=0;tpitch=0.62;tyaw=CORNER_ANGLES[curCorner];
+  }
+  updateUI();
+  kick();
+}
+
+new MutationObserver(function(){updateUI()}).observe(R,{attributes:true,attributeFilter:['lang']});
+if(bRotL)bRotL.addEventListener('click',function(){start();setCorner(curCorner-1)});
+if(bRotR)bRotR.addEventListener('click',function(){start();setCorner(curCorner+1)});
+if(bCorner)bCorner.addEventListener('click',function(){start();setCorner(curCorner+1)});
+if(bToggle)bToggle.addEventListener('click',function(){start();toggleQRMode()});
+document.getElementById('qrre').addEventListener('click',function(){start();play(false);kick()});
+
+/* Chạm trực tiếp vào canvas để chuyển đổi chế độ xem */
+var swiped=false;
+cv.addEventListener('click',function(){if(swiped){swiped=false;return}start();toggleQRMode()});
+
+/* Kéo lướt nhẹ sang trái/phải để chuyển góc */
+var downX=0,movedX=0;
+cv.addEventListener('pointerdown',function(e){swiped=false;downX=e.clientX;movedX=0;try{cv.setPointerCapture(e.pointerId)}catch(_){}});
+cv.addEventListener('pointermove',function(e){movedX=e.clientX-downX});
+cv.addEventListener('pointerup',function(e){
+  if(Math.abs(movedX)>36){
+    swiped=true;start();
+    if(movedX<0)setCorner(curCorner+1);
+    else setCorner(curCorner-1);
+  }
+});
+
+/* Phím mũi tên */
+cv.addEventListener('keydown',function(e){
+  if(e.key==='ArrowLeft'){e.preventDefault();start();setCorner(curCorner-1)}
+  else if(e.key==='ArrowRight'){e.preventDefault();start();setCorner(curCorner+1)}
+  else if(e.key===' '||e.key==='Enter'){e.preventDefault();start();toggleQRMode()}
+});
+
+function def(){return 'https://ming-dev.id.vn/'}
+function render(fast){
+  text=inp.value.trim()||def();var e=qrEncode(text);
+  if(!e){say(L('Nội dung dài quá, hãy rút gọn bớt.','Too long, please shorten it.'));return}
+  q=e;scene();mkfx();play(fast);paint();kick();updateUI();
+}
+function start(){
+  if(ready)return;ready=true;if(!inp.value)inp.value=def();
+  render(false);
+}
+inp.addEventListener('input',function(){clearTimeout(tm);tm=setTimeout(function(){render(true)},220)});
+document.getElementById('qse').addEventListener('click',function(e){
+  var b=e.target.closest('button[data-s]');if(!b)return;
+  season=b.getAttribute('data-s');if(STG)STG.setAttribute('data-season',season);
+  this.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+  if(ready){scene();mkfx();play(true);paint();kick()}
+});
+document.getElementById('qrdl').addEventListener('click',function(){
+  start();if(!q)return;
+  var P=1024,o=document.createElement('canvas');o.width=o.height=P;plain(o.getContext('2d'),P);
+  o.toBlob(function(b){if(!b)return;var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='ma-qr-ming.png';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},4000);say(L('Đã tải ảnh PNG (mã QR phẳng).','PNG downloaded (plain QR).'))},'image/png');
+});
+document.getElementById('qrcp').addEventListener('click',function(){
+  var t=inp.value.trim()||def(),ok=function(){say(L('Đã sao chép liên kết.','Link copied.'))};
+  function fb(){try{inp.select();document.execCommand('copy');ok()}catch(e){}}
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,fb);else fb();
+});
+document.addEventListener('visibilitychange',function(){if(!document.hidden)kick()});
+if('IntersectionObserver' in window){new IntersectionObserver(function(es){vis=es.some(function(x){return x.isIntersecting});if(vis){start();kick()}},{rootMargin:'300px 0px'}).observe(document.getElementById('qr'))}else{vis=true;start()}
+})();
+
+</script>
 </body>
 </html>
