@@ -37,7 +37,6 @@ window.TRACKS=[
   {t:'Người Bình Thường',a:'Vũ Cát Tường',g:'vn',src:'music/nguoi-binh-thuong.mp3'},
   {t:'Yêu 5',a:'Rhymastic',g:'vn',src:'music/yeu-5.mp3'},
   {t:'Đường Một Chiều ',a:'Huỳnh Tú & Magazine',g:'vn',src:'music/duong-mot-chieu-rap-version.mp3'},
-  {t:'Em ơi cứ vui',a:'TOULIVER X 1DEE X F X EVY ',g:'vn',src:'music/touliver-x-1dee-x-f-x-evy-em-oi-cu-vui-original-touliver.mp3'},
   {t:'YÊU EM DẠI KHỜ',a:'OnlyC,LOU HOÀNG',g:'vn',src:'music/yeu-em-dai-kho-lou-hoang-official-mv-onlyc-production.mp3'},
   {t:'Có Chàng Trai Viết Lên Cây',a:'Phan Mạnh Quỳnh',g:'vn',src:'music/co-chang-trai-viet-len-cay-original-phan-manh-quynh.mp3'},
   {t:'Ngã Tư Không Đèn',a:'TRANG, Khoa Vũ',g:'vn',src:'music/nga-tu-khong-den.mp3'},
