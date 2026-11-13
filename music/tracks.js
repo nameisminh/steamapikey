@@ -41,4 +41,5 @@ window.TRACKS=[
   {t:'Có Chàng Trai Viết Lên Cây',a:'Phan Mạnh Quỳnh',g:'vn',src:'music/co-chang-trai-viet-len-cay-original-phan-manh-quynh.mp3'},
   {t:'Ngã Tư Không Đèn',a:'TRANG, Khoa Vũ',g:'vn',src:'music/nga-tu-khong-den.mp3'},
   {t:'Em Ơi Cứ Vui',a:'TOULIVER X SLIMV   ',g:'vn',src:'music/touliver-x-slimv-em-oi-cu-vui-official-video-slimv.mp3'},
+  {t:'Vì Yêu Cứ Đâm Đầu',a:'Min',g:'vn',src:'music/vi-yeu-cu-dam-dau-min.mp3'},
 ];
