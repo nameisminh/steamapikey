@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-14T21:51:24.284Z",
+  "updated": "2026-11-15T04:04:19.079Z",
   "name": "ming",
   "avatar": "https://avatars.steamstatic.com/7d8c1937b7bf439198974eae0be807f4ea8cc2ac_full.jpg",
   "url": "https://steamcommunity.com/profiles/76561199474355109/",
@@ -7,17 +7,12 @@
   "games": 108,
   "badges": 7,
   "achievements": 6468,
-  "hours2w": 185.5,
+  "hours2w": 182,
   "recent": [
     {
       "n": "ShareX",
-      "h": 1895.5,
+      "h": 1898.8,
       "id": 400040
-    },
-    {
-      "n": "Mini Cozy Room: Lo-Fi",
-      "h": 45.1,
-      "id": 3511030
     },
     {
       "n": "Spacewar",
@@ -28,6 +23,11 @@
       "n": "ELDEN RING",
       "h": 8.8,
       "id": 1245620
+    },
+    {
+      "n": "Mini Cozy Room: Lo-Fi",
+      "h": 45.1,
+      "id": 3511030
     },
     {
       "n": "Mimic2 - Idle MMORPG",
