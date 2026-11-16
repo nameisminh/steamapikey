@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-15T22:20:35.721Z",
+  "updated": "2026-11-16T04:03:54.622Z",
   "name": "ming",
   "avatar": "https://avatars.steamstatic.com/7d8c1937b7bf439198974eae0be807f4ea8cc2ac_full.jpg",
   "url": "https://steamcommunity.com/profiles/76561199474355109/",
@@ -7,11 +7,11 @@
   "games": 108,
   "badges": 7,
   "achievements": 6468,
-  "hours2w": 184,
+  "hours2w": 187.3,
   "recent": [
     {
       "n": "ShareX",
-      "h": 1911,
+      "h": 1914.5,
       "id": 400040
     },
     {
@@ -25,14 +25,14 @@
       "id": 1245620
     },
     {
-      "n": "Mini Cozy Room: Lo-Fi",
-      "h": 45.1,
-      "id": 3511030
-    },
-    {
       "n": "Mimic2 - Idle MMORPG",
       "h": 0.1,
       "id": 5191970
+    },
+    {
+      "n": "[WoG] War of Genesis: Idle Loot",
+      "h": 0,
+      "id": 4891320
     }
   ]
 }
