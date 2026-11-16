@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-16T04:03:54.622Z",
+  "updated": "2026-11-16T14:24:33.707Z",
   "name": "ming",
   "avatar": "https://avatars.steamstatic.com/7d8c1937b7bf439198974eae0be807f4ea8cc2ac_full.jpg",
   "url": "https://steamcommunity.com/profiles/76561199474355109/",
@@ -7,17 +7,22 @@
   "games": 108,
   "badges": 7,
   "achievements": 6468,
-  "hours2w": 187.3,
+  "hours2w": 190,
   "recent": [
     {
       "n": "ShareX",
-      "h": 1914.5,
+      "h": 1924.5,
       "id": 400040
     },
     {
       "n": "Spacewar",
-      "h": 221,
+      "h": 223,
       "id": 480
+    },
+    {
+      "n": "Wallpaper Engine",
+      "h": 6.7,
+      "id": 431960
     },
     {
       "n": "ELDEN RING",
@@ -28,11 +33,6 @@
       "n": "Mimic2 - Idle MMORPG",
       "h": 0.1,
       "id": 5191970
-    },
-    {
-      "n": "[WoG] War of Genesis: Idle Loot",
-      "h": 0,
-      "id": 4891320
     }
   ]
 }
