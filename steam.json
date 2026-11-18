@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-17T15:17:20.382Z",
+  "updated": "2026-11-18T00:18:01.493Z",
   "name": "ming",
   "avatar": "https://avatars.steamstatic.com/7d8c1937b7bf439198974eae0be807f4ea8cc2ac_full.jpg",
   "url": "https://steamcommunity.com/profiles/76561199474355109/",
@@ -7,11 +7,11 @@
   "games": 108,
   "badges": 7,
   "achievements": 6468,
-  "hours2w": 203.1,
+  "hours2w": 203.8,
   "recent": [
     {
       "n": "ShareX",
-      "h": 1939.1,
+      "h": 1940,
       "id": 400040
     },
     {
@@ -30,9 +30,9 @@
       "id": 1245620
     },
     {
-      "n": "Mimic2 - Idle MMORPG",
-      "h": 0.1,
-      "id": 5191970
+      "n": "[WoG] War of Genesis: Idle Loot",
+      "h": 0,
+      "id": 4891320
     }
   ]
 }
