@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="utf-8">
@@ -1952,9 +1952,10 @@ footer .bye-s{font-size:.82rem;margin-top:.3rem!important}
 html.vtt::view-transition-old(root),html.vtt::view-transition-new(root){animation:none;mix-blend-mode:normal}
 html.vtt::view-transition-old(root){z-index:0}
 html.vtt::view-transition-new(root){z-index:1}
-/* CUỘN MƯỢT (xem script html.scrolling): trong lúc cuộn không xử lý hover của nội dung, không làm mờ kính phía sau */
-html.scrolling main,html.scrolling footer{pointer-events:none}
-html.scrolling :is(#orb .sat button,.orbtab,.wxch,.ql,.bgm,.bgq,#totop,.rndb,.fpsb){-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+/* (ĐÃ BỎ) html.scrolling main,footer{pointer-events:none} và tắt kính mờ lúc cuộn.
+   Đo thực tế: mỗi lần lớp "scrolling" bật/tắt (đầu mỗi lần cuộn và 150ms sau khi dừng, lăn chuột từng nấc thì bật tắt liên tục)
+   hai quy tắc này bắt trình duyệt tính lại style cả trang: 6,6ms mỗi lần trên máy tính, điện thoại chậm hơn vài lần = giật ngay lúc bắt đầu cuộn.
+   Bỏ đi còn 0,3ms. Trình duyệt hiện nay vốn đã không xử lý hover trong lúc cuộn, và các nút đó không còn dùng kính mờ. */
 
 /* ===== GÓC DEV: terminal gõ lệnh, GitHub, view-source, thanh trạng thái, bảng phím tắt. Tĩnh hết, không có animation chạy liên tục ===== */
 .panel .tio{border-top:1px dashed var(--line);padding:.5rem 1.1rem .75rem;font:400 .85rem/1.75 var(--mono)}
@@ -3283,7 +3284,7 @@ li.hic::after{top:50%;right:.4rem;margin-top:-.75rem}
 }
 </style>
 <!-- MÀU TRANG: đọc màu đã chọn trước khi vẽ trang để không bị chớp màu cũ -->
-<script>try{var _a=localStorage.getItem('accent');if(!/^(lam|tim|hong|amber|reu|mono)$/.test(_a||''))_a='lam';document.documentElement.setAttribute('data-accent',_a)}catch(e){document.documentElement.setAttribute('data-accent','lam')}</script>
+<script>try{var _a=localStorage.getItem('accent');if(!/^(lam|tim|hong|amber|reu|mono|mint|coral|lime)$/.test(_a||''))_a='lam';document.documentElement.setAttribute('data-accent',_a)}catch(e){document.documentElement.setAttribute('data-accent','lam')}</script>
 <style id="v7css">
 /* ===================== BẢNG MÀU =====================
    6 bộ màu: Lam (mặc định), Tím, Hồng, Hổ phách, Rêu (màu xanh lá cũ), Đơn sắc.
@@ -3300,6 +3301,13 @@ li.hic::after{top:50%;right:.4rem;margin-top:-.75rem}
 :root[data-accent="reu"][data-theme="light"]{--acc:#17803f;--c1:#3f7d5a;--c2:#3d7a78;--c3:#3f6a8f;--c4:#4f5f78;--c5:#66598f;--c6:#7d6a45}
 :root[data-accent="mono"]{--acc:#e8e8e8;--c1:#e2e2e2;--c2:#cfcfcf;--c3:#bdbdbd;--c4:#d6d6d6;--c5:#c4c4c4;--c6:#ededed}
 :root[data-accent="mono"][data-theme="light"]{--acc:#111;--c1:#2a2a2a;--c2:#3a3a3a;--c3:#4a4a4a;--c4:#333;--c5:#444;--c6:#1e1e1e}
+/* 3 màu thêm: Bạc hà (xanh ngọc dịu), San hô (cam đào ấm), Chanh (xanh chanh kiểu màn hình terminal) */
+:root[data-accent="mint"]{--acc:#7fe3d0;--c1:#8ce0d2;--c2:#7cc9d6;--c3:#93d5c0;--c4:#a2c8e0;--c5:#8fd9e6;--c6:#b9dccf}
+:root[data-accent="mint"][data-theme="light"]{--acc:#0f766e;--c1:#1f6f66;--c2:#1d6377;--c3:#2f6d58;--c4:#3a5f7a;--c5:#1f6f80;--c6:#4f6f66}
+:root[data-accent="coral"]{--acc:#ff9b85;--c1:#ffab94;--c2:#ff9e8a;--c3:#f7b39b;--c4:#ffc2a1;--c5:#f5a3a8;--c6:#e3bfae}
+:root[data-accent="coral"][data-theme="light"]{--acc:#b4472d;--c1:#a8452f;--c2:#a43f36;--c3:#9b5530;--c4:#a0602f;--c5:#9c4652;--c6:#7d5a4c}
+:root[data-accent="lime"]{--acc:#c6f26b;--c1:#cdeb84;--c2:#b8e07a;--c3:#d7e88f;--c4:#a8d98a;--c5:#e2e37e;--c6:#c9d8a6}
+:root[data-accent="lime"][data-theme="light"]{--acc:#4d7c0f;--c1:#4f7a1c;--c2:#557a22;--c3:#6b7a1c;--c4:#3f7a3a;--c5:#6f6f1e;--c6:#5d6b45}
 /* chỗ trước đây cứng màu xanh lá: theo màu nhấn */
 .dd.playing .dd-tab::after{background:var(--acc)!important;box-shadow:0 0 .55rem var(--acc)!important}
 .dd-tab{background-image:linear-gradient(90deg,var(--acc) var(--mp,0%),transparent var(--mp,0%))!important}
@@ -3334,26 +3342,36 @@ html.vtc::view-transition-new(acband){animation:acBand .9s cubic-bezier(.6,0,.25
 #acband{position:fixed;left:0;top:0;width:100vw;height:90px;pointer-events:none;view-transition-name:acband;
   background:linear-gradient(90deg,var(--c1),var(--c2),var(--c3),var(--acc),var(--c4),var(--c5),var(--c6)) 0 100%/100% 3px no-repeat,linear-gradient(to bottom,transparent,color-mix(in srgb,var(--acc) 18%,transparent))}
 
-/* ===================== MENU TRÒN MÉP TRÁI =====================
-   Đĩa kính tối có viền màu nhấn, hai vạch "tay cầm" báo kéo được: giữ và kéo lên/xuống để đặt chỗ khác (nhớ vị trí).
-   Đang mở trình phát nhạc thì tự ẩn cho khỏi đè lên. */
-#orb{top:var(--oy,50%)}
-.orbtab{top:var(--oy,50%)!important}
-#orb .core{touch-action:none;cursor:grab;color:var(--acc)}
+/* ===================== THANH TIỆN ÍCH MÉP TRÁI (thay cho menu vòng tròn) =====================
+   Một tay cầm nhỏ sát mép trái: bấm để mở cột nút (lên/xuống trang, tìm, sáng/tối, màu, ngôn ngữ, nhạc, chép link, hiệu ứng).
+   Giữ tay cầm kéo lên/xuống để dời chỗ (nhớ vị trí). Không có hiệu ứng chạy liên tục: đứng yên thì không tốn khung hình nào.
+   Đang mở trình phát nhạc thì tay cầm tự ẩn cho khỏi đè lên. */
+#orb,.orbtab{display:none!important}
+.dock{position:fixed;left:0;top:var(--oy,50%);z-index:36;width:0;height:0}
+.dkh{position:absolute;left:0;top:-32px;width:16px;height:64px;padding:0;border:1px solid color-mix(in srgb,var(--acc) 38%,var(--line-hi));border-left:0;border-radius:0 12px 12px 0;background:var(--card);color:var(--acc);cursor:grab;touch-action:none;display:grid;place-items:center;box-shadow:0 10px 24px -14px rgba(0,0,0,.7);opacity:.7;transition:width .22s cubic-bezier(.2,.8,.2,1),opacity .2s,border-color .2s}
+.dkh::before{content:"";width:6px;height:20px;background:linear-gradient(90deg,currentColor 0 2px,transparent 2px 4px,currentColor 4px 6px);border-radius:1px;opacity:.85;-webkit-mask:repeating-linear-gradient(#000 0 2px,transparent 2px 4px);mask:repeating-linear-gradient(#000 0 2px,transparent 2px 4px)}
+.dkh:hover,.dkh:focus-visible,.dock.open .dkh{width:20px;opacity:1;outline:0}
+.dkh:focus-visible{border-color:var(--acc)}
 html.orb-ydrag,html.orb-ydrag *{cursor:grabbing!important;user-select:none!important;-webkit-user-select:none!important}
-html.orb-ydrag #orb .core{transition:none!important}
-#orb .core i{background:radial-gradient(circle at 72% 50%,color-mix(in srgb,var(--acc) 26%,var(--card)),var(--card) 70%);box-shadow:0 0 0 1px color-mix(in srgb,var(--acc) 50%,transparent),0 0 0 6px color-mix(in srgb,var(--acc) 9%,transparent),0 0 26px -6px var(--acc),0 14px 34px -10px rgba(0,0,0,.6);animation:orb-spin 16s linear infinite}
-#orb .core i::before{border:1.5px dashed color-mix(in srgb,var(--acc) 55%,transparent);opacity:.6}
-#orb .core i::after{background:var(--acc);box-shadow:0 0 8px var(--acc)}
-#orb .core i .og{background:color-mix(in srgb,var(--acc) 22%,var(--card));color:var(--acc)}
-#orb .core::before,#orb .core::after{content:"";position:absolute;left:11px;width:10px;height:2px;border-radius:2px;background:color-mix(in srgb,var(--acc) 70%,transparent);transition:opacity .25s}
-#orb .core::before{top:calc(50% - 17px)}
-#orb .core::after{top:calc(50% + 15px)}
-#orb .core:hover::before,#orb .core:hover::after{opacity:1}
-#orb .sat button:hover,#orb .sat button:focus-visible{background:var(--acc);color:var(--bg);border-color:var(--acc);box-shadow:0 0 0 6px color-mix(in srgb,var(--acc) 18%,transparent),0 12px 26px -12px rgba(0,0,0,.65)}
-#orb .mk::after{background:conic-gradient(from 0deg,transparent 0 62%,color-mix(in srgb,var(--acc) 85%,transparent) 100%)}
-#orb .lbl{background:var(--acc);color:var(--bg)}
-body.bgm-on #orb:not(.open){opacity:0!important;pointer-events:none}
+.dkp{position:absolute;left:28px;top:0;display:flex;flex-direction:column;gap:.2rem;padding:.4rem;border:1px solid color-mix(in srgb,var(--acc) 26%,var(--line-hi));border-radius:1rem;background:var(--card);box-shadow:0 24px 50px -24px rgba(0,0,0,.75),0 0 40px -28px var(--acc);
+  opacity:0;visibility:hidden;translate:-10px calc(-50% + var(--dy,0px));transition:opacity .16s,translate .26s cubic-bezier(.2,.9,.3,1.1),visibility 0s .26s}
+.dock.open .dkp{opacity:1;visibility:visible;translate:0 calc(-50% + var(--dy,0px));transition:opacity .16s,translate .26s cubic-bezier(.2,.9,.3,1.1),visibility 0s}
+.dkp i.sep{display:block;height:1px;margin:.15rem .3rem;background:var(--line)}
+.dkb{position:relative;width:2.4rem;height:2.4rem;padding:0;border:0;border-radius:.75rem;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;transition:background-color .15s,color .15s,scale .2s cubic-bezier(.3,1.4,.5,1)}
+.dkb:hover,.dkb:focus-visible{background:color-mix(in srgb,var(--acc) 16%,transparent);color:var(--text);outline:0}
+.dkb:active{scale:.9}
+.dkb.on{color:var(--acc)}
+.dkb svg{grid-area:1/1;width:1.15rem;height:1.15rem;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.dkb svg.f{fill:currentColor;stroke-width:1.2}
+.dkb .sw{width:1.1rem;height:1.1rem;border-radius:50%;background:conic-gradient(from 200deg,var(--c1),var(--c3),var(--c5),var(--acc),var(--c1));box-shadow:0 0 0 2px var(--card),0 0 0 3.3px color-mix(in srgb,var(--acc) 70%,transparent)}
+.dkb .pa{display:none}.dkb.on .pa{display:block}.dkb.on .pl{display:none}
+/* nhãn hiện khi rê chuột (kèm phím tắt nếu có) */
+.dkb::after{content:attr(data-tip);position:absolute;left:calc(100% + .7rem);top:50%;translate:-4px -50%;padding:.32rem .62rem;border-radius:.55rem;background:var(--acc);color:var(--bg);font:600 .72rem/1.2 var(--body);white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .14s,translate .18s}
+.dkb:hover::after,.dkb:focus-visible::after,.dkb.say::after{opacity:1;translate:0 -50%}
+@media (hover:none){.dkb:not(.say)::after{display:none}}
+body.bgm-on .dock:not(.open) .dkh{opacity:0;pointer-events:none}
+:root[data-motion="off"] .dkh,:root[data-motion="off"] .dkp,:root[data-motion="off"] .dkb,:root[data-motion="off"] .dkb::after{transition:none!important}
+@media (max-width:40rem){.dkb{width:2.6rem;height:2.6rem}.dkh{width:14px}}
 
 /* ===================== TRÌNH PHÁT NHẠC ===================== */
 #bgmp.bgmp{border-radius:1.25rem;border:1px solid color-mix(in srgb,var(--acc) 24%,var(--line-hi));
@@ -5205,6 +5223,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     cl.innerHTML=cItems.length?cItems.map(function(x,i){return '<li role="option" data-i="'+i+'"'+(i===0?' class="sel"':'')+'><span>'+esc(x.t)+'</span><small>'+esc(x.k)+'</small></li>'}).join(''):'<li><span>'+T('Không tìm thấy gì')+'</span></li>';
   }
   function cmdOpen(){cPrev=document.activeElement;cmd.hidden=false;cq.value='';cmdRender();cq.focus()}
+  window.__cmdOpen=cmdOpen; /* thanh tiện ích bên trái gọi để mở Tìm nhanh */
   function cmdClose(){cmd.hidden=true;if(cPrev&&cPrev.focus)cPrev.focus()}
   function cmdMove(d){
     if(!cItems.length)return;
@@ -9278,8 +9297,6 @@ if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.s
   labels();show('music');
 })();
 </script>
-<div id="orb" aria-label="Menu"><div class="mk"><div class="orbit"><div class="sat" style="--a:0deg"><button type="button" data-o="top" style="--d:0.00s" aria-label="Lên đầu trang" title="Lên đầu trang"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></span></button></div><div class="sat" style="--a:51.43deg"><button type="button" data-o="theme" style="--d:0.04s" aria-label="Đổi giao diện" title="Đổi giao diện"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg></span></button></div><div class="sat" style="--a:102.86deg"><button type="button" data-o="color" style="--d:0.08s" aria-label="Đổi màu" title="Đổi màu"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2s6.3 6.4 6.3 10.9a6.3 6.3 0 0 1-12.6 0C5.7 9.6 12 3.2 12 3.2z"/><path d="M9.2 14.6a2.9 2.9 0 0 0 2.6 2.6"/></svg></span></button></div><div class="sat" style="--a:154.29deg"><button type="button" data-o="lang" style="--d:0.12s" aria-label="Đổi ngôn ngữ" title="Đổi ngôn ngữ"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5h9M8.5 3.5v2M6 5.5c.6 3.3 2.7 6 6 7.5M11 5.5c-.7 3.6-3 6.6-6.5 8.2M13 20.5l3.8-9 3.7 9M14.3 17.5h5"/></svg></span></button></div><div class="sat" style="--a:205.71deg"><button type="button" data-o="music" style="--d:0.16s" aria-label="Bật hoặc tắt nhạc" title="Bật hoặc tắt nhạc"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/></svg></span></button></div><div class="sat" style="--a:257.14deg"><button type="button" data-o="next" style="--d:0.20s" aria-label="Bài tiếp theo" title="Bài tiếp theo"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 5.8v12.4L15 12z"/><path d="M18.5 5.5v13"/></svg></span></button></div><div class="sat" style="--a:308.57deg"><button type="button" data-o="rnd" style="--d:0.24s" aria-label="Ngẫu nhiên" title="Ngẫu nhiên"><span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3.5"/><circle cx="9" cy="9" r="1" fill="currentColor"/><circle cx="15" cy="15" r="1" fill="currentColor"/><circle cx="15" cy="9" r="1" fill="currentColor"/><circle cx="9" cy="15" r="1" fill="currentColor"/></svg></span></button></div></div></div><button type="button" class="core" aria-label="Mở menu vòng tròn" aria-expanded="false"><i><span class="ob" style="--a:296deg"><span class="og spark"></span></span><span class="ob" style="--a:347deg"><span class="og note"></span></span><span class="ob" style="--a:39deg"><span class="og heart"></span></span><span class="ob" style="--a:90deg"><span class="og moon"></span></span><span class="ob" style="--a:141deg"><span class="og bolt"></span></span><span class="ob" style="--a:193deg"><span class="og star"></span></span><span class="ob" style="--a:244deg"><span class="og drop"></span></span></i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l6 6-6 6" transform="translate(-4 0)"/></svg></button><div class="lbl" aria-hidden="true"></div></div>
-<button class="orbtab" id="orbtab" type="button" aria-pressed="false" aria-label="Menu vòng tròn bên cạnh (bật hoặc tắt)" title="Hiện hoặc ẩn menu vòng tròn bên cạnh"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
 <script id="orb-js">
 (function(){
 var o=document.getElementById('orb');if(!o)return;
@@ -9347,22 +9364,21 @@ o.addEventListener('click',function(e){var b=e.target.closest('[data-o]');if(!b)
 <script id="v7-js">
 (function(){
   /* bảng dịch riêng (từ điển EN của trang nằm trong khối khác, không dùng chung được): đổi ngôn ngữ thì dịch lại các chữ dưới đây */
-  var R=document.documentElement,D={"Đổi màu trang":"Change page colour","Màu của trang":"Page colour","Lam":"Blue","Tím":"Violet","Hồng":"Rose","Hổ phách":"Amber","Rêu":"Moss","Đơn sắc":"Mono","Đổi màu":"Change colour","Đổi ngôn ngữ":"Switch language","Bật hoặc tắt nhạc":"Music on or off","Bài tiếp theo":"Next track","Kéo lên xuống để dời chỗ":"Drag up or down to move","Màu được nhớ trên máy này. Tìm nhanh: phím / hoặc Ctrl + K.":"Colour is remembered on this device. Quick search: / or Ctrl + K."};
+  var R=document.documentElement,D={"Đổi màu trang":"Change page colour","Màu của trang":"Page colour","Lam":"Blue","Tím":"Violet","Hồng":"Rose","Hổ phách":"Amber","Rêu":"Moss","Đơn sắc":"Mono","Bạc hà":"Mint","San hô":"Coral","Chanh":"Lime","Bật hoặc tắt nhạc":"Music on or off","Bài tiếp theo":"Next track","Màu được nhớ trên máy này. Tìm nhanh: phím / hoặc Ctrl + K.":"Colour is remembered on this device. Quick search: / or Ctrl + K.","Tiện ích (kéo lên xuống để dời chỗ)":"Tools (drag up or down to move)","Lên đầu trang":"Back to top","Xuống cuối trang":"Go to bottom","Tìm nhanh":"Quick search","Sáng hoặc tối":"Light or dark","Tiếng Việt / English":"Vietnamese / English","Chép liên kết trang":"Copy page link","Tắt hoặc bật hiệu ứng":"Effects on or off","Đã chép liên kết":"Link copied","Không chép được":"Could not copy"};
   function T(s){return (R.lang==='en'&&D.hasOwnProperty(s))?D[s]:s}
   /* phần tử có data-v7 (chữ) / data-v7a (aria-label + title) được dịch lại mỗi lần đổi ngôn ngữ */
   function tr(){
     document.querySelectorAll('[data-v7]').forEach(function(e){e.textContent=T(e.getAttribute('data-v7'))});
-    document.querySelectorAll('[data-v7a]').forEach(function(e){var s=T(e.getAttribute('data-v7a'));e.setAttribute('aria-label',s);e.title=s});
+    document.querySelectorAll('[data-v7a]').forEach(function(e){var s=T(e.getAttribute('data-v7a'));e.setAttribute('aria-label',s);if(!e.classList.contains('dkb'))e.title=s});
   }
   document.addEventListener('langchange',function(){setTimeout(tr,0)});
-  ['color','lang','music','next'].forEach(function(k){var b=document.querySelector('#orb [data-o="'+k+'"]');if(b)b.setAttribute('data-v7a',b.getAttribute('aria-label'))});
   var ab=document.getElementById('accent');if(ab)ab.setAttribute('data-v7a','Đổi màu trang');
   function motionOk(){return R.getAttribute('data-motion')!=='off'&&!matchMedia('(prefers-reduced-motion: reduce)').matches}
   function weak(){var n=navigator;return (n.hardwareConcurrency&&n.hardwareConcurrency<=2)||(n.deviceMemory&&n.deviceMemory<=2)||(n.connection&&n.connection.saveData)}
   function busyVT(){return R.classList.contains('vtt')||R.classList.contains('vtl')||R.classList.contains('vtc')}
 
   /* ===== BẢNG MÀU ===== */
-  var PAL=[['lam','Lam','#9cc8ff','#8ec5ff','#a5a8ff'],['tim','Tím','#c3b1ff','#b9a4ff','#e0b0e6'],['hong','Hồng','#ffa8c8','#ff9ec4','#ffb59a'],['amber','Hổ phách','#ffd08a','#ffc477','#f0a97a'],['reu','Rêu','#9ccfae','#8bf0a8','#88a8c4'],['mono','Đơn sắc','#f2f2f2','#bdbdbd','#6a6a6a']];
+  var PAL=[['lam','Lam','#9cc8ff','#8ec5ff','#a5a8ff'],['tim','Tím','#c3b1ff','#b9a4ff','#e0b0e6'],['hong','Hồng','#ffa8c8','#ff9ec4','#ffb59a'],['amber','Hổ phách','#ffd08a','#ffc477','#f0a97a'],['reu','Rêu','#9ccfae','#8bf0a8','#88a8c4'],['mint','Bạc hà','#8ce0d2','#7fe3d0','#7cc9d6'],['coral','San hô','#ffab94','#ff9b85','#f5a3a8'],['lime','Chanh','#d7e88f','#c6f26b','#a8d98a'],['mono','Đơn sắc','#f2f2f2','#bdbdbd','#6a6a6a']];
   var btn=document.getElementById('accent');
   var pop=document.createElement('div');pop.className='acpop';pop.id='acpop';pop.setAttribute('role','dialog');pop.setAttribute('aria-label','Màu của trang');
   pop.innerHTML='<h4 data-v7="Màu của trang"></h4><div class="acg" role="radiogroup">'+PAL.map(function(p){return '<button type="button" role="radio" data-k="'+p[0]+'" style="--sw1:'+p[2]+';--sw2:'+p[3]+';--sw3:'+p[4]+'"><i></i><span data-v7="'+p[1]+'"></span></button>'}).join('')+'</div><p data-v7="Màu được nhớ trên máy này. Tìm nhanh: phím / hoặc Ctrl + K."></p>';
@@ -9371,8 +9387,14 @@ o.addEventListener('click',function(e){var b=e.target.closest('[data-o]');if(!b)
   function cur(){return R.getAttribute('data-accent')||'lam'}
   function sync(){[].forEach.call(pop.querySelectorAll('[data-k]'),function(b){b.setAttribute('aria-checked',b.getAttribute('data-k')===cur()?'true':'false')})}
   sync();tr();
-  function place(){if(!btn)return;var r=btn.getBoundingClientRect(),w=pop.offsetWidth||264;var x=Math.min(innerWidth-w-12,Math.max(12,r.right-w));pop.style.left=x+'px';pop.style.top=(r.bottom+10)+'px'}
-  function open(on){pop.classList.toggle('on',on);if(btn)btn.setAttribute('aria-expanded',on?'true':'false');if(on){place();sync();var c=pop.querySelector('[aria-checked="true"]');if(c)try{c.focus({preventScroll:true})}catch(e){}}}
+  /* mở từ nút trên thanh menu: hiện ngay dưới nút; mở từ thanh tiện ích bên trái: hiện bên phải nút đó */
+  var anc=null;
+  function place(){
+    var a=anc||btn;if(!a)return;var r=a.getBoundingClientRect(),w=pop.offsetWidth||264,h=pop.offsetHeight||240;
+    if(anc&&anc.closest('.dock')){pop.style.left=Math.min(innerWidth-w-12,r.right+12)+'px';pop.style.top=Math.max(12,Math.min(innerHeight-h-12,r.top+r.height/2-h/2))+'px';pop.style.transformOrigin='left center';return}
+    var x=Math.min(innerWidth-w-12,Math.max(12,r.right-w));pop.style.left=x+'px';pop.style.top=(r.bottom+10)+'px';pop.style.transformOrigin='top right'
+  }
+  function open(on,from){anc=on?(from||null):anc;pop.classList.toggle('on',on);if(btn)btn.setAttribute('aria-expanded',on&&!anc?'true':'false');if(on){place();sync();var c=pop.querySelector('[aria-checked="true"]');if(c)try{c.focus({preventScroll:true})}catch(e){}}}
   if(btn){btn.addEventListener('click',function(e){e.stopPropagation();open(!pop.classList.contains('on'))})}
   document.addEventListener('click',function(e){if(pop.classList.contains('on')&&!pop.contains(e.target))open(false)});
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&pop.classList.contains('on')){open(false);if(btn)btn.focus()}});
@@ -9396,43 +9418,94 @@ o.addEventListener('click',function(e){var b=e.target.closest('[data-o]');if(!b)
     var n=bs[(i+d+bs.length)%bs.length];n.focus();setAccent(n.getAttribute('data-k'));
   });
   window.setAccent=setAccent;
-  function nextAccent(){var i=0;PAL.forEach(function(p,j){if(p[0]===cur())i=j});setAccent(PAL[(i+1)%PAL.length][0])}
 
-  /* ===== MENU TRÒN: nút mới + kéo lên/xuống ===== */
-  var orb=document.getElementById('orb');
-  if(orb){
-    orb.addEventListener('click',function(e){
-      var b=e.target.closest&&e.target.closest('[data-o]');if(!b)return;var k=b.getAttribute('data-o');
-      if(k==='color')nextAccent();
-      else if(k==='lang'){var l=document.getElementById('lang');if(l)l.click()}
-      else if(k==='next'){var n=document.getElementById('bgmn');if(n)n.click()}
-    });
-    var core=orb.querySelector('.core'),tab=document.getElementById('orbtab'),KY='orby';
-    if(core){core.setAttribute('data-v7t','1');core.title=T('Kéo lên xuống để dời chỗ');document.addEventListener('langchange',function(){setTimeout(function(){core.title=T('Kéo lên xuống để dời chỗ')},0)})}
-    function setY(y,save){
-      var lo=90,hi=Math.max(lo,innerHeight-90);y=Math.min(hi,Math.max(lo,y));
-      R.style.setProperty('--oy',Math.round(y)+'px');
-      if(save){try{localStorage.setItem(KY,(y/innerHeight).toFixed(4))}catch(e){}}
+  /* ===== THANH TIỆN ÍCH MÉP TRÁI (thay cho menu vòng tròn) ===== */
+  var I={
+    up:'<path d="M12 19V5M6 11l6-6 6 6"/>',
+    down:'<path d="M12 5v14M6 13l6 6 6-6"/>',
+    search:'<circle cx="10.8" cy="10.8" r="6.2"/><path d="M15.6 15.6l4.9 4.9"/>',
+    theme:'<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>',
+    lang:'<path d="M4 5.5h9M8.5 3.5v2M6 5.5c.6 3.3 2.7 6 6 7.5M11 5.5c-.7 3.6-3 6.6-6.5 8.2M13 20.5l3.8-9 3.7 9M14.3 17.5h5"/>',
+    next:'<path d="M5.5 5.8v12.4L15 12z"/><path d="M18.5 5.5v13"/>',
+    link:'<path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1 1"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1"/>',
+    fx:'<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16v4M17 18h4"/>'
+  };
+  function sv(p,c){return '<svg viewBox="0 0 24 24" aria-hidden="true"'+(c?' class="'+c+'"':'')+'>'+p+'</svg>'}
+  /* [khoá, nhãn, phím tắt, icon] — null = vạch ngăn nhóm */
+  var DK=[['up','Lên đầu trang','H',sv(I.up)],['down','Xuống cuối trang','',sv(I.down)],['search','Tìm nhanh','/',sv(I.search)],null,
+    ['theme','Sáng hoặc tối','T',sv(I.theme)],['color','Đổi màu trang','','<span class="sw" aria-hidden="true"></span>'],['lang','Tiếng Việt / English','',sv(I.lang)],null,
+    ['music','Bật hoặc tắt nhạc','P',sv('<path d="M8.6 5.6v12.8L19.4 12z"/>','f pl')+sv('<rect x="6.6" y="5.2" width="3.8" height="13.6" rx="1.2"/><rect x="13.6" y="5.2" width="3.8" height="13.6" rx="1.2"/>','f pa')],['next','Bài tiếp theo','',sv(I.next)],null,
+    ['link','Chép liên kết trang','',sv(I.link)],['fx','Tắt hoặc bật hiệu ứng','M',sv(I.fx)]];
+  var dock=document.createElement('div');dock.className='dock';dock.id='dock';dock.setAttribute('translate','no');
+  dock.innerHTML='<button type="button" class="dkh" aria-expanded="false" aria-controls="dkp" data-v7a="Tiện ích (kéo lên xuống để dời chỗ)"></button><div class="dkp" id="dkp" role="toolbar" aria-orientation="vertical">'+DK.map(function(d){
+    if(!d)return '<i class="sep" aria-hidden="true"></i>';
+    return '<button type="button" class="dkb" data-d="'+d[0]+'" data-v7a="'+d[1]+'" data-k="'+d[2]+'">'+d[3]+'</button>'}).join('')+'</div>';
+  document.body.appendChild(dock);
+  var dkh=dock.querySelector('.dkh'),dkp=dock.querySelector('.dkp'),KY='orby';
+  /* nhãn khi rê chuột: tên nút + phím tắt */
+  function tips(){[].forEach.call(dkp.querySelectorAll('.dkb'),function(b){var k=b.getAttribute('data-k');b.setAttribute('data-tip',T(b.getAttribute('data-v7a'))+(k?'  ·  '+k:''))})}
+  function dOpen(on){
+    dock.classList.toggle('open',on);dkh.setAttribute('aria-expanded',on?'true':'false');
+    if(on){
+      /* cột nút không được tràn ra ngoài màn hình khi tay cầm ở sát trên/dưới */
+      dkp.style.setProperty('--dy','0px');var r=dkp.getBoundingClientRect(),h=r.height,cy=dock.getBoundingClientRect().top,top=cy-h/2,dy=0;
+      if(top<10)dy=10-top;else if(top+h>innerHeight-10)dy=innerHeight-10-(top+h);
+      dkp.style.setProperty('--dy',Math.round(dy)+'px');syncDock();
     }
-    function restore(){var f=NaN;try{f=parseFloat(localStorage.getItem(KY))}catch(e){}if(!isNaN(f))setY(f*innerHeight,false)}
-    restore();addEventListener('resize',restore);
-    /* giữ và kéo theo chiều dọc; dịch dưới 6px thì vẫn là bấm bình thường */
-    function dragY(el){
-      if(!el)return;var sy=0,oy=0,on=false,moved=false,pid=null;
-      el.addEventListener('pointerdown',function(e){if(e.button>0)return;on=true;moved=false;pid=e.pointerId;sy=e.clientY;oy=orb.getBoundingClientRect().top});
-      el.addEventListener('pointermove',function(e){
-        if(!on||e.pointerId!==pid)return;var dy=e.clientY-sy;
-        if(!moved&&Math.abs(dy)<6)return;
-        if(!moved){moved=true;R.classList.add('orb-ydrag');try{el.setPointerCapture(pid)}catch(_){}orb.classList.remove('open')}
-        setY(oy+dy,false);
-      });
-      function end(e){if(!on)return;on=false;if(moved){R.classList.remove('orb-ydrag');setY(orb.getBoundingClientRect().top,true)}}
-      el.addEventListener('pointerup',end);el.addEventListener('pointercancel',end);
-      /* vừa kéo xong thì bỏ cú bấm đi kèm (không mở/đóng menu) */
-      el.addEventListener('click',function(e){if(moved){e.stopImmediatePropagation();e.preventDefault();moved=false}},true);
-    }
-    dragY(core);dragY(tab);
   }
+  dkh.addEventListener('click',function(e){e.stopPropagation();dOpen(!dock.classList.contains('open'))});
+  document.addEventListener('click',function(e){if(dock.classList.contains('open')&&!dock.contains(e.target)&&!pop.contains(e.target))dOpen(false)});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&dock.classList.contains('open')){dOpen(false);dkh.focus()}});
+  /* trạng thái: nhạc đang phát, hiệu ứng đang tắt */
+  var au0=document.getElementById('bgmau');
+  function syncDock(){
+    var m=dkp.querySelector('[data-d="music"]'),f=dkp.querySelector('[data-d="fx"]');
+    if(m)m.classList.toggle('on',!!(au0&&!au0.paused));
+    if(f)f.classList.toggle('on',R.getAttribute('data-motion')==='off');
+  }
+  if(au0){au0.addEventListener('play',syncDock);au0.addEventListener('pause',syncDock)}
+  new MutationObserver(syncDock).observe(R,{attributes:true,attributeFilter:['data-motion']});
+  function say(b,vi){var tip=b.getAttribute('data-tip');b.setAttribute('data-tip',T(vi));b.classList.add('say');setTimeout(function(){b.classList.remove('say');b.setAttribute('data-tip',tip)},1400)}
+  function clickId(id){var el=document.getElementById(id);if(el)el.click()}
+  dkp.addEventListener('click',function(e){
+    var b=e.target.closest('.dkb');if(!b)return;e.stopPropagation();var d=b.getAttribute('data-d');
+    if(d==='up')window.scrollTo({top:0,behavior:motionOk()?'smooth':'auto'});
+    else if(d==='down')window.scrollTo({top:document.documentElement.scrollHeight,behavior:motionOk()?'smooth':'auto'});
+    else if(d==='search'){dOpen(false);if(window.__cmdOpen)window.__cmdOpen()}
+    else if(d==='theme')clickId('theme');
+    else if(d==='color'){open(!pop.classList.contains('on'),b)}
+    else if(d==='lang')clickId('lang');
+    else if(d==='music')clickId('bgmq');
+    else if(d==='next')clickId('bgmn');
+    else if(d==='link'){
+      var u=location.origin+location.pathname,ok=function(){say(b,'Đã chép liên kết')};
+      if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(u).then(ok,function(){say(b,'Không chép được')});else say(b,'Không chép được');
+    }
+    else if(d==='fx')clickId('motion');
+  });
+  /* kéo tay cầm lên/xuống để dời chỗ; dịch dưới 6px thì vẫn là bấm bình thường */
+  function setY(y,save){
+    var lo=60,hi=Math.max(lo,innerHeight-60);y=Math.min(hi,Math.max(lo,y));
+    R.style.setProperty('--oy',Math.round(y)+'px');
+    if(save){try{localStorage.setItem(KY,(y/innerHeight).toFixed(4))}catch(e){}}
+  }
+  function restore(){var f=NaN;try{f=parseFloat(localStorage.getItem(KY))}catch(e){}if(!isNaN(f))setY(f*innerHeight,false)}
+  restore();addEventListener('resize',function(){restore();if(dock.classList.contains('open'))dOpen(true)});
+  (function(el){
+    var sy=0,oy=0,on=false,moved=false,pid=null;
+    el.addEventListener('pointerdown',function(e){if(e.button>0)return;on=true;moved=false;pid=e.pointerId;sy=e.clientY;oy=dock.getBoundingClientRect().top});
+    el.addEventListener('pointermove',function(e){
+      if(!on||e.pointerId!==pid)return;var dy=e.clientY-sy;
+      if(!moved&&Math.abs(dy)<6)return;
+      if(!moved){moved=true;R.classList.add('orb-ydrag');try{el.setPointerCapture(pid)}catch(_){}dOpen(false)}
+      setY(oy+dy,false);
+    });
+    function end(){if(!on)return;on=false;if(moved){R.classList.remove('orb-ydrag');setY(dock.getBoundingClientRect().top,true)}}
+    el.addEventListener('pointerup',end);el.addEventListener('pointercancel',end);
+    el.addEventListener('click',function(e){if(moved){e.stopImmediatePropagation();e.preventDefault();moved=false}},true);
+  })(dkh);
+  tr();tips();syncDock();
+  document.addEventListener('langchange',function(){setTimeout(tips,0)});
 
   /* ===== THANH TUA / ÂM LƯỢNG: tô phần đã chạy theo màu nhấn ===== */
   var sk=document.getElementById('sk'),vol=document.getElementById('bgmvol'),au=document.getElementById('bgmau');
