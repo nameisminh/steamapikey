@@ -2048,14 +2048,24 @@ html.scrolling :is(#orb .sat button,.orbtab,.wxch,.ql,.bgm,.bgq,#totop,.rndb,.fp
 :root:not([data-motion="off"]) .tgl.lang.pl.mv::after{animation:lgSq .42s cubic-bezier(.3,1.2,.45,1)}
 @keyframes lgSq{45%{scale:1.22 .84}}
 :root[data-motion="off"] .tgl.lang.pl::after{transition:none}
-/* đổi ngôn ngữ: chữ mới "viết lại" theo một đường quét mềm (VI→EN quét trái sang phải, EN→VI ngược lại).
-   Phần không đổi (ảnh, khung) giống hệt nhau nên chỉ thấy chữ đổi theo đường quét. */
+/* ĐỔI NGÔN NGỮ: một đường kẻ sáng chạy dọc trang, quét tới đâu chữ đổi tới đó (VI→EN trái sang phải, EN→VI phải sang trái).
+   Nhẹ cho máy yếu: chỉ dùng clip-path inset() và transform, card đồ hoạ tự chạy, không vẽ lại trang mỗi khung hình
+   (không blur, không mask). Đường kẻ và bản mới dùng CÙNG thời lượng và nhịp nên luôn khớp nhau. */
 html.vtl::view-transition-old(root){animation:none;mix-blend-mode:normal;z-index:0}
-html.vtl::view-transition-new(root){z-index:1;mix-blend-mode:normal;animation:lgW .66s cubic-bezier(.45,0,.2,1) both;
-  -webkit-mask:linear-gradient(100deg,#000 45%,transparent 55%) 100% 0/300% 100% no-repeat;mask:linear-gradient(100deg,#000 45%,transparent 55%) 100% 0/300% 100% no-repeat}
-html.vtl.vtlr::view-transition-new(root){animation-name:lgWr;-webkit-mask-image:linear-gradient(260deg,#000 45%,transparent 55%);mask-image:linear-gradient(260deg,#000 45%,transparent 55%)}
-@keyframes lgW{from{-webkit-mask-position:100% 0;mask-position:100% 0}to{-webkit-mask-position:0 0;mask-position:0 0}}
-@keyframes lgWr{from{-webkit-mask-position:0 0;mask-position:0 0}to{-webkit-mask-position:100% 0;mask-position:100% 0}}/* ===== VIỆT HOÁ: phiên bản, ngày cập nhật, nút tải, có gì mới ===== */
+html.vtl::view-transition-new(root){animation:lgClip .75s cubic-bezier(.55,0,.25,1) both;mix-blend-mode:normal;z-index:1}
+html.vtl.vtlr::view-transition-new(root){animation-name:lgClipR}
+html.vtl::view-transition-group(lgln){animation:none;z-index:2}
+html.vtl::view-transition-new(lgln){animation:lgLn .75s cubic-bezier(.55,0,.25,1) both,lgLnF .75s linear both}
+html.vtl.vtlr::view-transition-new(lgln){animation-name:lgLnR,lgLnF}
+@keyframes lgClip{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes lgClipR{from{clip-path:inset(0 0 0 100%)}to{clip-path:inset(0 0 0 0)}}
+@keyframes lgLn{from{transform:translateX(-60px)}to{transform:translateX(calc(100vw - 59px))}}
+@keyframes lgLnR{from{transform:translateX(calc(100vw - 1px))}to{transform:translateX(-1px)}}
+@keyframes lgLnF{0%{opacity:0}8%,86%{opacity:1}100%{opacity:0}}
+/* đường kẻ: lõi 2px màu nhấn ở mép trước, phía sau có vệt sáng mờ dần (chỉ tồn tại trong lúc quét) */
+#lgln{position:fixed;top:0;left:0;width:60px;height:100vh;pointer-events:none;view-transition-name:lgln;
+  background:linear-gradient(to right,transparent,color-mix(in srgb,var(--acc) 16%,transparent) calc(100% - 2px),var(--acc) calc(100% - 2px))}
+html.vtlr #lgln{background:linear-gradient(to left,transparent,color-mix(in srgb,var(--acc) 16%,transparent) calc(100% - 2px),var(--acc) calc(100% - 2px))}/* ===== VIỆT HOÁ: phiên bản, ngày cập nhật, nút tải, có gì mới ===== */
 .view .mdi{display:grid;grid-template-columns:auto 1fr;gap:.35rem 1rem;margin:.9rem 0 0;font:400 .85rem var(--mono)}
 .view .mdi dt{color:var(--muted)}.view .mdi dd{margin:0;color:var(--text)}
 .view .mdlk{margin:1.1rem 0 0}
@@ -8001,11 +8011,16 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     var next=LANG==='vi'?'en':'vi',r=document.documentElement;
     if(!lgMotion()){applyLang(next,true);return}
     LBTN.classList.remove('mv');void LBTN.offsetWidth;LBTN.classList.add('mv');clearTimeout(lgT);lgT=setTimeout(function(){LBTN.classList.remove('mv')},460);
-    /* chữ mới hiện theo đường quét; trình duyệt chưa hỗ trợ View Transitions thì chữ mới hiện mờ dần */
-    if(document.startViewTransition&&!document.hidden&&!r.classList.contains('vtt')&&!r.classList.contains('vtl')){
+    /* đường kẻ quét dọc trang, chữ đổi theo đường kẻ. Máy yếu (≤2 nhân, ≤2 GB RAM, tiết kiệm dữ liệu) hoặc trình duyệt chưa hỗ trợ
+       View Transitions thì bỏ đường quét, chữ mới chỉ hiện mờ dần (rẻ nhất) */
+    var nv=navigator,weak=(nv.hardwareConcurrency&&nv.hardwareConcurrency<=2)||(nv.deviceMemory&&nv.deviceMemory<=2)||(nv.connection&&nv.connection.saveData);
+    if(!weak&&document.startViewTransition&&!document.hidden&&!r.classList.contains('vtt')&&!r.classList.contains('vtl')){
       r.classList.add('vtl');r.classList.toggle('vtlr',next==='vi');
-      var done=function(){r.classList.remove('vtl','vtlr')};
-      try{var vt=document.startViewTransition(function(){applyLang(next,true)});vt.finished.then(done,done);return}catch(e){done()}
+      var ln=null,done=function(){r.classList.remove('vtl','vtlr');if(ln)ln.remove()};
+      try{
+        var vt=document.startViewTransition(function(){applyLang(next,true);ln=document.createElement('i');ln.id='lgln';ln.setAttribute('aria-hidden','true');document.body.appendChild(ln)});
+        vt.finished.then(done,done);return;
+      }catch(e){done()}
     }
     applyLang(next,true);
     var m=document.querySelector('main')||document.body;
