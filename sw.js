@@ -5,7 +5,7 @@
    - music/tracks.js và các file lời .lrc: ưu tiên mạng và luôn bỏ qua cache cũ (thêm bài mới là thấy ngay), mất mạng thì dùng bản đã lưu.
    - Ảnh, font, steam.json: cho xem bản đã lưu ngay, đồng thời tải bản mới ngầm.
    - Nhạc, video, API (thời tiết, Discord, lời bài hát, thống kê): không lưu, để trình duyệt tự xử lý. */
-const VERSION = 'v3';
+const VERSION = 'v4'; /* v4: chỉ lưu trang chủ vào bộ nhớ offline (trước đây mở /404.html cũng bị lưu đè lên trang chủ) */
 const CORE = 'ming-core-' + VERSION;
 const RT = 'ming-rt-' + VERSION;
 const MAX_RT = 300;
@@ -66,7 +66,9 @@ async function navigate(req) {
   const cached = await c.match(ROOT, { ignoreSearch: true });
   try {
     const res = await (cached ? race(fetch(req), 4500) : fetch(req));
-    if (res && res.ok && !res.redirected) c.put(ROOT, res.clone());
+    /* chỉ lưu khi đúng là trang chủ ('/' hoặc '/index.html'); trang khác (404, file .html lẻ) không được ghi đè lên bản offline của trang chủ */
+    const p = new URL(req.url).pathname, home = new URL(ROOT).pathname;
+    if (res && res.ok && !res.redirected && (p === home || p === home + 'index.html')) c.put(ROOT, res.clone());
     return res;
   } catch (_) {
     if (cached) return cached;
