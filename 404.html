@@ -7,104 +7,83 @@
 <meta name="theme-color" content="#000000">
 <title>404 · Ming</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='white'/><text x='50' y='68' font-size='56' text-anchor='middle' fill='black' font-family='sans-serif' font-weight='700'>M</text></svg>">
-<!-- TRANG 404 (bố cục theo mẫu "page_404": số 404 lớn trên hình minh hoạ, "có vẻ bạn bị lạc", nút về trang chủ), làm lại theo kiểu low-key của trang chính:
-     - bỏ Bootstrap 3 + font Arvo (trước tải ~120 KB chỉ để căn giữa vài dòng chữ); CSS viết tay, dùng font hệ thống
-     - GIF minh hoạ (1,3 MB, Dribbble) được làm xám và tan vào nền sáng/tối; chỉ tải SAU khi trang đã hiện,
-       bỏ qua khi máy bật tiết kiệm dữ liệu, mạng 2G, hoặc giảm chuyển động. Ảnh lỗi thì khung tự ẩn
-     - dùng chung giao diện sáng/tối và ngôn ngữ người xem đã chọn ở trang chính (đọc từ localStorage) -->
-<script>try{var _t=localStorage.getItem('theme');if(_t!=='light'&&_t!=='dark')_t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';document.documentElement.setAttribute('data-theme',_t);if(_t==='light')document.querySelector('meta[name="theme-color"]').content='#fafafa';if(localStorage.getItem('lang')==='en')document.documentElement.lang='en'}catch(e){}</script>
+<!-- TRANG 404 theo mẫu "page_404" (số 404, anh thượng cổ cầm dây, "Look like you're lost", nút xanh).
+     - Giao diện SÁNG: giữ đúng bản gốc: nền trắng, hình động đủ màu, chữ xám đậm, nút xanh.
+     - Giao diện TỐI: cùng bố cục, nền đen; hình động GIỮ NGUYÊN MÀU, chỉ xoá nền trắng bằng bộ lọc SVG #kw (đá xám nhạt thành xám đậm hợp nền tối).
+     - Mượt hơn: GIF (1,3 MB, Dribbble) được tải NGAY từ đầu (preload) thay vì đợi trang tải xong, và chỉ hiện khi đã tải đủ nên không chạy giật lúc đang tải.
+       Bỏ Bootstrap; font Roboto Slab (giống Arvo của mẫu nhưng có đủ dấu tiếng Việt), tải bất đồng bộ, chưa có thì dùng font có sẵn.
+     - Dùng chung sáng/tối và ngôn ngữ người xem đã chọn ở trang chính (đọc từ localStorage). -->
+<script>try{var _t=localStorage.getItem('theme');if(_t!=='light'&&_t!=='dark')_t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';document.documentElement.setAttribute('data-theme',_t);if(_t==='light')document.querySelector('meta[name="theme-color"]').content='#ffffff';if(localStorage.getItem('lang')==='en')document.documentElement.lang='en'}catch(e){}</script>
+<link rel="preload" as="image" href="https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif" fetchpriority="high" referrerpolicy="no-referrer">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600&display=swap" media="print" onload="this.media='all'">
 <style>
-:root{--bg:#000;--card:#0b0b0d;--line:#222226;--line-hi:#34343a;--text:#ededed;--muted:#8a8a91;--acc:#8bf0a8;
-  --body:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;color-scheme:dark}
-:root[data-theme="light"]{--bg:#fafafa;--card:#fff;--line:#e4e4e7;--line-hi:#d4d4d8;--text:#111113;--muted:#6b6b73;--acc:#17803f;color-scheme:light}
+:root{--bg:#000;--text:#e9e9ea;--sub:#a6a6ad;--btn:#39ac31;--btn-h:#43c03a;--rock:1;color-scheme:dark;
+  --font:"Roboto Slab","Rockwell","Georgia",serif}
+:root[data-theme="light"]{--bg:#fff;--text:#2b2b2b;--sub:#555;--btn:#39ac31;--btn-h:#2f9628;color-scheme:light}
 *{box-sizing:border-box}
 html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text)}
-body{min-height:100dvh;display:grid;place-items:center;padding:max(16px,env(safe-area-inset-top)) 16px max(16px,env(safe-area-inset-bottom));font:400 15px/1.6 var(--body);-webkit-font-smoothing:antialiased}
-.p404{width:min(38rem,100%);text-align:center}
-/* khung minh hoạ: số 404 nằm trên, hình động ở dưới (như mẫu), nền tối dịu thay cho nền trắng */
-.art{--h:clamp(15rem,52vw,22rem);position:relative;height:var(--h);border:1px solid var(--line);border-radius:1.2rem;overflow:hidden;
-  background:radial-gradient(80% 70% at 50% 60%,rgba(255,255,255,.035),transparent 70%),var(--card)}
-:root[data-theme="light"] .art{background:radial-gradient(80% 70% at 50% 60%,rgba(0,0,0,.025),transparent 70%),var(--card)}
-.art h1{position:absolute;left:0;right:0;top:clamp(.8rem,3vw,1.6rem);margin:0;z-index:1;
-  font:700 clamp(4rem,17vw,7rem)/1 var(--mono);letter-spacing:-.06em;color:var(--text);opacity:.92}
-.art h1 span{color:transparent;-webkit-text-stroke:2px var(--text)}
-/* cảnh trong GIF nằm khoảng 35–72% chiều cao ảnh: đặt ảnh sao cho cảnh rơi vào phần dưới khung, ngay dưới số 404 */
-.art img{position:absolute;left:50%;top:calc(var(--h) * -.14);width:calc(var(--h) * 1.98);max-width:none;translate:-50% 0;height:auto;opacity:0;transition:opacity .8s ease;
-  /* đen trắng rõ nét: tương phản cao nên mảng xám to (đá, nền) chìm vào nền, chỉ còn nhân vật và sợi dây */
-  filter:grayscale(1) invert(1) contrast(2) brightness(.82);mix-blend-mode:screen}
-:root[data-theme="light"] .art img{filter:grayscale(1) contrast(1.9) brightness(1.06);mix-blend-mode:multiply}
-.art img.ok{opacity:.92}
-.art.noimg{height:auto;padding:clamp(1.8rem,6vw,3rem) 0}
-.art.noimg h1{position:static}
-.box{margin-top:1.4rem}
-h2{margin:0;font-size:clamp(1.25rem,4.5vw,1.6rem);letter-spacing:-.02em;text-wrap:balance}
-.lead{margin:.45rem auto 0;max-width:28rem;color:var(--muted);text-wrap:pretty}
-.path{display:inline-block;max-width:100%;margin-top:.8rem;padding:.25rem .7rem;border:1px solid var(--line);border-radius:999px;background:var(--card);
-  font:400 .8rem var(--mono);color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle}
-.act{display:flex;flex-wrap:wrap;justify-content:center;gap:.6rem;margin-top:1.4rem}
-.btn{display:inline-flex;align-items:center;gap:.45rem;padding:.65rem 1.15rem;border:1px solid var(--line-hi);border-radius:999px;color:var(--text);
-  text-decoration:none;font:600 .92rem var(--body);background:transparent;cursor:pointer;transition:border-color .2s,background-color .2s,scale .15s}
-.btn:hover{border-color:var(--text)}
-.btn:active{scale:.96}
-.btn.pri{background:var(--text);color:var(--bg);border-color:var(--text)}
-.btn.pri:hover{background:color-mix(in srgb,var(--text) 88%,var(--acc))}
-.btn svg{width:1rem;height:1rem;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:translate .3s cubic-bezier(.2,.8,.2,1)}
-.btn.pri:hover svg{translate:-3px 0}
-.btn:focus-visible,.links a:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
-.links{display:flex;flex-wrap:wrap;justify-content:center;gap:.4rem 1.1rem;margin:1.6rem 0 0;padding:0;list-style:none;font:400 .82rem var(--mono)}
-.links a{color:var(--muted);text-decoration:none;background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;transition:color .2s,background-size .35s}
-.links a:hover{color:var(--text);background-size:100% 1px}
-.foot{margin-top:1.4rem;font:400 .72rem var(--mono);color:var(--muted);opacity:.7}
-@media (prefers-reduced-motion:no-preference){
-  .p404{animation:in .5s cubic-bezier(.2,.8,.2,1) both}
-  @keyframes in{from{opacity:0;translate:0 10px}to{opacity:1;translate:0 0}}
-}
-@media (hover:none){.foot{display:none}}
+body{min-height:100dvh;display:grid;place-items:center;padding:max(12px,env(safe-area-inset-top)) 16px max(16px,env(safe-area-inset-bottom));font:400 16px/1.5 var(--font);-webkit-font-smoothing:antialiased}
+.page_404{width:min(52rem,100%);text-align:center}
+/* khung hình: số 404 nằm ở phần trên, cảnh ở dưới (như mẫu) */
+.four_zero_four_bg{--h:clamp(17rem,56vw,25rem);position:relative;height:var(--h);overflow:hidden}
+.four_zero_four_bg h1{position:relative;z-index:1;margin:0;padding-top:clamp(.2rem,1.2vw,.6rem);font:400 clamp(3.4rem,11vw,5.4rem)/1 var(--font);letter-spacing:.02em;color:var(--text)}
+/* như mẫu: GIF 800×600 đặt giữa khung cao 400 (cắt bớt phần trắng trên và dưới), số 404 nằm ở phần trắng phía trên */
+.four_zero_four_bg img{position:absolute;left:50%;top:calc(var(--h) * -.25);width:calc(var(--h) * 2);max-width:none;height:auto;translate:-50% 0;
+  opacity:0;transition:opacity .45s ease}
+.four_zero_four_bg img.ok{opacity:1}
+/* tối: giữ màu, xoá nền trắng (bộ lọc SVG #kw ở cuối trang) */
+:root:not([data-theme="light"]) .four_zero_four_bg img{filter:url(#kw) brightness(.9)}
+.contant_box_404{margin-top:-1.6rem;position:relative;z-index:1}
+.contant_box_404 h3{margin:0;font:400 clamp(1.6rem,5vw,2.3rem)/1.2 var(--font);color:var(--text)}
+.contant_box_404 p{margin:.55rem auto 0;max-width:32rem;color:var(--sub);font-size:clamp(.95rem,2.6vw,1.05rem)}
+.contant_box_404 .path{display:block;margin-top:.35rem;font:400 .78rem ui-monospace,Menlo,Consolas,monospace;color:var(--sub);opacity:.7;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.link_404{display:inline-block;margin:1.4rem 0 .4rem;padding:.7rem 1.4rem;border-radius:.35rem;background:var(--btn);color:#fff;text-decoration:none;font:400 1.05rem var(--font);
+  transition:background-color .2s,translate .2s,box-shadow .2s;box-shadow:0 6px 18px -10px rgba(57,172,49,.9)}
+.link_404:hover{background:var(--btn-h);translate:0 -2px}
+.link_404:active{translate:0 0}
+.link_404:focus-visible,.back:focus-visible{outline:2px solid var(--btn);outline-offset:3px}
+.back{display:inline-block;margin-left:.9rem;padding:.3rem .2rem;border:0;background:none;color:var(--sub);font:400 .95rem var(--font);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.back:hover{color:var(--text)}
+@media (prefers-reduced-motion:no-preference){.page_404{animation:in .45s cubic-bezier(.2,.8,.2,1) both}@keyframes in{from{opacity:0;translate:0 8px}to{opacity:1;translate:0 0}}}
+.nogif .four_zero_four_bg{height:auto;padding:1.5rem 0 2rem}
 </style>
 </head>
 <body>
-<main class="p404" aria-labelledby="t">
-  <div class="art" id="art">
-    <h1 id="t" aria-label="404">4<span>0</span>4</h1>
-    <img id="artimg" alt="" decoding="async" referrerpolicy="no-referrer" width="800" height="600">
+<main class="page_404" aria-labelledby="t">
+  <div class="four_zero_four_bg" id="art">
+    <h1 id="t">404</h1>
+    <img id="artimg" alt="" width="800" height="600" decoding="async" fetchpriority="high" referrerpolicy="no-referrer">
   </div>
-  <div class="box">
-    <h2 data-vi="Có vẻ bạn bị lạc rồi" data-en="Looks like you're lost">Có vẻ bạn bị lạc rồi</h2>
-    <p class="lead" data-vi="Trang bạn tìm không có ở đây. Có thể link đã cũ hoặc địa chỉ bị gõ nhầm." data-en="The page you're looking for isn't here. The link may be old, or the address was mistyped.">Trang bạn tìm không có ở đây. Có thể link đã cũ hoặc địa chỉ bị gõ nhầm.</p>
+  <div class="contant_box_404">
+    <h3 data-vi="Có vẻ bạn bị lạc rồi" data-en="Looks like you're lost">Có vẻ bạn bị lạc rồi</h3>
+    <p data-vi="Trang bạn tìm không tồn tại hoặc đã được chuyển đi." data-en="The page you're looking for isn't available.">Trang bạn tìm không tồn tại hoặc đã được chuyển đi.</p>
     <span class="path" id="path"></span>
-    <div class="act">
-      <a class="btn pri" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span data-vi="Về trang chủ" data-en="Back home">Về trang chủ</span></a>
-      <button class="btn" type="button" id="back" data-vi="Quay lại" data-en="Go back">Quay lại</button>
-    </div>
-    <ul class="links">
-      <li><a href="/#g-about" data-vi="về-ming/" data-en="about/">về-ming/</a></li>
-      <li><a href="/#g-likes" data-vi="sở-thích/" data-en="likes/">sở-thích/</a></li>
-      <li><a href="/#g-play" data-vi="chơi-và-xem/" data-en="play/">chơi-và-xem/</a></li>
-      <li><a href="/#g-log" data-vi="nhật-ký/" data-en="log/">nhật-ký/</a></li>
-      <li><a href="/#contact" data-vi="liên-hệ/" data-en="contact/">liên-hệ/</a></li>
-    </ul>
-    <p class="foot" data-vi="Bấm H hoặc Enter để về trang chủ" data-en="Press H or Enter to go home">Bấm H hoặc Enter để về trang chủ</p>
+    <a class="link_404" href="/" data-vi="Về trang chủ" data-en="Go to Home">Về trang chủ</a><button class="back" type="button" id="back" data-vi="Quay lại" data-en="Go back">Quay lại</button>
   </div>
 </main>
+<!-- bộ lọc cho giao diện tối: giữ màu, điểm càng gần trắng càng trong suốt (alpha = 9 − 3·(R+G+B)) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><filter id="kw" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -3 -3 -3 0 9"/></filter></svg>
 <script>
 (function(){
-  var en=document.documentElement.lang==='en';
+  var R=document.documentElement,en=R.lang==='en';
   document.querySelectorAll('[data-vi]').forEach(function(e){e.textContent=e.getAttribute(en?'data-en':'data-vi')});
-  if(en)document.title='404 · Ming';
   var p=location.pathname||'/';try{p=decodeURI(p)}catch(e){}
   document.getElementById('path').textContent=p;
   var b=document.getElementById('back');
   if(history.length<2)b.hidden=true;else b.addEventListener('click',function(){history.back()});
   document.addEventListener('keydown',function(e){if(e.ctrlKey||e.metaKey||e.altKey)return;var k=(e.key||'').toLowerCase();if(k==='h'||(k==='enter'&&document.activeElement===document.body))location.href='/'});
 
-  /* hình động: tải sau khi trang đã hiện; bỏ qua khi tiết kiệm dữ liệu / mạng chậm / giảm chuyển động */
-  var art=document.getElementById('art'),img=document.getElementById('artimg');
+  /* hình động: bắt đầu tải ngay (đã preload ở <head>), chỉ hiện khi đã giải mã xong để không chạy giật lúc đang tải.
+     Bỏ qua khi máy bật tiết kiệm dữ liệu / mạng 2G / giảm chuyển động: chỉ còn số 404 và chữ. */
+  var img=document.getElementById('artimg');
   var c=navigator.connection||{},skip=c.saveData||/(^|-)2g$/.test(c.effectiveType||'')||matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function noimg(){img.remove();art.classList.add('noimg')}
+  function noimg(){img.remove();R.classList.add('nogif')}
   if(skip){noimg();return}
-  img.onload=function(){img.classList.add('ok')};img.onerror=noimg;
-  function go(){img.src='https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif'}
-  if(document.readyState==='complete')setTimeout(go,60);else addEventListener('load',function(){setTimeout(go,60)});
+  img.onerror=noimg;
+  img.src='https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif';
+  (img.decode?img.decode():Promise.resolve()).then(function(){img.classList.add('ok')},function(){if(img.complete&&img.naturalWidth)img.classList.add('ok')});
 })();
 </script>
 </body>
