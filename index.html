@@ -2052,8 +2052,8 @@ html.scrolling :is(#orb .sat button,.orbtab,.wxch,.ql,.bgm,.bgq,#totop,.rndb,.fp
    Phần không đổi (ảnh, khung) giống hệt nhau nên chỉ thấy chữ đổi theo đường quét. */
 html.vtl::view-transition-old(root){animation:none;mix-blend-mode:normal;z-index:0}
 html.vtl::view-transition-new(root){z-index:1;mix-blend-mode:normal;animation:lgW .66s cubic-bezier(.45,0,.2,1) both;
-  -webkit-mask:linear-gradient(100deg,#000 42%,transparent 58%) 100% 0/300% 100% no-repeat;mask:linear-gradient(100deg,#000 42%,transparent 58%) 100% 0/300% 100% no-repeat}
-html.vtl.vtlr::view-transition-new(root){animation-name:lgWr;-webkit-mask-image:linear-gradient(260deg,#000 42%,transparent 58%);mask-image:linear-gradient(260deg,#000 42%,transparent 58%)}
+  -webkit-mask:linear-gradient(100deg,#000 45%,transparent 55%) 100% 0/300% 100% no-repeat;mask:linear-gradient(100deg,#000 45%,transparent 55%) 100% 0/300% 100% no-repeat}
+html.vtl.vtlr::view-transition-new(root){animation-name:lgWr;-webkit-mask-image:linear-gradient(260deg,#000 45%,transparent 55%);mask-image:linear-gradient(260deg,#000 45%,transparent 55%)}
 @keyframes lgW{from{-webkit-mask-position:100% 0;mask-position:100% 0}to{-webkit-mask-position:0 0;mask-position:0 0}}
 @keyframes lgWr{from{-webkit-mask-position:0 0;mask-position:0 0}to{-webkit-mask-position:100% 0;mask-position:100% 0}}/* ===== VIỆT HOÁ: phiên bản, ngày cập nhật, nút tải, có gì mới ===== */
 .view .mdi{display:grid;grid-template-columns:auto 1fr;gap:.35rem 1rem;margin:.9rem 0 0;font:400 .85rem var(--mono)}
