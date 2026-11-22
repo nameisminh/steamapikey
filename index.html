@@ -2041,7 +2041,21 @@ html.scrolling :is(#orb .sat button,.orbtab,.wxch,.ql,.bgm,.bgq,#totop,.rndb,.fp
 /* nút ngôn ngữ: chữ VI/EN trượt mượt khi đổi */
 .tgl.lang span{transition:color .25s,background-color .25s,scale .25s cubic-bezier(.3,1.4,.5,1)}
 :root:not([data-motion="off"]) .tgl.lang span.on{animation:tgOn .4s cubic-bezier(.3,1.3,.5,1)}
-/* ===== VIỆT HOÁ: phiên bản, ngày cập nhật, nút tải, có gì mới ===== */
+/* viên nền trượt giữa VI và EN (JS đo vị trí chữ rồi gắn class .pl); giữa đường viên giãn ngang như thạch */
+.tgl.lang.pl::after{content:"";position:absolute;z-index:-1;left:0;top:var(--lt,0);width:var(--lw,0);height:var(--lh,0);border-radius:999px;background:var(--white);translate:var(--lx,0) 0;transition:translate .42s cubic-bezier(.3,1.25,.45,1);pointer-events:none}
+.tgl.lang.pl span{position:relative;transition:color .3s ease .05s}
+.tgl.lang.pl span.on{background:transparent;animation:none}
+:root:not([data-motion="off"]) .tgl.lang.pl.mv::after{animation:lgSq .42s cubic-bezier(.3,1.2,.45,1)}
+@keyframes lgSq{45%{scale:1.22 .84}}
+:root[data-motion="off"] .tgl.lang.pl::after{transition:none}
+/* đổi ngôn ngữ: chữ mới "viết lại" theo một đường quét mềm (VI→EN quét trái sang phải, EN→VI ngược lại).
+   Phần không đổi (ảnh, khung) giống hệt nhau nên chỉ thấy chữ đổi theo đường quét. */
+html.vtl::view-transition-old(root){animation:none;mix-blend-mode:normal;z-index:0}
+html.vtl::view-transition-new(root){z-index:1;mix-blend-mode:normal;animation:lgW .66s cubic-bezier(.45,0,.2,1) both;
+  -webkit-mask:linear-gradient(100deg,#000 42%,transparent 58%) 100% 0/300% 100% no-repeat;mask:linear-gradient(100deg,#000 42%,transparent 58%) 100% 0/300% 100% no-repeat}
+html.vtl.vtlr::view-transition-new(root){animation-name:lgWr;-webkit-mask-image:linear-gradient(260deg,#000 42%,transparent 58%);mask-image:linear-gradient(260deg,#000 42%,transparent 58%)}
+@keyframes lgW{from{-webkit-mask-position:100% 0;mask-position:100% 0}to{-webkit-mask-position:0 0;mask-position:0 0}}
+@keyframes lgWr{from{-webkit-mask-position:0 0;mask-position:0 0}to{-webkit-mask-position:100% 0;mask-position:100% 0}}/* ===== VIỆT HOÁ: phiên bản, ngày cập nhật, nút tải, có gì mới ===== */
 .view .mdi{display:grid;grid-template-columns:auto 1fr;gap:.35rem 1rem;margin:.9rem 0 0;font:400 .85rem var(--mono)}
 .view .mdi dt{color:var(--muted)}.view .mdi dd{margin:0;color:var(--text)}
 .view .mdlk{margin:1.1rem 0 0}
@@ -7973,7 +7987,30 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     });
     document.dispatchEvent(new Event('langchange'));
   }
-  if(LBTN)LBTN.addEventListener('click',function(){applyLang(LANG==='vi'?'en':'vi',true)});
+  /* nút VI/EN: viên nền trượt tới chữ đang chọn (đo bằng offsetLeft vì cỡ nút khác nhau ở thanh menu, menu điện thoại, thanh thu nhỏ) */
+  function lgPill(){
+    if(!LBTN)return;var s=LBTN.querySelector('span.on');if(!s||!s.offsetWidth)return;
+    var st=LBTN.style;st.setProperty('--lx',s.offsetLeft+'px');st.setProperty('--lt',s.offsetTop+'px');st.setProperty('--lw',s.offsetWidth+'px');st.setProperty('--lh',s.offsetHeight+'px');
+    LBTN.classList.add('pl');
+  }
+  document.addEventListener('langchange',lgPill);
+  if(LBTN&&window.ResizeObserver)new ResizeObserver(function(){lgPill()}).observe(LBTN);
+  var lgT=0;
+  function lgMotion(){var r=document.documentElement;return !calm&&r.getAttribute('data-motion')!=='off'&&!matchMedia('(prefers-reduced-motion: reduce)').matches}
+  if(LBTN)LBTN.addEventListener('click',function(){
+    var next=LANG==='vi'?'en':'vi',r=document.documentElement;
+    if(!lgMotion()){applyLang(next,true);return}
+    LBTN.classList.remove('mv');void LBTN.offsetWidth;LBTN.classList.add('mv');clearTimeout(lgT);lgT=setTimeout(function(){LBTN.classList.remove('mv')},460);
+    /* chữ mới hiện theo đường quét; trình duyệt chưa hỗ trợ View Transitions thì chữ mới hiện mờ dần */
+    if(document.startViewTransition&&!document.hidden&&!r.classList.contains('vtt')&&!r.classList.contains('vtl')){
+      r.classList.add('vtl');r.classList.toggle('vtlr',next==='vi');
+      var done=function(){r.classList.remove('vtl','vtlr')};
+      try{var vt=document.startViewTransition(function(){applyLang(next,true)});vt.finished.then(done,done);return}catch(e){done()}
+    }
+    applyLang(next,true);
+    var m=document.querySelector('main')||document.body;
+    if(m.animate)m.animate([{opacity:.35},{opacity:1}],{duration:320,easing:'ease-out'});
+  });
   document.addEventListener('langchange',function(){
     gLast='';tick();
     if(STEAMD)applySteam(STEAMD,true);
