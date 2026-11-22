@@ -23,15 +23,17 @@ body{min-height:100dvh;display:grid;place-items:center;padding:max(16px,env(safe
 .p404{width:min(38rem,100%);text-align:center}
 /* khung minh hoạ: số 404 nằm trên, hình động ở dưới (như mẫu), nền tối dịu thay cho nền trắng */
 .art{--h:clamp(15rem,52vw,22rem);position:relative;height:var(--h);border:1px solid var(--line);border-radius:1.2rem;overflow:hidden;
-  background:radial-gradient(80% 70% at 50% 60%,color-mix(in srgb,var(--acc) 6%,transparent),transparent 70%),var(--card)}
+  background:radial-gradient(80% 70% at 50% 60%,rgba(255,255,255,.035),transparent 70%),var(--card)}
+:root[data-theme="light"] .art{background:radial-gradient(80% 70% at 50% 60%,rgba(0,0,0,.025),transparent 70%),var(--card)}
 .art h1{position:absolute;left:0;right:0;top:clamp(.8rem,3vw,1.6rem);margin:0;z-index:1;
   font:700 clamp(4rem,17vw,7rem)/1 var(--mono);letter-spacing:-.06em;color:var(--text);opacity:.92}
-.art h1 span{color:var(--acc)}
+.art h1 span{color:transparent;-webkit-text-stroke:2px var(--text)}
 /* cảnh trong GIF nằm khoảng 35–72% chiều cao ảnh: đặt ảnh sao cho cảnh rơi vào phần dưới khung, ngay dưới số 404 */
 .art img{position:absolute;left:50%;top:calc(var(--h) * -.14);width:calc(var(--h) * 1.98);max-width:none;translate:-50% 0;height:auto;opacity:0;transition:opacity .8s ease;
-  filter:grayscale(1) invert(1) brightness(.88) contrast(1.05);mix-blend-mode:screen}
-:root[data-theme="light"] .art img{filter:grayscale(1) contrast(1.05);mix-blend-mode:multiply}
-.art img.ok{opacity:.9}
+  /* đen trắng rõ nét: tương phản cao nên mảng xám to (đá, nền) chìm vào nền, chỉ còn nhân vật và sợi dây */
+  filter:grayscale(1) invert(1) contrast(2) brightness(.82);mix-blend-mode:screen}
+:root[data-theme="light"] .art img{filter:grayscale(1) contrast(1.9) brightness(1.06);mix-blend-mode:multiply}
+.art img.ok{opacity:.92}
 .art.noimg{height:auto;padding:clamp(1.8rem,6vw,3rem) 0}
 .art.noimg h1{position:static}
 .box{margin-top:1.4rem}
