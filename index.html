@@ -2225,25 +2225,6 @@ html.vtlr #lgln{background:linear-gradient(to left,transparent,color-mix(in srgb
 .cpid.ok{--cpic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E")}
 :root:not([data-motion="off"]) .cpid.ok em{animation:tgOn .4s cubic-bezier(.3,1.3,.5,1);opacity:1}
 
-/* ===== LƯU BÚT ===== */
-.gbk{display:grid;gap:1.2rem;margin-top:1.4rem}
-@media (min-width:56rem){.gbk{grid-template-columns:minmax(0,22rem) 1fr;align-items:start}}
-.gbf{display:grid;gap:.8rem;padding:1.1rem;border:1px solid var(--line);border-radius:1rem;background:var(--card)}
-.gbl{display:grid;gap:.35rem;font-size:.85rem;color:var(--muted)}
-.gbl input,.gbl textarea{width:100%;box-sizing:border-box;padding:.65rem .85rem;border:1px solid var(--line-hi);border-radius:.7rem;background:transparent;color:var(--text);font:inherit;font-size:max(16px,.95rem);resize:vertical;transition:border-color .2s,box-shadow .2s}
-.gbl input:focus,.gbl textarea:focus{outline:0;border-color:var(--acc);box-shadow:0 0 0 3px color-mix(in srgb,var(--acc) 18%,transparent)}
-.gbhp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
-.gbrow{display:flex;align-items:center;justify-content:space-between;gap:1rem}
-.gbrow small{font:400 .75rem var(--mono);color:var(--muted)}
-.gbmsg{margin:0;font-size:.85rem;color:var(--muted);min-height:1.2em}
-.gbmsg.ok{color:var(--acc)}.gbmsg.er{color:#e5866f}
-.gbf button[disabled]{opacity:.5;cursor:default}
-.gbl2{list-style:none;margin:0;padding:0;display:grid;gap:.6rem}
-.gbl2 li{padding:.85rem 1rem;border:1px solid var(--line);border-radius:.9rem;background:var(--card)}
-.gbl2 .gh{display:flex;justify-content:space-between;gap:1rem;margin-bottom:.3rem}
-.gbl2 b{color:var(--text)}.gbl2 time{font:400 .72rem var(--mono);color:var(--muted)}
-.gbl2 p{margin:0;color:var(--muted);white-space:pre-wrap;word-break:break-word}
-.gbl2 .em{color:var(--muted);text-align:center;padding:1.4rem;border-style:dashed}
 /* ===== ĐIỆN THOẠI GỌN HƠN =====
    trước đây có 7 nút nổi cố định + bong bóng mẹo tự bật + 3 dải GIF trang trí làm trang rất dài.
    Giờ chỉ giữ: nhạc (2 nút), lên đầu trang, nút menu tròn ở mép. */
@@ -4580,26 +4561,6 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       </div>
     </div>
   </section>
-
-    <section class="s" id="guestbook">
-    <div class="wrap">
-      <div class="rv">
-        <p class="eyebrow ei"><i data-ic="notebook"></i><span>Lưu bút</span></p>
-        <h2>Để lại một dòng nhé</h2>
-        <p class="lead">Chào một câu, rủ chơi game hay góp ý cho trang đều được. Lời nhắn sẽ hiện sau khi tôi đọc qua.</p>
-      </div>
-      <div class="gbk rv">
-        <form class="gbf" id="gbf" autocomplete="off">
-          <label class="gbl"><span>Tên</span><input id="gbn" name="n" maxlength="40" required placeholder="Bạn tên gì?"></label>
-          <label class="gbl"><span>Lời nhắn</span><textarea id="gbm" name="m" maxlength="500" rows="3" required placeholder="Viết gì đó…"></textarea></label>
-          <label class="gbhp" aria-hidden="true">Website<input name="hp" tabindex="-1" autocomplete="off"></label>
-          <div class="gbrow"><small id="gbc">0/500</small><button class="btn" type="submit" id="gbs">Gửi lời nhắn</button></div>
-          <p class="gbmsg" id="gbmsg" role="status" aria-live="polite"></p>
-        </form>
-        <ul class="gbl2" id="gbl" data-noax aria-live="polite"></ul>
-      </div>
-    </div>
-  </section>
 </div>
 </div>
 <div class="wrap view" id="view" hidden></div>
@@ -5258,7 +5219,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){o.unobserve(e.target);fn(e.target)}})},{threshold:thr});
     els.forEach(function(el){o.observe(el)});
   }
-  var SECS=[['hero','Đồng hồ','profile hồ sơ clock'],['intro','Giới thiệu','profile ming avatar'],['links','Liên kết','link social mạng xã hội'],['live','Ngay lúc này','discord status trạng thái'],['now','Dạo này','now'],['play','Đang chơi','game'],['mod','Dự án việt hoá','mod dịch translate'],['hobby','Sở thích','hobby'],['idol','Nghệ sĩ','ca sĩ idol artist'],['playlist','Playlist','nhạc music bài hát'],['stats','Vài con số','số liệu thống kê numbers stats'],['facts','Sự thật thú vị','sự thật facts fun'],['qr','Mã QR','qr code quét mã'],['lab','Góc chơi','mini game lab'],['photos','Vài tấm ảnh','ảnh hình photo gallery'],['shelf','Kệ của tôi','kệ game backlog setup máy pc đang chơi phá đảo'],['log','Nhật ký','blog diary'],['guestbook','Lưu bút','guestbook lời nhắn để lại'],['tkb','Thời khoá biểu','lịch học tkb schedule timetable'],['faq','Hỏi đáp','faq câu hỏi'],['contact','Liên hệ','contact discord facebook email'],['map','Bản đồ','map địa chỉ vị trí thời tiết weather']];
+  var SECS=[['hero','Đồng hồ','profile hồ sơ clock'],['intro','Giới thiệu','profile ming avatar'],['links','Liên kết','link social mạng xã hội'],['live','Ngay lúc này','discord status trạng thái'],['now','Dạo này','now'],['play','Đang chơi','game'],['mod','Dự án việt hoá','mod dịch translate'],['hobby','Sở thích','hobby'],['idol','Nghệ sĩ','ca sĩ idol artist'],['playlist','Playlist','nhạc music bài hát'],['stats','Vài con số','số liệu thống kê numbers stats'],['facts','Sự thật thú vị','sự thật facts fun'],['qr','Mã QR','qr code quét mã'],['lab','Góc chơi','mini game lab'],['photos','Vài tấm ảnh','ảnh hình photo gallery'],['shelf','Kệ của tôi','kệ game backlog setup máy pc đang chơi phá đảo'],['log','Nhật ký','blog diary'],['tkb','Thời khoá biểu','lịch học tkb schedule timetable'],['faq','Hỏi đáp','faq câu hỏi'],['contact','Liên hệ','contact discord facebook email'],['map','Bản đồ','map địa chỉ vị trí thời tiết weather']];
   /* bấm tên Ming: đang ở đầu trang thì tải lại, còn không thì cuộn lên đầu (không để lại #hero trên link) */
   (function(){
     var br=document.getElementById('brand');if(!br)return;
@@ -8301,7 +8262,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     Object.assign(EN,{"Test loa":"Speaker test","Test micro":"Mic test","Phát loa trái":"Play left","Phát loa phải":"Play right","Cả hai loa":"Both speakers","Quét trái → phải":"Sweep left → right","Dừng":"Stop","Loa trái":"Left speaker","Loa phải":"Right speaker","Âm lượng":"Volume","Tần số":"Frequency","Bật micro":"Turn on mic","Tắt micro":"Turn off mic","Ghi 5 giây rồi nghe lại":"Record 5 s and play back","Đặt lại đỉnh":"Reset peak","Mức hiện tại (dB)":"Current level (dB)","Đỉnh cao nhất (dB)":"Peak level (dB)","Tần số lấy mẫu":"Sample rate","Đang ghi":"Recording","Đang nghe":"Listening","Hãy nói hoặc vỗ tay thử.":"Try talking or clapping.","Trình duyệt này chưa hỗ trợ chia loa trái/phải.":"This browser does not support left/right panning.","Xong. Bạn nghe đúng bên chưa? Bấm lại để thử tiếp.":"Done. Did you hear the right side? Press again to retry.","Đang phát ở loa TRÁI. Nếu tiếng kêu bên phải thì loa hoặc tai nghe đang bị đảo bên.":"Playing on the LEFT speaker. If you hear it on the right, your speakers or headphones are swapped.","Đang phát ở loa PHẢI. Nếu tiếng kêu bên trái thì loa hoặc tai nghe đang bị đảo bên.":"Playing on the RIGHT speaker. If you hear it on the left, your speakers or headphones are swapped.","Đang phát cả hai loa. Tiếng nên nằm chính giữa, đều hai bên.":"Playing on both speakers. The sound should sit in the middle, even on both sides.","Tiếng chạy từ trái sang phải rồi quay lại. Nghe có liền mạch, không bị đứt hay lệch một bên không?":"The sound travels left to right and back. Is it smooth, with no dropouts or one-sided bias?","Micro đang nhận được tiếng. Bấm \"Ghi 5 giây rồi nghe lại\" để nghe giọng mình.":"The mic is picking up sound. Press \"Record 5 s and play back\" to hear yourself.","Chưa thấy tín hiệu từ micro. Thử nói to hơn, kiểm tra micro đã bị tắt tiếng chưa, hoặc đã chọn đúng micro trong cài đặt trình duyệt và hệ điều hành chưa.":"No signal from the mic yet. Try speaking louder, check that the mic is not muted, and that the right mic is selected in your browser and system settings.","Bạn chưa cho phép dùng micro. Bấm vào biểu tượng ổ khoá cạnh địa chỉ trang để bật lại quyền micro.":"Microphone access was not allowed. Click the lock icon next to the address bar to allow it again.","Không tìm thấy micro nào trên máy này.":"No microphone was found on this device.","Micro đang bị ứng dụng khác chiếm dùng, hãy tắt ứng dụng đó rồi thử lại.":"The mic is being used by another app. Close it and try again.","Không bật được micro.":"Could not turn on the mic.","Trình duyệt hoặc địa chỉ trang này không cho dùng micro (cần mở bằng HTTPS).":"This browser or page address does not allow the mic (the page must be opened over HTTPS).","Đang chờ bạn cho phép dùng micro...":"Waiting for you to allow the microphone...","Trình duyệt này chưa hỗ trợ ghi âm.":"This browser does not support recording.","Đang phát lại đoạn vừa ghi. Giọng nghe có rõ, không rè hay nhỏ quá không?":"Playing back the recording. Is it clear, without crackling or being too quiet?"});
     Object.assign(EN,{"Xem thêm của":"More by","Bài hát trên YouTube":"Songs on YouTube","Playlist tôi chia sẻ":"Playlists I share","Hết 1 phút":"Time is up","từ đúng":"correct words","Đang tính giờ... gõ từng từ, bấm cách để sang từ mới.":"Timer is running... type each word and press space for the next one.","Bấm Bắt đầu, đồng hồ chạy 60 giây. Gõ từng từ rồi bấm cách để sang từ tiếp theo, chữ cứ hiện tiếp cho tới khi đủ 1 phút.":"Press Start and the 60 second timer runs. Type each word and press space for the next; the text keeps coming until the minute is up.","Xong rồi":"Done","ký tự mỗi phút":"characters per minute","chính xác":"accuracy","Làm lại":"Restart","Hãy nhập đoạn chữ muốn gõ vào ô phía trên trước.":"Enter the text you want to type in the box above first.","Đang tính giờ... gõ đúng đoạn chữ phía trên.":"Timer is running... type the text above.","Bấm Bắt đầu, đồng hồ chạy ngay. Gõ hết đoạn chữ là xong và hiện tốc độ của bạn.":"Press Start and the timer runs. Finish the text to see your speed.","Đang bật combo":"Combo is on","Đang tắt combo":"Combo is off","Bấm bất kỳ đâu trên trang (chuột, chạm hoặc bàn phím) là chữ COMBO hiện ra. Ngừng bấm khoảng 1,5 giây thì combo về 0. Từ chuỗi 10 chữ bắt đầu to dần, đổi màu và rung mạnh hơn, tối đa 9999.":"Click, tap or press a key anywhere and COMBO appears. Stop for about 1.5 seconds and it resets. From 10 it grows, changes color and shakes harder, up to 9999.","Test tốc độ gõ chữ":"Typing speed test","Chữ mới":"New text","Tự nhập chữ":"Your own text"});
     Object.assign(EN,{"Trang này chỉ là một file index.html duy nhất.":"This page is just a single index.html file.","Trang web được đặt trên Cloudflare Workers, miễn phí.":"This site is hosted on Cloudflare Workers, for free.","Bấm phím T để đổi giao diện sáng hoặc tối.":"Press T to switch between light and dark.","Bấm phím M để tắt hiệu ứng nếu thấy trang bị giật.":"Press M to turn effects off if the page feels laggy.","Máy yếu thì trang tự tắt hiệu ứng cho đỡ giật.":"On weak devices the page turns effects off by itself.","Bấm phím F để xem FPS của trang, nút tròn nằm ngay trên nút này.":"Press F to see the page FPS, the round button sits right above this one.","Góc chơi có test bàn phím, test chuột, combo, phản xạ, bắn bia và nhớ dãy.":"The Playground has keyboard test, mouse test, combo, reaction, aim and memory.","Test chuột ở Góc chơi dùng để bắt lỗi double click.":"The mouse test in the Playground catches double-click faults.","Bảng xếp hạng ở Góc chơi chỉ lưu trên máy của bạn.":"Leaderboards in the Playground are saved only on your device.","Trang có hai ngôn ngữ, tiếng Việt và tiếng Anh, đổi bằng nút trên thanh menu.":"The page has two languages, Vietnamese and English, switched from the menu bar.","Gõ / hoặc Ctrl + K để tìm nhanh trong trang.":"Type / or Ctrl + K to search the page quickly.","Trang tôn trọng chế độ Do Not Track của trình duyệt.":"The page respects your browser's Do Not Track setting.","Trạng thái Discord ở mục Ngay lúc này được cập nhật trực tiếp.":"The Discord status in Right now is updated live.","Cuối trang có bản đồ để bạn tìm đường tới chỗ tôi.":"There is a map at the bottom of the page to find your way to me.","Bấm phím P để bật hoặc tắt nhạc nền.":"Press P to turn the background music on or off.","Bấm phím R để ra một điều ngẫu nhiên về tôi, như câu này.":"Press R for a random thing about me, like this one.","Rê chuột ở đầu trang sẽ thả ảnh nhỏ chạy theo chuột.":"Move your mouse at the top of the page to drop small photos.","Ảnh ở trang này trắng đen, rê chuột vào mới lên màu.":"Photos here are black and white until you hover over them.","Có một thanh tiến độ mỏng trên cùng cho biết bạn đã cuộn tới đâu.":"A thin progress bar at the top shows how far you have scrolled.","Đây là lần thứ 3 tôi làm trang web này.":"This is the third time I've built this website.","Hiện hoặc ẩn FPS":"Show or hide FPS","Hiện hoặc ẩn FPS (F)":"Show or hide FPS (F)","Lưu trên máy này":"Saved on this device","Càng thấp càng tốt. Lưu trên máy này":"Lower is better. Saved on this device","Combo · Thường":"Combo · Normal","Combo · Khó":"Combo · Hard","Phản xạ · Thường":"Reaction · Normal","Phản xạ · Khó (TB 5 lượt)":"Reaction · Hard (5-round avg)","Bắn bia · 30 giây":"Aim · 30 seconds","Nhớ dãy · Thường":"Memory · Normal","Nhớ dãy · Khó":"Memory · Hard","Độ khó":"Difficulty","Thường":"Normal","Khó: nhiều nút cùng lúc":"Hard: several keys at once","Khó: 5 lượt, có màu nhử":"Hard: 5 rounds, decoy color","Khó: đảo vị trí":"Hard: shuffled positions","Nghi bị double click":"Suspected double clicks","Khoảng cách ngắn nhất":"Shortest gap","Lần bấm gần nhất":"Latest gap","Dưới 50 ms":"Under 50 ms","Dưới 80 ms":"Under 80 ms","Dưới 120 ms":"Under 120 ms","Bấm vào đây, bấm chậm từng cái một":"Click here, slowly one at a time","Bấm chậm từng cái, mỗi lần một cái. Cần ít nhất 10 lần để kết luận.":"Click slowly, one at a time. At least 10 clicks are needed for a verdict.","Có dấu hiệu chuột bị double click":"Signs of a double-click fault","Chưa thấy dấu hiệu double click":"No double-click fault seen","Mỗi lần bấm hãy nhả hẳn tay rồi mới bấm tiếp. Nếu bạn chỉ bấm một lần mà trang ghi nhận hai lần cách nhau rất ngắn, nhiều khả năng nút chuột bị lỗi double click. Thử cả ba nút.":"Fully release between clicks. If you click once but two clicks are recorded a very short time apart, the mouse button likely has a double-click fault. Try all three buttons.","Khó: bấm tất cả mũi tên hiện ra cùng lúc (trong 0,45 giây). Từ combo 10 sẽ có 3 mũi tên.":"Hard: press all the arrows shown at once (within 0.45 s). From combo 10 there are 3 arrows.","Đừng bấm!":"Don't click!","Bấm để tiếp lượt":"Click for round","Trung bình":"Average","Khó: 5 lượt liên tiếp, tính trung bình. Có lúc màn hình chuyển vàng để nhử, đừng bấm.":"Hard: 5 rounds in a row, scored by average. Sometimes the screen turns yellow as a decoy, don't click.","Vị trí đã bị đảo! Bấm theo số.":"Positions shuffled! Press by number.","Khó: sau khi xem, các ô bị xáo trộn. Hãy nhớ theo số, không nhớ theo vị trí.":"Hard: after the preview the tiles get shuffled. Remember the numbers, not the positions."});
-        Object.assign(EN,{"Góc dev":"Dev corner","Mã nguồn của trang":"The page's source","Đóng góp GitHub trong một năm và vài con số về chính file index.html này.":"A year of GitHub contributions and a few numbers about this very index.html file.","Tải index.html":"Download index.html","Phím tắt (?)":"Shortcuts (?)","Biểu đồ đóng góp GitHub trong một năm":"GitHub contributions over one year","gõ help rồi Enter":"type help and press Enter","Gõ lệnh terminal":"Type a terminal command","Xem tất cả phím tắt":"See all shortcuts","Tắt hoặc bật màu chữ":"Turn text colours off or on","Thanh trạng thái":"Status bar","Thử trang 404":"Try the 404 page","Mở một địa chỉ không tồn tại để xem trang 404":"Open an address that doesn't exist to see the 404 page","Kệ của tôi":"My shelf","Game đã chơi và góc máy":"Games I play and my setup","Game tôi đang chơi, đã phá đảo, bỏ dở hay đang muốn thử, cùng bộ máy tôi ngồi mỗi ngày.":"Games I'm playing, have finished, dropped or want to try, plus the setup I sit at every day.","Kệ game":"Game shelf","Chọn kệ":"Choose a shelf","Lọc theo trạng thái":"Filter by status","Chạm để chép ID":"Tap to copy an ID","Chạm để chép Riot ID":"Tap to copy the Riot ID","Chạm để chép tên Discord":"Tap to copy the Discord name","Lưu bút":"Guestbook","Để lại một dòng nhé":"Leave a line","Chào một câu, rủ chơi game hay góp ý cho trang đều được. Lời nhắn sẽ hiện sau khi tôi đọc qua.":"Say hi, invite me to a game or give feedback on the site. Messages show up after I've read them.","Tên":"Name","Lời nhắn":"Message","Bạn tên gì?":"What's your name?","Viết gì đó…":"Write something…","Gửi lời nhắn":"Send message","Phiên bản":"Version","Cập nhật":"Updated","cập nhật":"updated","Tải bản dịch":"Download translation","Có gì mới":"What's new"});
+        Object.assign(EN,{"Góc dev":"Dev corner","Mã nguồn của trang":"The page's source","Đóng góp GitHub trong một năm và vài con số về chính file index.html này.":"A year of GitHub contributions and a few numbers about this very index.html file.","Tải index.html":"Download index.html","Phím tắt (?)":"Shortcuts (?)","Biểu đồ đóng góp GitHub trong một năm":"GitHub contributions over one year","gõ help rồi Enter":"type help and press Enter","Gõ lệnh terminal":"Type a terminal command","Xem tất cả phím tắt":"See all shortcuts","Tắt hoặc bật màu chữ":"Turn text colours off or on","Thanh trạng thái":"Status bar","Thử trang 404":"Try the 404 page","Mở một địa chỉ không tồn tại để xem trang 404":"Open an address that doesn't exist to see the 404 page","Kệ của tôi":"My shelf","Game đã chơi và góc máy":"Games I play and my setup","Game tôi đang chơi, đã phá đảo, bỏ dở hay đang muốn thử, cùng bộ máy tôi ngồi mỗi ngày.":"Games I'm playing, have finished, dropped or want to try, plus the setup I sit at every day.","Kệ game":"Game shelf","Chọn kệ":"Choose a shelf","Lọc theo trạng thái":"Filter by status","Chạm để chép ID":"Tap to copy an ID","Chạm để chép Riot ID":"Tap to copy the Riot ID","Chạm để chép tên Discord":"Tap to copy the Discord name","Tên":"Name","Phiên bản":"Version","Cập nhật":"Updated","cập nhật":"updated","Tải bản dịch":"Download translation","Có gì mới":"What's new"});
         Object.assign(EN,{"Tiếp tục test":"Resume test","Cứ gõ thử, không cần bấm gì cả. Khi phần này đang hiện trên màn hình, các phím tắt của trang tạm thời bị tắt (bấm \"Tạm dừng\" để dùng lại). Phím Windows và tổ hợp của hệ điều hành thì trình duyệt không bắt được. Cần bàn phím thật để thử.":"Just type, no need to click anything. While this section is on screen the page shortcuts are turned off (press \"Pause\" to get them back). The browser can't catch the Windows key or OS shortcuts. You need a real keyboard.","Bảng xếp hạng":"Leaderboard","Trên máy này":"On this device","Tên của bạn":"Your name","Xoá bảng":"Clear board","Chưa có ai. Chơi một ván đi!":"Nobody yet. Play a round!","Ẩn danh":"Anonymous","Phản xạ":"Reaction","Bắn bia":"Aim","Nhớ dãy":"Memory","Lần vừa rồi":"Last try","Nhanh nhất":"Fastest","Màn":"Level","Bấm để bắt đầu":"Click to start","Chờ màu xanh...":"Wait for green...","BẤM!":"CLICK!","Bấm sớm quá! Bấm để thử lại":"Too early! Click to retry","Đợi màn hình chuyển sang xanh rồi bấm thật nhanh. Bấm sớm là phải làm lại.":"Wait for the screen to turn green, then click as fast as you can. Too early and you start over.","Bấm trúng bia càng nhiều càng tốt trong 30 giây.":"Hit as many targets as you can in 30 seconds.","Bắt đầu":"Start","Xem các ô sáng lên rồi bấm lại đúng thứ tự. Mỗi màn thêm một ô.":"Watch the tiles light up, then repeat the order. Each level adds one tile.","Xem kỹ...":"Watch closely...","Tới lượt bạn":"Your turn","Sai rồi!":"Wrong!","Test bàn phím, test chuột, thử tốc độ gõ chữ và xem combo mỗi khi bạn bấm. Mọi thứ chạy ngay trên máy bạn, không gửi đi đâu.":"Test your mouse and keyboard, chain combos, check your reflexes, shoot targets or memorize sequences. High scores stay on your device and are not sent anywhere."});
   })();
 
@@ -10013,7 +9974,7 @@ function mark(el,k,cls){
   el.style.setProperty('--hi',uri(k));
   el.classList.add(cls);
 }
-var SEC={shelf:'gamepad',guestbook:'chat',links:'globe',live:'chat',now:'target',play:'trophy',mod:'code',hobby:'sparkle',idol:'disc',playlist:'headphones',lab:'dice',photos:'camera',stats:'gem',facts:'star',qr:'link',log:'book',tkb:'clock',faq:'info',contact:'heart',map:'target'};
+var SEC={shelf:'gamepad',links:'globe',live:'chat',now:'target',play:'trophy',mod:'code',hobby:'sparkle',idol:'disc',playlist:'headphones',lab:'dice',photos:'camera',stats:'gem',facts:'star',qr:'link',log:'book',tkb:'clock',faq:'info',contact:'heart',map:'target'};
 function syncState(){
   var bp=document.getElementById('bgmp'),b=document.body;
   if(bp){b.classList.toggle('bgm-on',!bp.hidden);b.classList.toggle('bgm-play',bp.classList.contains('playing'))}
@@ -10849,7 +10810,7 @@ document.addEventListener('keydown',function(e){
 
 /* ===== TERMINAL GÕ LỆNH ===== */
 var tout=$('tout'),tin=$('tin'),tcmd=$('tcmd'),hist=[],hi=0,T0=performance.now();
-var SEC={about:'intro',intro:'intro',home:'hero',hero:'hero',clock:'hero',links:'links',live:'live',discord:'live',now:'now',play:'play',games:'play',mod:'mod',hobby:'hobby',idol:'idol',artists:'idol',playlist:'playlist',music:'playlist',stats:'stats',facts:'facts',qr:'qr',lab:'lab',photos:'photos',log:'log',shelf:'shelf',setup:'shelf',backlog:'shelf',guestbook:'guestbook',tkb:'tkb',faq:'faq',contact:'contact',map:'map'};
+var SEC={about:'intro',intro:'intro',home:'hero',hero:'hero',clock:'hero',links:'links',live:'live',discord:'live',now:'now',play:'play',games:'play',mod:'mod',hobby:'hobby',idol:'idol',artists:'idol',playlist:'playlist',music:'playlist',stats:'stats',facts:'facts',qr:'qr',lab:'lab',photos:'photos',log:'log',shelf:'shelf',setup:'shelf',backlog:'shelf',tkb:'tkb',faq:'faq',contact:'contact',map:'map'};
 function line(cls){var d=el('div',cls);tout.appendChild(d);while(tout.childNodes.length>150)tout.removeChild(tout.firstChild);return d}
 function out(t,cls){var d=line(cls);d.textContent=t;return d}
 function link(label,href,before,after){
@@ -11172,56 +11133,13 @@ function svClose(){if(SV){if(SV.close)SV.close();else SV.removeAttribute('open')
 var shT=$('shtabs');if(shT)shT.addEventListener('click',function(e){var b=e.target.closest('button[data-t]');if(!b||b.getAttribute('data-t')===shTab)return;shTab=b.getAttribute('data-t');renderShelf(true)});
 renderShelf(false);
 
-/* ===== LƯU BÚT =====
-   Cần Cloudflare Pages Function ở functions/api/guestbook.js + cơ sở dữ liệu D1 (xem GUESTBOOK.md).
-   Chưa có API thì form tự khoá và báo "sắp mở". Lời nhắn mới chỉ hiện sau khi bạn duyệt trong D1. */
-var GB_API='/api/guestbook',gbState='idle',GBI=[];
-function gbDate(v){var d=new Date(typeof v==='number'?v:String(v).replace(' ','T')+(/Z|[+-]\d\d:?\d\d$/.test(String(v))?'':'Z'));if(isNaN(d))return '';return pad(d.getDate())+'/'+pad(d.getMonth()+1)+'/'+d.getFullYear()}
-function renderGB(){
-  var ul=$('gbl'),f=$('gbf'),msg=$('gbmsg'),btn=$('gbs');if(!ul||!f)return;
-  ul.textContent='';
-  if(gbState==='off'){ul.appendChild(el('li','em',L('Lưu bút sắp mở, bạn quay lại sau nhé.','The guestbook opens soon, check back later.')));if(btn)btn.disabled=true;return}
-  if(gbState==='loading'||gbState==='idle'){ul.appendChild(el('li','em',L('Đang tải lời nhắn…','Loading messages…')));return}
-  if(btn)btn.disabled=false;
-  if(!GBI.length){ul.appendChild(el('li','em',L('Chưa có lời nhắn nào. Bạn là người đầu tiên nhé!','No messages yet. Be the first!')));return}
-  GBI.forEach(function(x){var li=el('li'),h=el('div','gh');h.appendChild(el('b',null,x.name||'?'));var t=el('time',null,gbDate(x.created));h.appendChild(t);li.appendChild(h);li.appendChild(el('p',null,x.msg||''));ul.appendChild(li)});
-}
-function gbLoad(){
-  if(gbState!=='idle')return;gbState='loading';renderGB();
-  if(!/^https?:$/.test(location.protocol)||!window.fetch){gbState='off';renderGB();return}
-  fetch(GB_API,{headers:{accept:'application/json'}}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(j){
-    if(!j||j.off){gbState='off'}else{GBI=(j.items||[]).slice(0,50);gbState='ok'}renderGB();
-  }).catch(function(){gbState='off';renderGB()});
-}
-(function(){
-  var f=$('gbf'),n=$('gbn'),m=$('gbm'),c=$('gbc'),msg=$('gbmsg'),btn=$('gbs');if(!f)return;
-  function say2(t,cls){msg.textContent=t;msg.className='gbmsg'+(cls?' '+cls:'')}
-  m.addEventListener('input',function(){c.textContent=m.value.length+'/500'});
-  f.addEventListener('submit',function(e){
-    e.preventDefault();if(gbState!=='ok')return;
-    var nv=n.value.trim(),mv=m.value.trim(),hp=(f.elements.hp&&f.elements.hp.value)||'';
-    if(nv.length<1||mv.length<2){say2(L('Bạn điền tên và lời nhắn nhé.','Please fill in your name and message.'),'er');return}
-    var last=0;try{last=+localStorage.getItem('gbAt')||0}catch(x){}
-    if(Date.now()-last<60000){say2(L('Bạn vừa gửi rồi, đợi một phút nhé.','You just sent one, please wait a minute.'),'er');return}
-    btn.disabled=true;say2(L('Đang gửi…','Sending…'));
-    fetch(GB_API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({name:nv,msg:mv,hp:hp})}).then(function(r){return r.json().catch(function(){return{}}).then(function(j){return{ok:r.ok,st:r.status,j:j}})}).then(function(res){
-      btn.disabled=false;
-      if(res.ok){try{localStorage.setItem('gbAt',String(Date.now()))}catch(x){}f.reset();c.textContent='0/500';say2(L('Đã gửi! Lời nhắn sẽ hiện sau khi tôi đọc qua.','Sent! Your message will show up after I read it.'),'ok')}
-      else if(res.st===429)say2(L('Gửi nhanh quá, thử lại sau một phút nhé.','Too fast, try again in a minute.'),'er');
-      else say2(L('Chưa gửi được, thử lại sau nhé.','Could not send, please try later.'),'er');
-    }).catch(function(){btn.disabled=false;say2(L('Mất kết nối, thử lại sau nhé.','Connection problem, try again later.'),'er')});
-  });
-  var g=$('guestbook');
-  if(g&&'IntersectionObserver' in window){var gio=new IntersectionObserver(function(es){if(es.some(function(x){return x.isIntersecting})){gio.disconnect();gbLoad()}},{rootMargin:'500px 0px'});gio.observe(g)}else gbLoad();
-})();
-
 /* ===== THỐNG KÊ KHÔNG COOKIE (Cloudflare Web Analytics) =====
    Cách dễ nhất: bật Web Analytics cho dự án Pages trong bảng điều khiển Cloudflare (tự chèn, không cần sửa code).
    Hoặc dán token vào CF_BEACON. Người xem bật "Do Not Track" thì không tải. */
 var CF_BEACON='';
 if(CF_BEACON&&navigator.doNotTrack!=='1'&&window.doNotTrack!=='1'&&/^https:$/.test(location.protocol)){var cfs=document.createElement('script');cfs.defer=true;cfs.src='https://static.cloudflareinsights.com/beacon.min.js';cfs.setAttribute('data-cf-beacon',JSON.stringify({token:CF_BEACON}));document.head.appendChild(cfs)}
 
-document.addEventListener('langchange',function(){renderShelf(false);renderGB()});
+document.addEventListener('langchange',function(){renderShelf(false)});
 window.DEVC={open:openKbd,run:run};
 })();
 </script>
