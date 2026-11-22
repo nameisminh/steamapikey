@@ -2106,6 +2106,16 @@ html.scrolling :is(#orb .sat button,.orbtab,.wxch,.ql,.bgm,.bgq,#totop,.rndb,.fp
 :root:not([data-theme="light"]) .sph{background:radial-gradient(120% 90% at 50% 35%,#f4f5f7 0%,#dfe2e7 75%,#cfd3da 100%)}
 .sph img{position:absolute;left:10%;top:9%;width:80%;height:82%;object-fit:contain;mix-blend-mode:multiply;opacity:0;transition:opacity .45s ease,scale .6s cubic-bezier(.2,.8,.2,1)}
 .sph.ok img{opacity:1}
+/* thẻ có ảnh bấm được: con trỏ tay, viền khi chọn bằng bàn phím, biểu tượng phóng to ở góc ảnh */
+.sgrid li.hasimg{cursor:zoom-in}
+.sgrid li.hasimg:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.sphz{position:absolute;right:.55rem;top:.55rem;width:1.9rem;height:1.9rem;border-radius:.6rem;background:rgba(10,12,16,.55);opacity:0;scale:.85;transition:opacity .25s,scale .3s cubic-bezier(.3,1.5,.5,1)}
+.sphz::after{content:"";position:absolute;inset:.4rem;background:#fff;-webkit-mask:var(--zic) center/contain no-repeat;mask:var(--zic) center/contain no-repeat}
+.sph{--zic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7'/%3E%3C/svg%3E")}
+@media (hover:hover){.sgrid li.hasimg:hover .sphz{opacity:1;scale:1}}
+@media (hover:none){.sphz{opacity:.85;scale:1}}
+.sph.fill{background:#111}
+.sph.fill img{left:0;top:0;width:100%;height:100%;object-fit:cover;mix-blend-mode:normal}
 @media (hover:hover){:root:not([data-motion="off"]) .sgrid li.hasimg:hover .sph img{scale:1.06}}
 .stx{display:grid;min-width:0;gap:.1rem}
 .stx small{font:400 .7rem var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
@@ -2118,6 +2128,35 @@ html.scrolling :is(#orb .sat button,.orbtab,.wxch,.ql,.bgm,.bgq,#totop,.rndb,.fp
 }
 :root:not([data-motion="off"]) .su.anim .sgrid li{animation:blIn .4s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--n,0)*40ms)}
 @media (prefers-reduced-motion:reduce){.sart .s-ac{animation:none!important;stroke-dashoffset:0!important}}
+
+/* ===== HỘP XEM ẢNH LINH KIỆN ===== */
+.sulb{width:min(46rem,calc(100vw - 1.5rem));max-height:calc(100dvh - 1.5rem);padding:0;border:1px solid var(--line-hi);border-radius:1.1rem;background:var(--card);color:var(--text);overflow:hidden;box-shadow:0 40px 100px -30px rgba(0,0,0,.75)}
+.sulb::backdrop{background:rgba(0,0,0,.66)}
+:root:not([data-motion="off"]) .sulb[open]{animation:sulIn .32s cubic-bezier(.2,.8,.2,1)}
+:root:not([data-motion="off"]) .sulb[open]::backdrop{animation:sulBd .3s ease}
+@keyframes sulIn{from{opacity:0;scale:.95;translate:0 10px}to{opacity:1;scale:1;translate:0 0}}
+@keyframes sulBd{from{opacity:0}to{opacity:1}}
+.sulbx{position:relative;display:flex;flex-direction:column;max-height:calc(100dvh - 1.5rem)}
+.sulc{position:absolute;right:.7rem;top:.7rem;z-index:2;width:2.3rem;height:2.3rem;border:1px solid rgba(0,0,0,.12);border-radius:50%;background:rgba(255,255,255,.85);color:#111;font-size:1.3rem;line-height:1;cursor:pointer;transition:scale .2s,background-color .2s}
+.sulc:hover{background:#fff;scale:1.06}
+.sulf{margin:0;display:flex;flex-direction:column;min-height:0}
+.sulimg{position:relative;flex:0 1 auto;min-height:12rem;height:min(62vh,30rem);background:radial-gradient(120% 90% at 50% 35%,#ffffff 0%,#eef0f3 70%,#e1e4ea 100%);touch-action:pan-y;user-select:none}
+.sulimg.fill{background:#0d0d0f}
+.sulimg img{position:absolute;left:6%;top:6%;width:88%;height:88%;object-fit:contain;mix-blend-mode:multiply}
+.sulimg.fill img{left:0;top:0;width:100%;height:100%;mix-blend-mode:normal}
+:root:not([data-motion="off"]) .sulimg img.in{animation:sulImg .38s cubic-bezier(.2,.8,.2,1)}
+@keyframes sulImg{from{opacity:0;translate:var(--dx,0) 0;scale:.97}to{opacity:1;translate:0 0;scale:1}}
+.sulf figcaption{display:grid;gap:.15rem;padding:1rem 1.2rem .2rem}
+.sulf small{font:400 .72rem var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.sulf b{font-size:1.15rem;line-height:1.3}
+.sulf span{color:var(--muted);font-size:.9rem}
+.sulf span:empty{display:none}
+.sulnav{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.6rem 1.2rem 1rem}
+.suln{width:2.6rem;height:2.6rem;border:1px solid var(--line-hi);border-radius:50%;background:transparent;color:var(--text);font-size:1.4rem;line-height:1;cursor:pointer;transition:border-color .2s,background-color .2s,scale .15s}
+.suln:hover{border-color:var(--white);background:rgba(var(--fx),.06)}.suln:active{scale:.92}
+.sulcnt{font:400 .8rem var(--mono);font-style:normal;color:var(--muted)}
+@media (max-width:40rem){.sulimg{height:min(52vh,22rem)}}
+@media (prefers-reduced-motion:reduce){.sulb[open],.sulb[open]::backdrop,.sulimg img.in{animation:none!important}}
 
 /* ===== CHÉP ID: chạm là chép, hiện dấu tích ===== */
 .cpids{display:flex;flex-wrap:wrap;justify-content:center;gap:.6rem;margin-top:1rem}
@@ -2150,6 +2189,20 @@ html.scrolling :is(#orb .sat button,.orbtab,.wxch,.ql,.bgm,.bgq,#totop,.rndb,.fp
 .gbl2 b{color:var(--text)}.gbl2 time{font:400 .72rem var(--mono);color:var(--muted)}
 .gbl2 p{margin:0;color:var(--muted);white-space:pre-wrap;word-break:break-word}
 .gbl2 .em{color:var(--muted);text-align:center;padding:1.4rem;border-style:dashed}
+/* ===== ĐIỆN THOẠI GỌN HƠN =====
+   trước đây có 7 nút nổi cố định + bong bóng mẹo tự bật + 3 dải GIF trang trí làm trang rất dài.
+   Giờ chỉ giữ: nhạc (2 nút), lên đầu trang, nút menu tròn ở mép. */
+@media (max-width:40rem){
+  .fpsb,.fpsn{display:none!important}         /* đo FPS là công cụ cho máy tính */
+  .rndf{display:none!important}               /* xúc xắc + bong bóng mẹo: nội dung đã có ở mục Sự thật thú vị */
+  #bgmn{display:none!important}               /* nút "bài tiếp" có sẵn trong danh sách nhạc */
+  .gbar{display:none!important}               /* 3 dải GIF trang trí: bớt dài trang, bớt tải dữ liệu */
+  #home .s{padding-block:2.4rem}
+  #home .grp>.ghd{margin-top:.6rem}
+  footer{padding-bottom:calc(6.5rem + env(safe-area-inset-bottom,0px))}  /* chừa chỗ cho nút nhạc nổi, không che chữ cuối trang */
+}
+/* máy không có bàn phím: ẩn danh sách phím tắt ở chân trang */
+@media (hover:none) and (pointer:coarse){.fgrid .keys{display:none}}
 @media (prefers-reduced-motion:reduce){.hib::before{transition:none}:is(.bar,.morep) .tgl>:is(svg,.gt),.tgl.lang span.on{animation:none!important}}
 /* màn hình tải trang: vòng tròn có phần trăm, màu chạy theo tiến độ, có ánh sáng toả quanh */
 html:not(.js) #ldr{display:none}
@@ -3165,6 +3218,8 @@ li.hic::after{top:50%;right:.4rem;margin-top:-.75rem}
 #qr #qrcv{display:block;width:min(100%,22rem);height:auto;aspect-ratio:28/39;cursor:pointer;outline-offset:4px;user-select:none;-webkit-user-select:none;touch-action:manipulation}
 #qr #qrfx{pointer-events:none;display:block;width:min(100%,22rem);height:auto;aspect-ratio:28/39}
 #qr .qrst canvas{grid-area:1/1}
+#qr #qrcv{transition:opacity .26s ease,scale .38s cubic-bezier(.2,.8,.2,1)}
+#qr #qrcv.qsw{opacity:0;scale:.94;transition-duration:.16s,.16s}
 #qr .qrhint{position:absolute;bottom:1.1rem;left:50%;transform:translateX(-50%);padding:.4rem 1rem;border-radius:999px;background:rgba(var(--bgrgb),.92);border:1px solid var(--line-hi);color:var(--text);font:600 .8rem var(--body);pointer-events:none;white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,.35);transition:opacity .25s,transform .25s}
 #qr .qrhint::before{content:"✨ ";font-style:normal}
 #qr .qrin{margin-bottom:1rem}
@@ -3768,8 +3823,8 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
       </div>
       <div class="shelf rv">
         <div class="shtabs" id="shtabs" role="tablist" aria-label="Chọn kệ" hidden>
-          <button type="button" role="tab" data-t="bl" aria-selected="true">Kệ game</button>
-          <button type="button" role="tab" data-t="su" aria-selected="false">Setup</button>
+          <button type="button" role="tab" data-t="su" aria-selected="true">Setup</button>
+          <button type="button" role="tab" data-t="bl" aria-selected="false">Kệ game</button>
         </div>
         <div class="shp" id="shp-bl">
           <div class="shf" id="shf" role="group" aria-label="Lọc theo trạng thái"></div>
@@ -9829,11 +9884,21 @@ function updateUI(){
   if(b90)b90.setAttribute('aria-pressed',isQRMode?'true':'false');
   if(hint)hint.textContent=isQRMode?(R.lang==='en'?'Tap again for the 45° 3D tree':'Chạm lại để xem cây 3D nhìn chéo 45°'):(R.lang==='en'?'Tap the tree to see the QR code from above':'Chạm vào cây để xem mã QR từ trên xuống');
 }
+/* CHUYỂN 45° ↔ 90° MƯỢT: trước đây tween bằng cách vẽ lại cả nghìn khối lá mỗi khung hình nên tụt FPS.
+   Giờ: khung cây mờ đi + thu nhỏ nhẹ (CSS, chạy trên GPU) → vẽ trạng thái mới đúng 1 lần → hiện lại. */
+var swT=0;
+function snapState(on){qrProg=tQrProg=on?1:0;pitch=tpitch=on?0:TREE_PITCH;yaw=tyaw=on?0:TREE_YAW}
 function setQR(on){
   if(on!==isQRMode){
     isQRMode=on;
-    if(on){tQrProg=1;tpitch=0;tyaw=0}else{tQrProg=0;tpitch=TREE_PITCH;tyaw=TREE_YAW}
-    kick();
+    if(calm()||!ready){snapState(on);paint();kick()}
+    else{
+      clearTimeout(swT);cv.classList.add('qsw');
+      swT=setTimeout(function(){
+        snapState(isQRMode);if(anim){anim=false;te=1e9}paint();
+        requestAnimationFrame(function(){cv.classList.remove('qsw')});
+      },170);
+    }
   }
   updateUI();
 }
@@ -10143,15 +10208,15 @@ var SETUP=[
   {g:'desk',k:'monitor',l:['Màn hình','Monitor'],v:'AOC 27G15N',d:['27 inch, 180Hz','27", 180Hz'],img:'https://cdn.sanity.io/images/hf5b3axp/production/ccab6edea8f77e3dd04af545fce38e4123b72d5e-2000x1500.png?w=600&fit=max&auto=format'},
   {g:'desk',k:'keyboard',l:['Bàn phím','Keyboard'],v:'AULA F108 Pro',d:['Bàn phím cơ full-size','Full-size mechanical'],img:'https://aulagear.com/cdn/shop/files/IMG_9914.png?v=1742354696&width=600'},
   {g:'desk',k:'mouse',l:['Chuột','Mouse'],v:'Inphic B1 Silent',d:['Nút bấm không tiếng','Silent clicks'],img:'https://www.inphic.com/cdn/shop/files/inphic-B1-wired-mouse-white_29835948-5194-4b22-9d63-616885ad30a0.png?v=1736306592&width=600'},
-  {g:'desk',k:'pad',l:['Lót chuột','Mouse pad'],v:'90 × 40 cm',d:['Phủ gần hết mặt bàn','Covers most of the desk']},
-  {g:'desk',k:'headset',l:['Tai nghe','Headset'],v:'JRS M1',d:['LED RGB, âm thanh 7.1','RGB LED, 7.1 sound']},
-  {g:'desk',k:'chair',l:['Ghế','Chair'],v:'Mia Furniture MI01',d:['Công thái học, màu đen','Ergonomic, black']},
+  {g:'desk',k:'pad',l:['Lót chuột','Mouse pad'],v:'90 × 40 cm',d:['Phủ gần hết mặt bàn','Covers most of the desk'],img:'images/setup/mousepad.jpg',fill:true},
+  {g:'desk',k:'headset',l:['Tai nghe','Headset'],v:'JRS M1',d:['LED RGB, âm thanh 7.1','RGB LED, 7.1 sound'],img:'images/setup/headset.jpg'},
+  {g:'desk',k:'chair',l:['Ghế','Chair'],v:'Mia Furniture MI01',d:['Công thái học, màu đen','Ergonomic, black'],img:'images/setup/chair.jpg'},
   {g:'desk',k:'desk',l:['Bàn','Desk'],v:['Bàn gỗ','Wooden desk'],d:['','']},
   {g:'pc',k:'cpu',l:['CPU','CPU'],v:'Intel Core i5-12400F',d:['6 nhân, 12 luồng','6 cores, 12 threads'],img:'https://intelcorp.scene7.com/is/image/intelcorp/km-1920x1080-i5:1080-1080?fmt=png8-alpha&wid=600'},
   {g:'pc',k:'gpu',l:['Card đồ hoạ','Graphics card'],v:'ZOTAC RTX 3060',d:['Twin Edge, 12GB','Twin Edge, 12GB'],img:'https://c1.neweggimages.com/ProductImage/14-500-509-V08.jpg'},
   {g:'pc',k:'board',l:['Bo mạch chủ','Motherboard'],v:'ASUS TUF Gaming B760-Plus WiFi D4',d:['Có WiFi, dùng RAM DDR4','WiFi, DDR4'],img:'https://dlcdnwebimgs.asus.com/gain/7863d737-c623-4cbc-8f67-f492f6e26ad1/w600'},
-  {g:'pc',k:'ram',l:['RAM','RAM'],v:'G.Skill DDR4 3600MHz',d:['','']},
-  {g:'pc',k:'psu',l:['Nguồn','Power supply'],v:'750W',d:['','']}
+  {g:'pc',k:'ram',l:['RAM','RAM'],v:'G.Skill Trident Z RGB',d:['DDR4 3600MHz','DDR4 3600MHz'],img:'images/setup/ram.jpg'},
+  {g:'pc',k:'psu',l:['Nguồn','Power supply'],v:'MSI MAG A750GL PCIE5',d:['750W','750W'],img:'images/setup/psu.jpg'}
 ];
 var SGRP={desk:['Trên bàn','On the desk'],pc:['Trong case','Inside the case']};
 var SUI={
@@ -10183,7 +10248,7 @@ var DESKART='<svg class="sart" viewBox="0 0 320 150" role="img" aria-label="Minh
 var STAT={playing:['Đang chơi','Playing'],done:['Phá đảo','Finished'],dropped:['Bỏ dở','Dropped'],want:['Muốn chơi','Want to play']};
 var SIC={playing:'<rect x="2.5" y="7" width="19" height="11" rx="5.5"/><path d="M7.5 10.5v4M5.5 12.5h4M15.5 11.5h.01M18 13.5h.01"/>',done:'<path d="M8 4h8v6a4 4 0 0 1-8 0zM8 6H4.5c0 3 1.5 4.5 3.5 4.5M16 6h3.5c0 3-1.5 4.5-3.5 4.5M12 14v4M8.5 20h7"/>',dropped:'<circle cx="12" cy="12" r="8.5"/><path d="M6 6l12 12"/>',want:'<path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.8 6.8 19.6l1-5.8L3.5 9.7l5.9-.9z"/>'};
 function isPH(s){return /^\s*\[[^\]]*\]\s*$/.test(String(s||''))}
-var shF='all',shTab='bl';
+var shF='all',shTab='su'; /* mặc định mở tab Setup trước (nếu đã điền setup) */
 function renderShelf(anim){
   var bl=$('bl'),sf=$('shf');if(!bl||!sf)return;
   var its=BACKLOG.filter(function(x){return x.t&&!isPH(x.t)}),cnt={};its.forEach(function(x){cnt[x.s]=(cnt[x.s]||0)+1});
@@ -10221,8 +10286,11 @@ function renderShelf(anim){
         var ic=el('span','sic');ic.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true">'+(SUI[r.k]||'')+'</svg>';
         li.appendChild(ic);
         /* ảnh sản phẩm: khung ảnh lớn phía trên thẻ; ảnh lỗi (link hỏng, bị chặn) thì gỡ khung, thẻ quay về icon */
-        if(r.img){var fr=el('div','sph'),im=document.createElement('img');im.src=r.img;im.alt=pick(r.v);im.loading='lazy';im.decoding='async';im.referrerPolicy='no-referrer';
-          im.onload=function(){fr.classList.add('ok')};im.onerror=function(){fr.remove();li.classList.remove('hasimg')};fr.appendChild(im);li.classList.add('hasimg');li.insertBefore(fr,li.firstChild)}
+        /* fill:true = ảnh chụp/ảnh nghệ thuật phủ kín khung (không phải ảnh sản phẩm nền trắng) */
+        if(r.img){var fr=el('div','sph'+(r.fill?' fill':'')),im=document.createElement('img');im.src=r.img;im.alt=pick(r.v);im.loading='lazy';im.decoding='async';im.referrerPolicy='no-referrer';
+          im.onload=function(){fr.classList.add('ok')};im.onerror=function(){fr.remove();li.classList.remove('hasimg');li.removeAttribute('tabindex');li.removeAttribute('role')};fr.appendChild(im);fr.appendChild(el('span','sphz'));li.classList.add('hasimg');li.insertBefore(fr,li.firstChild);
+          /* chạm vào thẻ có ảnh: mở hộp xem ảnh lớn */
+          li.tabIndex=0;li.setAttribute('role','button');li.setAttribute('aria-label',L('Xem ảnh ','View photo: ')+pick(r.v))}
         var tx=el('div','stx');tx.appendChild(el('small',null,pick(r.l)));tx.appendChild(el('b',null,pick(r.v)));
         var note=pick(r.d);if(note)tx.appendChild(el('span',null,note));
         li.appendChild(tx);grid.appendChild(li);
@@ -10236,6 +10304,47 @@ function renderShelf(anim){
     tabs.querySelectorAll('button').forEach(function(b){var on=b.getAttribute('data-t')===shTab;b.setAttribute('aria-selected',on?'true':'false')});
     var pb=$('shp-bl'),ps=$('shp-su');if(pb)pb.hidden=shTab!=='bl';if(ps)ps.hidden=shTab!=='su'}
 }
+/* ===== XEM ẢNH LINH KIỆN: chạm thẻ có ảnh trong Setup -> ảnh lớn + tên món. ‹ › hoặc phím mũi tên để chuyển, vuốt trên điện thoại, Esc / chạm nền để đóng ===== */
+var SV=null,svI=0,svList=[];
+function svBuild(){
+  if(SV)return SV;
+  SV=document.createElement('dialog');SV.className='sulb';SV.setAttribute('translate','no');
+  SV.innerHTML='<div class="sulbx"><button type="button" class="sulc">×</button><figure class="sulf"><div class="sulimg"><img alt=""></div><figcaption><small></small><b></b><span></span></figcaption></figure>'+
+    '<div class="sulnav"><button type="button" class="suln" data-d="-1">‹</button><em class="sulcnt"></em><button type="button" class="suln" data-d="1">›</button></div></div>';
+  document.body.appendChild(SV);
+  SV.querySelector('.sulc').addEventListener('click',svClose);
+  SV.querySelectorAll('.suln').forEach(function(b){b.addEventListener('click',function(){svGo(svI+(+b.getAttribute('data-d')))})});
+  SV.addEventListener('click',function(e){if(e.target===SV)svClose()});
+  SV.addEventListener('keydown',function(e){if(e.key==='ArrowLeft'){e.preventDefault();svGo(svI-1)}else if(e.key==='ArrowRight'){e.preventDefault();svGo(svI+1)}});
+  var box=SV.querySelector('.sulimg'),sx=null,sy=0;
+  box.addEventListener('pointerdown',function(e){sx=e.clientX;sy=e.clientY});
+  box.addEventListener('pointerup',function(e){if(sx==null)return;var dx=e.clientX-sx,dy=e.clientY-sy;sx=null;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy))svGo(svI+(dx<0?1:-1))});
+  return SV;
+}
+function svShow(i,dir){
+  var n=svList.length;if(!n)return;svI=(i+n)%n;var li=svList[svI],im=li.querySelector('.sph img'),tx=li.querySelector('.stx');
+  var box=SV.querySelector('.sulimg'),img=box.querySelector('img');
+  box.classList.toggle('fill',!!li.querySelector('.sph.fill'));
+  img.classList.remove('in');img.style.setProperty('--dx',(dir||0)*24+'px');void img.offsetWidth;
+  img.src=im?im.currentSrc||im.src:'';img.alt=tx.querySelector('b').textContent;img.referrerPolicy='no-referrer';img.classList.add('in');
+  var cap=SV.querySelector('figcaption');cap.querySelector('small').textContent=tx.querySelector('small').textContent;cap.querySelector('b').textContent=tx.querySelector('b').textContent;
+  var sp=tx.querySelector('span');cap.querySelector('span').textContent=sp?sp.textContent:'';
+  SV.querySelector('.sulcnt').textContent=(svI+1)+' / '+n;
+  SV.querySelector('.sulc').setAttribute('aria-label',L('Đóng','Close'));
+  SV.querySelectorAll('.suln')[0].setAttribute('aria-label',L('Ảnh trước','Previous photo'));SV.querySelectorAll('.suln')[1].setAttribute('aria-label',L('Ảnh sau','Next photo'));
+  SV.setAttribute('aria-label',L('Ảnh linh kiện','Setup photo'));
+}
+function svGo(i){svShow(i,i>svI?1:-1)}
+function svOpen(li){
+  var su=$('su');svList=[].slice.call(su.querySelectorAll('.sgrid li.hasimg'));var i=svList.indexOf(li);if(i<0)return;
+  svBuild();svShow(i,0);if(SV.showModal)SV.showModal();else SV.setAttribute('open','');
+}
+function svClose(){if(SV){if(SV.close)SV.close();else SV.removeAttribute('open')}}
+(function(){var su=$('su');if(!su)return;
+  su.addEventListener('click',function(e){var li=e.target.closest('.sgrid li.hasimg');if(li)svOpen(li)});
+  su.addEventListener('keydown',function(e){if(e.key!=='Enter'&&e.key!==' ')return;var li=e.target.closest('.sgrid li.hasimg');if(li){e.preventDefault();svOpen(li)}});
+})();
+
 var shT=$('shtabs');if(shT)shT.addEventListener('click',function(e){var b=e.target.closest('button[data-t]');if(!b||b.getAttribute('data-t')===shTab)return;shTab=b.getAttribute('data-t');renderShelf(true)});
 renderShelf(false);
 
