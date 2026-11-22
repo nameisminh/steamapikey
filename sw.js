@@ -5,7 +5,7 @@
    - music/tracks.js và các file lời .lrc: ưu tiên mạng và luôn bỏ qua cache cũ (thêm bài mới là thấy ngay), mất mạng thì dùng bản đã lưu.
    - Ảnh, font, steam.json: cho xem bản đã lưu ngay, đồng thời tải bản mới ngầm.
    - Nhạc, video, API (thời tiết, Discord, lời bài hát, thống kê): không lưu, để trình duyệt tự xử lý. */
-const VERSION = 'v4'; /* v4: chỉ lưu trang chủ vào bộ nhớ offline (trước đây mở /404.html cũng bị lưu đè lên trang chủ) */
+const VERSION = 'v5'; /* v4: chỉ lưu trang chủ vào bộ nhớ offline. v5: mạng chậm vẫn lưu bản mới khi tải xong và báo trang "có bản mới" (trước đây cứ quá 4,5 giây là bản mới bị bỏ, khách thấy bản cũ mãi) */
 const CORE = 'ming-core-' + VERSION;
 const RT = 'ming-rt-' + VERSION;
 const MAX_RT = 300;
@@ -49,7 +49,7 @@ self.addEventListener('fetch', (e) => {
   if (req.destination === 'audio' || req.destination === 'video' || /\.(mp3|mp4|webm|ogg|m4a|wav)$/i.test(url.pathname)) return;
   if (url.origin === self.location.origin) {
     if (url.pathname.endsWith('/sw.js')) return;
-    if (req.mode === 'navigate') { e.respondWith(navigate(req)); return; }
+    if (req.mode === 'navigate') { e.respondWith(navigate(e, req)); return; }
     if (/\/music\/(tracks\.js|[^/]+\.lrc)$/i.test(url.pathname)) { e.respondWith(netFirst(req)); return; }
     e.respondWith(swr(e, req));
     return;
@@ -61,17 +61,32 @@ function race(p, ms) {
   return Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), ms))]);
 }
 
-async function navigate(req) {
+/* Mở trang: luôn ưu tiên bản mới trên mạng.
+   - Chỉ lưu khi đúng là trang chủ ('/' hoặc '/index.html'); trang khác (404, file .html lẻ) không ghi đè bản offline của trang chủ.
+   - Có bản đã lưu thì đợi mạng tối đa 8 giây. Quá lâu thì tạm đưa bản đã lưu, NHƯNG vẫn tải tiếp bản mới,
+     lưu lại khi xong và báo trang hiện nút "Có bản mới · Tải lại" (trước đây bản mới bị bỏ, khách kẹt ở bản cũ). */
+async function navigate(e, req) {
   const c = await caches.open(CORE);
   const cached = await c.match(ROOT, { ignoreSearch: true });
-  try {
-    const res = await (cached ? race(fetch(req), 4500) : fetch(req));
-    /* chỉ lưu khi đúng là trang chủ ('/' hoặc '/index.html'); trang khác (404, file .html lẻ) không được ghi đè lên bản offline của trang chủ */
-    const p = new URL(req.url).pathname, home = new URL(ROOT).pathname;
-    if (res && res.ok && !res.redirected && (p === home || p === home + 'index.html')) c.put(ROOT, res.clone());
+  const p = new URL(req.url).pathname, home = new URL(ROOT).pathname;
+  const isHome = p === home || p === home + 'index.html';
+  let servedOld = false;
+  const net = fetch(req).then((res) => {
+    if (isHome && res && res.ok && !res.redirected) {
+      /* lưu ngầm, không bắt trang đợi lưu xong mới hiện */
+      e.waitUntil(c.put(ROOT, res.clone()).then(async () => {
+        if (!servedOld) return;
+        const cs = await self.clients.matchAll({ type: 'window' });
+        cs.forEach((cl) => cl.postMessage({ type: 'UPDATED' }));
+      }).catch(() => {}));
+    }
     return res;
+  });
+  e.waitUntil(net.catch(() => {}));
+  try {
+    return await (cached && isHome ? race(net, 8000) : net);
   } catch (_) {
-    if (cached) return cached;
+    if (cached) { servedOld = true; return cached; }
     return new Response('Bạn đang offline và trang chưa được lưu. Hãy mở lại khi có mạng.', {
       status: 503, headers: { 'Content-Type': 'text/plain; charset=utf-8' }
     });

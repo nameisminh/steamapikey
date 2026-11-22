@@ -2827,6 +2827,9 @@ footer{border-top:1px solid var(--line);background:linear-gradient(180deg,rgba(v
 /* trạng thái mạng + chế độ offline */
 #netpill{position:fixed;left:50%;bottom:calc(1.25rem + env(safe-area-inset-bottom,0px));z-index:60;transform:translate(-50%,12px);opacity:0;padding:.55rem 1.1rem;border-radius:999px;border:1px solid var(--edge);background:rgba(var(--bgrgb),.82);-webkit-backdrop-filter:blur(14px) saturate(160%);backdrop-filter:blur(14px) saturate(160%);color:var(--text);font:500 .85rem/1.4 var(--body);box-shadow:0 16px 40px -18px rgba(0,0,0,.6);pointer-events:none;transition:opacity .35s,transform .35s var(--ease-pop);max-width:calc(100vw - 2rem);text-align:center}
 #netpill.on{opacity:1;transform:translate(-50%,0)}
+#netpill:has(.npup){pointer-events:auto;padding:0;bottom:calc(5rem + env(safe-area-inset-bottom,0px))}
+#netpill .npup{padding:.6rem 1.15rem;border:0;border-radius:inherit;background:transparent;color:var(--text);font:600 .88rem/1.4 var(--body);cursor:pointer}
+#netpill .npup::before{content:"";display:inline-block;width:.5rem;height:.5rem;margin-right:.55rem;border-radius:50%;background:var(--acc);vertical-align:.08em}
 #netpill::before{content:"";display:inline-block;width:.5rem;height:.5rem;border-radius:50%;background:var(--acc);margin-right:.55rem;vertical-align:.05em}
 .offl #netpill::before{background:#ffb454}
 .offl .mapfr{position:relative}
@@ -8613,8 +8616,21 @@ addEventListener('offline',off);addEventListener('online',on);
 document.addEventListener('langchange',function(){if(R.classList.contains('offl')){mapMsg();show(en()?'You are offline. Showing the saved version.':'Bạn đang offline. Đang xem bản đã lưu trên máy.',true)}});
 if(navigator.onLine===false)off();
 if(!('serviceWorker' in navigator)||!/^https?:$/.test(location.protocol))return;
+/* CÓ BẢN MỚI: service worker báo đã tải xong bản mới (lúc mở trang mạng chậm nên tạm hiện bản đã lưu)
+   hoặc service worker mới vừa thay bản cũ -> hiện nút "Có bản mới · Tải lại" (không tự tải lại để khỏi ngắt nhạc đang nghe) */
+var hadCtl=!!navigator.serviceWorker.controller,upShown=false;
+function upd(){
+ if(upShown)return;upShown=true;
+ clearTimeout(tm);clearTimeout(tm2);pill.textContent='';
+ var b=document.createElement('button');b.type='button';b.className='npup';b.textContent=en()?'New version available · Reload':'Có bản mới · Tải lại';
+ b.addEventListener('click',function(){location.reload()});pill.appendChild(b);pill.hidden=false;void pill.offsetWidth;pill.classList.add('on');
+}
+navigator.serviceWorker.addEventListener('message',function(e){if(e.data&&e.data.type==='UPDATED')upd()});
+navigator.serviceWorker.addEventListener('controllerchange',function(){if(hadCtl)upd();hadCtl=true});
 addEventListener('load',function(){
- navigator.serviceWorker.register('sw.js').then(function(reg){
+ navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(function(reg){
+  /* hỏi máy chủ có sw.js mới không mỗi lần quay lại tab (tối đa 1 lần / 30 phút) */
+  var lastChk=Date.now();document.addEventListener('visibilitychange',function(){if(!document.hidden&&Date.now()-lastChk>18e5){lastChk=Date.now();reg.update().catch(function(){})}});
   var sv=false;try{var c=navigator.connection;sv=!!(c&&c.saveData)}catch(e){}
   function warm(){var w=reg.active||navigator.serviceWorker.controller;if(w&&!sv)w.postMessage({type:'WARM'})}
   if(reg.active)setTimeout(warm,4000);else navigator.serviceWorker.ready.then(function(){setTimeout(warm,2500)});
@@ -10056,13 +10072,15 @@ var CMDS={
      ['neofetch',L('thông tin trang và máy bạn','page and device info')],
      ['theme [light|dark]',L('đổi giao diện','switch theme')],['fx [on|off]',L('bật/tắt hiệu ứng','effects on/off')],
      ['lang [vi|en]',L('đổi ngôn ngữ','switch language')],['music',L('bật/tắt nhạc','music on/off')],['date',L('ngày giờ hiện tại','current date and time')],
-     ['404',L('thử trang 404 (lạc đường)','try the 404 page')],['echo <'+L('chữ','text')+'>',L('in lại chữ','print text')],['history',L('các lệnh đã gõ','typed commands')],['clear',L('xoá màn hình','clear the screen')],
+     ['404',L('thử trang 404 (lạc đường)','try the 404 page')],['reset',L('xoá bản lưu cũ, tải bản mới nhất','clear old cache, load the latest')],['echo <'+L('chữ','text')+'>',L('in lại chữ','print text')],['history',L('các lệnh đã gõ','typed commands')],['clear',L('xoá màn hình','clear the screen')],
      ['?',L('bảng phím tắt','keyboard shortcuts')]
     ].forEach(function(r){var d=line();d.appendChild(el('b','ok',padR(r[0],20)));d.appendChild(document.createTextNode(r[1]))});
   },
   whoami:function(){out('ming · '+L('game thủ kiêm dịch giả, dev tay ngang, đang đi thực tập','gamer and translator, self-taught dev, currently an intern'))},
   now:nowInfo,
   pwd:function(){out('/home/ming')},
+  /* làm mới: xoá bản lưu cũ trên máy (service worker + cache), giữ cài đặt, rồi mở bản mới nhất */
+  reset:function(){out(L('→ đang làm mới trang…','→ refreshing the page…'),'dim');setTimeout(function(){location.href='/reset'},300)},
   /* thử trang 404: mở một địa chỉ ngẫu nhiên không tồn tại */
   lost:function(){var p='/khong-co-trang-nay-'+Math.random().toString(36).slice(2,7);out('cd '+p+' …','dim');setTimeout(function(){location.href=p},350)},
   ls:function(){
