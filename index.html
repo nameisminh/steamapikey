@@ -297,6 +297,23 @@ window.__autoLang=function(){
 <div class="grp" id="g-likes">
     <div class="wrap ghd rv"><div><i class="gic" data-ic="heart"></i><h2>Sở thích</h2><p>Game, dự án việt hoá, nhạc và những thứ tôi mê.</p></div></div>
 
+    <!-- BẢN ĐỒ SỞ THÍCH: mỗi thứ tôi thích là một ngôi sao, nối với nhóm của nó và những sao gần đó (vẽ bằng canvas trong assets/app.js, khối "skymap") -->
+    <section class="s sky" id="sky" aria-labelledby="skyt">
+      <div class="skyc" data-noax><canvas id="skycv" aria-hidden="true"></canvas></div>
+      <div class="wrap skyw">
+        <div class="skytx rv">
+          <p class="eyebrow ei"><i data-ic="sparkle"></i><span data-vi="Bản đồ sở thích" data-en="Map of things I like">Bản đồ sở thích</span></p>
+          <h2 id="skyt" data-vi="Những thứ tôi thích, nối lại thành một bầu trời." data-en="Everything I like, linked into one sky.">Những thứ tôi thích, nối lại thành một bầu trời.</h2>
+          <p class="lead" data-vi="Game, nhạc, truyện, phim và góc máy. Rê chuột hoặc chạm vào một ngôi sao để xem nó nối với những gì, bấm thêm lần nữa để tới mục đó." data-en="Games, music, comics, movies and my setup. Hover or tap a star to see what it links to, tap again to jump there.">Game, nhạc, truyện, phim và góc máy. Rê chuột hoặc chạm vào một ngôi sao để xem nó nối với những gì, bấm thêm lần nữa để tới mục đó.</p>
+          <div class="skyst">
+            <div><b id="skyn">0</b><span data-vi="ngôi sao có tên" data-en="named stars">ngôi sao có tên</span></div>
+            <div><b id="skyl">0</b><span data-vi="đường nối" data-en="links">đường nối</span></div>
+            <div><b>∞</b><span data-vi="còn thêm nữa" data-en="and counting">còn thêm nữa</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="s" id="play">
     <div class="wrap">
       <div class="rv">
