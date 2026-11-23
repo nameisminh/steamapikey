@@ -7,7 +7,8 @@ var ST='https://cdn.cloudflare.steamstatic.com/steam/apps/',DK='https://cdn.disc
 var D={name:'ming',sub:'Check out my profile',user:'ming0811_',tag:'COZY',avatar:'images/avatar.jpg',banner:['https://cdn.discordapp.com/banners/873073921589661698/a_127162e7f2ad2d51de0e6daa4cb9b188.webp?size=1024&animated=true','images/banner.gif','images/banner.webp','images/banner.png','images/banner.jpg'],deco:'',nitroImg:'',bubble:'🐧',birth:'2004-11-08T12:12',msg:'https://discord.com/users/873073921589661698',/* huy hiệu: [ảnh, tên hiện khi rê chuột] — ảnh cắt từ bảng huy hiệu Discord, đổi tên tuỳ ý */
  badges:[['images/badges/b1.png','Huy hiệu 1'],['images/badges/b2.png','Huy hiệu 2'],['images/badges/b3.png','Huy hiệu 3'],['images/badges/b4.png','Huy hiệu 4'],['images/badges/b5.png','Huy hiệu 5'],['images/badges/b6.png','Huy hiệu 6'],['images/badges/b7.png','Huy hiệu 7'],['images/badges/b8.png','Huy hiệu 8'],['images/badges/b9.png','Huy hiệu 9'],['images/badges/b10.png','Huy hiệu 10'],['images/badges/b11.png','Huy hiệu 11'],['images/badges/b12.png','Huy hiệu 12']],
  /* hiệu ứng hồ sơ (Dark Moon Crows - Blood Moon): intro chạy 1 lần 4 giây, loop lặp mãi; để trống để tắt */
- effect:{intro:'https://cdn.discordapp.com/media/v1/collectibles-shop/c6511c616f05d5490a875c87d0e5423ceacfc13833c7b619a90d53fd78c36240',loop:'https://cdn.discordapp.com/media/v1/collectibles-shop/b5d3f10fbb2aa2797ac185bada1d072357fdc6449df0c608a2465111df54293c'},
+ /* (đã lưu vào images/effects/ để phát lại được mà không tải lại) gap = số giây nghỉ giữa 2 lần phát, len = độ dài một lượt (giây) */
+ effect:{intro:'images/effects/darkmoon-intro.png',loop:'images/effects/darkmoon-loop.png',gap:10,len:4},
  frames:[DK+'1556809829652234330/static',DK+'1556809833922035752/static',DK+'1556809813197983765/static',DK+'1556809825642614794/static'],frameIdx:0,frameForce:true,frameUse:[],pieces:null,slice:.25,
  bio:['🎂 Took Birth: {age}','He/Him'],link:'https://ming-dev.id.vn/',since:['6 thg 8, 2021','6 thg 8, 2022'],note:':v',
  roles:[['Game thủ','#57f287'],['Dịch giả','#fee75c'],['Dev','#5865f2'],['Nghe nhạc','#eb459e'],['Cú đêm','#ed4245'],['Mèo','#f0883e'],['Cà phê','#1abc9c']],
@@ -82,19 +83,38 @@ function nameStyle(u){var s=u&&u.display_name_styles;if(!s||!s.colors||!s.colors
  /* 1 màu thường · 2 chuyển màu · 3 neon · 4 viền · 5 nổi khối · 6 phát sáng (xấp xỉ theo các kiểu của Discord) */
  return' class="ns ne'+e+'" style="'+css+'"'}/* huy hiệu: ảnh (đường dẫn .png/.webp/.gif) hoặc emoji */
 function bimg(b){return /\.(png|webp|gif|jpe?g|svg)(\?|$)/i.test(b[0])?'<img src="'+esc(b[0])+'" alt="'+esc(T(b[1]))+'" loading="lazy" decoding="async">':b[0]}
-/* ===== HIỆU ỨNG HỒ SƠ (giống Discord): 2 lớp ảnh động 450×880 phủ lên cột hồ sơ =====
-   Tạo MỘT LẦN rồi chỉ chuyển vào cột mỗi khi vẽ lại card, nên phần mở đầu không bị chạy lại và ảnh không tải lại.
-   Chỉ tải khi card sắp hiện; máy yếu / tắt hiệu ứng / tiết kiệm dữ liệu thì không tải (mỗi lớp 3–4 MB). */
-var FX=null;
+/* ===== HIỆU ỨNG HỒ SƠ (giống Discord): ảnh động 450×880 phủ lên cột hồ sơ =====
+   Lần đầu: phát phần mở đầu (intro). Sau đó: phát một lượt lớp lặp (loop) → mờ dần → NGHỈ D.effect.gap giây → phát lại từ đầu.
+   Hai file được tải MỘT LẦN (fetch → blob); mỗi lần phát lại chỉ tạo địa chỉ blob mới để ảnh chạy lại từ khung đầu, không tải lại.
+   Card khuất khỏi màn hình hoặc tab ẩn thì dừng hẳn, hiện lại thì phát tiếp.
+   Máy yếu / tắt hiệu ứng / tiết kiệm dữ liệu thì không tải (mỗi file 3–4 MB). */
+var FX=null,FXB={},fxT=0,fxOn=false,fxVis=false,fxUrl='',fxFirst=true;
 function fxOk(){var n=navigator,R0=document.documentElement;if(!D.effect||!D.effect.loop)return false;if(R0.getAttribute('data-motion')==='off'||R0.classList.contains('lite'))return false;if(matchMedia('(prefers-reduced-motion: reduce)').matches)return false;if(n.connection&&n.connection.saveData)return false;return true}
+function fxBlob(k){if(FXB[k])return FXB[k];return FXB[k]=fetch(D.effect[k]).then(function(r){if(!r.ok)throw 0;return r.blob()})}
+function fxStop(){clearTimeout(fxT);fxT=0;fxOn=false;if(FX){var im=FX.querySelector('img');im.classList.remove('on')}}
+function fxPlay(){
+ clearTimeout(fxT);if(!FX||!fxVis||document.hidden||!fxOk()){fxOn=false;return}fxOn=true;
+ var k=fxFirst&&D.effect.intro?'intro':'loop',im=FX.querySelector('img'),len=(D.effect.len||4)*1000,gap=(D.effect.gap==null?10:D.effect.gap)*1000;
+ fxBlob(k).then(function(b){
+  if(!fxOn)return;
+  if(fxUrl)URL.revokeObjectURL(fxUrl);fxUrl=URL.createObjectURL(b);
+  im.onload=function(){
+   if(!fxOn)return;fxFirst=false;im.classList.add('on');
+   /* gần hết lượt thì mờ dần, hết hẳn thì nghỉ rồi phát lại */
+   fxT=setTimeout(function(){im.classList.remove('on');fxT=setTimeout(fxPlay,gap)},Math.max(500,len-500));
+  };
+  im.src=fxUrl;
+ },function(){FX.remove();FX=null}); /* không tải được thì bỏ hiệu ứng, card vẫn bình thường */
+}
 function attachFx(){
  var l=root.querySelector('.l');if(!l)return;
- if(!FX){if(!fxOk())return;FX=document.createElement('div');FX.className='fx';FX.setAttribute('aria-hidden','true');
-  FX.innerHTML='<img class="fxl" alt="" decoding="async" src="'+esc(D.effect.loop)+'">'+(D.effect.intro?'<img class="fxi" alt="" decoding="async" src="'+esc(D.effect.intro)+'">':'');
-  var ii=FX.querySelector('.fxi');if(ii)ii.addEventListener('load',function(){setTimeout(function(){ii.remove()},4100)}); /* phần mở đầu dài 4 giây: đếm từ lúc ảnh tải xong, chạy xong thì bỏ */
-  FX.querySelectorAll('img').forEach(function(im){im.addEventListener('error',function(){im.remove()})});}
- l.appendChild(FX);
-}function fmt(ms){var s=Math.max(0,Math.floor(ms/1000)),h=Math.floor(s/3600),m=Math.floor(s%3600/60);s%=60;return(h?h+':'+('0'+m).slice(-2):m)+':'+('0'+s).slice(-2)}
+ if(!FX){if(!fxOk())return;FX=document.createElement('div');FX.className='fx';FX.setAttribute('aria-hidden','true');FX.innerHTML='<img alt="" decoding="async">';
+  /* chỉ chạy khi card đang trên màn hình */
+  if('IntersectionObserver' in window)new IntersectionObserver(function(es){fxVis=es.some(function(e){return e.isIntersecting});if(fxVis){if(!fxOn)fxT=setTimeout(fxPlay,300)}else fxStop()}).observe(host);else{fxVis=true;fxPlay()}
+  document.addEventListener('visibilitychange',function(){if(document.hidden)fxStop();else if(fxVis&&!fxOn)fxT=setTimeout(fxPlay,600)});
+  new MutationObserver(function(){if(!fxOk())fxStop();else if(fxVis&&!fxOn)fxPlay()}).observe(document.documentElement,{attributes:true,attributeFilter:['data-motion','class']});
+ }
+ l.appendChild(FX);}function fmt(ms){var s=Math.max(0,Math.floor(ms/1000)),h=Math.floor(s/3600),m=Math.floor(s%3600/60);s%=60;return(h?h+':'+('0'+m).slice(-2):m)+':'+('0'+s).slice(-2)}
 /* ===== KHUNG DARK MOON =====
    Cả 4 lớp (trăng, cành quạ + dây gai, sương, rễ cây) được vẽ trên cùng một lưới 1306px.
    Thẻ hồ sơ nằm trong lưới đó: cách mép trái 75px, rộng 1157px, đỉnh thẻ ở y=322 (ảnh trên cao 716)
