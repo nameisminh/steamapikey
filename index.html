@@ -38,14 +38,39 @@ function run(ts){sched=0;
 window.requestAnimationFrame=function(f){var it={f:f,c:false,id:++nid};q.push(it);m[it.id]=it;if(!sched)sched=real.call(window,run);return it.id};
 window.cancelAnimationFrame=function(id){var it=m[id];if(it){it.c=true;delete m[id]}else if(realC)realC.call(window,id)};
 })();</script>
-<script>/* GIAO DIỆN (nút "Giao diện" trên thanh menu): 3 lựa chọn, lưu trên máy (localStorage 'ui', tuỳ biến ở 'uic')
-   old = Cũ: bo tròn, một trang dài, nền đầy sao, có ảnh động nổi · hud = Hiện tại: vát góc kiểu game, cuộn liền mạch, gọn, nền sao mờ
-   custom = Tuỳ biến: tự chọn từng thứ (hud, flow, compact, bg, float). Gắn class ngay trong <head> để trang không nháy kiểu cũ.
+<script>/* GIAO DIỆN (nút "Giao diện" trên thanh menu, phím U): chọn một PHONG CÁCH dựng sẵn hoặc Tuỳ biến từng thứ.
+   Lưu trên máy: localStorage 'ui' = tên phong cách, 'uic' = cấu hình Tuỳ biến. Gắn class/thuộc tính ngay trong <head> để trang không nháy.
+   Mỗi phong cách là một bộ giá trị:
+     hud     1/0   trang trí kiểu game (vạch ngoặc góc thẻ, chữ in hoa, sọc chéo, nhãn SECTOR, huy hiệu dạng lưới)
+     shape   round | bevel | square | soft        khung: bo tròn / vát góc / vuông / bo mềm
+     surface solid | glass | outline              mặt thẻ: đặc / kính mờ / chỉ viền
+     glow    0 | 1 | 2                            phát sáng: tắt / vừa / mạnh
+     shadow  none | soft | hard                   đổ bóng: không / mềm / cứng kiểu pixel
+     scan    1/0   vạch quét màn hình kiểu CRT
+     bg      none | clean | rich | icons | grid | aurora   nền: trơn / sao mờ / đầy sao / sao + icon / lưới / cực quang
+     flow    1/0   cuộn liền mạch (nhóm sau tự hiện khi cuộn tới) hay một trang hiện đủ
+     density roomy | compact | tight              khoảng cách: thoáng / gọn / rất gọn
+     fs      s | m | l                            cỡ chữ
+     w       narrow | normal | wide               độ rộng nội dung
+     float   1/0   ảnh động nhỏ nổi ở góc mỗi mục
    CUỘN LIỀN MẠCH (class flow): lúc đầu chỉ hiện nhóm "Về Ming"; cuộn gần hết thì nhóm sau tự hiện (data-upto = số nhóm đã mở thêm, 0–4). */
-window.UIP={old:{hud:0,flow:0,compact:0,bg:'rich',float:1},hud:{hud:1,flow:1,compact:1,bg:'clean',float:0}};
-window.uiMode=function(){var m=window.__uiM||'hud';if(!window.__uiM)try{m=localStorage.getItem('ui')||'hud'}catch(e){}return /^(old|hud|custom)$/.test(m)?m:'hud'};
-window.uiCfg=function(m){m=m||uiMode();if(m!=='custom')return UIP[m];var c=window.__uiC||{};if(!window.__uiC)try{c=JSON.parse(localStorage.getItem('uic')||'{}')||{}}catch(e){}var o={},k;for(k in UIP.hud)o[k]=k in c?c[k]:UIP.hud[k];return o};
-window.uiApply=function(c){var R=document.documentElement;R.classList.toggle('ui-hud',!!c.hud);R.classList.toggle('flow',!!c.flow);R.classList.toggle('ui-compact',!!c.compact);R.classList.toggle('ui-float',!!c.float);R.setAttribute('data-bg',/^(clean|rich|icons)$/.test(c.bg)?c.bg:'clean');R.setAttribute('data-ui',uiMode())};
+window.UIP={
+  old:  {hud:0,shape:'round', surface:'solid', glow:1,shadow:'soft',scan:0,bg:'rich',  flow:0,density:'roomy',  fs:'m',w:'normal',float:1},
+  hud:  {hud:1,shape:'bevel', surface:'solid', glow:1,shadow:'none',scan:0,bg:'clean', flow:1,density:'compact',fs:'m',w:'normal',float:0},
+  neon: {hud:1,shape:'bevel', surface:'glass', glow:2,shadow:'none',scan:1,bg:'grid',  flow:1,density:'compact',fs:'m',w:'normal',float:0},
+  mini: {hud:0,shape:'soft',  surface:'outline',glow:0,shadow:'none',scan:0,bg:'none', flow:0,density:'roomy',  fs:'m',w:'narrow',float:0},
+  pixel:{hud:0,shape:'square',surface:'solid', glow:0,shadow:'hard',scan:1,bg:'icons', flow:0,density:'compact',fs:'m',w:'normal',float:1},
+  glass:{hud:0,shape:'soft',  surface:'glass', glow:1,shadow:'soft',scan:0,bg:'aurora',flow:1,density:'roomy',  fs:'m',w:'normal',float:0}};
+window.uiMode=function(){var m=window.__uiM||'hud';if(!window.__uiM)try{m=localStorage.getItem('ui')||'hud'}catch(e){}return (m==='custom'||UIP.hasOwnProperty(m))?m:'hud'};
+window.uiCfg=function(m){m=m||uiMode();if(m!=='custom')return UIP[m];var c=window.__uiC||{};if(!window.__uiC)try{c=JSON.parse(localStorage.getItem('uic')||'{}')||{}}catch(e){}
+  if('compact' in c&&!('density' in c))c.density=c.compact?'compact':'roomy'; /* cấu hình cũ (bản đầu chỉ có bật/tắt gọn) */
+  if(!('shape' in c)&&'hud' in c)c.shape=c.hud?'bevel':'round';
+  var o={},k;for(k in UIP.hud)o[k]=k in c?c[k]:UIP.hud[k];return o};
+window.uiApply=function(c){var R=document.documentElement,A=function(k,v,re,d){R.setAttribute('data-'+k,re.test(String(v))?v:d)};
+  R.classList.toggle('ui-hud',!!c.hud);R.classList.toggle('flow',!!c.flow);R.classList.toggle('ui-compact',c.density!=='roomy');R.classList.toggle('ui-float',!!c.float);
+  A('bg',c.bg,/^(none|clean|rich|icons|grid|aurora)$/,'clean');A('shape',c.shape,/^(round|bevel|square|soft)$/,'bevel');A('surface',c.surface,/^(solid|glass|outline)$/,'solid');
+  A('glow',c.glow,/^[012]$/,'1');A('shadow',c.shadow,/^(none|soft|hard)$/,'none');A('scan',+!!c.scan,/^[01]$/,'0');A('density',c.density,/^(roomy|compact|tight)$/,'compact');
+  A('fs',c.fs,/^[sml]$/,'m');A('w',c.w,/^(narrow|normal|wide)$/,'normal');R.setAttribute('data-ui',uiMode())};
 (function(){var R=document.documentElement,u=0;uiApply(uiCfg());try{var s=+sessionStorage.getItem('upto');if(s>=0&&s<=4)u=s}catch(e){}R.setAttribute('data-upto',u);
 /* an toàn: app.js không tải được / bị lỗi (chưa có window.__reveal sau 10 giây) thì hiện hết, không để nội dung bị ẩn mãi */
 addEventListener('load',function(){setTimeout(function(){if(!window.__reveal)R.classList.remove('flow')},10000)})})();</script>

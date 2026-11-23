@@ -3356,3 +3356,92 @@ html:not(.flow) .flowmore{display:none}
 #uib[aria-expanded="true"]{color:var(--acc)}
 :root[data-motion="off"] .uipop{transition:none}
 @media print{.uipop{display:none!important}}
+/* =====================================================================
+   TUỲ CHỈNH GIAO DIỆN (thuộc tính data-* trên <html>, do nút "Giao diện" đặt; xem window.UIP ở đầu index.html).
+   Đặt cuối file và dùng [data-ui] nhân đôi độ ưu tiên để thắng cả kiểu cũ lẫn lớp HUD.
+   ===================================================================== */
+/* ---- KHUNG: bo tròn / vát góc / vuông / bo mềm ---- */
+:root[data-shape="round"][data-ui] :is(#contact .final,.card,.lk,.hob,.idc,.stats>div,.panel,.tkb-list li,.faq>*,.g3d-stage,.skyc,.gbn,.log .lgph,.skypop,.gc,.sartw,.shelf li,.ffs,.ffshow,.labp,.tshow,.log .now,.shot,#play .ph:not(.avatar),#photos .ph,.gsk,.fmap,.wx,.mapfr,.devsb,.wxtest,.qrst,.qrhint,.pbadges,.uipop,.acpop,.morep){border-radius:1.3rem!important;corner-shape:round}
+:root[data-shape="round"][data-ui] :is(#lab button:not(.btn),.btn,.ql,.foldbtn,.labtabs button,.labtabs,.hello,.lk .la,.bar nav,.bar .acts,.bar:not(.mini) nav a.on,.bar .tgl:not(.sw),.pbadges li,.shtabs,.shtabs button,.ffchip,#qr button:not(.btn),.wxch,.cpid,#tkb button:not(.btn):not(.foldbtn),footer input[type="text"],#qr input,#lab input[type="text"],.uipop .seg,.uipop .seg button){border-radius:999px!important;corner-shape:round}
+:root[data-shape="round"][data-ui] :is(#contact .lk .li,.lk .li,.ghd .gic,.card small .ic2,.brand i,.pbadges li>:first-child){border-radius:.8rem!important;corner-shape:round}
+:root[data-shape="square"][data-ui] :is(#contact .final,.card,.lk,.hob,.idc,.stats>div,.panel,.tkb-list li,.faq>*,.g3d-stage,.skyc,.gbn,.log .lgph,.skypop,.gc,.sartw,.shelf li,.ffs,.ffshow,.labp,.tshow,.log .now,.shot,#play .ph:not(.avatar),#photos .ph,.gsk,.fmap,.wx,.mapfr,.devsb,.wxtest,.qrst,.qrhint,.pbadges,.uipop,.acpop,.morep),:root[data-shape="square"][data-ui] :is(#lab button:not(.btn),.btn,.ql,.foldbtn,.labtabs button,.labtabs,.hello,.lk .la,.bar nav,.bar .acts,.bar:not(.mini) nav a.on,.bar .tgl:not(.sw),.pbadges li,.shtabs,.shtabs button,.ffchip,#qr button:not(.btn),.wxch,.cpid,#tkb button:not(.btn):not(.foldbtn),footer input[type="text"],#qr input,#lab input[type="text"],.uipop .seg,.uipop .seg button),:root[data-shape="square"][data-ui] :is(#contact .lk .li,.lk .li,.ghd .gic,.card small .ic2,.brand i,.pbadges li>:first-child){border-radius:0!important;corner-shape:round}
+:root[data-shape="soft"][data-ui] :is(#contact .final,.card,.lk,.hob,.idc,.stats>div,.panel,.tkb-list li,.faq>*,.g3d-stage,.skyc,.gbn,.log .lgph,.skypop,.gc,.sartw,.shelf li,.ffs,.ffshow,.labp,.tshow,.log .now,.shot,#play .ph:not(.avatar),#photos .ph,.gsk,.fmap,.wx,.mapfr,.devsb,.wxtest,.qrst,.qrhint,.pbadges,.uipop,.acpop,.morep){border-radius:1.9rem!important;corner-shape:round}
+:root[data-shape="soft"][data-ui] :is(#lab button:not(.btn),.btn,.ql,.foldbtn,.labtabs button,.labtabs,.hello,.lk .la,.bar nav,.bar .acts,.bar:not(.mini) nav a.on,.bar .tgl:not(.sw),.pbadges li,.shtabs,.shtabs button,.ffchip,#qr button:not(.btn),.wxch,.cpid,#tkb button:not(.btn):not(.foldbtn),footer input[type="text"],#qr input,#lab input[type="text"],.uipop .seg,.uipop .seg button){border-radius:1rem!important;corner-shape:round}
+:root[data-shape="soft"][data-ui] :is(#contact .lk .li,.lk .li,.ghd .gic,.card small .ic2,.brand i,.pbadges li>:first-child){border-radius:1rem!important;corner-shape:round}
+@supports (corner-shape:squircle){
+  :root[data-shape="soft"][data-ui] :is(#contact .final,.card,.lk,.hob,.idc,.stats>div,.panel,.tkb-list li,.faq>*,.g3d-stage,.skyc,.gbn,.log .lgph,.skypop,.gc,.sartw,.shelf li,.ffs,.ffshow,.labp,.tshow,.log .now,.shot,#play .ph:not(.avatar),#photos .ph,.gsk,.fmap,.wx,.mapfr,.devsb,.wxtest,.qrst,.qrhint,.pbadges,.uipop,.acpop,.morep){border-radius:2.4rem!important;corner-shape:squircle}
+  :root[data-shape="soft"][data-ui] :is(#lab button:not(.btn),.btn,.ql,.foldbtn,.labtabs button,.labtabs,.hello,.lk .la,.bar nav,.bar .acts,.bar:not(.mini) nav a.on,.bar .tgl:not(.sw),.pbadges li,.shtabs,.shtabs button,.ffchip,#qr button:not(.btn),.wxch,.cpid,#tkb button:not(.btn):not(.foldbtn),footer input[type="text"],#qr input,#lab input[type="text"],.uipop .seg,.uipop .seg button),:root[data-shape="soft"][data-ui] :is(#contact .lk .li,.lk .li,.ghd .gic,.card small .ic2,.brand i,.pbadges li>:first-child){border-radius:1.3rem!important;corner-shape:squircle}
+}
+:root[data-shape="bevel"][data-ui] :is(#contact .final,.card,.lk,.hob,.idc,.stats>div,.panel,.tkb-list li,.faq>*,.g3d-stage,.skyc,.gbn,.log .lgph,.skypop,.gc,.sartw,.shelf li,.ffs,.ffshow,.labp,.tshow,.log .now,.shot,#play .ph:not(.avatar),#photos .ph,.gsk,.fmap,.wx,.mapfr,.devsb,.wxtest,.qrst,.qrhint,.pbadges,.uipop,.acpop,.morep){border-radius:6px!important}
+:root[data-shape="bevel"][data-ui] :is(#lab button:not(.btn),.btn,.ql,.foldbtn,.labtabs button,.labtabs,.hello,.lk .la,.bar nav,.bar .acts,.bar:not(.mini) nav a.on,.bar .tgl:not(.sw),.pbadges li,.shtabs,.shtabs button,.ffchip,#qr button:not(.btn),.wxch,.cpid,#tkb button:not(.btn):not(.foldbtn),footer input[type="text"],#qr input,#lab input[type="text"],.uipop .seg,.uipop .seg button),:root[data-shape="bevel"][data-ui] :is(#contact .lk .li,.lk .li,.ghd .gic,.card small .ic2,.brand i,.pbadges li>:first-child){border-radius:4px!important}
+@supports (corner-shape:bevel){
+  :root[data-shape="bevel"][data-ui] :is(#contact .final,.card,.lk,.hob,.idc,.stats>div,.panel,.tkb-list li,.faq>*,.g3d-stage,.skyc,.gbn,.log .lgph,.skypop,.gc,.sartw,.shelf li,.ffs,.ffshow,.labp,.tshow,.log .now,.shot,#play .ph:not(.avatar),#photos .ph,.gsk,.fmap,.wx,.mapfr,.devsb,.wxtest,.qrst,.qrhint,.pbadges,.uipop,.acpop,.morep){border-radius:var(--hcut) 3px!important;corner-shape:bevel}
+  :root[data-shape="bevel"][data-ui] :is(#lab button:not(.btn),.btn,.ql,.foldbtn,.labtabs button,.labtabs,.hello,.lk .la,.bar nav,.bar .acts,.bar:not(.mini) nav a.on,.bar .tgl:not(.sw),.pbadges li,.shtabs,.shtabs button,.ffchip,#qr button:not(.btn),.wxch,.cpid,#tkb button:not(.btn):not(.foldbtn),footer input[type="text"],#qr input,#lab input[type="text"],.uipop .seg,.uipop .seg button),:root[data-shape="bevel"][data-ui] :is(#contact .lk .li,.lk .li,.ghd .gic,.card small .ic2,.brand i,.pbadges li>:first-child){border-radius:var(--hcut-s) 2px!important;corner-shape:bevel}
+}
+/* khung vuông: viền dày hơn cho ra chất pixel */
+:root[data-shape="square"][data-ui] :is(#contact .final,.card,.lk,.hob,.idc,.stats>div,.panel,.tkb-list li,.faq>*,.gc,.shelf li,.sartw,.ffs,.labp){border-width:2px!important}
+/* ---- MẶT THẺ: kính mờ / chỉ viền ---- */
+:root[data-surface="glass"][data-ui] :is(#contact .final,.card,.lk,.hob,.idc,.stats>div,.panel,.tkb-list li,.faq>*,.sartw,.ffs,.labp,.shelf li,.fmap,.wx,.skyc,.g3d-stage){background-color:color-mix(in srgb,var(--card) 50%,transparent)!important;-webkit-backdrop-filter:blur(14px) saturate(1.35);backdrop-filter:blur(14px) saturate(1.35)}
+html.scrolling[data-surface="glass"] :is(#contact .final,.card,.lk,.hob,.idc,.stats>div,.panel,.tkb-list li,.faq>*,.sartw,.ffs,.labp,.shelf li,.fmap,.wx,.skyc,.g3d-stage){-webkit-backdrop-filter:none;backdrop-filter:none}
+:root[data-surface="outline"][data-ui] :is(#contact .final,.card,.lk,.hob,.idc,.stats>div,.panel,.tkb-list li,.faq>*,.sartw,.ffs,.labp,.shelf li,.fmap,.wx,.skyc,.g3d-stage){background-color:transparent!important;border-color:var(--line-hi)!important}
+/* ---- ĐỔ BÓNG + PHÁT SÁNG (gộp vào một box-shadow để không đè nhau) ---- */
+:root[data-ui] :is(#contact .final,.card,.lk,.hob,.idc,.stats>div,.panel,.tkb-list li,.faq>*,.gc,.shelf li,.sartw,.ffs,.labp){--shb:0 0 #0000;--shg:0 0 #0000;box-shadow:var(--shb),var(--shg)!important}
+:root[data-shadow="soft"][data-ui] :is(#contact .final,.card,.lk,.hob,.idc,.stats>div,.panel,.tkb-list li,.faq>*,.gc,.shelf li,.sartw,.ffs,.labp){--shb:0 18px 40px -24px rgba(0,0,0,.7)}
+:root[data-theme="light"][data-shadow="soft"][data-ui] :is(#contact .final,.card,.lk,.hob,.idc,.stats>div,.panel,.tkb-list li,.faq>*,.gc,.shelf li,.sartw,.ffs,.labp){--shb:0 18px 36px -24px rgba(20,30,60,.35)}
+:root[data-shadow="hard"][data-ui] :is(#contact .final,.card,.lk,.hob,.idc,.stats>div,.panel,.tkb-list li,.faq>*,.gc,.shelf li,.sartw,.ffs,.labp){--shb:5px 5px 0 0 color-mix(in srgb,var(--acc) 55%,transparent)}
+:root[data-shadow="hard"][data-ui] .btn{box-shadow:3px 3px 0 0 color-mix(in srgb,var(--acc) 60%,transparent)!important}
+:root[data-shadow="hard"][data-ui] :is(#contact .final,.card,.lk,.hob,.idc,.stats>div,.panel,.tkb-list li,.faq>*,.gc,.shelf li,.sartw,.ffs,.labp):hover{--shb:7px 7px 0 0 var(--acc)}
+:root[data-glow="1"][data-ui] :is(#contact .final,.card,.lk,.hob,.idc,.stats>div,.panel,.tkb-list li,.faq>*,.gc,.shelf li,.sartw,.ffs,.labp):hover{--shg:0 14px 34px -20px var(--acc)}
+:root[data-glow="2"][data-ui] :is(#contact .final,.card,.lk,.hob,.idc,.stats>div,.panel,.tkb-list li,.faq>*,.gc,.shelf li,.sartw,.ffs,.labp){--shg:0 0 26px -14px var(--acc)}
+:root[data-glow="2"][data-ui] :is(#contact .final,.card,.lk,.hob,.idc,.stats>div,.panel,.tkb-list li,.faq>*,.gc,.shelf li,.sartw,.ffs,.labp):hover{--shg:0 0 0 1px var(--acc),0 0 36px -6px var(--acc)}
+:root[data-glow="2"][data-ui] :is(h1,h2,.ghd h2,.stats b){text-shadow:0 0 22px color-mix(in srgb,var(--acc) 50%,transparent)}
+:root[data-glow="2"][data-ui] .btn{box-shadow:0 0 20px -6px var(--acc)!important}
+:root[data-glow="0"][data-ui] :is(.btn,.btn:hover,.bar:not(.mini) nav a.on,.tabnx a,.gc:hover){box-shadow:none!important}
+:root[data-glow="0"][data-ui] :is(.stats b,#steamn,#steamname,.pci>b){text-shadow:none!important}
+/* ---- VẠCH QUÉT MÀN HÌNH (CRT): một lớp phủ mờ trên cả trang, không chặn chuột ---- */
+#scanfx{display:none;position:fixed;inset:0;z-index:7;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.2) 0 1px,transparent 1px 3px),radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.35))}
+:root[data-theme="light"] #scanfx{background:repeating-linear-gradient(0deg,rgba(0,0,0,.05) 0 1px,transparent 1px 3px),radial-gradient(ellipse at center,transparent 60%,rgba(0,0,0,.08))}
+html[data-scan="1"] #scanfx{display:block}
+@media print{#scanfx{display:none!important}}
+/* ---- NỀN: trơn / lưới / cực quang (sao mờ, đầy sao, sao + icon ở phần NỀN 3 MỨC phía trên) ---- */
+html[data-bg="none"] #bgic{display:none}
+html[data-bg="grid"] #bgic{background-image:linear-gradient(color-mix(in srgb,var(--acc) 9%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--acc) 9%,transparent) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse 85% 75% at 50% 35%,#000 35%,transparent 100%);mask-image:radial-gradient(ellipse 85% 75% at 50% 35%,#000 35%,transparent 100%)}
+html[data-bg="aurora"] #bgic{background:radial-gradient(44vmax 32vmax at 10% 15%,color-mix(in srgb,var(--c1) 48%,transparent),transparent 70%),radial-gradient(38vmax 30vmax at 90% 30%,color-mix(in srgb,var(--c3) 42%,transparent),transparent 70%),radial-gradient(50vmax 34vmax at 45% 105%,color-mix(in srgb,var(--c5) 40%,transparent),transparent 70%),radial-gradient(30vmax 22vmax at 60% 55%,color-mix(in srgb,var(--acc) 16%,transparent),transparent 70%)}
+:root[data-theme="light"][data-bg="aurora"] #bgic{opacity:.55}
+/* ---- KHOẢNG CÁCH: rất gọn ---- */
+html[data-density="tight"] #home .s{padding-block:clamp(1rem,2vw,1.6rem)}
+html[data-density="tight"] .ghd{margin-top:.6rem;padding-block:clamp(1rem,2vw,1.5rem)}
+html[data-density="tight"] .clk{min-height:min(24rem,50svh);padding-top:2rem;padding-bottom:2.5rem}
+html[data-density="tight"] .card{padding:1rem}
+html[data-density="tight"] :is(.grid,.lgroup,.stats,.idgrid,.gallery){gap:.6rem}
+html[data-density="tight"] .gbar .gbn{max-height:10rem}
+/* ---- CỠ CHỮ (cả trang dùng rem nên đổi một chỗ là đủ) ---- */
+html[data-fs="s"]{font-size:93.75%}
+html[data-fs="l"]{font-size:106.25%}
+/* ---- ĐỘ RỘNG NỘI DUNG ---- */
+html[data-w="narrow"] :is(main,footer) .wrap,html[data-w="narrow"] .flowmore{max-width:58rem}
+html[data-w="wide"] :is(main,footer) .wrap,html[data-w="wide"] .flowmore{max-width:80rem}/* bảng giao diện (bản mở rộng): lưới 4 cột phong cách, tuỳ chỉnh chia nhóm */
+.uipop{width:min(24rem,calc(100vw - 24px))}
+.uipop h4{margin:.9rem 0 .5rem}
+.uipop .uib>h4:first-child{margin-top:0}
+.uipop .uim{grid-template-columns:repeat(4,minmax(0,1fr));gap:.4rem}
+.uipop .uim button{flex-direction:column;align-items:center;gap:.35rem;padding:.5rem .2rem .45rem;text-align:center}
+.uipop .uim button>b{font:600 .72rem var(--body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.uipop .uid{margin:.55rem 0 0;padding:.5rem .65rem;border-left:2px solid var(--acc);background:color-mix(in srgb,var(--acc) 7%,transparent);font:400 .74rem/1.45 var(--body);color:var(--text)}
+.uipop .uic{margin-top:0;padding-top:0;border-top:0;gap:.5rem}
+.uipop .seg.many{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.uipop .uif{display:flex;align-items:center;justify-content:space-between;gap:.6rem;margin-top:.9rem;padding-top:.7rem;border-top:1px dashed var(--line-hi)}
+.uipop .uif span{font:400 .68rem var(--mono);color:var(--muted)}
+.uipop .rst{padding:.38rem .8rem;border:1px solid var(--line-hi);border-radius:.6rem;background:transparent;color:var(--text);font:600 .74rem var(--body);cursor:pointer}
+.uipop .rst:hover{border-color:var(--acc);color:var(--acc)}
+.uipop p:not(.uid){margin:0}
+/* hình thu nhỏ của các phong cách mới */
+.uipop .pv-neon{border-color:var(--acc);background:linear-gradient(color-mix(in srgb,var(--acc) 18%,transparent) 1px,transparent 1px) 0 0/6px 6px,linear-gradient(90deg,color-mix(in srgb,var(--acc) 18%,transparent) 1px,transparent 1px) 0 0/6px 6px,var(--bg);box-shadow:0 0 10px -2px var(--acc)}
+.uipop .pv-neon b{background:color-mix(in srgb,var(--acc) 30%,transparent);box-shadow:0 0 6px var(--acc)}
+.uipop .pv-mini{background:var(--bg)}
+.uipop .pv-mini b{background:transparent;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--text) 35%,transparent)}
+.uipop .pv-pixel{border-radius:0;border-width:2px}
+.uipop .pv-pixel b{border-radius:0;background:color-mix(in srgb,var(--text) 25%,transparent);box-shadow:2px 2px 0 color-mix(in srgb,var(--acc) 70%,transparent)}
+.uipop .pv-glass{border-radius:.7rem;background:radial-gradient(circle at 20% 20%,color-mix(in srgb,var(--c1) 55%,transparent),transparent 60%),radial-gradient(circle at 85% 80%,color-mix(in srgb,var(--c5) 55%,transparent),transparent 60%),var(--bg)}
+.uipop .pv-glass b{border-radius:4px;background:rgba(255,255,255,.16);box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
+@media (max-width:26rem){.uipop .uim{grid-template-columns:repeat(4,minmax(0,1fr))}.uipop .uim .pv{width:2.6rem;height:2rem}}

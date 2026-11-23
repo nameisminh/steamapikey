@@ -6834,30 +6834,53 @@ try{
 }catch(e){console.error('[skymap]',e)}
 
 /* ===================== [ui-switch] NÚT ĐỔI GIAO DIỆN =====================
-   Nút #uib trên thanh menu (phím U) mở bảng chọn: 1. Cũ · 2. Hiện tại · 3. Tuỳ biến (tự chọn khung, bố cục, khoảng cách, nền, ảnh động nổi).
-   Cấu hình từng giao diện nằm ở window.UIP (đầu index.html); lựa chọn lưu trên máy (localStorage 'ui' và 'uic'). */
+   Nút #uib trên thanh menu (phím U) mở bảng: PHONG CÁCH (bộ dựng sẵn ở window.UIP, đầu index.html) và TUỲ CHỈNH từng thứ.
+   Chỉnh một tuỳ chỉnh khi đang ở phong cách dựng sẵn thì tự chuyển sang "Tuỳ biến", bắt đầu từ đúng phong cách đang thấy.
+   Lựa chọn lưu trên máy (localStorage 'ui' và 'uic'). */
 try{
 (function(){
 var R=document.documentElement,btn=document.getElementById('uib');if(!btn||!window.uiApply)return;
 function L(vi,en){return R.lang==='en'?en:vi}
-var MODES=[['old','Cũ','Classic','Bo tròn, một trang dài, nền đầy sao, ảnh động nổi','Rounded, one long page, starry sky, floating GIFs'],
-  ['hud','Hiện tại','Current','Kiểu game vát góc, cuộn liền mạch, gọn, nền sao mờ','Game HUD, continuous scroll, compact, faint stars'],
-  ['custom','Tuỳ biến','Custom','Tự chọn từng thứ bên dưới','Pick each part yourself']];
-var OPTS=[['hud','Khung','Frame',[[0,'Bo tròn','Rounded'],[1,'Vát góc','Beveled']]],
-  ['flow','Bố cục','Layout',[[0,'Một trang','One page'],[1,'Cuộn liền mạch','Continuous']]],
-  ['compact','Khoảng cách','Spacing',[[0,'Thoáng','Roomy'],[1,'Gọn','Compact']]],
-  ['bg','Nền','Background',[['clean','Sao mờ','Faint'],['rich','Đầy sao','Starry'],['icons','Sao + icon','Stars + icons']]],
-  ['float','Ảnh động nổi','Floating GIFs',[[0,'Tắt','Off'],[1,'Bật','On']]]];
+/* lớp vạch quét màn hình (bật ở tuỳ chỉnh "Vạch quét") */
+if(!document.getElementById('scanfx')){var sc=document.createElement('i');sc.id='scanfx';sc.setAttribute('aria-hidden','true');document.body.appendChild(sc)}
+/* [mã, tên VI, tên EN, mô tả VI, mô tả EN] */
+var MODES=[['old','Cũ','Classic','Bo tròn, một trang dài, nền đầy sao, ảnh động nổi.','Rounded, one long page, starry sky, floating GIFs.'],
+  ['hud','Hiện tại','Current','Kiểu game vát góc, cuộn liền mạch, gọn, nền sao mờ.','Game HUD, continuous scroll, compact, faint stars.'],
+  ['neon','Neon','Neon','Cyberpunk: kính mờ, phát sáng mạnh, nền lưới, vạch quét.','Cyberpunk: frosted glass, strong glow, grid, scanlines.'],
+  ['mini','Tối giản','Minimal','Chỉ viền, không hiệu ứng, nền trơn, chữ hẹp dễ đọc.','Outlines only, no effects, plain background, narrow text.'],
+  ['pixel','Pixel','Pixel','Góc vuông, bóng cứng, vạch quét, nền icon kiểu game cũ.','Square corners, hard shadows, scanlines, retro icons.'],
+  ['glass','Kính mờ','Glass','Bo mềm, thẻ kính mờ trên nền cực quang.','Soft corners, frosted cards on an aurora background.'],
+  ['custom','Tuỳ biến','Custom','Tự chọn từng thứ ở phần Tuỳ chỉnh bên dưới.','Your own mix from the options below.']];
+/* nhóm tuỳ chỉnh: [tên nhóm VI, EN, [[khoá, nhãn VI, nhãn EN, [[giá trị, VI, EN], ...]], ...]] */
+var GROUPS=[
+  ['Khung và thẻ','Frames and cards',[
+    ['shape','Khung','Corners',[['round','Bo tròn','Round'],['bevel','Vát góc','Bevel'],['square','Vuông','Square'],['soft','Bo mềm','Soft']]],
+    ['surface','Mặt thẻ','Card surface',[['solid','Đặc','Solid'],['glass','Kính mờ','Glass'],['outline','Chỉ viền','Outline']]],
+    ['hud','Trang trí game','Game trims',[[0,'Tắt','Off'],[1,'Bật','On']]]]],
+  ['Hiệu ứng','Effects',[
+    ['glow','Phát sáng','Glow',[[0,'Tắt','Off'],[1,'Vừa','Some'],[2,'Mạnh','Strong']]],
+    ['shadow','Đổ bóng','Shadow',[['none','Không','None'],['soft','Mềm','Soft'],['hard','Cứng','Hard']]],
+    ['scan','Vạch quét','Scanlines',[[0,'Tắt','Off'],[1,'Bật','On']]],
+    ['float','Ảnh động nổi','Floating GIFs',[[0,'Tắt','Off'],[1,'Bật','On']]]]],
+  ['Nền','Background',[
+    ['bg','Nền trang','Page background',[['none','Trơn','Plain'],['clean','Sao mờ','Faint'],['rich','Đầy sao','Starry'],['icons','Sao + icon','Icons'],['grid','Lưới','Grid'],['aurora','Cực quang','Aurora']]]]],
+  ['Bố cục và chữ','Layout and text',[
+    ['flow','Cuộn','Scrolling',[[0,'Một trang','One page'],[1,'Liền mạch','Continuous']]],
+    ['density','Khoảng cách','Spacing',[['roomy','Thoáng','Roomy'],['compact','Gọn','Compact'],['tight','Rất gọn','Tight']]],
+    ['fs','Cỡ chữ','Text size',[['s','Nhỏ','Small'],['m','Vừa','Medium'],['l','Lớn','Large']]],
+    ['w','Độ rộng','Width',[['narrow','Hẹp','Narrow'],['normal','Vừa','Normal'],['wide','Rộng','Wide']]]]]];
 var pop=document.createElement('div');pop.className='uipop';pop.id='uipop';pop.setAttribute('role','dialog');pop.setAttribute('translate','no');document.body.appendChild(pop);
 function render(){
-  var m=uiMode(),c=uiCfg('custom');
+  var m=uiMode(),c=uiCfg(),cur=MODES.filter(function(x){return x[0]===m})[0]||MODES[1],keep=pop.scrollTop;
   pop.setAttribute('aria-label',L('Giao diện','Layout style'));
-  pop.innerHTML='<h4>'+L('Giao diện','Layout style')+'</h4><div class="uim" role="radiogroup">'+MODES.map(function(x,i){
-      return '<button type="button" role="radio" data-m="'+x[0]+'" aria-checked="'+(m===x[0])+'"><i class="pv pv-'+x[0]+'" aria-hidden="true"><b></b><b></b><b></b></i><span><b>'+(i+1)+'. '+L(x[1],x[2])+'</b><small>'+L(x[3],x[4])+'</small></span></button>'}).join('')+'</div>'+
-    '<div class="uic"'+(m==='custom'?'':' hidden')+'>'+OPTS.map(function(o){
-      return '<div class="uir"><span>'+L(o[1],o[2])+'</span><div class="seg" role="radiogroup" aria-label="'+L(o[1],o[2])+'">'+o[3].map(function(v){
-        return '<button type="button" role="radio" data-o="'+o[0]+'" data-v="'+v[0]+'" aria-checked="'+(String(c[o[0]])===String(v[0]))+'">'+L(v[1],v[2])+'</button>'}).join('')+'</div></div>'}).join('')+'</div>'+
-    '<p>'+L('Lưu trên máy này. Phím tắt: U.','Saved on this device. Shortcut: U.')+'</p>';
+  pop.innerHTML='<div class="uib"><h4>'+L('Phong cách','Style')+'</h4><div class="uim" role="radiogroup">'+MODES.map(function(x){
+      return '<button type="button" role="radio" data-m="'+x[0]+'" aria-checked="'+(m===x[0])+'" title="'+L(x[3],x[4])+'"><i class="pv pv-'+x[0]+'" aria-hidden="true"><b></b><b></b><b></b></i><b>'+L(x[1],x[2])+'</b></button>'}).join('')+'</div>'+
+    '<p class="uid">'+L(cur[3],cur[4])+'</p>'+
+    GROUPS.map(function(g){return '<h4>'+L(g[0],g[1])+'</h4><div class="uic">'+g[2].map(function(o){
+      return '<div class="uir"><span>'+L(o[1],o[2])+'</span><div class="seg'+(o[3].length>4?' many':'')+'" role="radiogroup" aria-label="'+L(o[1],o[2])+'">'+o[3].map(function(v){
+        return '<button type="button" role="radio" data-o="'+o[0]+'" data-v="'+v[0]+'" aria-checked="'+(String(c[o[0]])===String(v[0]))+'">'+L(v[1],v[2])+'</button>'}).join('')+'</div></div>'}).join('')+'</div>'}).join('')+
+    '<div class="uif"><button type="button" class="rst" data-reset>'+L('Về mặc định','Reset')+'</button><span>'+L('Lưu trên máy này · phím U','Saved on this device · key U')+'</span></div></div>';
+  pop.scrollTop=keep; /* đổi tuỳ chỉnh không làm bảng nhảy về đầu */
 }
 function apply(m,cfg){
   var before=R.classList.contains('flow');
@@ -6869,33 +6892,38 @@ function apply(m,cfg){
   render();place();
   requestAnimationFrame(function(){dispatchEvent(new Event('resize'));document.dispatchEvent(new CustomEvent('uichange',{detail:m}))});
 }
+function refocus(sel){var f=pop.querySelector(sel);if(f)try{f.focus({preventScroll:true})}catch(x){}}
 pop.addEventListener('click',function(e){
   e.stopPropagation();
   var b=e.target.closest('button');if(!b)return;
   if(b.hasAttribute('data-m')){
-    var m=b.getAttribute('data-m');
+    var m=b.getAttribute('data-m'),seed=null;
     /* lần đầu chọn Tuỳ biến: bắt đầu từ đúng giao diện đang thấy */
-    var seed=null;if(m==='custom'){var has=false;try{has=!!localStorage.getItem('uic')}catch(x){}if(!has&&!window.__uiC)seed=Object.assign({},uiCfg())}
-    apply(m,seed);var f=pop.querySelector('[data-m="'+m+'"]');if(f)try{f.focus({preventScroll:true})}catch(x){}
+    if(m==='custom'){var has=false;try{has=!!localStorage.getItem('uic')}catch(x){}if(!has&&!window.__uiC)seed=Object.assign({},uiCfg())}
+    apply(m,seed);refocus('[data-m="'+m+'"]');
   }else if(b.hasAttribute('data-o')){
-    var c=Object.assign({},uiCfg('custom')),o=b.getAttribute('data-o'),v=b.getAttribute('data-v');
-    c[o]=o==='bg'?v:+v;apply('custom',c);var f2=pop.querySelector('[data-o="'+o+'"][data-v="'+v+'"]');if(f2)try{f2.focus({preventScroll:true})}catch(x){}
+    /* chỉnh một thứ: lấy cấu hình đang thấy (kể cả phong cách dựng sẵn), đổi đúng thứ đó, lưu thành Tuỳ biến */
+    var c=Object.assign({},uiCfg()),o=b.getAttribute('data-o'),v=b.getAttribute('data-v');
+    c[o]=/^(hud|glow|scan|flow|float)$/.test(o)?+v:v;apply('custom',c);refocus('[data-o="'+o+'"][data-v="'+v+'"]');
+  }else if(b.hasAttribute('data-reset')){
+    window.__uiC=null;try{localStorage.removeItem('uic')}catch(x){}apply('hud',null);refocus('[data-m="hud"]');
   }
 });
 function place(){
   if(!pop.classList.contains('on'))return;
-  var r=btn.getBoundingClientRect(),w=pop.offsetWidth||300;
+  var r=btn.getBoundingClientRect(),w=pop.offsetWidth||340;
   pop.style.left=Math.min(innerWidth-w-12,Math.max(12,r.right-w))+'px';pop.style.top=(r.bottom+10)+'px';
-  pop.style.maxHeight=(innerHeight-r.bottom-24)+'px';
+  pop.style.maxHeight=Math.max(240,innerHeight-r.bottom-24)+'px';
 }
 function open(on){
   pop.classList.toggle('on',on);btn.setAttribute('aria-expanded',on?'true':'false');
-  if(on){render();place();var c=pop.querySelector('[aria-checked="true"]');if(c)try{c.focus({preventScroll:true})}catch(e){}}
+  if(on){render();place();refocus('[data-m][aria-checked="true"]')}
 }
 btn.addEventListener('click',function(e){e.stopPropagation();open(!pop.classList.contains('on'))});
 document.addEventListener('click',function(e){if(pop.classList.contains('on')&&!pop.contains(e.target))open(false)});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&pop.classList.contains('on')){open(false);btn.focus()}});
 addEventListener('resize',place);
-document.addEventListener('langchange',function(){if(pop.classList.contains('on'))render();btn.title=L('Đổi giao diện (U)','Change layout (U)');btn.setAttribute('aria-label',L('Đổi giao diện','Change layout'))});
+function lab(){btn.title=L('Đổi giao diện (U)','Change layout (U)');btn.setAttribute('aria-label',L('Đổi giao diện','Change layout'))}
+lab();document.addEventListener('langchange',function(){lab();if(pop.classList.contains('on'))render()});
 })();
 }catch(e){console.error('[ui-switch]',e)}
