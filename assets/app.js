@@ -4384,19 +4384,20 @@ addEventListener('load',function(){
 try{
 (function(){
 /* mở mục đang thu gọn (.cl) hoặc khối <details> chứa đích đến, rồi mới cuộn tới */
-/* CHIA TAB: đích đến nằm ở nhóm khác thì đổi sang nhóm đó trước (link, ô tìm kiếm, bản đồ sao, nút "Liên hệ"… đều đi qua đây) */
-var RT=document.documentElement;
-function setTab(id){
- if(!RT.classList.contains('tabs')||!id||RT.getAttribute('data-tab')===id)return;
- RT.setAttribute('data-tab',id);try{sessionStorage.setItem('tab',id)}catch(e){}navOn();
+/* CUỘN LIỀN MẠCH: html.flow[data-upto=N] = đã mở thêm N nhóm sau "Về Ming". Đích đến nằm ở nhóm chưa mở
+   (link, ô tìm kiếm, bản đồ sao, nút "Liên hệ"… đều đi qua openSec) thì mở luôn tới nhóm đó rồi mới cuộn. */
+var RT=document.documentElement,GRPS=[].slice.call(document.querySelectorAll('#home>.grp'));
+function upto(){return +RT.getAttribute('data-upto')||0}
+function reveal(n){
+ if(!RT.classList.contains('flow'))return;n=Math.min(GRPS.length-1,n);var old=upto();if(n<=old)return;
+ RT.setAttribute('data-upto',n);try{sessionStorage.setItem('upto',n)}catch(e){}
+ for(var i=old+1;i<=n;i++){var g=GRPS[i];if(g){g.classList.remove('just');void g.offsetWidth;g.classList.add('just')}}
+ more();
  /* khung vẽ (bản đồ sao, ảnh 3D…) đo lại kích thước khi nhóm vừa hiện */
- requestAnimationFrame(function(){dispatchEvent(new Event('resize'));document.dispatchEvent(new CustomEvent('tabchange',{detail:id}))});
+ requestAnimationFrame(function(){dispatchEvent(new Event('resize'))});
 }
-window.__setTab=setTab;
-function navOn(){var id=RT.getAttribute('data-tab');if(!RT.classList.contains('tabs')||!id)return;document.querySelectorAll('.bar nav a[href^="#g-"]').forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+id)})}
-navOn();
-function openSec(id){var el=id&&document.getElementById(id);if(!el)return;
- var g=el.closest&&el.closest('#home>.grp');if(g)setTab(g.id);
+window.__reveal=reveal;function openSec(id){var el=id&&document.getElementById(id);if(!el)return;
+ var g=el.closest&&el.closest('#home>.grp');if(g)reveal(GRPS.indexOf(g));
  for(var n=el;n&&n!==document.body;n=n.parentElement){
   if(n.tagName==='DETAILS'&&!n.open)n.open=true;
   if(n.classList&&n.classList.contains('cl')){n.classList.remove('cl');if(n.__lab)n.__lab()}
@@ -4413,22 +4414,21 @@ document.addEventListener('click',function(e){
  var h=a.getAttribute('href');if(h.length>1&&h.charAt(1)!=='/')openSec(h.slice(1))},true);
 addEventListener('hashchange',function(){var h=location.hash;if(h.length>1&&h.charAt(1)!=='/')openSec(h.slice(1))});
 if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.slice(1));
-/* bấm logo "Ming" (về đầu trang) thì lần mở tới bắt đầu ở tab đầu */
-var brand=document.getElementById('brand');if(brand)brand.addEventListener('click',function(){try{sessionStorage.setItem('tab','g-about')}catch(e){}});
-/* cuối mỗi nhóm: nút sang nhóm trước / nhóm tiếp, đỡ phải kéo lên thanh menu */
+/* thanh "còn nữa" ở cuối phần đã mở: ghi tên nhóm tiếp theo, tự mở khi cuộn tới gần (hoặc bấm) */
 function L(vi,en){return RT.lang==='en'?en:vi}
-function tabNav(){
- var links=[].slice.call(document.querySelectorAll('.bar nav a[href^="#g-"]'));
- links.forEach(function(a,i){
-  var g=document.getElementById(a.getAttribute('href').slice(1));if(!g)return;
-  var box=g.querySelector(':scope>.tabnx');if(!box){box=document.createElement('nav');box.className='tabnx wrap';g.appendChild(box)}
-  box.setAttribute('aria-label',L('Chuyển nhóm','Switch section'));
-  function one(b,cls,lab){if(!b)return '';return '<a class="'+cls+'" href="'+b.getAttribute('href')+'" translate="no"><small>'+lab+'</small><b>'+b.textContent.trim()+'</b></a>'}
-  box.innerHTML=one(links[i-1],'prev',L('Trước','Previous'))+one(links[i+1],'next',L('Tiếp theo','Next'));
- });
+var mo=document.createElement('div');mo.className='flowmore wrap';mo.setAttribute('role','button');mo.tabIndex=0;
+var home=document.getElementById('home');if(home)home.appendChild(mo);
+function nextName(){var n=GRPS[upto()+1],a=n&&document.querySelector('.bar nav a[href="#'+n.id+'"]');return a?a.textContent.trim():''}
+function more(){
+ if(!mo)return;var nm=nextName();mo.hidden=!nm;if(!nm)return;
+ mo.innerHTML='<span class="ln" aria-hidden="true"></span><span class="tx"><small>'+L('Cuộn tiếp','Keep scrolling')+' · '+(upto()+2)+'/'+GRPS.length+'</small><b>'+nm+'</b></span><span class="ar" aria-hidden="true">↓</span><span class="ln" aria-hidden="true"></span>';
+ /* nhóm vừa mở ngắn quá, thanh vẫn trong tầm nhìn thì mở tiếp */
+ requestAnimationFrame(function(){setTimeout(function(){if(!mo.hidden&&mo.getBoundingClientRect().top<innerHeight+300)reveal(upto()+1)},250)});
 }
-tabNav();document.addEventListener('langchange',function(){setTimeout(tabNav,30)});
-})();
+function go(){reveal(upto()+1)}
+mo.addEventListener('click',go);mo.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}});
+if('IntersectionObserver' in window)new IntersectionObserver(function(es){if(es[0].isIntersecting)go()},{rootMargin:'0px 0px 300px 0px'}).observe(mo);
+more();document.addEventListener('langchange',function(){setTimeout(more,30)});})();
 }catch(e){console.error('[khối 62]',e)}
 
 /* ===================== [#island-js] ===================== */

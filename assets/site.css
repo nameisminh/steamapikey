@@ -3273,32 +3273,39 @@ body.bgm-on .orbtab{opacity:0!important;pointer-events:none}
 :root .gc:hover{box-shadow:0 0 0 1px var(--acc),0 18px 40px -18px var(--acc)}:root :is(.labtabs,footer input[type="text"],footer input[type="search"],#qr input,#lab input[type="text"],.tin){border-radius:4px!important}
 @supports (corner-shape:bevel){:root :is(.labtabs,footer input[type="text"],footer input[type="search"],#qr input,#lab input[type="text"]){border-radius:var(--hcut-s) 2px!important;corner-shape:bevel}}
 /* =====================================================================
-   CHIA TAB + LÀM GỌN: mỗi lần chỉ hiện một nhóm (html.tabs[data-tab]), bấm menu trên cùng để đổi.
-   Muốn quay lại kiểu một trang dài: xoá dòng "R.classList.add('tabs')" ở đầu index.html.
+   CUỘN LIỀN MẠCH + LÀM GỌN: lúc đầu chỉ hiện nhóm "Về Ming"; cuộn gần hết thì nhóm sau tự hiện tiếp
+   (html.flow[data-upto] = số nhóm đã mở thêm, do app.js tăng dần). Chân trang chỉ hiện khi đã mở hết,
+   nên giữa chừng không bao giờ trông như "hết trang".
+   Muốn hiện hết ngay từ đầu: xoá dòng "R.classList.add('flow')" ở đầu index.html.
    ===================================================================== */
-html.tabs #home>.grp{display:none}
-html.tabs[data-tab="g-about"] #g-about,html.tabs[data-tab="g-likes"] #g-likes,html.tabs[data-tab="g-play"] #g-play,html.tabs[data-tab="g-log"] #g-log,html.tabs[data-tab="g-end"] #g-end{display:block;animation:tabin .35s cubic-bezier(.2,.8,.2,1)}
-@keyframes tabin{from{opacity:0;translate:0 10px}to{opacity:1;translate:0 0}}
-:root[data-motion="off"].tabs #home>.grp{animation:none!important}
-@media (prefers-reduced-motion:reduce){html.tabs #home>.grp{animation:none!important}}
-html.tabs #home>.band.alt{display:none}
-/* gọn: bớt khoảng trống trên/dưới mỗi mục và đầu nhóm */
-html.tabs #home .s{padding-block:clamp(1.6rem,3vw,2.6rem)}
-html.tabs .ghd{margin-top:0;padding-block:clamp(1.4rem,2.6vw,2.2rem)}
-html.tabs #home>.grp>.ghd:first-child{margin-top:.4rem}
-html.tabs .clk{min-height:min(30rem,62svh);padding-bottom:3.5rem}
-html.tabs .gbar .gbn{aspect-ratio:32/9;max-height:14rem}
-html.tabs #home .band{margin-block:.4rem}
-/* nút sang nhóm trước / tiếp ở cuối mỗi nhóm */
-.tabnx{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-block:1.2rem 2.4rem}
-.tabnx a{display:grid;gap:.15rem;padding:1rem 1.2rem;border:1px solid var(--hud-lo,var(--line));border-radius:6px;background:var(--hud-bg,var(--card));transition:border-color .2s,box-shadow .2s,translate .2s}
-@supports (corner-shape:bevel){.tabnx a{border-radius:var(--hcut,14px) 3px;corner-shape:bevel}}
-.tabnx a small{font:500 .68rem var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
-.tabnx a b{font:700 1.05rem var(--body);text-transform:uppercase;letter-spacing:.04em;color:var(--text)}
-.tabnx a.prev small::before{content:"← "}
-.tabnx a.next{grid-column:2;text-align:right}
-.tabnx a.next small::after{content:" →"}
-.tabnx a:hover{border-color:var(--acc);box-shadow:0 0 20px -8px var(--acc);translate:0 -2px}
-.tabnx a:hover b{color:var(--acc)}
-@media (max-width:30rem){.tabnx{grid-template-columns:1fr}.tabnx a.next{grid-column:1}}
-html:not(.tabs) .tabnx{display:none}
+html.flow #home>.grp:not(#g-about),html.flow #home>.band.alt,html.flow footer{display:none}
+html.flow:is([data-upto="1"],[data-upto="2"],[data-upto="3"],[data-upto="4"]) #home>.grp#g-likes,
+html.flow:is([data-upto="2"],[data-upto="3"],[data-upto="4"]) #home>.grp#g-play,
+html.flow:is([data-upto="3"],[data-upto="4"]) #home>.grp#g-log,
+html.flow:is([data-upto="3"],[data-upto="4"]) #home>.band.alt,
+html.flow[data-upto="4"] #home>.grp#g-end{display:block}
+html.flow[data-upto="4"] footer{display:block}
+/* nhóm vừa mở: hiện dần */
+#home>.grp.just{animation:grpin .5s cubic-bezier(.2,.8,.2,1)}
+@keyframes grpin{from{opacity:0;translate:0 16px}to{opacity:1;translate:0 0}}
+:root[data-motion="off"] #home>.grp.just{animation:none}
+@media (prefers-reduced-motion:reduce){#home>.grp.just{animation:none}}
+/* gọn: bớt khoảng trống trên/dưới mỗi mục và đầu nhóm, đồng hồ thấp hơn, banner thấp hơn */
+#home .s{padding-block:clamp(1.6rem,3vw,2.6rem)}
+.ghd{margin-top:clamp(1rem,2.5vw,2rem);padding-block:clamp(1.4rem,2.6vw,2.2rem)}
+.clk{min-height:min(30rem,62svh);padding-bottom:3.5rem}
+.gbar .gbn{aspect-ratio:32/9;max-height:14rem}
+#home .band{margin-block:.4rem}
+/* thanh "còn nữa" ở cuối phần đã mở: tên nhóm tiếp theo + mũi tên nhún, tự mở khi cuộn tới (bấm cũng được) */
+.flowmore{display:flex;align-items:center;gap:1rem;margin-block:1.5rem 3rem;cursor:pointer;color:var(--muted)}
+.flowmore[hidden]{display:none}
+.flowmore .ln{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--hud-lo,var(--line)))}
+.flowmore .ln:last-child{background:linear-gradient(90deg,var(--hud-lo,var(--line)),transparent)}
+.flowmore .tx{display:grid;justify-items:center;gap:.15rem;text-align:center}
+.flowmore small{font:500 .66rem var(--mono);letter-spacing:.2em;text-transform:uppercase}
+.flowmore b{font:700 1rem var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--acc)}
+.flowmore .ar{display:grid;place-items:center;width:2rem;height:2rem;border:1px solid var(--hud-lo,var(--line));border-radius:4px;color:var(--acc);animation:fmbob 1.4s ease-in-out infinite}
+@keyframes fmbob{50%{translate:0 4px}}
+:root[data-motion="off"] .flowmore .ar{animation:none}
+.flowmore:hover b,.flowmore:focus-visible b{text-decoration:underline;text-underline-offset:.25em}
+html:not(.flow) .flowmore{display:none}
