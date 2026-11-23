@@ -2714,10 +2714,24 @@ li.hic::after{top:50%;right:.4rem;margin-top:-.75rem}
 .faq summary .sq.hib>[data-ic]{display:none}
 .faq summary .sq.hib::before{width:1.15rem;height:1.15rem}
 #gallery .ph.hic::after{left:.7rem;right:auto;color:#fff;opacity:.85;filter:drop-shadow(0 1px 3px rgba(0,0,0,.55));z-index:2}
-#bgic{position:fixed;inset:-60px 0;z-index:-1;pointer-events:none;contain:strict;will-change:transform;background:var(--tw) 0 0/720px 720px;opacity:.09}
-:root[data-theme="light"] #bgic{background-image:var(--tb);opacity:.08}
+/* NỀN TRANG: bầu trời đêm nhẹ (2 lớp mặt nạ, màu theo màu nhấn). Lớp xa: bụi sao + chòm sao; lớp gần: sao 4 cánh, dấu +, vòng nhỏ, lấp lánh chậm */
+#bgic{position:fixed;inset:0;z-index:-1;pointer-events:none;contain:strict;--bgc:color-mix(in srgb,var(--acc) 55%,var(--text))}
+#bgic i{position:absolute;inset:-80px 0;display:block;background:var(--bgc);will-change:transform;
+  -webkit-mask:var(--m1) 0 0/960px 960px repeat;mask:var(--m1) 0 0/960px 960px repeat}
+#bgic .bgf{opacity:.2}
+#bgic .bgn{-webkit-mask-image:var(--m2);mask-image:var(--m2);-webkit-mask-position:310px 170px;mask-position:310px 170px;opacity:.26;animation:bgtw 9s ease-in-out infinite alternate}
+@keyframes bgtw{0%{opacity:.14}100%{opacity:.3}}
+:root[data-theme="light"] #bgic{--bgc:color-mix(in srgb,var(--acc) 70%,var(--text))}
+:root[data-theme="light"] #bgic .bgf{opacity:.16}
+:root[data-theme="light"] #bgic .bgn{opacity:.2}
+@keyframes bgtwl{0%{opacity:.1}100%{opacity:.22}}
+:root[data-theme="light"] #bgic .bgn{animation-name:bgtwl}
+:root[data-motion="off"] #bgic .bgn{animation:none}
+@media (prefers-reduced-motion:reduce){#bgic .bgn{animation:none}}
+@media (max-width:47.99rem){#bgic i{-webkit-mask-size:720px 720px;mask-size:720px 720px}}
+
 :root.lite #bgic{display:none}
-@media (max-width:47.99rem){#bgic{background-size:520px 520px}}
+
 
 /* ===================== [khối 31] ===================== */
 /* nút trong ô góc phải dưới: mũi tên xuống (.dn) hoặc lên (ở cuối trang) */

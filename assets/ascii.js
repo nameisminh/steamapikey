@@ -12,7 +12,7 @@ var ENABLED=true,R=document.documentElement;
 /* TỐC ĐỘ (ms): chỉnh ở đây. lineGap/lineMax = các dòng trong một khối bắt đầu cách nhau bao lâu (tối đa);
    span = thời gian giải mã một dòng = spanBase + spanPer × số ký tự (tối đa spanMax); img = ảnh gộp lại; blockGap/blockMax = các khối liền nhau bắt đầu lệch nhau;
    step = ký tự lạ đổi sau mỗi bao nhiêu ms; frame = khoảng cách tối thiểu giữa 2 lần vẽ canvas; maxChars = số ký tự tối đa được giải mã trong một khối */
-var SPD={lineGap:28,lineMax:300,spanBase:110,spanPer:6,spanMax:360,img:460,imgGap:45,blockGap:40,blockMax:160,step:60,frame:32,maxChars:1000};
+var SPD={lineGap:28,lineMax:300,spanBase:110,spanPer:6,spanMax:360,img:460,imgGap:45,blockGap:40,blockMax:160,step:60,frame:32,maxChars:700};
 var MOFF=R.getAttribute('data-motion')==='off'; /* đang tắt hiệu ứng lúc tải: chưa giải mã chữ; bật lại thì các khối cuộn tới sau vẫn giải mã */
 if(!ENABLED||R.classList.contains('lite')||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
 function IMS(){return SPD.img}
@@ -50,13 +50,19 @@ function norm(raw){
   mp.push(lastI+1);
   return {s:s,mp:mp};
 }
+/* BỘ NHỚ ĐỆM trong một lần prep(): mỗi phần tử chỉ hỏi getComputedStyle một lần. Trước đây mỗi đoạn chữ lại hỏi lại
+   toàn bộ chuỗi phần tử cha (2 lần cho hiddenAnc + 1 lần cho clipEls), tốn 11–20ms mỗi khối khi cuộn tới. */
+var GC=null,CL=null;
+function gcs(e){if(!GC)return getComputedStyle(e);var s=GC.get(e);if(!s){s=getComputedStyle(e);GC.set(e,s)}return s}
 function clipEls(el){
+  if(CL&&CL.has(el))return CL.get(el);
   var out=[],e=el,c;
   while(e&&e!==document.body&&e!==R){
-    c=getComputedStyle(e);
+    c=gcs(e);
     if(c.overflowX!=='visible'||c.overflowY!=='visible')out.push(e);
     e=e.parentElement;
   }
+  if(CL)CL.set(el,out);
   return out;
 }
 /* nằm trong phần tử bị ẩn (đóng, chưa bấm mới hiện): thẻ [hidden], inert, details chưa mở, content-visibility:hidden */
@@ -64,9 +70,9 @@ function hiddenAnc(p){
   for(var e=p;e&&e!==document.body;e=e.parentElement){
     if(e.hidden||e.inert)return true;
     if(e.nodeType===1&&e.hasAttribute('data-noax'))return true; /* mục vừa bấm mở ra: không giải mã */
-    if(e.nodeType===1&&getComputedStyle(e).position==='fixed'&&!(e.closest&&e.closest('header.bar')))return true; /* hộp bật ra (cố định trên màn hình): không giải mã */
+    if(e.nodeType===1&&gcs(e).position==='fixed'&&!(e.closest&&e.closest('header.bar')))return true; /* hộp bật ra (cố định trên màn hình): không giải mã */
     if(e.tagName==='DETAILS'&&!e.open){var sm=p.closest('summary');if(!sm||sm.parentElement!==e)return true}
-    if(e.nodeType===1&&getComputedStyle(e).contentVisibility==='hidden')return true;
+    if(e.nodeType===1&&gcs(e).contentVisibility==='hidden')return true;
   }
   return false;
 }
@@ -159,7 +165,9 @@ function lineGroups(n,nm,txt,disp,rs,cr){
   return out
 }
 /* gom chữ theo dòng (mỗi đoạn chữ chỉ hỏi layout 1 lần) và ảnh trong khối */
-function prep(j,er){
+/* prep bọc bộ nhớ đệm: tạo mới mỗi lần, xong là bỏ (không giữ kiểu cũ khi trang đổi) */
+function prep(j,er){GC=new Map();CL=new Map();try{prep0(j,er)}finally{GC=CL=null}}
+function prep0(j,er){
   measureBar();
   var rg=document.createRange(),total=0,li=0,x0=1e9,y0=1e9,x1=-1e9,y1=-1e9,H=innerHeight,n;
   if(HL){
@@ -172,7 +180,7 @@ function prep(j,er){
       
       rg.selectNodeContents(n);
       var rs=Array.prototype.filter.call(rg.getClientRects(),function(r){return r.width>=1&&r.height>=1});
-      if(!rs.length)continue;if(rs[rs.length-1].bottom<-60||rs[0].top>H+60){j.off++;continue}var cs=getComputedStyle(p);if(cs.visibility==='hidden'||cs.whiteSpace.indexOf('pre')===0)continue;if(clearC(cs.color)||clearC(cs.webkitTextFillColor))continue;
+      if(!rs.length)continue;if(rs[rs.length-1].bottom<-60||rs[0].top>H+60){j.off++;continue}var cs=gcs(p);if(cs.visibility==='hidden'||cs.whiteSpace.indexOf('pre')===0)continue;if(clearC(cs.color)||clearC(cs.webkitTextFillColor))continue;
       var nm=norm(raw),txt=nm.s;if(!txt)continue;
       var disp=cs.textTransform==='uppercase'?txt.toUpperCase():txt;if(disp.length!==txt.length)disp=txt;
       var font=cs.fontStyle+' '+cs.fontWeight+' '+cs.fontSize+' '+cs.fontFamily,fpx=parseFloat(cs.fontSize)||16;
@@ -230,7 +238,7 @@ function prep(j,er){
     /* KHỐI PIXEL VỪA ĐÚNG ẢNH: tính phần ảnh thật sự hiện ra thay vì cả khung <img>
        - bỏ viền/padding của thẻ img; - ảnh object-fit:contain / none / scale-down (vd. ảnh linh kiện góc setup) chỉ chiếm một phần khung;
        - ảnh hoà trộn (mix-blend-mode, dùng để xoá nền trắng) thì không phủ pixel: canvas không hoà trộn được nên sẽ lộ ô nền trắng to. */
-    var ics=getComputedStyle(im);if(ics.mixBlendMode&&ics.mixBlendMode!=='normal')continue;
+    var ics=gcs(im);if(ics.mixBlendMode&&ics.mixBlendMode!=='normal')continue;
     var bL=(parseFloat(ics.borderLeftWidth)||0)+(parseFloat(ics.paddingLeft)||0),bT=(parseFloat(ics.borderTopWidth)||0)+(parseFloat(ics.paddingTop)||0),
         bR=(parseFloat(ics.borderRightWidth)||0)+(parseFloat(ics.paddingRight)||0),bB=(parseFloat(ics.borderBottomWidth)||0)+(parseFloat(ics.paddingBottom)||0),
         sk=im.offsetWidth?ir.width/im.offsetWidth:1, /* ảnh đang bị thu/phóng bằng transform */
@@ -243,7 +251,7 @@ function prep(j,er){
     if(cw<8||ch<8)continue;
     var rs2=ics.borderTopLeftRadius,pp=im.parentElement,zz;
     /* bo góc: ảnh "vừa khung" chỉ theo góc của chính nó; ảnh phủ kín thì theo góc của khung bọc (tối đa 3 tầng) */
-    if(!own)for(zz=0;zz<3&&pp&&(parseFloat(rs2)||0)===0;zz++,pp=pp.parentElement)rs2=getComputedStyle(pp).borderTopLeftRadius;
+    if(!own)for(zz=0;zz<3&&pp&&(parseFloat(rs2)||0)===0;zz++,pp=pp.parentElement)rs2=gcs(pp).borderTopLeftRadius;
     var rd=rs2.slice(-1)==='%'?Math.min(cw,ch)*parseFloat(rs2)/100:parseFloat(rs2)||0,d=j.imgs.length*SPD.imgGap;
     var o={im:im,d:d,rd:Math.min(rd,cw/2,ch/2),done:0,x:cx0-er.left,y:cy0-er.top,w:cw,h:ch,fill:fit==='fill'};
     /* CHỈ PHẦN NHÌN THẤY: ảnh hay bị phóng to/dịch bên trong một khung che (thẻ, khung ảnh overflow:hidden, vùng cuộn),
@@ -254,7 +262,7 @@ function prep(j,er){
     if(vr-vl<4||vb-vt<4)continue;
     o.cl={x:vl-er.left,y:vt-er.top,w:vr-vl,h:vb-vt};
     if(vr-vl<cw-1||vb-vt<ch-1){ /* bị khung cắt: bo góc theo khung che gần nhất */
-      var cr0=ceI.length?getComputedStyle(ceI[0]).borderTopLeftRadius:'0';o.rd=Math.min(parseFloat(cr0)||0,(vr-vl)/2,(vb-vt)/2)
+      var cr0=ceI.length?gcs(ceI[0]).borderTopLeftRadius:'0';o.rd=Math.min(parseFloat(cr0)||0,(vr-vl)/2,(vb-vt)/2)
     }
     x0=Math.min(x0,o.cl.x);y0=Math.min(y0,o.cl.y);x1=Math.max(x1,o.cl.x+o.cl.w);y1=Math.max(y1,o.cl.y+o.cl.h);
     im.__ax=1;j.imgs.push(o);j.dur=Math.max(j.dur,d+IMS()+140);im.classList.add('axi','axo');
