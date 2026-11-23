@@ -193,7 +193,7 @@ window.__autoLang=function(){
     <div class="wrap">
       <div class="rv pcol">
         <div class="pc">
-          <div class="avf"><div class="avin"><div class="ph me" data-i="M"><img src="images/avatar.jpg" alt="Ảnh của Ming" fetchpriority="high" decoding="async" onerror="this.remove()"></div></div><img class="avdec" alt="" width="240" height="240" decoding="async" fetchpriority="low" referrerpolicy="no-referrer" onerror="this.remove()"><span class="avdot" id="avdot" data-st="offline"></span></div>
+          <div class="avf"><div class="avin"><div class="ph me" data-i="M"></div></div><img class="avdec" alt="" width="240" height="240" decoding="async" fetchpriority="low" referrerpolicy="no-referrer" onerror="this.remove()"><span class="avdot" id="avdot" data-st="offline"></span></div>
           <div class="pci">
             <b>Ming</b>
             <span class="pst" id="pst" data-st="offline">Ngoại tuyến</span>
@@ -408,8 +408,8 @@ window.__autoLang=function(){
 /* hiệu ứng hồ sơ: phủ lên cột hồ sơ, đúng tỉ lệ 450×880 như Discord, không chặn chuột */
 #dcp .l{position:relative}
 #dcp .fx{position:absolute;left:0;top:0;width:100%;aspect-ratio:450/880;z-index:7;pointer-events:none;overflow:hidden;border-radius:14px 14px 0 0}
-#dcp .fx img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top}
-#dcp .fx img{opacity:0;transition:opacity .5s ease}#dcp .fx img.on{opacity:1}
+#dcp .fx :is(img,video){position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top}
+#dcp .fx :is(img,video){opacity:0;transition:opacity .5s ease}#dcp .fx .on{opacity:1}
 @media (prefers-reduced-motion:reduce){#dcp .fx{display:none}}</style><div id="dcp"></div></template>
 <div class="wrap">
   <div class="rv">
@@ -505,7 +505,7 @@ window.__autoLang=function(){
             <p class="mini"><i data-ic="crown"></i>Tướng thông thạo cao nhất</p>
             <div class="champs" id="champs"></div>
             <p class="mini"><i data-ic="image"></i>Ảnh chia sẻ</p>
-            <a class="shot ph" data-i="L" data-opgg href="https://www.op.gg/" target="_blank" rel="noopener"><img src="images/lol-share.jpg" width="1100" height="619" alt="Hồ sơ League of Legends của ming, thông thạo Zed" loading="lazy" decoding="async" onerror="this.remove()"></a>
+            <a class="shot ph" data-i="L" data-opgg href="https://www.op.gg/" target="_blank" rel="noopener"><img src="images/lol-share.webp" width="1100" height="619" alt="Hồ sơ League of Legends của ming, thông thạo Zed" loading="lazy" decoding="async" onerror="this.remove()"></a>
             <p class="note">Ghi chú: muốn chơi chung thì thêm tôi qua Riot ID ming#0811 (server VN).</p>
             <p class="note">Trang của người hâm mộ, không liên kết với Riot Games. League of Legends và ảnh tướng thuộc Riot Games.</p>
           </div>
@@ -546,7 +546,7 @@ window.__autoLang=function(){
     </div>
   </section>
 
-    <div class="wrap gbar"><div class="gbn"><img src="images/gif/banner-1.webp" alt="Chiếc lá phong đỏ trôi trên dòng suối trong" loading="lazy" decoding="async" fetchpriority="low" style="object-position:50% 45%" onerror="this.parentNode.remove()"></div></div>
+    <div class="wrap gbar"><div class="gbn"><video data-src="images/gif/banner-1.mp4" aria-label="Chiếc lá phong đỏ trôi trên dòng suối trong" muted loop playsinline disablepictureinpicture preload="none" style="object-position:50% 45%"></video></div></div>
 
     <section class="s" id="hobby">
     <div class="wrap">
@@ -556,10 +556,10 @@ window.__autoLang=function(){
         <p class="lead">Mỗi mục có một trang riêng: tôi thích gì và vì sao.</p>
       </div>
       <div class="grid rv">
-        <a class="hob" href="#/game"><div class="ph" data-i="G"><img src="images/cover-game.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()"></div><div class="t"><h3><i data-ic="gamepad"></i>Game</h3><p>Những game tôi chơi</p></div></a>
-        <a class="hob" href="#/truyen"><div class="ph" data-i="T"><img src="images/cover-truyen.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()"></div><div class="t"><h3><i data-ic="book"></i>Đọc truyện</h3><p>Manhwa, manhua</p></div></a>
-        <a class="hob" href="#/nhac"><div class="ph" data-i="N"><img src="images/cover-nhac.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()"></div><div class="t"><h3><i data-ic="music"></i>Nhạc</h3><p>Playlist tôi hay nghe</p></div></a>
-        <a class="hob" href="#/phim"><div class="ph" data-i="P"><img src="images/cover-phim.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()"></div><div class="t"><h3><i data-ic="film"></i>Xem phim</h3><p>Marvel, DC và vài phim khác</p></div></a>
+        <a class="hob" href="#/game"><div class="ph" data-i="G"><img src="images/cover-game.webp" width="736" height="552" alt="" loading="lazy" decoding="async" onerror="this.remove()"></div><div class="t"><h3><i data-ic="gamepad"></i>Game</h3><p>Những game tôi chơi</p></div></a>
+        <a class="hob" href="#/truyen"><div class="ph" data-i="T"><img src="images/cover-truyen.webp" width="736" height="552" alt="" loading="lazy" decoding="async" onerror="this.remove()"></div><div class="t"><h3><i data-ic="book"></i>Đọc truyện</h3><p>Manhwa, manhua</p></div></a>
+        <a class="hob" href="#/nhac"><div class="ph" data-i="N"><img src="images/cover-nhac.webp" width="675" height="506" alt="" loading="lazy" decoding="async" onerror="this.remove()"></div><div class="t"><h3><i data-ic="music"></i>Nhạc</h3><p>Playlist tôi hay nghe</p></div></a>
+        <a class="hob" href="#/phim"><div class="ph" data-i="P"><img src="images/cover-phim.webp" width="736" height="552" alt="" loading="lazy" decoding="async" onerror="this.remove()"></div><div class="t"><h3><i data-ic="film"></i>Xem phim</h3><p>Marvel, DC và vài phim khác</p></div></a>
       </div>
     </div>
   </section>
@@ -718,7 +718,7 @@ window.__autoLang=function(){
     </div>
   </section>
 
-    <div class="wrap gbar"><div class="gbn"><img src="images/gif/banner-2.webp" alt="Mặt nước và mây lúc hoàng hôn" loading="lazy" decoding="async" fetchpriority="low" onerror="this.parentNode.remove()"></div></div>
+    <div class="wrap gbar"><div class="gbn"><video data-src="images/gif/banner-2.mp4" aria-label="Mặt nước và mây lúc hoàng hôn" muted loop playsinline disablepictureinpicture preload="none"></video></div></div>
 
     <section class="s" id="photos">
     <div class="wrap">
@@ -728,16 +728,16 @@ window.__autoLang=function(){
         <p class="fxnote"><span>Hiệu ứng đang tắt, bật lại để ảnh tự quay.</span><button type="button" class="btn line" onclick="document.getElementById('motion').click()">Bật lại</button></p>
       </div>
       <div class="gallery rv" id="gallery">
-        <div class="ph" data-i="1"><img src="images/photo-1.jpg" alt="Ảnh 1" loading="lazy" decoding="async" onerror="this.remove()"></div>
-        <div class="ph" data-i="2"><img src="images/photo-2.jpg" alt="Ảnh 2" loading="lazy" decoding="async" onerror="this.remove()"></div>
-        <div class="ph" data-i="3"><img src="images/photo-3.jpg" alt="Ảnh 3" loading="lazy" decoding="async" onerror="this.remove()"></div>
-              <div class="ph ext" data-i="4"><img src="images/photo-4.jpg" alt="Ảnh 4" loading="lazy" decoding="async" onerror="this.remove()"></div>
-        <div class="ph ext" data-i="5"><img src="images/photo-5.jpg" alt="Ảnh 5" loading="lazy" decoding="async" onerror="this.remove()"></div>
-        <div class="ph ext" data-i="6"><img src="images/photo-6.jpg" alt="Ảnh 6" loading="lazy" decoding="async" onerror="this.remove()"></div>
-        <div class="ph ext" data-i="7"><img src="images/photo-7.jpg" alt="Ảnh 7" loading="lazy" decoding="async" onerror="this.remove()"></div>
-        <div class="ph ext" data-i="8"><img src="images/photo-8.jpg" alt="Ảnh 8" loading="lazy" decoding="async" onerror="this.remove()"></div>
-        <div class="ph ext" data-i="9"><img src="images/photo-9.jpg" alt="Ảnh 9" loading="lazy" decoding="async" onerror="this.remove()"></div>
-        <div class="ph ext" data-i="10"><img src="images/photo-10.jpg" alt="Ảnh 10" loading="lazy" decoding="async" onerror="this.remove()"></div>
+        <div class="ph" data-i="1"><img src="images/photo-1.webp" width="736" height="920" alt="Ảnh 1" loading="lazy" decoding="async" onerror="this.remove()"></div>
+        <div class="ph" data-i="2"><img src="images/photo-2.webp" width="736" height="920" alt="Ảnh 2" loading="lazy" decoding="async" onerror="this.remove()"></div>
+        <div class="ph" data-i="3"><img src="images/photo-3.webp" width="736" height="920" alt="Ảnh 3" loading="lazy" decoding="async" onerror="this.remove()"></div>
+              <div class="ph ext" data-i="4"><img src="images/photo-4.webp" width="675" height="844" alt="Ảnh 4" loading="lazy" decoding="async" onerror="this.remove()"></div>
+        <div class="ph ext" data-i="5"><img src="images/photo-5.webp" width="618" height="773" alt="Ảnh 5" loading="lazy" decoding="async" onerror="this.remove()"></div>
+        <div class="ph ext" data-i="6"><img src="images/photo-6.webp" width="736" height="920" alt="Ảnh 6" loading="lazy" decoding="async" onerror="this.remove()"></div>
+        <div class="ph ext" data-i="7"><img src="images/photo-7.webp" width="736" height="920" alt="Ảnh 7" loading="lazy" decoding="async" onerror="this.remove()"></div>
+        <div class="ph ext" data-i="8"><img src="images/photo-8.webp" width="736" height="920" alt="Ảnh 8" loading="lazy" decoding="async" onerror="this.remove()"></div>
+        <div class="ph ext" data-i="9"><img src="images/photo-9.webp" width="736" height="920" alt="Ảnh 9" loading="lazy" decoding="async" onerror="this.remove()"></div>
+        <div class="ph ext" data-i="10"><img src="images/photo-10.webp" width="736" height="920" alt="Ảnh 10" loading="lazy" decoding="async" onerror="this.remove()"></div>
       </div>
       <div class="more rv"><button class="btn line" id="phmore" type="button" aria-expanded="false" aria-controls="gallery">Xem thêm ảnh</button></div>
     </div>
@@ -848,7 +848,7 @@ window.__autoLang=function(){
     </div>
   </section>
 
-    <div class="wrap gbar"><div class="gbn"><img src="images/gif/banner-3.webp" alt="Con tàu ngoài khơi và những con sóng biển" loading="lazy" decoding="async" fetchpriority="low" style="object-position:50% 40%" onerror="this.parentNode.remove()"></div></div>
+    <div class="wrap gbar"><div class="gbn"><video data-src="images/gif/banner-3.mp4" aria-label="Con tàu ngoài khơi và những con sóng biển" muted loop playsinline disablepictureinpicture preload="none" style="object-position:50% 40%"></video></div></div>
 
     <section class="s" id="tkb">
     <div class="wrap">

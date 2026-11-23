@@ -59,7 +59,7 @@ try{
   var calm=(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
   function mOff(){return document.documentElement.getAttribute('data-motion')==='off'}
   if(clk&&trail&&!calm&&trail.animate){
-    var TRAIL=['images/trail-1.jpg','images/trail-2.jpg','images/trail-3.jpg','images/trail-4.jpg','images/trail-5.jpg','images/trail-6.jpg','images/trail-7.jpg','images/trail-8.jpg','images/trail-9.jpg','images/trail-10.jpg','images/trail-11.jpg','images/trail-12.jpg','images/trail-13.jpg','images/trail-14.jpg','images/trail-15.jpg'];
+    var TRAIL=['images/trail-1.webp','images/trail-2.webp','images/trail-3.webp','images/trail-4.webp','images/trail-5.webp','images/trail-6.webp','images/trail-7.webp','images/trail-8.webp','images/trail-9.webp','images/trail-10.webp','images/trail-11.webp','images/trail-12.webp','images/trail-13.webp','images/trail-14.webp','images/trail-15.webp'];
     var MAX=10; /* số ảnh tối đa cùng lúc */
     /* nạp sẵn khi trình duyệt rảnh để lần rê chuột đầu tiên không bị khựng. Điện thoại và máy yếu thì bỏ qua */
     if(matchMedia('(pointer:fine)').matches&&!document.documentElement.classList.contains('lite'))
@@ -699,9 +699,9 @@ try{
       {id:'truyen-3',t:'Tên bộ truyện 3',m:'Manhwa · Đời thường',s:'Muốn đọc',img:'images/truyen/truyen-3.jpg',d:'Giới thiệu ngắn về bộ thứ ba.',w:'Vì sao tôi muốn đọc.',tags:['Manhwa'],link:''}
     ]},
     nhac:{label:'Nhạc',shape:'sq',lead:'Bấm vào một playlist để nghe ngay tại đây.',items:[
-      {id:'vietnam-songs',t:'Vietnam songs',m:'Playlist · YouTube',s:'Hay nghe',img:'images/nhac/vietnam-songs.jpg',d:'Playlist nhạc Việt tôi nghe nhiều nhất.',w:'',tags:['Nhạc Việt','YouTube'],link:'https://www.youtube.com/playlist?list=PLHVf9HneIWTjOiAODKlMP_rgjO724R_PS',embed:'https://www.youtube-nocookie.com/embed/videoseries?list=PLHVf9HneIWTjOiAODKlMP_rgjO724R_PS'},
-      {id:'listen-and-feel',t:'Listen and feel',m:'Playlist · YouTube',s:'Chill',img:'images/nhac/listen-and-feel.jpg',d:'Playlist để thư giãn, bật lên là quên hết mọi thứ.',w:'',tags:['Chill','YouTube'],link:'https://www.youtube.com/playlist?list=PLHVf9HneIWTjwGeV-a52daOvAwexYT8rm',embed:'https://www.youtube-nocookie.com/embed/videoseries?list=PLHVf9HneIWTjwGeV-a52daOvAwexYT8rm'},
-      {id:'heal-or-broken-heart',t:'Heal or broken heart',m:'Playlist · Spotify',s:'Tâm trạng',img:'images/nhac/heal-or-broken-heart.jpg',d:'Playlist Spotify cho lúc cần chữa lành hoặc đang tan vỡ.',w:'',tags:['Spotify','Tâm trạng'],link:'https://open.spotify.com/playlist/4uAY7TdJVBdeEyHZ4EX26b',embed:'https://open.spotify.com/embed/playlist/4uAY7TdJVBdeEyHZ4EX26b',eh:352}
+      {id:'vietnam-songs',t:'Vietnam songs',m:'Playlist · YouTube',s:'Hay nghe',img:'images/nhac/vietnam-songs.webp',d:'Playlist nhạc Việt tôi nghe nhiều nhất.',w:'',tags:['Nhạc Việt','YouTube'],link:'https://www.youtube.com/playlist?list=PLHVf9HneIWTjOiAODKlMP_rgjO724R_PS',embed:'https://www.youtube-nocookie.com/embed/videoseries?list=PLHVf9HneIWTjOiAODKlMP_rgjO724R_PS'},
+      {id:'listen-and-feel',t:'Listen and feel',m:'Playlist · YouTube',s:'Chill',img:'images/nhac/listen-and-feel.webp',d:'Playlist để thư giãn, bật lên là quên hết mọi thứ.',w:'',tags:['Chill','YouTube'],link:'https://www.youtube.com/playlist?list=PLHVf9HneIWTjwGeV-a52daOvAwexYT8rm',embed:'https://www.youtube-nocookie.com/embed/videoseries?list=PLHVf9HneIWTjwGeV-a52daOvAwexYT8rm'},
+      {id:'heal-or-broken-heart',t:'Heal or broken heart',m:'Playlist · Spotify',s:'Tâm trạng',img:'images/nhac/heal-or-broken-heart.webp',d:'Playlist Spotify cho lúc cần chữa lành hoặc đang tan vỡ.',w:'',tags:['Spotify','Tâm trạng'],link:'https://open.spotify.com/playlist/4uAY7TdJVBdeEyHZ4EX26b',embed:'https://open.spotify.com/embed/playlist/4uAY7TdJVBdeEyHZ4EX26b',eh:352}
     ]},
     mod:{label:'Việt hoá',kind:'Dự án',home:'mod',wl:'Tiến độ và cách cài',shape:'',lead:'Những dự án dịch tôi đang làm.',items:[
       /* thêm cho mỗi bản dịch (để trong [ngoặc vuông] hoặc bỏ trống thì tự ẩn):
@@ -2681,43 +2681,43 @@ try{
   /* ===== nghệ sĩ: sửa danh sách IDOLS. Ảnh bỏ vào images/idol/ (tên file khớp với img).
      Phần "đặc điểm" tôi viết theo hiểu biết chung, bạn kiểm tra lại cho chắc; "vì sao tôi thích" là chỗ bạn tự viết ===== */
   var IDOLS=[
-    {n:'Sơn Tùng M-TP',img:'images/idol/son-tung.jpg',tag:'Ca sĩ, nhạc sĩ, nhà sản xuất âm nhạc',
+    {n:'Sơn Tùng M-TP',img:'images/idol/son-tung.webp',tag:'Ca sĩ, nhạc sĩ, nhà sản xuất âm nhạc',
      why:'[Viết vì sao tôi thích Sơn Tùng: bài đầu tiên tôi nghe, điều làm tôi nhớ mãi.]',
      traits:['Tên thật Nguyễn Thanh Tùng, sinh ngày 5/7/1994 tại Thái Bình, được gọi là "Hoàng tử V-pop"','Bắt đầu hoạt động năm 2012 và nhận giải Nghệ sĩ Đông Nam Á xuất sắc nhất tại MTV EMA 2015','Năm 2016 lập công ty riêng M-TP Entertainment, sau đó dẫn dắt thêm nhiều nghệ sĩ trẻ','Tự sáng tác, pha pop với R&B, hip hop, điện tử và chất liệu dân gian','Có tự truyện "Chạm tới giấc mơ" (2017) và tour Sky Tour (2019); em trai là ca sĩ MONO','Năm 2023 ra đĩa đơn tiếng Anh "Making My Way" qua The Orchard, hướng ra thị trường quốc tế'],
      songs:['Lạc trôi','Nơi này có anh','Chúng ta không thuộc về nhau','Hãy trao cho anh','Muộn rồi mà sao còn','Making My Way']},
-    {n:'Đen Vâu',img:'images/idol/den-vau.jpg',tag:'Rapper, nhạc sĩ',
+    {n:'Đen Vâu',img:'images/idol/den-vau.webp',tag:'Rapper, nhạc sĩ',
      why:'[Viết vì sao tôi thích Đen: lời nhạc, giọng rap, hay cảm giác khi nghe.]',
      traits:['Tên thật Nguyễn Đức Cường, sinh ngày 13/5/1989, lớn lên chủ yếu ở Quảng Ninh','Viết rap từ thời học sinh, từng làm công nhân thu gom rác trước khi theo nghề; hoạt động từ năm 2009','Bài "Cây bàng" nhận giải khán giả bình chọn ở chương trình Bài hát Việt năm 2011','Năm 2021 giữ kỷ lục nhiều MV lên top 1 thịnh hành YouTube Việt Nam (11 MV)','Concert "Show của Đen" năm 2019 bán 5.000 vé trong 10 phút','Lời nhạc giản dị, hay kể chuyện đời thường, nhẹ nhàng nhưng có chiều sâu'],
      songs:['Đi theo bóng mặt trời','Lối nhỏ','Bài này chill phết','Mười năm','Trốn tìm','Diễn viên tồi','Luôn yêu đời','Mang tiền về cho mẹ']},
-    {n:'Vũ.',img:'images/idol/vu.jpg',tag:'Ca sĩ, nhạc sĩ',
+    {n:'Vũ.',img:'images/idol/vu.webp',tag:'Ca sĩ, nhạc sĩ',
      why:'[Viết vì sao tôi thích Vũ.: giọng hát, lời nhạc, hay bài làm tôi nhớ nhất.]',
      traits:['Tên thật Hoàng Thái Vũ, sinh ngày 3/10/1995 tại Hà Nội; Billboard từng gọi là "Hoàng tử indie Việt Nam"','Bắt đầu phát hành nhạc từ năm 2013, nổi lên trên SoundCloud với "Đông kiếm em" (2015) và "Lạ lùng" (2016)','Nhận giải Nghệ sĩ underground xuất sắc nhất tại WeChoice Awards 2016','Chịu ảnh hưởng từ John Mayer, Damien Rice, Jason Mraz; nhạc mộc, tiếng guitar và giọng hát nhẹ','Album "Hành Tinh Song Song" (2018) và "Vũ Trụ Song Song" (2019, ký với Warner Music)'],
      songs:['Đông kiếm em','Lạ lùng','Mùa hè của em','Bước qua mùa cô đơn','Vì anh đâu có biết']},
-    {n:'HIEUTHUHAI',img:'images/idol/hieuthuhai.jpg',tag:'Rapper, ca sĩ, nhạc sĩ',
+    {n:'HIEUTHUHAI',img:'images/idol/hieuthuhai.webp',tag:'Rapper, ca sĩ, nhạc sĩ',
      why:'[Viết vì sao tôi thích HIEUTHUHAI: giọng, phong cách, bài hay nghe lại.]',
      traits:['Tên thật Trần Minh Hiếu, sinh ngày 28/9/1999 tại TP.HCM','Nổi lên từ Rap Việt mùa 1 (King of Rap) và là thành viên nhóm Gerdnang','Được nhiều người biết tới qua chương trình thực tế 2 Ngày 1 Đêm với hình ảnh "út khờ"','Mê âm nhạc từ khi nghe guitar fingerstyle của Sungha Jung; từng làm nhiều việc để có tiền mua đồ thu âm','Album đầu tay "Ai cũng phải bắt đầu từ đâu đó" (2023)'],
      songs:['Cua','Nghe như tình yêu','Bật nhạc lên','Không thể say','Ngủ một tôi','Exit Sign']},
-    {n:'MCK',img:'images/idol/mck.jpg',tag:'Rapper, ca sĩ, nhạc sĩ',
+    {n:'MCK',img:'images/idol/mck.webp',tag:'Rapper, ca sĩ, nhạc sĩ',
      why:'[Viết vì sao tôi thích MCK: flow, giai điệu, bài hay nghe lại.]',
      traits:['Tên thật Nghiêm Vũ Hoàng Long, sinh ngày 2/3/1999 tại Hà Nội; từng làm nhạc indie với nghệ danh Nger hoặc Ngơ','Ra mắt với "Tình đắng như ly cà phê" cùng Nân, vượt 50 triệu lượt xem','Năm 2020 vào tới chung kết Rap Việt mùa 1 và nhận giải Gương mặt Rap/Hip-hop triển vọng của WeChoice','"Chìm sâu" là bài được nghe nhiều nhất trên Spotify Việt Nam năm 2022','Album "99%" từng đứng đầu bảng xếp hạng album iTunes và Apple Music Việt Nam'],
      songs:['Chìm sâu','Tại vì sao','Tình đắng như ly cà phê','Nếu như ta chẳng còn','Nguyễn Văn Mười']},
-    {n:'Vũ Cát Tường',img:'images/idol/vu-cat-tuong.jpg',tag:'Ca sĩ, nhạc sĩ',
+    {n:'Vũ Cát Tường',img:'images/idol/vu-cat-tuong.webp',tag:'Ca sĩ, nhạc sĩ',
      why:'[Viết vì sao tôi thích Vũ Cát Tường: giọng hát, lời nhạc, bài làm tôi nhớ nhất.]',
      traits:['Á quân Giọng hát Việt 2013; tốt nghiệp kỹ sư loại giỏi tại ĐH Quốc tế (ĐH Quốc gia TP.HCM)','Tự sáng tác nhiều thể loại: pop, ballad, R&B, rock, neo-soul','Các album và EP: "Giải mã" (2014), "Stardom" (2018), "Một triệu năm ánh sáng" (2020)','Từng là huấn luyện viên Giọng hát Việt nhí 2018','Từng sáng tác "Mơ", "Yêu xa", "Cô gái ngày hôm qua" trước khi trở thành ca sĩ'],
      songs:['Vết mưa','Từng là','Người bình thường','Mơ','Yêu xa']},
-    {n:'Changg',img:'images/idol/changg.jpg',tag:'Ca sĩ, rapper, nhạc sĩ',
+    {n:'Changg',img:'images/idol/changg.webp',tag:'Ca sĩ, rapper, nhạc sĩ',
      why:'[Viết vì sao tôi thích Changg: giọng hát, màu nhạc, bài hay nghe.]',
      traits:['Vừa hát, vừa rap, vừa tự viết nhạc','Được yêu thích với hình ảnh "cô gái nhà bên" gần gũi','Nhạc hay nói về tình yêu, nhìn lại chính tôi và những cảm xúc dễ vỡ của đêm khuya','Từng biểu diễn tại OzAsia Festival 2025 ở Adelaide, Úc, trong chương trình V-Pop Vibe'],
      songs:['Tự sự','Cưới đi','Hướng dương','Lỡ say bye là bye']},
-    {n:'DatG',img:'images/idol/datg.jpg',tag:'Rapper, ca sĩ, nhạc sĩ',
+    {n:'DatG',img:'images/idol/datg.webp',tag:'Rapper, ca sĩ, nhạc sĩ',
      why:'[Viết vì sao tôi thích DatG: giọng hát, màu nhạc, bài hay nghe.]',
      traits:['Đi lên từ rap underground, sau chuyển sang viết và hát nhạc tình buồn','Được nhiều người biết tới từ đầu năm 2018 với "Buồn của anh"','Được gọi là hit-maker thế hệ mới, còn viết nhạc cho nghệ sĩ khác như "Anh ơi ở lại" (Chi Pu)','Từng nằm trong nhiều đề cử tại Zing Music Awards 2019'],
      songs:['Buồn của anh','Buồn không em','Bánh mì không','Về','Anh ơi ở lại']},
-    {n:'GREY D',img:'images/idol/greyd.jpg',tag:'Ca sĩ, nhạc sĩ',
+    {n:'GREY D',img:'images/idol/greyd.webp',tag:'Ca sĩ, nhạc sĩ',
      why:'[Viết vì sao tôi thích GREY D: giọng hát, màu nhạc, bài hay nghe.]',
      traits:['Từng hoạt động trong một nhóm nhạc rồi ra mắt solo; hát R&B nghiêng về màu Hàn Quốc và tự sáng tác','Thuộc ST.319 Entertainment, theo đuổi hình tượng nghệ sĩ 4D: tài năng, ngoại hình, cá tính, tâm hồn','Từng tạm dừng hoạt động khoảng hai năm rồi trở lại với album mới','Live concert "Ánh sáng • Màn đêm" tại TP.HCM diễn ra hai đêm liền'],
      songs:['dự báo thời tiết hôm nay mưa','Anh sẽ đến cùng cơn mưa','Để tôi ôm em bằng giai điệu này','1001 câu trả lời']},
-    {n:'Chillies',img:'images/idol/chillies.jpg',tag:'Ban nhạc',
+    {n:'Chillies',img:'images/idol/chillies.webp',tag:'Ban nhạc',
      why:'[Viết vì sao tôi thích Chillies: màu nhạc, thành viên, bài hay nghe.]',
      traits:['Ban nhạc 5 thành viên: Duy Khang (hát chính, sáng tác), Nhím Biển (guitar chính, producer), Sĩ Phú (trống), Văn Phước (bass) và Đức','Thành lập khoảng năm 2018 ở Sài Gòn, ban đầu chơi cover rồi chuyển sang nhạc gốc','Năm 2020 cùng Vũ. là hai nghệ sĩ Việt đầu tiên ký với Warner Music Việt Nam','Album đầu tay "Qua khung cửa sổ" do Duy Khang sáng tác, đứng số 1 bảng Top Album Việt Nam trên Spotify','Không bó tôi vào một thể loại; đầu năm 2024 ra đĩa đơn kép "Đại lộ mặt trời" cùng Morisaki Win'],
      songs:['Mascara','Vùng ký ức','Và thế là hết','Cứ chill thôi','Đại lộ mặt trời']}
@@ -2903,9 +2903,9 @@ try{
 
   /* ===== PLAYLIST: dán link YouTube, Spotify hay nền tảng khác vào đây. t = tên, u = link (để trống thì hiện "Sắp cập nhật"), d = vài chữ giới thiệu ===== */
   var PLAYLISTS=[
-    {t:'Vietnam songs',img:'images/nhac/vietnam-songs.jpg',u:'https://www.youtube.com/playlist?list=PLHVf9HneIWTjOiAODKlMP_rgjO724R_PS',d:'Playlist nhạc Việt tôi nghe nhiều nhất.'},
-    {t:'Listen and feel',img:'images/nhac/listen-and-feel.jpg',u:'https://www.youtube.com/playlist?list=PLHVf9HneIWTjwGeV-a52daOvAwexYT8rm',d:'Playlist để thư giãn, bật lên là quên hết mọi thứ.'},
-    {t:'Heal or broken heart',img:'images/nhac/heal-or-broken-heart.jpg',u:'https://open.spotify.com/playlist/4uAY7TdJVBdeEyHZ4EX26b',d:'Playlist Spotify cho lúc cần chữa lành hoặc đang tan vỡ.'}
+    {t:'Vietnam songs',img:'images/nhac/vietnam-songs.webp',u:'https://www.youtube.com/playlist?list=PLHVf9HneIWTjOiAODKlMP_rgjO724R_PS',d:'Playlist nhạc Việt tôi nghe nhiều nhất.'},
+    {t:'Listen and feel',img:'images/nhac/listen-and-feel.webp',u:'https://www.youtube.com/playlist?list=PLHVf9HneIWTjwGeV-a52daOvAwexYT8rm',d:'Playlist để thư giãn, bật lên là quên hết mọi thứ.'},
+    {t:'Heal or broken heart',img:'images/nhac/heal-or-broken-heart.webp',u:'https://open.spotify.com/playlist/4uAY7TdJVBdeEyHZ4EX26b',d:'Playlist Spotify cho lúc cần chữa lành hoặc đang tan vỡ.'}
   ];
   (function(){
     var box=document.getElementById('plgrid');if(!box)return;
@@ -3041,9 +3041,9 @@ try{
       mo.observe(sec);
     }else lazy();
   })();
-  /* GIF: bỏ file vào images/gif/ (gif-1 ... gif-8, .webp hoặc .gif, nhớ sửa đuôi trong danh sách dưới). Ba khung ngang giữa các mục dùng images/gif/banner-1.webp, banner-2.webp, banner-3.webp */
+  /* GIF: bỏ file vào images/gif/ (gif-1 ... gif-8, .webp hoặc .gif, nhớ sửa đuôi trong danh sách dưới). Ba khung ngang giữa các mục là video images/gif/banner-1.mp4, banner-2.mp4, banner-3.mp4 (thẻ <video data-src> trong index.html) */
   /* bài nào có bản .webp thì dùng .webp (nhẹ hơn .gif 2–9 lần, vẫn chuyển động) */
-  var GIFS=[{src:'images/gif/gif-1.webp',w:1},{src:'images/gif/gif-2.gif'},{src:'images/gif/gif-3.webp'},{src:'images/gif/gif-4.webp'},{src:'images/gif/gif-5.webp'},{src:'images/gif/gif-6.gif',w:1},{src:'images/gif/gif-7.gif'},{src:'images/gif/gif-8.webp'}];
+  var GIFS=[{src:'images/gif/gif-1.webp',w:1},{src:'images/gif/gif-2.webp'},{src:'images/gif/gif-3.webp'},{src:'images/gif/gif-4.webp'},{src:'images/gif/gif-5.webp'},{src:'images/gif/gif-6.gif',w:1},{src:'images/gif/gif-7.webp'},{src:'images/gif/gif-8.webp'}];
   /* khi tắt hiệu ứng, ảnh động chỉ hiện khung hình đầu */
   function still(img){
     if(!img||img.src.indexOf('data:')===0)return;
@@ -3093,7 +3093,15 @@ try{
       b.appendChild(im);sec.appendChild(b);
       if(calm)still(im);
     });
-    if(calm)document.querySelectorAll('.gbn img').forEach(still);
+    /* 3 dải ngang giữa các mục là video .mp4 (nhẹ hơn ảnh động 3–6 lần). Chỉ tải khi sắp cuộn tới (ẩn trên điện thoại / tắt GIF thì không tải),
+       rời màn hình thì dừng; tắt hiệu ứng thì chỉ hiện khung đầu. Không tải được thì bỏ cả dải. */
+    document.querySelectorAll('.gbn video[data-src]').forEach(function(v){
+      v.muted=true;
+      v.addEventListener('error',function(){var g=v.closest('.gbar');if(g)g.remove()});
+      function on(){if(!v.getAttribute('src')){v.preload='auto';v.src=v.getAttribute('data-src')}if(!calm&&!document.hidden){var p=v.play();if(p&&p.catch)p.catch(function(){})}}
+      if(!('IntersectionObserver' in window)){on();return}
+      new IntersectionObserver(function(es){if(es[0].isIntersecting)on();else if(!v.paused)v.pause()},{rootMargin:'300px 0px'}).observe(v);
+    });
     once('.gsk',.3,function(el){el.classList.add('in')});
     /* phủ ASCII lên ảnh GIF (ảnh động nổi trong từng mục và 3 khung ngang) khi chúng cuộn vào màn hình */
     if('IntersectionObserver' in window){
@@ -3105,7 +3113,7 @@ try{
       grp=[];lb.classList.remove('multi');prev=b;li.src=m.dataset.gif||m.src;lc.textContent='';lb.hidden=false;document.body.style.overflow='hidden';
     });
     /* bấm vào ảnh (ảnh LoL, ảnh của tôi, "Vài tấm ảnh", ảnh ở trang chi tiết) thì xem lớn ngay tại trang, không nhảy link */
-    var ZSEL='.shot,.gallery .ph,.g3d .ph,.avf .me,.detail .ph,.log .lgph,.gbn';
+    var ZSEL='.shot,.gallery .ph,.g3d .ph,.avf .me,.detail .ph,.log .lgph';
     function zoomable(){document.querySelectorAll(ZSEL).forEach(function(el){
       if(el.__z||!el.querySelector('img'))return;el.__z=1;
       if(el.closest('.g3d'))return; /* ảnh 3D: bàn phím điều khiển ở khung, không biến từng ảnh thành 1 điểm Tab */
@@ -3194,6 +3202,9 @@ try{
       if(nl){if(lt){if(!nl.hasAttribute('data-def'))nl.setAttribute('data-def',nl.textContent);nl.textContent=lt}else if(nl.hasAttribute('data-def')){nl.textContent=T(nl.getAttribute('data-def'));nl.removeAttribute('data-def')}}
       var name=u?(u.global_name||u.display_name||u.username):ME.steamName,tag=u?'@'+u.username:'';
       var av=u&&u.avatar?'https://cdn.discordapp.com/avatars/'+u.id+'/'+u.avatar+'.'+(u.avatar.indexOf('a_')===0?'gif':'png')+'?size=128':'';
+      /* ảnh đại diện ở đầu trang: lấy ảnh Discord (muốn dùng ảnh riêng thì thêm lại <img src="images/avatar.jpg"> vào khung .me trong index.html) */
+      var hm=document.querySelector('.avf .me');
+      if(av&&hm&&!hm.querySelector('img')){var hi=new Image();hi.alt=T('Ảnh của Ming');hi.decoding='async';hi.onerror=function(){hi.remove()};hi.src=av.replace('size=128','size=512');hm.appendChild(hi)}
       var h='<div class="pw"><div><div class="pu"><div class="pav"><div class="ph" data-i="'+esc(name.charAt(0))+'">'+(av?'<img loading="lazy" decoding="async" src="'+esc(av)+'" alt="" onerror="this.remove()">':'')+'</div><span class="avdot" data-st="'+st+'"></span></div><div><b>'+esc(name)+'</b><small>'+(tag?esc(tag)+' · ':'')+esc(STL[st])+'</small></div></div>';
       if(custom&&(custom.state||(custom.emoji&&custom.emoji.name)))h+='<p class="pcs">'+(custom.emoji&&custom.emoji.name?esc(custom.emoji.name)+' ':'')+esc(custom.state||'')+'</p>';
       h+='</div><div class="pacts">';
@@ -6397,15 +6408,15 @@ var SETUP=[
   {g:'desk',k:'monitor',l:['Màn hình','Monitor'],v:'AOC 27G15N',d:['27 inch, 180Hz','27", 180Hz'],img:'https://cdn.sanity.io/images/hf5b3axp/production/ccab6edea8f77e3dd04af545fce38e4123b72d5e-2000x1500.png?w=600&fit=max&auto=format'},
   {g:'desk',k:'keyboard',l:['Bàn phím','Keyboard'],v:'AULA F108 Pro',d:['Bàn phím cơ full-size','Full-size mechanical'],img:'https://aulagear.com/cdn/shop/files/IMG_9914.png?v=1742354696&width=600'},
   {g:'desk',k:'mouse',l:['Chuột','Mouse'],v:'Inphic B1 Silent',d:['Nút bấm không tiếng','Silent clicks'],img:'https://www.inphic.com/cdn/shop/files/inphic-B1-wired-mouse-white_29835948-5194-4b22-9d63-616885ad30a0.png?v=1736306592&width=600'},
-  {g:'desk',k:'pad',l:['Lót chuột','Mouse pad'],v:'90 × 40 cm',d:['Phủ gần hết mặt bàn','Covers most of the desk'],img:'images/setup/mousepad.jpg',fill:true},
-  {g:'desk',k:'headset',l:['Tai nghe','Headset'],v:'JRS M1',d:['LED RGB, âm thanh 7.1','RGB LED, 7.1 sound'],img:'images/setup/headset.jpg'},
-  {g:'desk',k:'chair',l:['Ghế','Chair'],v:'Mia Furniture MI01',d:['Công thái học, màu đen','Ergonomic, black'],img:'images/setup/chair.jpg'},
+  {g:'desk',k:'pad',l:['Lót chuột','Mouse pad'],v:'90 × 40 cm',d:['Phủ gần hết mặt bàn','Covers most of the desk'],img:'images/setup/mousepad.webp',fill:true},
+  {g:'desk',k:'headset',l:['Tai nghe','Headset'],v:'JRS M1',d:['LED RGB, âm thanh 7.1','RGB LED, 7.1 sound'],img:'images/setup/headset.webp'},
+  {g:'desk',k:'chair',l:['Ghế','Chair'],v:'Mia Furniture MI01',d:['Công thái học, màu đen','Ergonomic, black'],img:'images/setup/chair.webp'},
   {g:'desk',k:'desk',l:['Bàn','Desk'],v:['Bàn gỗ','Wooden desk'],d:['','']},
   {g:'pc',k:'cpu',l:['CPU','CPU'],v:'Intel Core i5-12400F',d:['6 nhân, 12 luồng','6 cores, 12 threads'],img:'https://intelcorp.scene7.com/is/image/intelcorp/km-1920x1080-i5:1080-1080?fmt=png8-alpha&wid=600'},
   {g:'pc',k:'gpu',l:['Card đồ hoạ','Graphics card'],v:'ZOTAC RTX 3060',d:['Twin Edge, 12GB','Twin Edge, 12GB'],img:'https://c1.neweggimages.com/ProductImage/14-500-509-V08.jpg'},
   {g:'pc',k:'board',l:['Bo mạch chủ','Motherboard'],v:'ASUS TUF Gaming B760-Plus WiFi D4',d:['Có WiFi, dùng RAM DDR4','WiFi, DDR4'],img:'https://dlcdnwebimgs.asus.com/gain/7863d737-c623-4cbc-8f67-f492f6e26ad1/w600'},
-  {g:'pc',k:'ram',l:['RAM','RAM'],v:'G.Skill Trident Z RGB',d:['DDR4 3600MHz','DDR4 3600MHz'],img:'images/setup/ram.jpg'},
-  {g:'pc',k:'psu',l:['Nguồn','Power supply'],v:'MSI MAG A750GL PCIE5',d:['750W','750W'],img:'images/setup/psu.jpg'}
+  {g:'pc',k:'ram',l:['RAM','RAM'],v:'G.Skill Trident Z RGB',d:['DDR4 3600MHz','DDR4 3600MHz'],img:'images/setup/ram.webp'},
+  {g:'pc',k:'psu',l:['Nguồn','Power supply'],v:'MSI MAG A750GL PCIE5',d:['750W','750W'],img:'images/setup/psu.webp'}
 ];
 var SGRP={desk:['Trên bàn','On the desk'],pc:['Trong case','Inside the case']};
 var SUI={
@@ -6564,17 +6575,17 @@ try{
   function idolNames(){
     /* tên + ảnh lấy thẳng từ thẻ nghệ sĩ trong mục #idol */
     var a=[].map.call(document.querySelectorAll('#idol h3'),function(h){var c=h.closest('.idc')||h.parentElement,im=c&&c.querySelector('img'),n=h.textContent.replace(/[→\s]+$/,'').replace(/\.$/,'').trim();return n?[n,n,im?(im.getAttribute('src')||im.currentSrc):'']:null}).filter(Boolean);
-    return (a.length?a:[['Sơn Tùng M-TP','Sơn Tùng M-TP','images/idol/son-tung.jpg'],['Đen Vâu','Đen Vâu','images/idol/den-vau.jpg']]).slice(0,7);
+    return (a.length?a:[['Sơn Tùng M-TP','Sơn Tùng M-TP','images/idol/son-tung.webp'],['Đen Vâu','Đen Vâu','images/idol/den-vau.webp']]).slice(0,7);
   }
   /* mỗi sao con: [tên VI, tên EN, ảnh (để trống = dùng ảnh của nhóm)]; nhóm: img = ảnh bìa, d = một câu giới thiệu */
   var STM='https://cdn.cloudflare.steamstatic.com/steam/apps/';
   var GROUPS=[
-    {vi:'Game',en:'Games',go:'shelf',c:1,img:'images/cover-game.jpg',d:['Game tôi chơi và đã chơi.','Games I play and have played.'],
+    {vi:'Game',en:'Games',go:'shelf',c:1,img:'images/cover-game.webp',d:['Game tôi chơi và đã chơi.','Games I play and have played.'],
       items:[['League of Legends','League of Legends','https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Yasuo_0.jpg'],['Delta Force','Delta Force',STM+'2507950/header.jpg'],['Path of Exile 2','Path of Exile 2',STM+'2694490/header.jpg'],['Elden Ring','Elden Ring',STM+'1245620/header.jpg'],['Minecraft','Minecraft','']]},
-    {vi:'Nhạc',en:'Music',go:'idol',c:2,img:'images/cover-nhac.jpg',d:['Những người làm nhạc tôi nghe nhiều nhất.','The artists I listen to the most.'],items:idolNames},
-    {vi:'Truyện',en:'Comics',go:'hobby',c:3,img:'images/cover-truyen.jpg',d:['Manhwa, manhua và những bộ tôi việt hoá.','Manhwa, manhua and the ones I translate.'],items:[['Manhwa','Manhwa',''],['Manhua','Manhua',''],['Việt hoá','Translations','']]},
-    {vi:'Phim',en:'Movies',go:'hobby',c:4,img:'images/cover-phim.jpg',d:['Marvel, DC và vài phim bộ.','Marvel, DC and a few series.'],items:[['Marvel','Marvel',''],['DC','DC',''],['Phim bộ','TV series','']]},
-    {vi:'Góc máy',en:'Setup',go:'shelf',c:5,img:'images/setup/chair.jpg',d:['Bộ máy tôi ngồi mỗi ngày.','The setup I sit at every day.'],
+    {vi:'Nhạc',en:'Music',go:'idol',c:2,img:'images/cover-nhac.webp',d:['Những người làm nhạc tôi nghe nhiều nhất.','The artists I listen to the most.'],items:idolNames},
+    {vi:'Truyện',en:'Comics',go:'hobby',c:3,img:'images/cover-truyen.webp',d:['Manhwa, manhua và những bộ tôi việt hoá.','Manhwa, manhua and the ones I translate.'],items:[['Manhwa','Manhwa',''],['Manhua','Manhua',''],['Việt hoá','Translations','']]},
+    {vi:'Phim',en:'Movies',go:'hobby',c:4,img:'images/cover-phim.webp',d:['Marvel, DC và vài phim bộ.','Marvel, DC and a few series.'],items:[['Marvel','Marvel',''],['DC','DC',''],['Phim bộ','TV series','']]},
+    {vi:'Góc máy',en:'Setup',go:'shelf',c:5,img:'images/setup/chair.webp',d:['Bộ máy tôi ngồi mỗi ngày.','The setup I sit at every day.'],
       items:[['AOC 27G15N','AOC 27G15N','https://cdn.sanity.io/images/hf5b3axp/production/ccab6edea8f77e3dd04af545fce38e4123b72d5e-2000x1500.png?w=600&auto=format'],['AULA F108 Pro','AULA F108 Pro','https://aulagear.com/cdn/shop/files/IMG_9914.png?v=1742354696&width=600'],['RTX 3060','RTX 3060','https://c1.neweggimages.com/ProductImage/14-500-509-V08.jpg'],['i5-12400F','i5-12400F','https://intelcorp.scene7.com/is/image/intelcorp/km-1920x1080-i5:1080-1080?fmt=png8-alpha&wid=600']]},
     {vi:'Làm web',en:'Building',go:'lab',c:6,img:'',d:['Những thứ tôi tự làm cho trang này.','Things I built for this site.'],items:[['Góc chơi','Playground',''],['Việt hoá game','Game translations',''],['Trang này','This site','']]}
   ];

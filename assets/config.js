@@ -8,7 +8,7 @@ var D={name:'ming',sub:'Check out my profile',user:'ming0811_',tag:'COZY',avatar
  badges:[['images/badges/b1.png','Huy hiệu 1'],['images/badges/b2.png','Huy hiệu 2'],['images/badges/b3.png','Huy hiệu 3'],['images/badges/b4.png','Huy hiệu 4'],['images/badges/b5.png','Huy hiệu 5'],['images/badges/b6.png','Huy hiệu 6'],['images/badges/b7.png','Huy hiệu 7'],['images/badges/b8.png','Huy hiệu 8'],['images/badges/b9.png','Huy hiệu 9'],['images/badges/b10.png','Huy hiệu 10'],['images/badges/b11.png','Huy hiệu 11'],['images/badges/b12.png','Huy hiệu 12']],
  /* hiệu ứng hồ sơ (Dark Moon Crows - Blood Moon): intro chạy 1 lần 4 giây, loop lặp mãi; để trống để tắt */
  /* (đã lưu vào images/effects/ để phát lại được mà không tải lại) gap = số giây nghỉ giữa 2 lần phát, len = độ dài một lượt (giây) */
- effect:{intro:'images/effects/darkmoon-intro.png',loop:'images/effects/darkmoon-loop.png',gap:10,len:4},
+ effect:{intro:'images/effects/darkmoon-intro.png',loop:'images/effects/darkmoon-loop.png',introV:'images/effects/darkmoon-intro.webm',loopV:'images/effects/darkmoon-loop.webm',gap:10,len:4},
  frames:[DK+'1556809829652234330/static',DK+'1556809833922035752/static',DK+'1556809813197983765/static',DK+'1556809825642614794/static'],frameIdx:0,frameForce:true,frameUse:[],pieces:null,slice:.25,
  bio:['🎂 Took Birth: {age}','He/Him'],link:'https://ming-dev.id.vn/',since:['6 thg 8, 2021','6 thg 8, 2022'],note:':v',
  roles:[['Game thủ','#57f287'],['Dịch giả','#fee75c'],['Dev','#5865f2'],['Nghe nhạc','#eb459e'],['Cú đêm','#ed4245'],['Mèo','#f0883e'],['Cà phê','#1abc9c']],
@@ -87,28 +87,32 @@ function bimg(b){return /\.(png|webp|gif|jpe?g|svg)(\?|$)/i.test(b[0])?'<img src
    Lần đầu: phát phần mở đầu (intro). Sau đó: phát một lượt lớp lặp (loop) → mờ dần → NGHỈ D.effect.gap giây → phát lại từ đầu.
    Hai file được tải MỘT LẦN (fetch → blob); mỗi lần phát lại chỉ tạo địa chỉ blob mới để ảnh chạy lại từ khung đầu, không tải lại.
    Card khuất khỏi màn hình hoặc tab ẩn thì dừng hẳn, hiện lại thì phát tiếp.
-   Máy yếu / tắt hiệu ứng / tiết kiệm dữ liệu thì không tải (mỗi file 3–4 MB). */
+   Máy yếu / tắt hiệu ứng / tiết kiệm dữ liệu thì không tải.
+   Có bản video .webm (nền trong suốt, ~0,3 MB) thì dùng video; Safari / iPhone không hiện được nền trong suốt của .webm nên dùng ảnh .png (3–4 MB). */
 var FX=null,FXB={},fxT=0,fxOn=false,fxVis=false,fxUrl='',fxFirst=true;
+var FXV=(function(){try{var ua=navigator.userAgent;if(!D.effect||!D.effect.loopV)return false;if(/AppleWebKit/.test(ua)&&!/Chrome\/|Chromium\//.test(ua))return false;return document.createElement('video').canPlayType('video/webm; codecs="vp09.00.10.08"')!==''}catch(e){return false}})();
 function fxOk(){var n=navigator,R0=document.documentElement;if(!D.effect||!D.effect.loop)return false;if(R0.getAttribute('data-motion')==='off'||R0.classList.contains('lite'))return false;if(matchMedia('(prefers-reduced-motion: reduce)').matches)return false;if(n.connection&&n.connection.saveData)return false;return true}
-function fxBlob(k){if(FXB[k])return FXB[k];return FXB[k]=fetch(D.effect[k]).then(function(r){if(!r.ok)throw 0;return r.blob()})}
-function fxStop(){clearTimeout(fxT);fxT=0;fxOn=false;if(FX){var im=FX.querySelector('img');im.classList.remove('on')}}
+function fxBlob(k){if(FXB[k])return FXB[k];return FXB[k]=fetch(D.effect[FXV?k+'V':k]).then(function(r){if(!r.ok)throw 0;return r.blob()})}
+function fxStop(){clearTimeout(fxT);fxT=0;fxOn=false;if(FX){var im=FX.firstChild;im.classList.remove('on');if(im.pause)im.pause()}}
 function fxPlay(){
  clearTimeout(fxT);if(!FX||!fxVis||document.hidden||!fxOk()){fxOn=false;return}fxOn=true;
- var k=fxFirst&&D.effect.intro?'intro':'loop',im=FX.querySelector('img'),len=(D.effect.len||4)*1000,gap=(D.effect.gap==null?10:D.effect.gap)*1000;
+ var k=fxFirst&&D.effect.intro?'intro':'loop',im=FX.firstChild,len=(D.effect.len||4)*1000,gap=(D.effect.gap==null?10:D.effect.gap)*1000;
  fxBlob(k).then(function(b){
   if(!fxOn)return;
   if(fxUrl)URL.revokeObjectURL(fxUrl);fxUrl=URL.createObjectURL(b);
-  im.onload=function(){
+  var go=function(){
    if(!fxOn)return;fxFirst=false;im.classList.add('on');
+   if(im.play){im.currentTime=0;var p=im.play();if(p&&p.catch)p.catch(function(){})}
    /* gần hết lượt thì mờ dần, hết hẳn thì nghỉ rồi phát lại */
    fxT=setTimeout(function(){im.classList.remove('on');fxT=setTimeout(fxPlay,gap)},Math.max(500,len-500));
   };
+  if(FXV)im.onloadeddata=go;else im.onload=go;
   im.src=fxUrl;
  },function(){FX.remove();FX=null}); /* không tải được thì bỏ hiệu ứng, card vẫn bình thường */
 }
 function attachFx(){
  var l=root.querySelector('.l');if(!l)return;
- if(!FX){if(!fxOk())return;FX=document.createElement('div');FX.className='fx';FX.setAttribute('aria-hidden','true');FX.innerHTML='<img alt="" decoding="async">';
+ if(!FX){if(!fxOk())return;FX=document.createElement('div');FX.className='fx';FX.setAttribute('aria-hidden','true');FX.innerHTML=FXV?'<video muted playsinline disablepictureinpicture preload="auto"></video>':'<img alt="" decoding="async">';if(FXV)FX.firstChild.muted=true;
   /* chỉ chạy khi card đang trên màn hình */
   if('IntersectionObserver' in window)new IntersectionObserver(function(es){fxVis=es.some(function(e){return e.isIntersecting});if(fxVis){if(!fxOn)fxT=setTimeout(fxPlay,300)}else fxStop()}).observe(host);else{fxVis=true;fxPlay()}
   document.addEventListener('visibilitychange',function(){if(document.hidden)fxStop();else if(fxVis&&!fxOn)fxT=setTimeout(fxPlay,600)});

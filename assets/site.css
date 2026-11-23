@@ -767,11 +767,11 @@ section.s,section.intro{position:relative}
 .lk .lt small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted);font:400 .75rem var(--mono)}
 .lk .la{flex:none;padding:.12rem .65rem;border:1px solid var(--line-hi);color:var(--muted);font-size:.72rem;transition:color .2s,border-color .2s}
 
-.gbar{padding-top:0;padding-bottom:0;margin:1.2rem auto}.gbar:not(:has(img)){display:none}
-.gbn{position:relative;border:1px solid var(--line);border-radius:1rem;overflow:hidden;background:var(--card);cursor:zoom-in;transition:border-color .2s}
+.gbar{padding-top:0;padding-bottom:0;margin:1.2rem auto}.gbar:not(:has(img,video)){display:none}
+.gbn{position:relative;border:1px solid var(--line);border-radius:1rem;overflow:hidden;background:var(--card);transition:border-color .2s}
 .gbn:hover{border-color:var(--acc)}
-.gbn img,.gbn canvas{display:block;width:100%;height:auto}
-.gbar .gbn img,.gbar .gbn canvas{height:100%;object-fit:cover}
+.gbn :is(img,video,canvas){display:block;width:100%;height:auto}
+.gbar .gbn :is(img,video,canvas){height:100%;object-fit:cover}
 
 .banner{max-width:38rem;margin:.8rem auto;border:1px solid var(--line);border-radius:1rem;overflow:hidden;background:var(--card)}
 .banner img,.banner canvas{width:100%;height:auto;display:block}
