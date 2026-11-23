@@ -6607,16 +6607,21 @@ try{
   var R=document.documentElement,cx=cv.getContext('2d');
   function en(){return R.lang==='en'}
   function idolNames(){
-    var a=[].map.call(document.querySelectorAll('#idol h3'),function(h){return h.textContent.replace(/[→\s]+$/,'').replace(/\.$/,'').trim()}).filter(Boolean);
-    return (a.length?a:['Sơn Tùng M-TP','Đen Vâu','Vũ','HIEUTHUHAI','MCK']).slice(0,7);
+    /* tên + ảnh lấy thẳng từ thẻ nghệ sĩ trong mục #idol */
+    var a=[].map.call(document.querySelectorAll('#idol h3'),function(h){var c=h.closest('.idc')||h.parentElement,im=c&&c.querySelector('img'),n=h.textContent.replace(/[→\s]+$/,'').replace(/\.$/,'').trim();return n?[n,n,im?(im.getAttribute('src')||im.currentSrc):'']:null}).filter(Boolean);
+    return (a.length?a:[['Sơn Tùng M-TP','Sơn Tùng M-TP','images/idol/son-tung.jpg'],['Đen Vâu','Đen Vâu','images/idol/den-vau.jpg']]).slice(0,7);
   }
+  /* mỗi sao con: [tên VI, tên EN, ảnh (để trống = dùng ảnh của nhóm)]; nhóm: img = ảnh bìa, d = một câu giới thiệu */
+  var STM='https://cdn.cloudflare.steamstatic.com/steam/apps/';
   var GROUPS=[
-    {vi:'Game',en:'Games',go:'shelf',c:1,items:['League of Legends','Delta Force','Path of Exile 2','Elden Ring','Minecraft']},
-    {vi:'Nhạc',en:'Music',go:'idol',c:2,items:idolNames},
-    {vi:'Truyện',en:'Comics',go:'hobby',c:3,items:['Manhwa','Manhua',['Việt hoá','Translations']]},
-    {vi:'Phim',en:'Movies',go:'hobby',c:4,items:['Marvel','DC',['Phim bộ','TV series']]},
-    {vi:'Góc máy',en:'Setup',go:'shelf',c:5,items:['AOC 27G15N','AULA F108 Pro','RTX 3060','i5-12400F']},
-    {vi:'Làm web',en:'Building',go:'lab',c:6,items:[['Góc chơi','Playground'],['Việt hoá game','Game translations'],['Trang này','This site']]}
+    {vi:'Game',en:'Games',go:'shelf',c:1,img:'images/cover-game.jpg',d:['Game tôi chơi và đã chơi.','Games I play and have played.'],
+      items:[['League of Legends','League of Legends','https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Yasuo_0.jpg'],['Delta Force','Delta Force',STM+'2507950/header.jpg'],['Path of Exile 2','Path of Exile 2',STM+'2694490/header.jpg'],['Elden Ring','Elden Ring',STM+'1245620/header.jpg'],['Minecraft','Minecraft','']]},
+    {vi:'Nhạc',en:'Music',go:'idol',c:2,img:'images/cover-nhac.jpg',d:['Những người làm nhạc tôi nghe nhiều nhất.','The artists I listen to the most.'],items:idolNames},
+    {vi:'Truyện',en:'Comics',go:'hobby',c:3,img:'images/cover-truyen.jpg',d:['Manhwa, manhua và những bộ tôi việt hoá.','Manhwa, manhua and the ones I translate.'],items:[['Manhwa','Manhwa',''],['Manhua','Manhua',''],['Việt hoá','Translations','']]},
+    {vi:'Phim',en:'Movies',go:'hobby',c:4,img:'images/cover-phim.jpg',d:['Marvel, DC và vài phim bộ.','Marvel, DC and a few series.'],items:[['Marvel','Marvel',''],['DC','DC',''],['Phim bộ','TV series','']]},
+    {vi:'Góc máy',en:'Setup',go:'shelf',c:5,img:'images/setup/chair.jpg',d:['Bộ máy tôi ngồi mỗi ngày.','The setup I sit at every day.'],
+      items:[['AOC 27G15N','AOC 27G15N','https://cdn.sanity.io/images/hf5b3axp/production/ccab6edea8f77e3dd04af545fce38e4123b72d5e-2000x1500.png?w=600&auto=format'],['AULA F108 Pro','AULA F108 Pro','https://aulagear.com/cdn/shop/files/IMG_9914.png?v=1742354696&width=600'],['RTX 3060','RTX 3060','https://c1.neweggimages.com/ProductImage/14-500-509-V08.jpg'],['i5-12400F','i5-12400F','https://intelcorp.scene7.com/is/image/intelcorp/km-1920x1080-i5:1080-1080?fmt=png8-alpha&wid=600']]},
+    {vi:'Làm web',en:'Building',go:'lab',c:6,img:'',d:['Những thứ tôi tự làm cho trang này.','Things I built for this site.'],items:[['Góc chơi','Playground',''],['Việt hoá game','Game translations',''],['Trang này','This site','']]}
   ];
   /* vài đường nối "có nghĩa" giữa các nhóm */
   var CROSS=[['RTX 3060','Elden Ring'],['AULA F108 Pro','Góc chơi'],['Việt hoá','Việt hoá game'],['League of Legends','Delta Force']];
@@ -6633,17 +6638,17 @@ try{
     var r=cv.getBoundingClientRect();W=Math.max(280,r.width);H=Math.max(240,r.height);dpr=Math.min(window.devicePixelRatio||1,1.5);
     cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);cx.setTransform(dpr,0,0,dpr,0,0);
     N=[];E=[];HUBS=[];pulses=[];ripples=[];labelsFor=null;var sm=W<520,ccx=W/2,ccy=H/2,rx=W*(sm?.28:.27),ry=H*(sm?.28:.27);
-    var me={id:'me',vi:'Ming',en:'Ming',x:ccx,y:ccy,r:7,me:true,go:'intro',hub:true};N.push(me);
+    var me={id:'me',vi:'Ming',en:'Ming',x:ccx,y:ccy,r:7,me:true,go:'intro',hub:true,img:'images/avatar.jpg',d:['Chủ của trang này. Mọi nhánh đều bắt đầu từ đây.','The owner of this site. Every branch starts here.']};N.push(me);
     GROUPS.forEach(function(g,gi){
       var a=-Math.PI/2+gi/GROUPS.length*Math.PI*2+.3,hx=ccx+Math.cos(a)*rx,hy=ccy+Math.sin(a)*ry;
-      var hub={id:'g'+gi,vi:g.vi,en:g.en,x:hx,y:hy,r:5.5,c:g.c,go:g.go,hub:true,ang:a,kids:[]};N.push(hub);HUBS.push(hub);E.push([me,hub,1]);
+      var hub={id:'g'+gi,vi:g.vi,en:g.en,x:hx,y:hy,r:5.5,c:g.c,go:g.go,hub:true,ang:a,kids:[],img:g.img,d:g.d};N.push(hub);HUBS.push(hub);E.push([me,hub,1]);
       var items=typeof g.items==='function'?g.items():g.items,n=items.length,spread=sm?.42:.36;
       items.forEach(function(it,i){
-        var vi=Array.isArray(it)?it[0]:it,ename=Array.isArray(it)?it[1]:it,
+        var vi=Array.isArray(it)?it[0]:it,ename=Array.isArray(it)?it[1]:it,img=Array.isArray(it)&&it[2]?it[2]:g.img,
             aa=a+(i-(n-1)/2)*spread,dd=(sm?42:58)+(i%2)*(sm?20:28),
             x=hx+Math.cos(aa)*dd,y=hy+Math.sin(aa)*dd;
         x=Math.max(10,Math.min(W-10,x));y=Math.max(12,Math.min(H-12,y));
-        var nd={id:'n'+gi+'_'+i,vi:vi,en:ename,x:x,y:y,r:3.4,c:g.c,go:g.go,grp:hub};N.push(nd);hub.kids.push(nd);E.push([hub,nd,1]);
+        var nd={id:'n'+gi+'_'+i,vi:vi,en:ename,x:x,y:y,r:3.4,c:g.c,go:g.go,grp:hub,img:img};N.push(nd);hub.kids.push(nd);E.push([hub,nd,1]);
       });
     });
     /* bụi sao không tên: ít, mờ, chỉ để có trời */
@@ -6667,12 +6672,13 @@ try{
   /* tiến độ xuất hiện của một sao (0 → 1) */
   function ip(n,t){if(!intro0||still())return 1;return Math.max(0,Math.min(1,(t-intro0-n.dl*INTRO_SPAN)/INTRO_POP))}
   function pos(n,t){
-    if(still())return [n.x,n.y];
+    /* sao có tên và chữ đứng yên một chỗ; chỉ bụi sao trôi nhẹ */
+    if(still()||!n.dust)return [n.x,n.y];
     var cxm=W/2,cym=H/2,sw=Math.sin(t/6500)*.06,cs=Math.cos(sw),sn=Math.sin(sw),dx=n.x-cxm,dy=n.y-cym;
     var x=cxm+dx*cs-dy*sn,y=cym+dx*sn+dy*cs,q=t/1000*n.sp+n.ph;   /* cả chòm đung đưa quanh tâm */
     x+=Math.cos(q)*n.am;y+=Math.sin(q*1.3)*n.am*.8;               /* mỗi sao trôi nhẹ riêng */
     var dp=n.me?2:n.hub?5:n.dust?16:9;x+=mx*dp;y+=my*dp;           /* chiều sâu theo chuột */
-    var p=ease(ip(n,t));return [cxm+(x-cxm)*p,cym+(y-cym)*p];     /* lúc đầu: bay từ tâm ra */
+    return [x,y];
   }
   function label(n){return en()?n.en:n.vi}
   /* đặt tên một lần (theo vị trí gốc) rồi giữ khoảng lệch, để tên đi theo sao mà không nhảy qua lại khi sao trôi */
@@ -6689,7 +6695,7 @@ try{
       by=Math.max(fs,Math.min(H-fs,by));placed.push([lx-4,by-bh/2,tw+8,bh]);
       n.L={dx:lx-n.x,dy:by-n.y,tw:tw,fs:fs,big:big,left:left,txt:txt};
     });
-    labelsFor=(focus?focus.id:'')+'|'+R.lang+'|'+W;
+    labelsFor=R.lang+'|'+W;
   }
   /* tia sáng: chạy từ tâm ra một nhóm, tới nơi thì toả tiếp ra một sao con */
   function spawn(t){var h=HUBS[Math.floor(Math.random()*HUBS.length)];if(!h)return;pulses.push({a:N[0],b:h,t0:t,d:950,c:h,next:true})}
@@ -6728,7 +6734,7 @@ try{
     /* sao */
     N.forEach(function(n){
       if(n.ip<=0)return;
-      var on=!lit||lit[n.id],s=n.r*(n===focus?1.45:1)*back(n.ip),c=col(n);
+      var on=!lit||lit[n.id],s=n.r*back(n.ip),c=col(n);
       if(n.dust){cx.globalAlpha=(lit?.12:(stl?.5:.28+.32*(.5+.5*Math.sin(t/1000*n.sp*5+n.ph))))*n.ip;cx.fillStyle=P['--muted'];cx.fillRect(n.px-s/2,n.py-s/2,s,s);return}
       cx.globalAlpha=(on?1:.22)*Math.min(1,n.ip*1.4);
       if(n.hub||n===focus){var br=stl?1:1+.14*Math.sin(t/900+n.ph);cx.globalAlpha*=.22;cx.fillStyle=c;cx.beginPath();cx.arc(n.px,n.py,s*2.6*br,0,6.283);cx.fill();cx.globalAlpha=(on?1:.22)*Math.min(1,n.ip*1.4)}
@@ -6738,14 +6744,15 @@ try{
     /* gợn sóng khi rê vào sao */
     ripples=ripples.filter(function(r){var k=(t-r.t0)/650;if(k>=1)return false;cx.globalAlpha=(1-k)*.8;cx.strokeStyle=col(r.n);cx.lineWidth=1.5;cx.beginPath();cx.arc(r.n.px,r.n.py,r.n.r+4+k*26,0,6.283);cx.stroke();return true});
     /* tên (đặt một lần, đi theo sao) */
-    var key=(focus?focus.id:'')+'|'+R.lang+'|'+W;if(labelsFor!==key)layoutLabels(focus);
+    var key=R.lang+'|'+W;if(labelsFor!==key)layoutLabels(null);
     cx.textBaseline='middle';
     N.forEach(function(n){
-      if(n.dust||!n.L||n.ip<.5)return;var Lb=n.L,on=!lit||lit[n.id],fs=Lb.fs,lx=n.px+Lb.dx,ly=n.py+Lb.dy,fa=Math.min(1,(n.ip-.5)*2);
-      cx.font=(n.hub||Lb.big?'700 ':'500 ')+fs+'px '+P.mono;
+      if(n.dust||!n.L||n.ip<.5)return;var Lb=n.L,on=!lit||lit[n.id],fs=Lb.fs,lx=n.px+Lb.dx,ly=n.py+Lb.dy,fa=Math.min(1,(n.ip-.5)*2),big=n===focus;
+      cx.font=(n.hub?'700 ':'500 ')+fs+'px '+P.mono;
       if(Math.abs(Lb.dy)>.5&&!n.me){cx.globalAlpha=(on?.35:.1)*fa;cx.strokeStyle=P['--muted'];cx.lineWidth=.8;cx.beginPath();cx.moveTo(n.px,n.py);cx.lineTo(Lb.left?lx+Lb.tw:lx,ly);cx.stroke()}
-      cx.globalAlpha=(on?(Lb.big?.9:.62):.15)*fa;cx.fillStyle=P['--bg'];cx.fillRect(lx-4,ly-fs*.65,Lb.tw+8,fs*1.3);   /* nền nhỏ sau chữ */
-      cx.globalAlpha=(on?1:.25)*fa;cx.fillStyle=Lb.big||n.me?col(n):n.hub?P['--text']:P['--muted'];cx.fillText(Lb.txt,lx,ly);
+      cx.globalAlpha=(on?(big?.95:.62):.15)*fa;cx.fillStyle=P['--bg'];cx.fillRect(lx-4,ly-fs*.65,Lb.tw+8,fs*1.3);   /* nền nhỏ sau chữ */
+      if(big){cx.globalAlpha=fa;cx.strokeStyle=col(n);cx.lineWidth=1;cx.strokeRect(lx-4.5,ly-fs*.65-.5,Lb.tw+9,fs*1.3+1)}  /* đang chọn: viền màu, chữ không đổi cỡ nên không xê dịch */
+      cx.globalAlpha=(on?1:.25)*fa;cx.fillStyle=big||n.me?col(n):n.hub?P['--text']:P['--muted'];cx.fillText(Lb.txt,lx,ly);
     });
     cx.globalAlpha=1;
   }
@@ -6756,7 +6763,7 @@ try{
     var f=sel||hot;if(!hint)return;
     if(!f){hint.textContent='';return}
     var g=f.hub?f:f.grp,where=g&&!f.me?(en()?g.en:g.vi):'';
-    hint.textContent=label(f)+(where&&!f.hub?' · '+where:'')+'  →  '+(en()?(sel?'tap again to open':'click to open'):(sel?'chạm lần nữa để mở':'bấm để mở'));
+    if(sel){hint.textContent='';return}hint.textContent=label(f)+(where&&!f.hub?' · '+where:'')+'  →  '+(en()?'click to view':'bấm để xem');
   }
   /* chuột / chạm */
   function pick(e){var r=cv.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,best=null,bd=e.pointerType==='touch'?28:20;
@@ -6766,20 +6773,52 @@ try{
     if(e.pointerType==='touch')return;var r=cv.getBoundingClientRect();tmx=(e.clientX-r.left)/r.width-.5;tmy=(e.clientY-r.top)/r.height-.5;
     var n=pick(e);if(n!==hot){hot=n;cv.classList.toggle('hot',!!n);setHint();ripple(n);if(still())redraw()}});
   cv.addEventListener('pointerleave',function(){tmx=tmy=0;if(hot){hot=null;cv.classList.remove('hot');setHint();if(still())redraw()}});
-  cv.addEventListener('click',function(e){
-    var n=pick(e);
-    if(!n){if(sel){sel=null;setHint();redraw()}return}
-    var touch=e.pointerType==='touch'||(!e.pointerType&&matchMedia('(hover:none)').matches);
-    if(touch&&sel!==n){sel=n;setHint();ripple(n);redraw();return}
-    if(n.go){var el=document.getElementById(n.go);if(el){if(window.__openSec)window.__openSec(n.go);el.scrollIntoView({behavior:still()?'auto':'smooth',block:'start'})}}
-  });
+  /* ---- THẺ BẬT LÊN: bấm vào sao thì hiện thẻ có hình ngay cạnh sao, không nhảy trang ----
+     nút "Xem ở mục…" trong thẻ mới đưa tới phần chi tiết; × / Esc / bấm chỗ trống để đóng */
+  var pop=document.createElement('div');pop.className='skypop';pop.hidden=true;pop.setAttribute('role','dialog');
+  pop.innerHTML='<button type="button" class="x" aria-label="Đóng">×</button><div class="im"><img alt="" decoding="async"><i></i></div><div class="bd"><small><span></span><em></em></small><b></b><p></p><div class="ch"></div><button type="button" class="go"></button></div>';
+  cv.parentNode.appendChild(pop);
+  var pImg=pop.querySelector('img'),pIm=pop.querySelector('.im'),pFb=pop.querySelector('.im i');
+  function L2(a,b){return en()?b:a}
+  function closePop(){if(pop.hidden)return;pop.classList.remove('on');sel=null;setHint();redraw();setTimeout(function(){if(!sel)pop.hidden=true},200)}
+  function placePop(n){
+    var cw=cv.clientWidth,ch=cv.clientHeight,pw=pop.offsetWidth,ph=pop.offsetHeight,x=n.x,y=n.y,gap=18;
+    var left=x>cw/2?x-pw-gap:x+gap;left=Math.max(10,Math.min(cw-pw-10,left));
+    var top=Math.max(10,Math.min(ch-ph-10,y-ph/2));pop.style.left=left+'px';pop.style.top=top+'px';
+    pop.style.setProperty('--pc',col(n));
+  }
+  function showPop(n){
+    sel=n;setHint();ripple(n);redraw();
+    var g=n.me?null:(n.hub?n:n.grp),c=col(n);
+    pop.querySelector('small span').textContent=n.me?L2('Trung tâm','Centre'):n.hub?L2('Nhóm','Group'):label(g);
+    pop.querySelector('small em').textContent=n.me?'':n.hub?(n.kids.length+' '+L2('sao','stars')):'';
+    pop.querySelector('b').textContent=label(n);
+    var d=n.d?(en()?n.d[1]:n.d[0]):(g&&g.d?(en()?g.d[1]:g.d[0]):'');
+    pop.querySelector('p').textContent=d;
+    /* nhóm: hiện các sao con; tâm: hiện các nhóm; bấm vào là xem sao đó */
+    var list=n.me?HUBS:n.hub?n.kids:[],chs=pop.querySelector('.ch');chs.innerHTML='';
+    list.forEach(function(k){var b=document.createElement('button');b.type='button';b.textContent=label(k);b.style.setProperty('--kc',col(k));b.addEventListener('click',function(ev){ev.stopPropagation();showPop(k)});chs.appendChild(b)});
+    chs.hidden=!list.length;
+    var go=pop.querySelector('.go'),sec2=n.go&&document.getElementById(n.go);go.hidden=!sec2;
+    var sh=sec2&&sec2.querySelector('h2');go.textContent=L2('Xem ở mục','Open section')+(sh?' “'+sh.textContent.trim().slice(0,28)+'”':'')+' →';
+    go.onclick=function(){closePop();if(window.__openSec)window.__openSec(n.go);sec2.scrollIntoView({behavior:still()?'auto':'smooth',block:'start'})};
+    /* ảnh: của chính sao đó, hoặc của nhóm; không có thì khối màu với chữ cái đầu */
+    var u=n.img||(g&&g.img)||'',du=window.LANY&&window.LANY.discord_user;if(n.me&&du&&du.avatar)u='https://cdn.discordapp.com/avatars/'+du.id+'/'+du.avatar+'.'+(du.avatar.indexOf('a_')===0?'gif':'png')+'?size=256';pFb.textContent=label(n).charAt(0);pIm.style.setProperty('--pc',c);
+    pIm.classList.toggle('no',!u);pIm.classList.toggle('fit',/setup|sanity|aulagear|inphic|newegg|intel/.test(u));
+    if(u){pImg.hidden=false;pImg.onerror=function(){pImg.hidden=true;pIm.classList.add('no')};if(pImg.getAttribute('src')!==u)pImg.src=u}else pImg.hidden=true;
+    pop.hidden=false;placePop(n);requestAnimationFrame(function(){pop.classList.add('on')});
+  }
+  pop.querySelector('.x').addEventListener('click',function(e){e.stopPropagation();closePop()});
+  pop.addEventListener('click',function(e){e.stopPropagation()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!pop.hidden)closePop()});
+  cv.addEventListener('click',function(e){var n=pick(e);if(!n){closePop();return}if(sel===n&&!pop.hidden){closePop();return}showPop(n)});
   function texts(){[].forEach.call(sec.querySelectorAll('[data-vi]'),function(el){el.textContent=el.getAttribute(en()?'data-en':'data-vi')})}
-  document.addEventListener('langchange',function(){setTimeout(function(){texts();setHint();redraw()},0)});
+  document.addEventListener('langchange',function(){setTimeout(function(){texts();if(sel&&!pop.hidden)showPop(sel);setHint();redraw()},0)});
   new MutationObserver(function(){P=pal();labelsFor=null;redraw()}).observe(R,{attributes:true,attributeFilter:['data-accent','data-theme','data-motion']});
   var built=false;
   function start(){if(!built){built=true;build();texts()}if(!intro0&&!still())intro0=performance.now();visible=true;redraw()}
   if('IntersectionObserver' in window){new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)start();else{visible=false;if(raf){cancelAnimationFrame(raf);raf=0}}})},{rootMargin:'-60px 0px'}).observe(cv)}else start();
-  if(window.ResizeObserver){var rt=0;new ResizeObserver(function(){if(!built)return;clearTimeout(rt);rt=setTimeout(function(){build();redraw()},120)}).observe(cv)}
+  if(window.ResizeObserver){var rt=0;new ResizeObserver(function(){if(!built)return;clearTimeout(rt);rt=setTimeout(function(){closePop();build();redraw()},120)}).observe(cv)}
   document.addEventListener('visibilitychange',function(){if(!document.hidden)kick()});
 })();
 }catch(e){console.error('[skymap]',e)}

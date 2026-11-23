@@ -389,7 +389,28 @@ window.__autoLang=function(){
 #dcp .dot::after{content:"";position:absolute;background:var(--bg);display:none}
 #dcp .dot[data-st=idle]::after{display:block;left:-1px;top:-1px;width:62%;height:62%;border-radius:50%}
 #dcp .dot[data-st=dnd]::after{display:block;left:22%;right:22%;top:50%;height:22%;margin-top:-11%;border-radius:2px}
-#dcp .dot[data-st=offline]::after{display:block;inset:28%;border-radius:50%}</style><div id="dcp"></div></template>
+#dcp .dot[data-st=offline]::after{display:block;inset:28%;border-radius:50%}
+/* huy hiệu bằng ảnh (cắt từ bảng huy hiệu Discord) */
+#dcp .bd span{display:inline-grid;place-items:center;width:22px;height:22px}
+#dcp .bd img{width:22px;height:22px;object-fit:contain;display:block}
+/* bảng huy hiệu mở rộng: lưới 6 ô như trong Discord */
+#dcp .bp{display:block;padding:14px;margin:-6px 0 14px;border-radius:12px;background:linear-gradient(180deg,#2a2232,#221b29);border:1px solid rgba(255,255,255,.06)}
+#dcp .bph b{display:block;font-size:14px;color:var(--tx)}
+#dcp .bph small{display:block;margin-top:2px;font-size:12px;color:var(--mu)}
+#dcp .bpg{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:12px 0}
+#dcp .bt{display:grid;place-items:center;aspect-ratio:1;border-radius:9px;background:#32293b;transition:background-color .15s,transform .15s}
+#dcp .bt:hover{background:#3d3248;transform:translateY(-2px)}
+#dcp .bt img{width:62%;height:62%;object-fit:contain}
+#dcp .bpx{display:block;width:100%;padding:8px;border:0;border-radius:8px;background:#32293b;color:var(--tx);font:600 13px inherit;cursor:pointer}
+#dcp .bpx:hover{background:#3d3248}
+#dcp.lt .bp{background:linear-gradient(180deg,#f1ecf6,#e8e2ef);border-color:rgba(0,0,0,.06)}
+#dcp.lt .bt,#dcp.lt .bpx{background:#ddd5e6}
+/* hiệu ứng hồ sơ: phủ lên cột hồ sơ, đúng tỉ lệ 450×880 như Discord, không chặn chuột */
+#dcp .l{position:relative}
+#dcp .fx{position:absolute;left:0;top:0;width:100%;aspect-ratio:450/880;z-index:7;pointer-events:none;overflow:hidden;border-radius:14px 14px 0 0}
+#dcp .fx img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top}
+#dcp .fx .fxi{z-index:2}
+@media (prefers-reduced-motion:reduce){#dcp .fx{display:none}}</style><div id="dcp"></div></template>
 <div class="wrap">
   <div class="rv">
     <p class="eyebrow ei"><i data-ic="radio"></i><span>Ngay lúc này</span></p>
@@ -429,7 +450,7 @@ window.__autoLang=function(){
         <div class="skytx rv">
           <p class="eyebrow ei"><i data-ic="sparkle"></i><span data-vi="Bản đồ sở thích" data-en="Map of things I like">Bản đồ sở thích</span></p>
           <h2 id="skyt" data-vi="Những thứ tôi thích, nối lại thành một bầu trời." data-en="Everything I like, linked into one sky.">Những thứ tôi thích, nối lại thành một bầu trời.</h2>
-          <p class="lead" data-vi="Game, nhạc, truyện, phim và góc máy. Rê chuột hoặc chạm vào một ngôi sao để xem nó nối với những gì, bấm thêm lần nữa để tới mục đó." data-en="Games, music, comics, movies and my setup. Hover or tap a star to see what it links to, tap again to jump there.">Game, nhạc, truyện, phim và góc máy. Rê chuột hoặc chạm vào một ngôi sao để xem nó nối với những gì, bấm thêm lần nữa để tới mục đó.</p>
+          <p class="lead" data-vi="Game, nhạc, truyện, phim và góc máy. Rê chuột vào một ngôi sao để xem nó nối với những gì, bấm vào để xem ảnh và vài dòng giới thiệu ngay tại chỗ." data-en="Games, music, comics, movies and my setup. Hover a star to see what it links to, click it to see a picture and a short note right there.">Game, nhạc, truyện, phim và góc máy. Rê chuột vào một ngôi sao để xem nó nối với những gì, bấm vào để xem ảnh và vài dòng giới thiệu ngay tại chỗ.</p>
           <div class="skyst">
             <div><b id="skyn">0</b><span data-vi="ngôi sao có tên" data-en="named stars">ngôi sao có tên</span></div>
             <div><b id="skyl">0</b><span data-vi="đường nối" data-en="links">đường nối</span></div>

@@ -3142,3 +3142,32 @@ body.bgm-on .orbtab{opacity:0!important;pointer-events:none}
 .sky .skyhint:empty{display:none}
 .sky .gsk{display:none!important}
 @media (max-width:56rem){.sky .skyw{grid-template-columns:1fr;gap:1.4rem}.sky .skyc{height:clamp(22rem,70vw,28rem)}}
+/* thẻ bật lên khi bấm vào một ngôi sao (nằm trong khung bản đồ, cạnh sao đó) */
+.sky .skypop{position:absolute;z-index:3;width:15.5rem;max-width:calc(100% - 20px);border:1px solid color-mix(in srgb,var(--pc,var(--acc)) 45%,var(--line-hi));border-radius:1rem;background:var(--card);overflow:hidden;
+  box-shadow:0 22px 50px -22px rgba(0,0,0,.8),0 0 30px -14px var(--pc,var(--acc));opacity:0;scale:.94;translate:0 6px;transition:opacity .18s,scale .25s cubic-bezier(.2,.9,.3,1.2),translate .25s cubic-bezier(.2,.9,.3,1.2)}
+.sky .skypop.on{opacity:1;scale:1;translate:0 0}
+.sky .skypop[hidden]{display:none}
+.sky .skypop .x{position:absolute;right:.4rem;top:.4rem;z-index:2;width:1.7rem;height:1.7rem;padding:0;border:0;border-radius:50%;background:color-mix(in srgb,var(--bg) 70%,transparent);color:var(--text);font-size:1.1rem;line-height:1;cursor:pointer}
+.sky .skypop .x:hover{background:var(--pc,var(--acc));color:var(--bg)}
+.sky .skypop .im{position:relative;aspect-ratio:16/9;background:linear-gradient(135deg,color-mix(in srgb,var(--pc) 45%,var(--card)),color-mix(in srgb,var(--pc) 12%,var(--card)))}
+.sky .skypop .im img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.sky .skypop .im.fit{background:#fff}
+.sky .skypop .im.fit img{object-fit:contain;padding:.6rem;box-sizing:border-box}
+.sky .skypop .im i{display:none;position:absolute;inset:0;place-items:center;font:700 2.6rem var(--body);font-style:normal;color:color-mix(in srgb,var(--pc) 70%,#fff)}
+.sky .skypop .im.no i{display:grid}
+.sky .skypop .bd{padding:.75rem .9rem .9rem}
+.sky .skypop small{display:flex;align-items:center;gap:.4rem;font:600 .7rem var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--pc,var(--acc))}
+.sky .skypop small::before{content:"";width:.45rem;height:.45rem;border-radius:50%;background:currentColor;box-shadow:0 0 8px currentColor}
+.sky .skypop small em{margin-left:auto;font-style:normal;color:var(--muted);text-transform:none}
+.sky .skypop b{display:block;margin:.3rem 0 .25rem;font-size:1.05rem;color:var(--text)}
+.sky .skypop p{margin:0;font-size:.82rem;line-height:1.45;color:var(--muted)}
+.sky .skypop p:empty{display:none}
+.sky .skypop .ch{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.6rem}
+.sky .skypop .ch[hidden]{display:none}
+.sky .skypop .ch button{padding:.2rem .55rem;border:1px solid color-mix(in srgb,var(--kc) 45%,var(--line));border-radius:99px;background:transparent;color:var(--text);font:500 .72rem var(--body);cursor:pointer;transition:background-color .15s}
+.sky .skypop .ch button:hover{background:color-mix(in srgb,var(--kc) 18%,transparent)}
+.sky .skypop .go{display:block;width:100%;margin-top:.75rem;padding:.5rem .7rem;border:0;border-radius:.6rem;background:color-mix(in srgb,var(--pc,var(--acc)) 16%,transparent);color:var(--text);font:600 .78rem var(--body);text-align:left;cursor:pointer;transition:background-color .15s}
+.sky .skypop .go:hover{background:color-mix(in srgb,var(--pc,var(--acc)) 30%,transparent)}
+.sky .skypop .go[hidden]{display:none}
+:root[data-motion="off"] .sky .skypop{transition:none}
+.sky .skypop .im img[hidden]{display:none}
