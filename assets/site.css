@@ -2720,10 +2720,10 @@ li.hic::after{top:50%;right:.4rem;margin-top:-.75rem}
   -webkit-mask:var(--m1) 0 0/960px 960px repeat;mask:var(--m1) 0 0/960px 960px repeat}
 #bgic .bgf{opacity:.2}
 #bgic .bgn{-webkit-mask-image:var(--m2);mask-image:var(--m2);-webkit-mask-position:310px 170px;mask-position:310px 170px;opacity:.26;animation:bgtw 9s ease-in-out infinite alternate}
-@keyframes bgtw{0%{opacity:.14}100%{opacity:.3}}
-/* lớp icon vẽ nét (tay cầm, tai nghe, tên lửa, mèo…): mờ hơn sao, lệch ô lặp so với 2 lớp kia để không xếp thẳng hàng */
-#bgic .bgd{-webkit-mask-image:var(--m3);mask-image:var(--m3);-webkit-mask-position:520px 380px;mask-position:520px 380px;opacity:.24}
-:root[data-theme="light"] #bgic .bgd{opacity:.18}
+@keyframes bgtw{0%{opacity:.1}100%{opacity:.22}}
+/* nền chỉ còn sao mờ: hạ độ đậm cho đỡ rối mắt */
+#bgic .bgf{opacity:.15!important}
+:root[data-theme="light"] #bgic .bgf{opacity:.12!important}
 :root[data-theme="light"] #bgic{--bgc:color-mix(in srgb,var(--acc) 70%,var(--text))}
 :root[data-theme="light"] #bgic .bgf{opacity:.16}
 :root[data-theme="light"] #bgic .bgn{opacity:.2}
@@ -3232,7 +3232,8 @@ body.bgm-on .orbtab{opacity:0!important;pointer-events:none}
 :root .ghd{counter-increment:grp}
 :root .ghd::before{background:repeating-linear-gradient(-45deg,color-mix(in srgb,var(--ga,var(--acc)) 16%,transparent) 0 2px,transparent 2px 12px) 100% 0/min(42%,30rem) 100% no-repeat,color-mix(in srgb,var(--ga,var(--acc)) 7%,transparent)!important}
 :root .ghd>div{position:relative}
-:root .ghd>div::after{content:"SECTOR " counter(grp,decimal-leading-zero) " //";position:absolute;right:0;top:-1.5rem;font:500 .68rem/1 var(--mono);letter-spacing:.22em;color:var(--ga,var(--acc));opacity:.85}
+#g-about{--sec:"01"}#g-likes{--sec:"02"}#g-play{--sec:"03"}#g-log{--sec:"04"}#g-end{--sec:"05"}
+:root .ghd>div::after{content:"SECTOR " var(--sec,"00") " //";position:absolute;right:0;top:-1.5rem;font:500 .68rem/1 var(--mono);letter-spacing:.22em;color:var(--ga,var(--acc));opacity:.85}
 :root .ghd h2{text-transform:uppercase;letter-spacing:0;font-size:clamp(2rem,4.6vw,3.3rem)}
 :root .sxh h2{letter-spacing:-.01em}
 /* ---- thẻ hồ sơ + huy hiệu: ảnh bên trái, tên/trạng thái/danh hiệu bên phải, huy hiệu xếp lưới 2 cột ở dưới ---- */
@@ -3271,3 +3272,33 @@ body.bgm-on .orbtab{opacity:0!important;pointer-events:none}
 :root :is(.ffchip,.wxch,.shtabs button)[aria-pressed="true"],:root :is(.ffchip,.wxch).on,:root .shtabs button[aria-selected="true"]{box-shadow:0 0 16px -6px var(--acc)}
 :root .gc:hover{box-shadow:0 0 0 1px var(--acc),0 18px 40px -18px var(--acc)}:root :is(.labtabs,footer input[type="text"],footer input[type="search"],#qr input,#lab input[type="text"],.tin){border-radius:4px!important}
 @supports (corner-shape:bevel){:root :is(.labtabs,footer input[type="text"],footer input[type="search"],#qr input,#lab input[type="text"]){border-radius:var(--hcut-s) 2px!important;corner-shape:bevel}}
+/* =====================================================================
+   CHIA TAB + LÀM GỌN: mỗi lần chỉ hiện một nhóm (html.tabs[data-tab]), bấm menu trên cùng để đổi.
+   Muốn quay lại kiểu một trang dài: xoá dòng "R.classList.add('tabs')" ở đầu index.html.
+   ===================================================================== */
+html.tabs #home>.grp{display:none}
+html.tabs[data-tab="g-about"] #g-about,html.tabs[data-tab="g-likes"] #g-likes,html.tabs[data-tab="g-play"] #g-play,html.tabs[data-tab="g-log"] #g-log,html.tabs[data-tab="g-end"] #g-end{display:block;animation:tabin .35s cubic-bezier(.2,.8,.2,1)}
+@keyframes tabin{from{opacity:0;translate:0 10px}to{opacity:1;translate:0 0}}
+:root[data-motion="off"].tabs #home>.grp{animation:none!important}
+@media (prefers-reduced-motion:reduce){html.tabs #home>.grp{animation:none!important}}
+html.tabs #home>.band.alt{display:none}
+/* gọn: bớt khoảng trống trên/dưới mỗi mục và đầu nhóm */
+html.tabs #home .s{padding-block:clamp(1.6rem,3vw,2.6rem)}
+html.tabs .ghd{margin-top:0;padding-block:clamp(1.4rem,2.6vw,2.2rem)}
+html.tabs #home>.grp>.ghd:first-child{margin-top:.4rem}
+html.tabs .clk{min-height:min(30rem,62svh);padding-bottom:3.5rem}
+html.tabs .gbar .gbn{aspect-ratio:32/9;max-height:14rem}
+html.tabs #home .band{margin-block:.4rem}
+/* nút sang nhóm trước / tiếp ở cuối mỗi nhóm */
+.tabnx{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-block:1.2rem 2.4rem}
+.tabnx a{display:grid;gap:.15rem;padding:1rem 1.2rem;border:1px solid var(--hud-lo,var(--line));border-radius:6px;background:var(--hud-bg,var(--card));transition:border-color .2s,box-shadow .2s,translate .2s}
+@supports (corner-shape:bevel){.tabnx a{border-radius:var(--hcut,14px) 3px;corner-shape:bevel}}
+.tabnx a small{font:500 .68rem var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.tabnx a b{font:700 1.05rem var(--body);text-transform:uppercase;letter-spacing:.04em;color:var(--text)}
+.tabnx a.prev small::before{content:"← "}
+.tabnx a.next{grid-column:2;text-align:right}
+.tabnx a.next small::after{content:" →"}
+.tabnx a:hover{border-color:var(--acc);box-shadow:0 0 20px -8px var(--acc);translate:0 -2px}
+.tabnx a:hover b{color:var(--acc)}
+@media (max-width:30rem){.tabnx{grid-template-columns:1fr}.tabnx a.next{grid-column:1}}
+html:not(.tabs) .tabnx{display:none}

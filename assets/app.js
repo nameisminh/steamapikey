@@ -3079,8 +3079,8 @@ try{
     /* vị trí cố định (không ngẫu nhiên): mỗi mục một ảnh theo thứ tự, luân phiên trái/phải, trên/dưới, to/nhỏ khác nhau */
     var pool=GIFS.map(function(x){return x.src});
     var PAT=[['r','t',8],['l','t',7],['r','b',9],['l','b',7.5],['r','t',7],['l','t',9],['r','b',7.5],['l','b',8.5]];
-    var k=0;
-    document.querySelectorAll('main section.s, main section.intro').forEach(function(sec){
+    var k=0,FLOAT=false; /* FLOAT=true: bật lại ảnh động nhỏ nổi ở góc mỗi mục (đã tắt cho nền đỡ rối) */
+    if(FLOAT)document.querySelectorAll('main section.s, main section.intro').forEach(function(sec){
       var b=document.createElement('button'),im=document.createElement('img'),p=PAT[k%PAT.length];
       b.type='button';b.className='gsk';b.setAttribute('aria-label',T('Xem ảnh động'));
       b.style.setProperty('--gw',p[2]+'rem');
@@ -4384,7 +4384,19 @@ addEventListener('load',function(){
 try{
 (function(){
 /* mở mục đang thu gọn (.cl) hoặc khối <details> chứa đích đến, rồi mới cuộn tới */
+/* CHIA TAB: đích đến nằm ở nhóm khác thì đổi sang nhóm đó trước (link, ô tìm kiếm, bản đồ sao, nút "Liên hệ"… đều đi qua đây) */
+var RT=document.documentElement;
+function setTab(id){
+ if(!RT.classList.contains('tabs')||!id||RT.getAttribute('data-tab')===id)return;
+ RT.setAttribute('data-tab',id);try{sessionStorage.setItem('tab',id)}catch(e){}navOn();
+ /* khung vẽ (bản đồ sao, ảnh 3D…) đo lại kích thước khi nhóm vừa hiện */
+ requestAnimationFrame(function(){dispatchEvent(new Event('resize'));document.dispatchEvent(new CustomEvent('tabchange',{detail:id}))});
+}
+window.__setTab=setTab;
+function navOn(){var id=RT.getAttribute('data-tab');if(!RT.classList.contains('tabs')||!id)return;document.querySelectorAll('.bar nav a[href^="#g-"]').forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+id)})}
+navOn();
 function openSec(id){var el=id&&document.getElementById(id);if(!el)return;
+ var g=el.closest&&el.closest('#home>.grp');if(g)setTab(g.id);
  for(var n=el;n&&n!==document.body;n=n.parentElement){
   if(n.tagName==='DETAILS'&&!n.open)n.open=true;
   if(n.classList&&n.classList.contains('cl')){n.classList.remove('cl');if(n.__lab)n.__lab()}
@@ -4401,6 +4413,21 @@ document.addEventListener('click',function(e){
  var h=a.getAttribute('href');if(h.length>1&&h.charAt(1)!=='/')openSec(h.slice(1))},true);
 addEventListener('hashchange',function(){var h=location.hash;if(h.length>1&&h.charAt(1)!=='/')openSec(h.slice(1))});
 if(location.hash.length>1&&location.hash.charAt(1)!=='/')openSec(location.hash.slice(1));
+/* bấm logo "Ming" (về đầu trang) thì lần mở tới bắt đầu ở tab đầu */
+var brand=document.getElementById('brand');if(brand)brand.addEventListener('click',function(){try{sessionStorage.setItem('tab','g-about')}catch(e){}});
+/* cuối mỗi nhóm: nút sang nhóm trước / nhóm tiếp, đỡ phải kéo lên thanh menu */
+function L(vi,en){return RT.lang==='en'?en:vi}
+function tabNav(){
+ var links=[].slice.call(document.querySelectorAll('.bar nav a[href^="#g-"]'));
+ links.forEach(function(a,i){
+  var g=document.getElementById(a.getAttribute('href').slice(1));if(!g)return;
+  var box=g.querySelector(':scope>.tabnx');if(!box){box=document.createElement('nav');box.className='tabnx wrap';g.appendChild(box)}
+  box.setAttribute('aria-label',L('Chuyển nhóm','Switch section'));
+  function one(b,cls,lab){if(!b)return '';return '<a class="'+cls+'" href="'+b.getAttribute('href')+'" translate="no"><small>'+lab+'</small><b>'+b.textContent.trim()+'</b></a>'}
+  box.innerHTML=one(links[i-1],'prev',L('Trước','Previous'))+one(links[i+1],'next',L('Tiếp theo','Next'));
+ });
+}
+tabNav();document.addEventListener('langchange',function(){setTimeout(tabNav,30)});
 })();
 }catch(e){console.error('[khối 62]',e)}
 
@@ -5381,9 +5408,8 @@ function scan(){
     mark(b,b.classList.contains('foldbtn')?'chevd':guess(b.textContent,'arrowr'),'hib');
   });
 }
-/* NỀN TRANG: bầu trời đêm nhẹ, đồng bộ với bản đồ sao.
-   Lớp xa: chấm sao li ti + vài chòm sao nối nét mảnh. Lớp giữa: icon vẽ nét (game, nhạc, vũ trụ…) rải thưa.
-   Lớp gần: sao 4 cánh, dấu +, vòng nhỏ, lấp lánh rất chậm.
+/* NỀN TRANG: chỉ còn sao mờ cho đỡ rối mắt (đã bỏ chòm sao, dấu +, vòng tròn và icon vẽ nét).
+   Lớp xa: chấm sao li ti. Lớp gần: vài sao 4 cánh nhỏ, lấp lánh rất chậm.
    Hình vẽ là mặt nạ (mask), màu lấy từ màu nhấn của trang nên đổi bảng màu / sáng tối là nền đổi theo.
    Nhẹ máy: mỗi lớp là một ảnh lặp vẽ sẵn; cuộn trang chỉ dịch chuyển (transform), lấp lánh chỉ đổi độ mờ. */
 function bg(){
@@ -5393,27 +5419,16 @@ function bg(){
   /* đặt điểm cách nhau đủ xa (không chụm), tránh sát mép ô để chỗ nối các ô không lộ */
   function spot(minD,m){for(var k=0;k<40;k++){var x=m+rnd()*(T-2*m),y=m+rnd()*(T-2*m),ok=true;for(var q=0;q<pts.length;q++){var dx=pts[q][0]-x,dy=pts[q][1]-y;if(dx*dx+dy*dy<minD*minD){ok=false;break}}if(ok){pts.push([x,y]);return [x,y]}}var p=[m+rnd()*(T-2*m),m+rnd()*(T-2*m)];pts.push(p);return p}
   function f(n){return n.toFixed(1)}
-  /* lớp xa: bụi sao */
-  for(i=0;i<70;i++){var d=spot(42,12);far+='<circle cx="'+f(d[0])+'" cy="'+f(d[1])+'" r="'+f(.7+rnd()*.9)+'" fill="#000" fill-opacity="'+f(.45+rnd()*.55)+'"/>'}
-  /* lớp xa: 6 chòm sao nhỏ (3-5 sao nối nhau) */
-  for(i=0;i<6;i++){var c=spot(150,90),n=3+Math.floor(rnd()*3),pp=[],a=rnd()*6.28,x=c[0],y=c[1];
-    for(var k=0;k<n;k++){pp.push([x,y]);a+=(rnd()-.5)*1.6;var st=34+rnd()*36;x+=Math.cos(a)*st;y+=Math.sin(a)*st}
-    far+='<path d="M'+pp.map(function(p){return f(p[0])+' '+f(p[1])}).join(' L')+'" stroke="#000" stroke-opacity=".55" stroke-width=".9" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
-    pp.forEach(function(p,k){far+='<circle cx="'+f(p[0])+'" cy="'+f(p[1])+'" r="'+(k===0?2.1:1.5)+'" fill="#000"/>'})}
-  /* lớp gần: sao 4 cánh (cong mềm), dấu +, vòng nhỏ */
+  /* lớp xa: bụi sao thưa */
+  for(i=0;i<48;i++){var d=spot(60,12);far+='<circle cx="'+f(d[0])+'" cy="'+f(d[1])+'" r="'+f(.6+rnd()*.8)+'" fill="#000" fill-opacity="'+f(.35+rnd()*.5)+'"/>'}
+  /* lớp gần: vài sao 4 cánh nhỏ */
   function sparkle(x,y,s){var a=s*.22;return '<path d="M'+f(x)+' '+f(y-s)+'Q'+f(x+a)+' '+f(y-a)+' '+f(x+s)+' '+f(y)+'Q'+f(x+a)+' '+f(y+a)+' '+f(x)+' '+f(y+s)+'Q'+f(x-a)+' '+f(y+a)+' '+f(x-s)+' '+f(y)+'Q'+f(x-a)+' '+f(y-a)+' '+f(x)+' '+f(y-s)+'Z" fill="#000"/>'}
-  for(i=0;i<16;i++){var s1=spot(110,24);near+=sparkle(s1[0],s1[1],4.5+rnd()*5)}
-  for(i=0;i<10;i++){var s2=spot(110,24),z=3+rnd()*2.5;near+='<path d="M'+f(s2[0]-z)+' '+f(s2[1])+'H'+f(s2[0]+z)+'M'+f(s2[0])+' '+f(s2[1]-z)+'V'+f(s2[1]+z)+'" stroke="#000" stroke-width="1.3" stroke-linecap="round"/>'}
-  for(i=0;i<7;i++){var s3=spot(110,24);near+='<circle cx="'+f(s3[0])+'" cy="'+f(s3[1])+'" r="'+f(2.6+rnd()*1.6)+'" stroke="#000" stroke-width="1.1" fill="none"/>'}
-  /* lớp icon vẽ nét: đồ chơi, nhạc, vũ trụ… rải thưa giữa các vì sao, mỗi cái nghiêng một chút, cỡ to nhỏ khác nhau */
-  var DOO=['gamepad','headphones','music','rocket','planet','cat','sword','potion','dice','ghost','crown','keyboard','disc','ufo','heart','book','coffee','mushroom'],mid='';
-  for(i=0;i<DOO.length;i++){var s4=spot(120,40),sz=(26+rnd()*14)/24,rot=Math.round((rnd()-.5)*40);
-    mid+='<g transform="translate('+f(s4[0])+' '+f(s4[1])+') rotate('+rot+') scale('+sz.toFixed(2)+') translate(-12 -12)" fill="none" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">'+P[DOO[i]]+'</g>'}
+  for(i=0;i<7;i++){var s1=spot(180,24);near+=sparkle(s1[0],s1[1],3+rnd()*3)}
   function u(body){return "url('data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+T+' '+T+'">'+body+'</svg>')+"')"}
   var d=document.createElement('div');
   d.id='bgic';d.setAttribute('aria-hidden','true');
-  d.innerHTML='<i class="bgf"></i><i class="bgd"></i><i class="bgn"></i>';
-  d.style.setProperty('--m1',u(far));d.style.setProperty('--m2',u(near));d.style.setProperty('--m3',u(mid));
+  d.innerHTML='<i class="bgf"></i><i class="bgn"></i>';
+  d.style.setProperty('--m1',u(far));d.style.setProperty('--m2',u(near));
   document.body.appendChild(d);
 }
 
