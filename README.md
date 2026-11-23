@@ -15,7 +15,6 @@ Xem trang: https://ming-dev.id.vn (bản phụ: https://lmingl.pages.dev)
 | `assets/ascii.js` | Hiệu ứng chữ/ảnh ASCII khi cuộn |
 | `music/` | Nhạc nền; danh sách bài ở `music/tracks.js` |
 | `images/` | Ảnh |
-| `functions/api/` | API chạy trên Cloudflare: `scores.js` (xếp hạng Góc chơi), `checkin.js` (điểm danh) |
 | `sw.js` | Cho trang mở được khi mất mạng |
 | `reset.html` | Xoá bộ nhớ đệm khi máy bị kẹt ở bản cũ (mở `/reset`) |
 | `404.html` | Trang không tìm thấy |
@@ -25,19 +24,13 @@ Không có bước build: sửa file, đẩy lên GitHub là Cloudflare tự tri
 
 ## Thêm nhạc
 
-Mỗi bài là một dòng trong `music/tracks.js`: `t` tên bài, `a` ca sĩ, `src` đường dẫn file. Nhạc nước ngoài thêm `g:'en'` để hiện ở mục Quốc tế.
+Cách dễ nhất: mở `tools/them-nhac.html` bằng Chrome/Edge (bấm đúp), chọn thư mục web, kéo thả mp3 vào rồi bấm Lưu. Tool tự đọc tên bài và ca sĩ trong file, đổi tên file cho gọn, chép vào `music/`, ghi `music/tracks.js`, báo bài trùng, và có tab làm lời `.lrc` chạy theo nhạc. Xong thì commit và đẩy lên GitHub. (`tools/` không bị đưa lên web.)
 
-## Bật bảng xếp hạng online (Góc chơi)
-
-1. Cloudflare Dashboard → **Storage & Databases → KV** → **Create**, đặt tên bất kỳ.
-2. Vào dự án trang → **Settings → Bindings** → **Add → KV namespace**: Variable name `CHECKIN`, chọn namespace vừa tạo.
-3. Triển khai lại (đẩy một commit bất kỳ).
-
-Chưa làm bước này thì tab "Xếp hạng online" chỉ báo "chưa bật", phần còn lại của trang vẫn chạy bình thường. Điểm do trình duyệt tự gửi nên chỉ chặn được điểm vô lý và gửi dồn dập, không chống gian lận tuyệt đối.
+Sửa tay cũng được: mỗi bài là một dòng trong `music/tracks.js`: `t` tên bài, `a` ca sĩ, `src` đường dẫn file. Nhạc nước ngoài thêm `g:'en'` để hiện ở mục Quốc tế. Lời bài hát là file `.lrc` cùng tên với file mp3.
 
 ## Quyền riêng tư
 
-Các bài test chạy ngay trên máy người xem. Chỉ khi bấm "Gửi kỷ lục" thì tên và điểm mới được gửi đi. Cài đặt (sáng/tối, màu, ngôn ngữ) lưu trong trình duyệt.
+Các bài test chạy ngay trên máy người xem, kỷ lục chỉ lưu trên máy đó, không gửi đi đâu. Cài đặt (sáng/tối, màu, ngôn ngữ) lưu trong trình duyệt.
 
 ## Ghi chú
 

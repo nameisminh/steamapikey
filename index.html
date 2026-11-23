@@ -596,7 +596,7 @@ window.__autoLang=function(){
       <div class="rv">
         <p class="eyebrow ei"><i data-ic="zap"></i><span>Góc chơi</span></p>
         <h2>Thử tay một chút</h2>
-        <p class="lead">Test bàn phím, test chuột, test loa, test micro, thử tốc độ gõ chữ và xem combo mỗi khi bạn bấm. Mọi thứ chạy ngay trên máy bạn; chỉ khi bạn tự gửi kỷ lục lên bảng xếp hạng online thì tên và điểm mới được gửi đi.</p>
+        <p class="lead">Test bàn phím, test chuột, test loa, test micro, thử tốc độ gõ chữ và xem combo mỗi khi bạn bấm. Mọi thứ chạy ngay trên máy bạn, không gửi đi đâu.</p>
       </div>
       <div class="labbox rv">
         <div class="labtabs" role="tablist" aria-label="Chọn công cụ">
@@ -604,9 +604,7 @@ window.__autoLang=function(){
           <button type="button" role="tab" id="labt-mouse" data-t="mouse" aria-selected="false" aria-controls="lab-mouse"><i data-ic="mouse"></i>Test chuột</button>
           <button type="button" role="tab" id="labt-combo" data-t="combo" aria-selected="false" aria-controls="lab-combo"><i data-ic="zap"></i>Combo</button>
           <button type="button" role="tab" id="labt-spk" data-t="spk" aria-selected="false" aria-controls="lab-spk"><i data-ic="headphones"></i>Test loa</button>
-          <button type="button" role="tab" id="labt-mic" data-t="mic" aria-selected="false" aria-controls="lab-mic"><i data-ic="mic"></i>Test micro</button>
-          <button type="button" role="tab" id="labt-rank" data-t="rank" aria-selected="false" aria-controls="lab-rank"><i data-ic="trophy"></i>Xếp hạng online</button>
-        </div>
+          <button type="button" role="tab" id="labt-mic" data-t="mic" aria-selected="false" aria-controls="lab-mic"><i data-ic="mic"></i>Test micro</button>        </div>
 
         <div class="labp" id="lab-kb" role="tabpanel" aria-labelledby="labt-kb">
           <div class="lrow">
@@ -716,25 +714,6 @@ window.__autoLang=function(){
           <p class="note">Trình duyệt sẽ hỏi quyền dùng micro. Âm thanh chỉ được xử lý ngay trên máy bạn, không gửi đi đâu, và micro tắt ngay khi bạn chuyển tab hoặc bấm "Tắt micro". Cần mở trang qua HTTPS. Mình tắt tự động chỉnh âm và khử ồn của trình duyệt để bạn thấy đúng tín hiệu thô của micro.</p>
         </div>
 
-        <div class="labp" id="lab-rank" role="tabpanel" aria-labelledby="labt-rank" hidden>
-          <div class="rkme">
-            <label class="rkname"><span>Tên hiện trên bảng</span><input id="rkn" maxlength="16" autocomplete="nickname" placeholder="2 đến 16 ký tự"></label>
-            <p class="rkmsg" id="rkmsg" role="status" aria-live="polite"></p>
-          </div>
-          <div class="rkgrid">
-            <div class="rkb" data-g="wpm">
-              <div class="rkh"><b>Gõ chữ 60 giây</b><small>WPM</small></div>
-              <ol class="rkl" data-noax></ol>
-              <div class="rkf"><span class="rkmine"></span><button class="btn" type="button" data-send="wpm">Gửi kỷ lục</button></div>
-            </div>
-            <div class="rkb" data-g="combo">
-              <div class="rkh"><b>Combo</b><small>chuỗi dài nhất</small></div>
-              <ol class="rkl" data-noax></ol>
-              <div class="rkf"><span class="rkmine"></span><button class="btn" type="button" data-send="combo">Gửi kỷ lục</button></div>
-            </div>
-          </div>
-          <p class="note">Chỉ khi bạn bấm "Gửi kỷ lục" thì tên và điểm mới được gửi đi; không gửi gì khác. Kỷ lục lấy từ test gõ chữ và Combo ở các tab bên cạnh. Mỗi người giữ một điểm cao nhất trên mỗi bảng.</p>
-        </div>
       </div>
     </div>
   </section>

@@ -2538,11 +2538,12 @@ try{
       }
       lyClear();lyStatus(T('Đang tìm lời...'));
       var dur=au.duration&&isFinite(au.duration)?au.duration:0;
-      try{var c=JSON.parse(localStorage.getItem(key)||'null');if(c&&c.t&&useLrc(c.t,!!c.p,false))return}catch(e){}
+      /* file .lrc của web luôn được ưu tiên, kể cả khi trình duyệt đã nhớ lời tìm từ LRCLIB trước đó */
       var local=tr.lrc||tr.src.replace(/\.[^./]+$/,'.lrc');
-      var step1=fetch(local).then(function(r){return r.ok?r.text():''}).then(function(t){return /\[\d{1,3}:\d{1,2}/.test(t)&&useLrc(t,false,false)}).catch(function(){return false});
+      var step1=fetch(local).then(function(r){return r.ok?r.text():''}).then(function(t){var u=/\[\d{1,3}:\d{1,2}/.test(t)&&useLrc(t,false,false);if(u)try{localStorage.removeItem(key)}catch(e){}return u}).catch(function(){return false});
       step1.then(function(done){
         if(done||!ok())return;
+        try{var c=JSON.parse(localStorage.getItem(key)||'null');if(c&&c.t&&useLrc(c.t,!!c.p,false))return}catch(e){}
         var q=qFor(tr),nm=lnorm(q.name),qs=[];
         if(tr.q)qs.push(tr.q);if(q.name&&q.art)qs.push(q.name+' '+q.art);if(q.name)qs.push(q.name)
         var seen={},i2=0,net=false;
@@ -3242,7 +3243,7 @@ try{
   /* ===== góc chơi: test chuột, test bàn phím, combo ===== */
   (function(){
     function $(id){return document.getElementById(id)}
-    var tabs=document.querySelectorAll('#lab .labtabs button'),P={mouse:$('lab-mouse'),kb:$('lab-kb'),combo:$('lab-combo'),spk:$('lab-spk'),mic:$('lab-mic'),rank:$('lab-rank')},stops=[];
+    var tabs=document.querySelectorAll('#lab .labtabs button'),P={mouse:$('lab-mouse'),kb:$('lab-kb'),combo:$('lab-combo'),spk:$('lab-spk'),mic:$('lab-mic')},stops=[];
     if(!tabs.length||!P.mouse)return;
     function stopAll(){stops.forEach(function(f){f()})}
     document.addEventListener('visibilitychange',function(){if(document.hidden)stopAll()});
@@ -3251,7 +3252,6 @@ try{
       var t=b.getAttribute('data-t');stopAll();
       tabs.forEach(function(x){x.setAttribute('aria-selected',x===b?'true':'false')});
       Object.keys(P).forEach(function(k){if(P[k])P[k].hidden=(k!==t)});
-      if(t==='rank')document.dispatchEvent(new Event('rankopen'));
     })});
 
     /* --- test chuột: phát hiện double click --- */
@@ -5230,71 +5230,9 @@ try{
     place();count();
   })();
 
-  /* ===== GÓC CHƠI: XẾP HẠNG ONLINE (gõ chữ 60 giây + combo) qua /api/scores =====
-     Mỗi máy có một mã ẩn danh ngẫu nhiên (rktok) để nhận ra "điểm của tôi"; chỉ gửi tên + điểm khi người chơi bấm "Gửi kỷ lục".
-     API chưa bật (chưa gắn KV, hoặc chạy thử ở máy) thì bảng báo "chưa bật", không lỗi gì khác. */
-  (function(){
-    var box=document.getElementById('lab-rank');if(!box)return;
-    Object.assign(D,{"Tên hiện trên bảng":"Name on the board","2 đến 16 ký tự":"2 to 16 characters","Gõ chữ 60 giây":"60-second typing","chuỗi dài nhất":"longest streak","Gửi kỷ lục":"Submit record","Xếp hạng online":"Online ranking",
-      "Chỉ khi bạn bấm \"Gửi kỷ lục\" thì tên và điểm mới được gửi đi; không gửi gì khác. Kỷ lục lấy từ test gõ chữ và Combo ở các tab bên cạnh. Mỗi người giữ một điểm cao nhất trên mỗi bảng.":"Your name and score are only sent when you press \"Submit record\"; nothing else is sent. Records come from the typing test and Combo tabs. Each person keeps one best score per board.",
-      "Đang tải bảng xếp hạng…":"Loading the leaderboard…","Bảng xếp hạng online chưa bật.":"The online leaderboard isn't switched on yet.","Chưa có ai. Bạn lên bảng đầu tiên nhé!":"Nobody yet. Be the first on the board!","Kỷ lục của bạn":"Your record","Hạng của bạn":"Your rank","người chơi":"players","Chưa có kỷ lục, chơi một ván đã nhé.":"No record yet, play a round first.","Nhập tên từ 2 ký tự trở lên.":"Enter a name of at least 2 characters.","Đang gửi…":"Sending…","Đã lên bảng!":"You're on the board!","Đã cập nhật tên. Điểm cũ của bạn vẫn cao hơn.":"Name updated. Your earlier score is still higher.","Gửi nhanh quá, đợi vài giây nhé.":"Too fast, wait a few seconds.","Tên chỉ gồm chữ, số, khoảng trắng và _ . -":"Names can only use letters, numbers, spaces and _ . -","Điểm không hợp lệ.":"That score isn't valid.","Chưa gửi được, thử lại sau nhé.":"Couldn't send, try again later.","bạn":"you",
-      "Test bàn phím, test chuột, test loa, test micro, thử tốc độ gõ chữ và xem combo mỗi khi bạn bấm. Mọi thứ chạy ngay trên máy bạn; chỉ khi bạn tự gửi kỷ lục lên bảng xếp hạng online thì tên và điểm mới được gửi đi.":"Test your keyboard, mouse, speakers and mic, check your typing speed and watch the combo grow as you click. Everything runs on your device; only when you submit a record to the online ranking are your name and score sent."});
-    var API='/api/scores',nameI=document.getElementById('rkn'),msg=document.getElementById('rkmsg'),data={},off=false,lastLoad=0,busy=false;
-    function tok(){var t='';try{t=localStorage.getItem('rktok')||''}catch(e){}if(!/^[a-f0-9]{32}$/.test(t)){var a=new Uint8Array(16);(window.crypto||{getRandomValues:function(x){for(var i=0;i<x.length;i++)x[i]=Math.random()*256|0}}).getRandomValues(a);t=[].map.call(a,function(b){return ('0'+b.toString(16)).slice(-2)}).join('');try{localStorage.setItem('rktok',t)}catch(e){}}return t}
-    try{nameI.value=localStorage.getItem('rkname')||''}catch(e){}
-    nameI.addEventListener('change',function(){try{localStorage.setItem('rkname',nameI.value.trim())}catch(e){}});
-    function mine(g){if(g==='wpm'){try{return +localStorage.getItem('typebest60')||0}catch(e){return 0}}return window.__combo&&__combo.best?(+__combo.best()||0):0}
-    function say(vi,cls,extra){msg.textContent=T(vi)+(extra||'');msg.className='rkmsg'+(cls?' '+cls:'')}
-    function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-    function render(g){
-      var b=box.querySelector('.rkb[data-g="'+g+'"]'),ol=b.querySelector('.rkl'),me=b.querySelector('.rkmine'),btn=b.querySelector('[data-send]'),d=data[g],my=mine(g);
-      btn.disabled=off||busy||!my;
-      me.textContent=T('Kỷ lục của bạn')+': '+(my||'—')+(d&&d.me?' · '+T('Hạng của bạn')+' #'+d.me.r:'');
-      if(off){ol.innerHTML='<li class="em">'+esc(T('Bảng xếp hạng online chưa bật.'))+'</li>';return}
-      if(!d){ol.innerHTML='<li class="em">'+esc(T('Đang tải bảng xếp hạng…'))+'</li>';return}
-      if(!d.top.length){ol.innerHTML='<li class="em">'+esc(T('Chưa có ai. Bạn lên bảng đầu tiên nhé!'))+'</li>';return}
-      ol.innerHTML=d.top.map(function(p){return '<li class="r'+p.r+(p.me?' mine':'')+'"><i>'+p.r+'</i><span>'+esc(p.n)+(p.me?' <em>('+esc(T('bạn'))+')</em>':'')+'</span><b>'+p.s+'</b></li>'}).join('')+(d.players>10?'<li class="more">'+d.players+' '+esc(T('người chơi'))+'</li>':'');
-    }
-    function renderAll(){render('wpm');render('combo')}
-    function get(g){
-      return fetch(API+'?g='+g+'&t='+tok(),{headers:{accept:'application/json'},cache:'no-store'}).then(function(r){
-        if(r.status===503||r.status===404||!/json/.test(r.headers.get('content-type')||''))throw 'off';return r.json()});
-    }
-    function load(force){
-      if(!force&&Date.now()-lastLoad<20000)return;lastLoad=Date.now();
-      if(!/^https?:$/.test(location.protocol)||!window.fetch){off=true;renderAll();return}
-      Promise.all([get('wpm'),get('combo')]).then(function(r){off=false;data.wpm=r[0];data.combo=r[1];renderAll()},function(){off=true;renderAll()});
-    }
-    box.addEventListener('click',function(e){
-      var b=e.target.closest('[data-send]');if(!b||b.disabled)return;var g=b.getAttribute('data-send'),score=mine(g),n=nameI.value.trim();
-      if(!score){say('Chưa có kỷ lục, chơi một ván đã nhé.','er');return}
-      if(n.length<2){say('Nhập tên từ 2 ký tự trở lên.','er');nameI.focus();return}
-      try{localStorage.setItem('rkname',n)}catch(x){}
-      busy=true;renderAll();say('Đang gửi…');
-      fetch(API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({g:g,name:n,score:score,token:tok()})}).then(function(r){
-        return r.json().catch(function(){return{}}).then(function(j){return{st:r.status,j:j}})}).then(function(res){
-        busy=false;
-        if(res.st===200){data[g]=res.j;say(res.j.better?'Đã lên bảng!':'Đã cập nhật tên. Điểm cũ của bạn vẫn cao hơn.','ok',res.j.me?' #'+res.j.me.r:'');if(res.j.better&&window.__sfx)__sfx('record')}
-        else if(res.st===429)say('Gửi nhanh quá, đợi vài giây nhé.','er');
-        else if(res.j&&res.j.error==='name')say('Tên chỉ gồm chữ, số, khoảng trắng và _ . -','er');
-        else if(res.j&&res.j.error==='score')say('Điểm không hợp lệ.','er');
-        else if(res.st===503){off=true;say('Bảng xếp hạng online chưa bật.','er')}
-        else say('Chưa gửi được, thử lại sau nhé.','er');
-        renderAll();
-      },function(){busy=false;say('Chưa gửi được, thử lại sau nhé.','er');renderAll()});
-    });
-    document.addEventListener('rankopen',function(){renderAll();load(false)});
-    document.addEventListener('combo',function(){if(!box.hidden)render('combo')});
-    document.addEventListener('langchange',function(){setTimeout(renderAll,0)});
-    /* chữ cố định trong tab dịch bằng data-v7 */
-    [].forEach.call(box.querySelectorAll('.rkname>span,.rkh b,.rkh small,[data-send],.note'),function(el){el.setAttribute('data-v7',el.textContent)});
-    nameI.setAttribute('data-v7ph','2 đến 16 ký tự');
-    var lt=document.querySelector('#labt-rank');if(lt){var tn=lt.lastChild;if(tn&&tn.nodeType===3){var sp=document.createElement('span');sp.setAttribute('data-v7','Xếp hạng online');sp.textContent=tn.nodeValue;lt.replaceChild(sp,tn)}}
-    var ld=document.querySelector('#lab .lead');if(ld)ld.setAttribute('data-v7',ld.textContent.trim());
-    function ph(){nameI.placeholder=T('2 đến 16 ký tự')}
-    ph();document.addEventListener('langchange',function(){setTimeout(ph,0)});
-    tr();renderAll();
-  })();
+  /* ===== GÓC CHƠI: câu giới thiệu đổi theo ngôn ngữ (dịch bằng data-v7) ===== */
+  Object.assign(D,{"Test bàn phím, test chuột, test loa, test micro, thử tốc độ gõ chữ và xem combo mỗi khi bạn bấm. Mọi thứ chạy ngay trên máy bạn, không gửi đi đâu.":"Test your keyboard, mouse, speakers and mic, check your typing speed and watch the combo grow as you click. Everything runs on your device and nothing is sent anywhere."});
+  (function(){var ld=document.querySelector('#lab .lead');if(ld){ld.setAttribute('data-v7',ld.textContent.trim());tr()}try{localStorage.removeItem('rktok');localStorage.removeItem('rkname')}catch(e){}})(); /* dọn mã + tên của bảng xếp hạng online cũ (đã bỏ) */
 
   /* ===== SẮP XẾP BÀI: menu riêng thay cho ô chọn của trình duyệt (vẫn điều khiển <select id="bgmsort"> ẩn) ===== */
   (function(){

@@ -800,12 +800,17 @@ function renderLib(){
   const on=!!jsText||all.length>0;
   $('libSec').hidden=!on;$('libEmpty').hidden=on;if(!on)return;
   document.querySelector('#libF [data-f=nolrc]').hidden=!dir;
-  if(!dir&&libF==='nolrc')libF='all';
+  document.querySelector('#libF [data-f=miss]').hidden=!dir;
+  if(!dir&&(libF==='nolrc'||libF==='miss'))libF='all';
   const cnt={};all.forEach(x=>{const k=norm(x.t);if(k)cnt[k]=(cnt[k]||0)+1});
-  all.forEach(x=>{x.dup=!!norm(x.t)&&cnt[norm(x.t)]>1;x.ly=x.kind==='old'?hasLrc(x):null});
+  all.forEach(x=>{
+    x.dup=!!norm(x.t)&&cnt[norm(x.t)]>1;
+    x.miss=x.kind==='old'&&!!dir&&!dirNames.has(x.src.replace(/^music\//i,'').toLowerCase());
+    x.ly=x.kind==='old'&&!x.miss?hasLrc(x):null;
+  });
   all.sort((x,y)=>(x.t||'').localeCompare(y.t||'','vi',{sensitivity:'base'})||(x.a||'').localeCompare(y.a||'','vi',{sensitivity:'base'}));
-  const vn=all.filter(x=>x.g!=='en').length,nd=all.filter(x=>x.dup).length,nl=all.filter(x=>x.ly===false).length;
-  $('libInfo').textContent='Tổng '+all.length+' bài: '+vn+' nhạc Việt Nam, '+(all.length-vn)+' nhạc nước ngoài.'+(dir?' '+nl+' bài chưa có file lời.':'')+(nd?' '+nd+' bài trùng tên (tô đỏ).':'');
+  const vn=all.filter(x=>x.g!=='en').length,nd=all.filter(x=>x.dup).length,nl=all.filter(x=>x.ly===false).length,nm=all.filter(x=>x.miss).length;
+  $('libInfo').textContent='Tổng '+all.length+' bài: '+vn+' nhạc Việt Nam, '+(all.length-vn)+' nhạc nước ngoài.'+(dir?' '+nl+' bài chưa có file lời.':'')+(nd?' '+nd+' bài trùng tên (tô đỏ).':'')+(nm?' '+nm+' bài có trong danh sách nhưng thiếu file mp3 (web sẽ bỏ qua).':'');
   const q=norm($('libQ').value),qr=($('libQ').value||'').trim().toLowerCase();
   const t=$('lib');t.innerHTML='';
   const h=document.createElement('thead');
@@ -816,6 +821,7 @@ function renderLib(){
     if(libF==='en'&&x.g!=='en')return;
     if(libF==='nolrc'&&x.ly!==false)return;
     if(libF==='dup'&&!x.dup)return;
+    if(libF==='miss'&&!x.miss)return;
     if(qr&&(x.t||'').toLowerCase().indexOf(qr)<0&&(x.a||'').toLowerCase().indexOf(qr)<0&&!(q&&(norm(x.t).indexOf(q)>=0||norm(x.a).indexOf(q)>=0)))return;
     let L0=(norm(x.t).charAt(0)||'#').toUpperCase();if(/[0-9]/.test(L0))L0='0-9';
     if(L0!==last){last=L0;const lr=document.createElement('tr');lr.className='let';lr.innerHTML='<td colspan="6"></td>';lr.firstChild.textContent=L0;tb.appendChild(lr)}
@@ -826,11 +832,12 @@ function renderLib(){
     c[3].textContent=x.g==='en'?'Nước ngoài':'Việt Nam';
     const tag=document.createElement('span');tag.className='tag';
     if(x.kind==='new'){tag.className='tag new';tag.textContent='Mới, chưa lưu'}
+    else if(x.miss){tag.className='tag miss';tag.textContent='Thiếu mp3';tag.title='Không thấy '+x.src}
     else if(x.dup){tag.className='tag dup';tag.textContent='Trùng'}
     else if(x.ly===true){tag.className='tag ok';tag.textContent='✓ Có lời'}
     else if(x.ly===false){tag.textContent='Chưa có'}
     if(tag.textContent)c[4].appendChild(tag);
-    if(x.kind==='old'&&dir){
+    if(x.kind==='old'&&dir&&!x.miss){
       const b=document.createElement('button');b.type='button';b.className='sec sm';b.textContent=x.ly?'Sửa lời':'Làm lời';
       b.onclick=()=>openFromDir(x.src.replace(/^music\//i,''));
       c[5].appendChild(b);
@@ -847,14 +854,16 @@ function refresh(){
   assignSlugs();
   items.forEach(it=>fillRow(it));
   fillSel();connUI();renderWarn();renderLib();
+  const orf=orphans();$('found').hidden=!orf.length;
+  if(orf.length)$('foundTxt').textContent='Trong thư mục music có '+orf.length+' file nhạc chưa có trong danh sách: '+orf.slice(0,3).join(', ')+(orf.length>3?' và '+(orf.length-3)+' file khác':'')+'.';
   const n=items.length,ready=n>0&&!!jsText;
   $('outWrap').hidden=!n;$('bulk').hidden=!n;$('bulkN').textContent=n;
   if(!n)return;
   $('out').value=jsText?merged():newLines().join('\n');
   $('save').hidden=!dir;$('save').disabled=!ready;$('save').textContent='Lưu '+n+' bài vào thư mục music';
   $('dl').hidden=!!dir;$('dl').disabled=!ready;$('dl').textContent='Tải tracks.js mới ('+n+' bài)';
-  $('hint').textContent=!jsText?'Chưa chọn thư mục music / tracks.js ở trên. Chọn để ghép bài vào danh sách, hoặc bấm "Copy các dòng mới" rồi dán vào tracks.js, ngay trước dấu ];':
-    dir?'Kiểm tra tên bài, ca sĩ, thể loại rồi bấm Lưu. Trang sẽ chép mp3 và cập nhật tracks.js giúp bạn.':
+  $('hint').textContent=!jsText?'Chưa chọn thư mục web / music/tracks.js ở trên. Chọn để ghép bài vào danh sách, hoặc bấm "Copy các dòng mới" rồi dán vào music/tracks.js, ngay trước dấu ];':
+    dir?'Kiểm tra tên bài, ca sĩ, thể loại rồi bấm Lưu. Trang sẽ chép mp3 vào music/ và cập nhật tracks.js giúp bạn.':
     'Kiểm tra lại rồi bấm Tải. Sau đó trang sẽ chỉ cho bạn 2 bước còn lại.';
 }
 document.querySelectorAll('[data-bulk]').forEach(b=>b.onclick=()=>{items.forEach(it=>{it.g=b.dataset.bulk;it.gSet=true});refresh()});
@@ -867,8 +876,8 @@ function showDone(saved,mode){
   h.textContent=mode==='dir'?'✓ Đã thêm '+saved.length+' bài vào web':'✓ Đã tải tracks.js mới';
   d.appendChild(h);
   const p=document.createElement('div');p.className='mut';
-  if(mode==='dir')p.textContent='File mp3 đã được chép vào thư mục music và tracks.js đã cập nhật. Giờ chỉ cần đưa thư mục lên host. Muốn có lời chạy theo nhạc thì bấm "Làm lời" bên dưới.';
-  else p.innerHTML='Còn 2 việc nữa:<ol class="steps"><li>Đè file <code>tracks.js</code> vừa tải lên file <code>music/tracks.js</code> của web.</li><li>Bỏ các file mp3 bên dưới vào thư mục <code>music</code>, đúng tên mới. Bấm "Tải mp3" để lấy file đã đổi tên sẵn.</li></ol>';
+  if(mode==='dir')p.innerHTML='File mp3 đã nằm trong <code>music/</code> và <code>music/tracks.js</code> đã cập nhật. Giờ commit rồi đẩy lên GitHub (GitHub Desktop: Commit → Push), Cloudflare tự cập nhật web sau vài phút. Muốn có lời chạy theo nhạc thì bấm "Làm lời" bên dưới (web cũng tự tìm lời trên LRCLIB nếu không có file .lrc).';
+  else p.innerHTML='Còn 3 việc nữa:<ol class="steps"><li>Đè file <code>tracks.js</code> vừa tải lên file <code>music/tracks.js</code> của web.</li><li>Bỏ các file mp3 bên dưới vào thư mục <code>music</code>, đúng tên mới. Bấm "Tải mp3" để lấy file đã đổi tên sẵn.</li><li>Commit rồi đẩy lên GitHub, Cloudflare tự cập nhật web.</li></ol>';
   d.appendChild(p);
   const ul=document.createElement('ul');ul.className='dl';
   saved.forEach(it=>{
@@ -888,9 +897,12 @@ $('save').onclick=async function(){
   const btn=this;btn.disabled=true;
   try{
     for(let i=0;i<items.length;i++){
-      const it=items[i];btn.textContent='Đang chép '+(i+1)+'/'+items.length+'…';
-      const h=await dir.getFileHandle(it.slug+it.ext,{create:true}),w=await h.createWritable();
+      const it=items[i],nm=it.slug+it.ext;
+      if(it.orig===nm)continue; /* đã nằm sẵn trong music/ đúng tên */
+      btn.textContent='Đang chép '+(i+1)+'/'+items.length+'…';
+      const h=await dir.getFileHandle(nm,{create:true}),w=await h.createWritable();
       await w.write(it.file);await w.close();
+      if(it.orig&&it.orig.toLowerCase()!==nm.toLowerCase()){try{await dir.removeEntry(it.orig)}catch(e){}} /* đổi tên: chép sang tên gọn xong mới bỏ tên cũ */
     }
     const txt=merged();
     const jh=await dir.getFileHandle('tracks.js'),jw=await jh.createWritable();
@@ -1213,14 +1225,14 @@ $('kar').addEventListener('click',e=>{
 
 /* lưu .lrc */
 $('lySave').onclick=async()=>{
-  if(!dir){lyst('Muốn lưu thẳng thì chọn thư mục music ở tab ① (Chrome/Edge). Hoặc bấm "Tải file .lrc".','bad');return}
+  if(!dir){lyst('Muốn lưu thẳng thì chọn thư mục web ở tab ① (Chrome/Edge). Hoặc bấm "Tải file .lrc".','bad');return}
   if(!lrcText()){lyst('Chưa có dòng nào được gắn mốc.','bad');return}
   if(!lyBase()){lyst('Chưa chọn bài nhạc.','bad');return}
   try{
     const h=await dir.getFileHandle(lyBase()+'.lrc',{create:true}),w=await h.createWritable();
     await w.write(lrcText());await w.close();
     L.dirty=false;dirNames.add((lyBase()+'.lrc').toLowerCase());renderLib();
-    lyst('Đã lưu '+lyBase()+'.lrc vào thư mục music. Đưa lên host rồi tải lại web là có lời.','good');
+    lyst('Đã lưu '+lyBase()+'.lrc vào music/. Commit và đẩy lên GitHub là web có lời.','good');
   }catch(e){lyst('Lưu lỗi: '+(e&&e.message||e),'bad')}
 };
 $('lyDl').onclick=()=>{

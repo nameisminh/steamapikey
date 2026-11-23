@@ -1,6 +1,5 @@
 # Cloudflare Pages: file/thư mục KHÔNG upload lên CDN.
 # Lưu ý: file phải có dấu chấm ở đầu (.assetsignore) thì Pages mới đọc.
-# Thư mục functions/ KHÔNG được liệt kê ở đây.
 
 wrangler.jsonc
 .assetsignore
