@@ -491,6 +491,7 @@ try{
     if(k==='t')tgl.click();
     else if(k==='m')mtn.click();
     else if(k==='c'){var cb=document.getElementById('accent');if(cb)cb.click()} /* C: mở bảng màu (nút tắt/bật màu chữ đã bỏ) */
+    else if(k==='u'){var ub=document.getElementById('uib');if(ub)ub.click()} /* U: mở bảng đổi giao diện */
     else if(k==='h'){
       if(location.hash.indexOf('#/')===0)location.hash='#hero';
       else window.scrollTo({top:0,behavior:calm?'auto':'smooth'});
@@ -3079,8 +3080,8 @@ try{
     /* vị trí cố định (không ngẫu nhiên): mỗi mục một ảnh theo thứ tự, luân phiên trái/phải, trên/dưới, to/nhỏ khác nhau */
     var pool=GIFS.map(function(x){return x.src});
     var PAT=[['r','t',8],['l','t',7],['r','b',9],['l','b',7.5],['r','t',7],['l','t',9],['r','b',7.5],['l','b',8.5]];
-    var k=0,FLOAT=false; /* FLOAT=true: bật lại ảnh động nhỏ nổi ở góc mỗi mục (đã tắt cho nền đỡ rối) */
-    if(FLOAT)document.querySelectorAll('main section.s, main section.intro').forEach(function(sec){
+    var k=0; /* luôn tạo; chỉ hiện khi html có class ui-float (nút "Giao diện": Cũ, hoặc Tuỳ biến bật "Ảnh động nổi"). Đang ẩn thì ảnh không tải */
+    document.querySelectorAll('main section.s, main section.intro').forEach(function(sec){
       var b=document.createElement('button'),im=document.createElement('img'),p=PAT[k%PAT.length];
       b.type='button';b.className='gsk';b.setAttribute('aria-label',T('Xem ảnh động'));
       b.style.setProperty('--gw',p[2]+'rem');
@@ -4388,10 +4389,10 @@ try{
    (link, ô tìm kiếm, bản đồ sao, nút "Liên hệ"… đều đi qua openSec) thì mở luôn tới nhóm đó rồi mới cuộn. */
 var RT=document.documentElement,GRPS=[].slice.call(document.querySelectorAll('#home>.grp'));
 function upto(){return +RT.getAttribute('data-upto')||0}
-function reveal(n){
+function reveal(n,quiet){
  if(!RT.classList.contains('flow'))return;n=Math.min(GRPS.length-1,n);var old=upto();if(n<=old)return;
  RT.setAttribute('data-upto',n);try{sessionStorage.setItem('upto',n)}catch(e){}
- for(var i=old+1;i<=n;i++){var g=GRPS[i];if(g){g.classList.remove('just');void g.offsetWidth;g.classList.add('just')}}
+ if(!quiet)for(var i=old+1;i<=n;i++){var g=GRPS[i];if(g){g.classList.remove('just');void g.offsetWidth;g.classList.add('just')}}
  more();
  /* khung vẽ (bản đồ sao, ảnh 3D…) đo lại kích thước khi nhóm vừa hiện */
  requestAnimationFrame(function(){dispatchEvent(new Event('resize'))});
@@ -5408,27 +5409,42 @@ function scan(){
     mark(b,b.classList.contains('foldbtn')?'chevd':guess(b.textContent,'arrowr'),'hib');
   });
 }
-/* NỀN TRANG: chỉ còn sao mờ cho đỡ rối mắt (đã bỏ chòm sao, dấu +, vòng tròn và icon vẽ nét).
-   Lớp xa: chấm sao li ti. Lớp gần: vài sao 4 cánh nhỏ, lấp lánh rất chậm.
+/* NỀN TRANG: vẽ sẵn 4 lớp, CSS chọn lớp nào hiện theo html[data-bg] (đổi ở nút "Giao diện"):
+   bgf = bụi sao thưa (luôn có) · bgc = chòm sao nối nét, sao 4 cánh to, dấu +, vòng nhỏ (mức "đầy sao")
+   bgd = icon vẽ nét: game, nhạc, vũ trụ… (mức "sao + icon") · bgn = vài sao 4 cánh nhỏ lấp lánh chậm (luôn có).
    Hình vẽ là mặt nạ (mask), màu lấy từ màu nhấn của trang nên đổi bảng màu / sáng tối là nền đổi theo.
    Nhẹ máy: mỗi lớp là một ảnh lặp vẽ sẵn; cuộn trang chỉ dịch chuyển (transform), lấp lánh chỉ đổi độ mờ. */
 function bg(){
   if(document.getElementById('bgic'))return;
   var T=960,seed=7;function rnd(){seed=(seed*16807)%2147483647;return (seed-1)/2147483646}
-  var pts=[],far='',near='',i;
+  var pts=[],far='',near='',rich='',mid='',i;
   /* đặt điểm cách nhau đủ xa (không chụm), tránh sát mép ô để chỗ nối các ô không lộ */
   function spot(minD,m){for(var k=0;k<40;k++){var x=m+rnd()*(T-2*m),y=m+rnd()*(T-2*m),ok=true;for(var q=0;q<pts.length;q++){var dx=pts[q][0]-x,dy=pts[q][1]-y;if(dx*dx+dy*dy<minD*minD){ok=false;break}}if(ok){pts.push([x,y]);return [x,y]}}var p=[m+rnd()*(T-2*m),m+rnd()*(T-2*m)];pts.push(p);return p}
   function f(n){return n.toFixed(1)}
-  /* lớp xa: bụi sao thưa */
-  for(i=0;i<48;i++){var d=spot(60,12);far+='<circle cx="'+f(d[0])+'" cy="'+f(d[1])+'" r="'+f(.6+rnd()*.8)+'" fill="#000" fill-opacity="'+f(.35+rnd()*.5)+'"/>'}
-  /* lớp gần: vài sao 4 cánh nhỏ */
   function sparkle(x,y,s){var a=s*.22;return '<path d="M'+f(x)+' '+f(y-s)+'Q'+f(x+a)+' '+f(y-a)+' '+f(x+s)+' '+f(y)+'Q'+f(x+a)+' '+f(y+a)+' '+f(x)+' '+f(y+s)+'Q'+f(x-a)+' '+f(y+a)+' '+f(x-s)+' '+f(y)+'Q'+f(x-a)+' '+f(y-a)+' '+f(x)+' '+f(y-s)+'Z" fill="#000"/>'}
-  for(i=0;i<7;i++){var s1=spot(180,24);near+=sparkle(s1[0],s1[1],3+rnd()*3)}
+  /* bgf: bụi sao thưa */
+  for(i=0;i<48;i++){var d=spot(60,12);far+='<circle cx="'+f(d[0])+'" cy="'+f(d[1])+'" r="'+f(.6+rnd()*.8)+'" fill="#000" fill-opacity="'+f(.35+rnd()*.5)+'"/>'}
+  /* bgn: vài sao 4 cánh nhỏ */
+  for(i=0;i<7;i++){var s1=spot(150,24);near+=sparkle(s1[0],s1[1],3+rnd()*3)}
+  /* bgc (đầy sao): thêm bụi sao, 6 chòm sao nối nét, sao 4 cánh to, dấu +, vòng nhỏ */
+  for(i=0;i<26;i++){var d2=spot(36,12);rich+='<circle cx="'+f(d2[0])+'" cy="'+f(d2[1])+'" r="'+f(.7+rnd()*.9)+'" fill="#000" fill-opacity="'+f(.45+rnd()*.55)+'"/>'}
+  for(i=0;i<6;i++){var c=spot(150,90),n=3+Math.floor(rnd()*3),pp=[],a=rnd()*6.28,x=c[0],y=c[1];
+    for(var k=0;k<n;k++){pp.push([x,y]);a+=(rnd()-.5)*1.6;var st=34+rnd()*36;x+=Math.cos(a)*st;y+=Math.sin(a)*st}
+    rich+='<path d="M'+pp.map(function(p){return f(p[0])+' '+f(p[1])}).join(' L')+'" stroke="#000" stroke-opacity=".55" stroke-width=".9" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
+    pp.forEach(function(p,k){rich+='<circle cx="'+f(p[0])+'" cy="'+f(p[1])+'" r="'+(k===0?2.1:1.5)+'" fill="#000"/>'})}
+  for(i=0;i<10;i++){var s3=spot(100,24);rich+=sparkle(s3[0],s3[1],4.5+rnd()*5)}
+  for(i=0;i<10;i++){var s2=spot(100,24),z=3+rnd()*2.5;rich+='<path d="M'+f(s2[0]-z)+' '+f(s2[1])+'H'+f(s2[0]+z)+'M'+f(s2[0])+' '+f(s2[1]-z)+'V'+f(s2[1]+z)+'" stroke="#000" stroke-width="1.3" stroke-linecap="round"/>'}
+  for(i=0;i<7;i++){var s4=spot(100,24);rich+='<circle cx="'+f(s4[0])+'" cy="'+f(s4[1])+'" r="'+f(2.6+rnd()*1.6)+'" stroke="#000" stroke-width="1.1" fill="none"/>'}
+  /* bgd (sao + icon): icon vẽ nét rải thưa, nghiêng nhẹ, to nhỏ khác nhau */
+  var DOO=['gamepad','headphones','music','rocket','planet','cat','sword','potion','dice','ghost','crown','keyboard','disc','ufo','heart','book','coffee','mushroom'];
+  for(i=0;i<DOO.length;i++){if(!P[DOO[i]])continue;var s5=spot(110,40),sz=(26+rnd()*14)/24,rot=Math.round((rnd()-.5)*40);
+    mid+='<g transform="translate('+f(s5[0])+' '+f(s5[1])+') rotate('+rot+') scale('+sz.toFixed(2)+') translate(-12 -12)" fill="none" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">'+P[DOO[i]]+'</g>'}
   function u(body){return "url('data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+T+' '+T+'">'+body+'</svg>')+"')"}
   var d=document.createElement('div');
   d.id='bgic';d.setAttribute('aria-hidden','true');
-  d.innerHTML='<i class="bgf"></i><i class="bgn"></i>';
-  d.style.setProperty('--m1',u(far));d.style.setProperty('--m2',u(near));
+  /* data-y / data-x: lớp trượt bao nhiêu px khi cuộn (lớp gần trượt nhiều hơn = có chiều sâu) */
+  d.innerHTML='<i class="bgf" data-y="28"></i><i class="bgc" data-y="28"></i><i class="bgd" data-y="44" data-x="-14"></i><i class="bgn" data-y="62"></i>';
+  d.style.setProperty('--m1',u(far));d.style.setProperty('--m2',u(near));d.style.setProperty('--m3',u(mid));d.style.setProperty('--m4',u(rich));
   document.body.appendChild(d);
 }
 
@@ -5444,9 +5460,8 @@ addEventListener('scroll',function(){
     if(!e||mqr.matches||document.documentElement.getAttribute('data-motion')==='off')return;
     var w=Math.sin((window.scrollY||0)/700),v=Math.round(w*28);
     if(v===ly)return;ly=v;
-    var a=e.firstChild,b=e.lastChild,c=a.nextSibling;
-    a.style.translate='0 '+v+'px';b.style.translate='0 '+Math.round(w*62)+'px';  /* trượt qua lại trong ±28 / ±62 px, không có cú giật */
-    if(c&&c!==b)c.style.translate=Math.round(w*-14)+'px '+Math.round(w*44)+'px'; /* lớp icon: trôi chéo nhẹ ±14 / ±44 px */
+    /* trượt qua lại theo data-y / data-x của từng lớp (±28…±62 px), không có cú giật */
+    [].forEach.call(e.children,function(l){l.style.translate=Math.round(w*(+l.getAttribute('data-x')||0))+'px '+Math.round(w*(+l.getAttribute('data-y')||0))+'px'});
   });
 },{passive:true});bg();scan();
 var bpe=document.getElementById('bgmp');
@@ -6817,3 +6832,70 @@ try{
   document.addEventListener('visibilitychange',function(){if(!document.hidden)kick()});
 })();
 }catch(e){console.error('[skymap]',e)}
+
+/* ===================== [ui-switch] NÚT ĐỔI GIAO DIỆN =====================
+   Nút #uib trên thanh menu (phím U) mở bảng chọn: 1. Cũ · 2. Hiện tại · 3. Tuỳ biến (tự chọn khung, bố cục, khoảng cách, nền, ảnh động nổi).
+   Cấu hình từng giao diện nằm ở window.UIP (đầu index.html); lựa chọn lưu trên máy (localStorage 'ui' và 'uic'). */
+try{
+(function(){
+var R=document.documentElement,btn=document.getElementById('uib');if(!btn||!window.uiApply)return;
+function L(vi,en){return R.lang==='en'?en:vi}
+var MODES=[['old','Cũ','Classic','Bo tròn, một trang dài, nền đầy sao, ảnh động nổi','Rounded, one long page, starry sky, floating GIFs'],
+  ['hud','Hiện tại','Current','Kiểu game vát góc, cuộn liền mạch, gọn, nền sao mờ','Game HUD, continuous scroll, compact, faint stars'],
+  ['custom','Tuỳ biến','Custom','Tự chọn từng thứ bên dưới','Pick each part yourself']];
+var OPTS=[['hud','Khung','Frame',[[0,'Bo tròn','Rounded'],[1,'Vát góc','Beveled']]],
+  ['flow','Bố cục','Layout',[[0,'Một trang','One page'],[1,'Cuộn liền mạch','Continuous']]],
+  ['compact','Khoảng cách','Spacing',[[0,'Thoáng','Roomy'],[1,'Gọn','Compact']]],
+  ['bg','Nền','Background',[['clean','Sao mờ','Faint'],['rich','Đầy sao','Starry'],['icons','Sao + icon','Stars + icons']]],
+  ['float','Ảnh động nổi','Floating GIFs',[[0,'Tắt','Off'],[1,'Bật','On']]]];
+var pop=document.createElement('div');pop.className='uipop';pop.id='uipop';pop.setAttribute('role','dialog');pop.setAttribute('translate','no');document.body.appendChild(pop);
+function render(){
+  var m=uiMode(),c=uiCfg('custom');
+  pop.setAttribute('aria-label',L('Giao diện','Layout style'));
+  pop.innerHTML='<h4>'+L('Giao diện','Layout style')+'</h4><div class="uim" role="radiogroup">'+MODES.map(function(x,i){
+      return '<button type="button" role="radio" data-m="'+x[0]+'" aria-checked="'+(m===x[0])+'"><i class="pv pv-'+x[0]+'" aria-hidden="true"><b></b><b></b><b></b></i><span><b>'+(i+1)+'. '+L(x[1],x[2])+'</b><small>'+L(x[3],x[4])+'</small></span></button>'}).join('')+'</div>'+
+    '<div class="uic"'+(m==='custom'?'':' hidden')+'>'+OPTS.map(function(o){
+      return '<div class="uir"><span>'+L(o[1],o[2])+'</span><div class="seg" role="radiogroup" aria-label="'+L(o[1],o[2])+'">'+o[3].map(function(v){
+        return '<button type="button" role="radio" data-o="'+o[0]+'" data-v="'+v[0]+'" aria-checked="'+(String(c[o[0]])===String(v[0]))+'">'+L(v[1],v[2])+'</button>'}).join('')+'</div></div>'}).join('')+'</div>'+
+    '<p>'+L('Lưu trên máy này. Phím tắt: U.','Saved on this device. Shortcut: U.')+'</p>';
+}
+function apply(m,cfg){
+  var before=R.classList.contains('flow');
+  window.__uiM=m;try{localStorage.setItem('ui',m)}catch(e){}
+  if(cfg){window.__uiC=cfg;try{localStorage.setItem('uic',JSON.stringify(cfg))}catch(e){}}
+  var c=uiCfg(m);uiApply(c);
+  /* vừa bật cuộn liền mạch giữa chừng: mở sẵn mọi nhóm, không ẩn chỗ đang đọc */
+  if(c.flow&&!before&&window.__reveal)window.__reveal(4,true);
+  render();place();
+  requestAnimationFrame(function(){dispatchEvent(new Event('resize'));document.dispatchEvent(new CustomEvent('uichange',{detail:m}))});
+}
+pop.addEventListener('click',function(e){
+  e.stopPropagation();
+  var b=e.target.closest('button');if(!b)return;
+  if(b.hasAttribute('data-m')){
+    var m=b.getAttribute('data-m');
+    /* lần đầu chọn Tuỳ biến: bắt đầu từ đúng giao diện đang thấy */
+    var seed=null;if(m==='custom'){var has=false;try{has=!!localStorage.getItem('uic')}catch(x){}if(!has&&!window.__uiC)seed=Object.assign({},uiCfg())}
+    apply(m,seed);var f=pop.querySelector('[data-m="'+m+'"]');if(f)try{f.focus({preventScroll:true})}catch(x){}
+  }else if(b.hasAttribute('data-o')){
+    var c=Object.assign({},uiCfg('custom')),o=b.getAttribute('data-o'),v=b.getAttribute('data-v');
+    c[o]=o==='bg'?v:+v;apply('custom',c);var f2=pop.querySelector('[data-o="'+o+'"][data-v="'+v+'"]');if(f2)try{f2.focus({preventScroll:true})}catch(x){}
+  }
+});
+function place(){
+  if(!pop.classList.contains('on'))return;
+  var r=btn.getBoundingClientRect(),w=pop.offsetWidth||300;
+  pop.style.left=Math.min(innerWidth-w-12,Math.max(12,r.right-w))+'px';pop.style.top=(r.bottom+10)+'px';
+  pop.style.maxHeight=(innerHeight-r.bottom-24)+'px';
+}
+function open(on){
+  pop.classList.toggle('on',on);btn.setAttribute('aria-expanded',on?'true':'false');
+  if(on){render();place();var c=pop.querySelector('[aria-checked="true"]');if(c)try{c.focus({preventScroll:true})}catch(e){}}
+}
+btn.addEventListener('click',function(e){e.stopPropagation();open(!pop.classList.contains('on'))});
+document.addEventListener('click',function(e){if(pop.classList.contains('on')&&!pop.contains(e.target))open(false)});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&pop.classList.contains('on')){open(false);btn.focus()}});
+addEventListener('resize',place);
+document.addEventListener('langchange',function(){if(pop.classList.contains('on'))render();btn.title=L('Đổi giao diện (U)','Change layout (U)');btn.setAttribute('aria-label',L('Đổi giao diện','Change layout'))});
+})();
+}catch(e){console.error('[ui-switch]',e)}
