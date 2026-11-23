@@ -59,7 +59,7 @@ try{
   var calm=(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
   function mOff(){return document.documentElement.getAttribute('data-motion')==='off'}
   if(clk&&trail&&!calm&&trail.animate){
-    var TRAIL=['images/trail-1.webp','images/trail-2.webp','images/trail-3.webp','images/trail-4.webp','images/trail-5.webp','images/trail-6.webp','images/trail-7.webp','images/trail-8.webp','images/trail-9.webp','images/trail-10.webp','images/trail-11.webp','images/trail-12.webp','images/trail-13.webp','images/trail-14.webp','images/trail-15.webp'];
+    var TRAIL=['images/trail-1.webp','images/trail-2.webp','images/trail-3.webp','images/trail-4.webp','images/trail-5.webp','images/trail-6.webp','images/trail-7.webp','images/trail-8.webp','images/trail-9.webp','images/trail-10.webp','images/trail-11.webp','images/trail-12.webp','images/trail-5.webp','images/trail-6.webp','images/trail-1.webp']; /* 13-15 trùng nội dung 5, 6, 1 nên dùng lại file cũ */
     var MAX=10; /* số ảnh tối đa cùng lúc */
     /* nạp sẵn khi trình duyệt rảnh để lần rê chuột đầu tiên không bị khựng. Điện thoại và máy yếu thì bỏ qua */
     if(matchMedia('(pointer:fine)').matches&&!document.documentElement.classList.contains('lite'))
@@ -690,9 +690,9 @@ try{
   var DATA={
     /* Game điện thoại: chép một dòng game, thêm plat:'mobile' (ví dụ {id:'wild-rift',plat:'mobile',t:'Tên game',m:'MOBA · Điện thoại',s:'Hay chơi',img:'images/games/wild-rift.jpg',d:'...',w:'...',tags:['MOBA'],link:''}). Game PC không cần plat. */
     game:{label:'Game',shape:'',groups:[['pc','Game PC'],['mobile','Game điện thoại']],lead:'Những game tôi chơi nhiều nhất và lý do tôi quay lại với chúng.',items:[
-      {id:'lol',ic:'crown',t:'League of Legends',m:'MOBA 5v5 · PC',s:'Chơi hằng ngày',img:'images/games/lol.jpg',fb:'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Zed_0.jpg',d:'MOBA 5v5. Tag của tôi là ming#0811, server VN. Ba tướng tôi thông thạo cao nhất là Lee Sin, Zed và Yasuo.',w:'Tôi đã chơi game này hơn 11 năm rồi nên tới giờ vẫn chơi.',tags:['5v5','VN'],link:'https://www.op.gg/'},
-      {id:'delta-force',ic:'crosshair',t:'Delta Force',m:'FPS chiến thuật · PC',s:'Đang cày',img:'images/games/delta-force.jpg',fb:'https://cdn.akamai.steamstatic.com/steam/apps/2507950/header.jpg',d:'Game bắn súng chiến thuật theo đội, có chế độ chiến dịch và đánh quy mô lớn.',w:'Tôi chơi vì game giải trí rất cao, nhịp độ nhanh.',tags:['FPS','Đồng đội'],link:'https://store.steampowered.com/app/2507950'},
-      {id:'poe2',ic:'flame',t:'Path of Exile 2',m:'ARPG · PC',s:'Đang build',img:'images/games/poe2.jpg',fb:'https://cdn.akamai.steamstatic.com/steam/apps/2694490/header.jpg',d:'Game nhập vai hành động kiểu Diablo, build nhân vật rất sâu.',w:'Tôi chơi vì game có tính chi tiết rất cao, đồ hoạ ổn định và có nhiều thứ để học hỏi.',tags:['ARPG','Build'],link:'https://store.steampowered.com/app/2694490'}
+      {id:'lol',ic:'crown',t:'League of Legends',m:'MOBA 5v5 · PC',s:'Chơi hằng ngày',img:'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Zed_0.jpg',d:'MOBA 5v5. Tag của tôi là ming#0811, server VN. Ba tướng tôi thông thạo cao nhất là Lee Sin, Zed và Yasuo.',w:'Tôi đã chơi game này hơn 11 năm rồi nên tới giờ vẫn chơi.',tags:['5v5','VN'],link:'https://www.op.gg/'},
+      {id:'delta-force',ic:'crosshair',t:'Delta Force',m:'FPS chiến thuật · PC',s:'Đang cày',img:'https://cdn.akamai.steamstatic.com/steam/apps/2507950/header.jpg',d:'Game bắn súng chiến thuật theo đội, có chế độ chiến dịch và đánh quy mô lớn.',w:'Tôi chơi vì game giải trí rất cao, nhịp độ nhanh.',tags:['FPS','Đồng đội'],link:'https://store.steampowered.com/app/2507950'},
+      {id:'poe2',ic:'flame',t:'Path of Exile 2',m:'ARPG · PC',s:'Đang build',img:'https://cdn.akamai.steamstatic.com/steam/apps/2694490/header.jpg',d:'Game nhập vai hành động kiểu Diablo, build nhân vật rất sâu.',w:'Tôi chơi vì game có tính chi tiết rất cao, đồ hoạ ổn định và có nhiều thứ để học hỏi.',tags:['ARPG','Build'],link:'https://store.steampowered.com/app/2694490'}
     ]},
     truyen:{label:'Đọc truyện',shape:'',lead:'Manhwa, manhua tôi đã đọc và đang theo dõi.',items:[
       {id:'truyen-1',t:'Tên bộ truyện 1',m:'Manhwa · Hành động',s:'Đang theo',img:'images/truyen/truyen-1.jpg',d:'Bộ truyện này nói về điều gì, không cần kể hết nội dung.',w:'Điều làm tôi muốn đọc tiếp mỗi tuần.',tags:['Manhwa','Hành động'],link:''},
@@ -707,9 +707,9 @@ try{
     mod:{label:'Việt hoá',kind:'Dự án',home:'mod',wl:'Tiến độ và cách cài',shape:'',lead:'Những dự án dịch tôi đang làm.',items:[
       /* thêm cho mỗi bản dịch (để trong [ngoặc vuông] hoặc bỏ trống thì tự ẩn):
          ver = phiên bản game/mod hỗ trợ, up = ngày cập nhật 'YYYY-MM-DD', dl = link tải bản dịch, cl = những gì mới (mới nhất ở trên) */
-      {id:'minecraft',ic:'cube',t:'Việt hoá Minecraft',m:'Gói ngôn ngữ cho mod và modpack',s:'Đang dịch',p:42,img:'images/mod/minecraft.jpg',d:'Dịch giao diện, vật phẩm và mô tả của các mod Minecraft sang tiếng Việt.',w:'[Dịch tới đâu rồi, cách cài bản dịch.]',tags:['Minecraft','Mod','vi_vn'],link:'https://modrinth.com/',
+      {id:'minecraft',ic:'cube',t:'Việt hoá Minecraft',m:'Gói ngôn ngữ cho mod và modpack',s:'Đang dịch',p:42,d:'Dịch giao diện, vật phẩm và mô tả của các mod Minecraft sang tiếng Việt.',w:'[Dịch tới đâu rồi, cách cài bản dịch.]',tags:['Minecraft','Mod','vi_vn'],link:'https://modrinth.com/',
         ver:'[vd: 1.21.1]',up:'[YYYY-MM-DD]',dl:'',cl:['[Mới: dịch xong phần ...]','[Sửa: ...]']},
-      {id:'stardew-valley',ic:'sprout',t:'Việt hoá Stardew Valley',m:'Bản dịch cho mod · SMAPI',s:'Đang dịch',p:18,img:'images/mod/stardew-valley.jpg',d:'Dịch các mod Stardew Valley sang tiếng Việt để bạn bè chơi cho dễ.',w:'[Dịch tới đâu rồi, cách cài bản dịch.]',tags:['Stardew Valley','SMAPI','Mod'],link:'https://www.nexusmods.com/stardewvalley',
+      {id:'stardew-valley',ic:'sprout',t:'Việt hoá Stardew Valley',m:'Bản dịch cho mod · SMAPI',s:'Đang dịch',p:18,d:'Dịch các mod Stardew Valley sang tiếng Việt để bạn bè chơi cho dễ.',w:'[Dịch tới đâu rồi, cách cài bản dịch.]',tags:['Stardew Valley','SMAPI','Mod'],link:'https://www.nexusmods.com/stardewvalley',
         ver:'[vd: 1.6 · SMAPI 4.x]',up:'[YYYY-MM-DD]',dl:'',cl:['[Mới: ...]']}
     ]},
     phim:{label:'Xem phim',shape:'',lead:'Những bộ phim tôi xem đi xem lại.',items:[
