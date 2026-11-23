@@ -779,7 +779,7 @@ try{
   }
   function route(){routeApply();document.body.classList.toggle('in-view',!view.hidden)}
   window.addEventListener('hashchange',function(){
-    if(!calm&&document.startViewTransition)document.startViewTransition(route);else route();
+    if(!calm&&document.startViewTransition){var vt=document.startViewTransition(route);vt.ready.catch(function(){});vt.finished.catch(function(){})}else route(); /* bắt lỗi khi hiệu ứng bị một hiệu ứng khác chen ngang */
   });
   /* ===== hồ sơ game: sửa ở đây =====
      champs: tên tướng viết liền, đúng tên trong Data Dragon (ví dụ MissFortune, KaiSa, LeeSin) */
@@ -3357,7 +3357,7 @@ try{
       /* chế độ khó: chỉ thêm chữ hoa ngẫu nhiên, không thêm dấu câu (, . ! ? ; :) cho dễ gõ; dấu thanh tiếng Việt vẫn giữ */
       function deco(w){if(Math.random()<.28)w=w.charAt(0).toUpperCase()+w.slice(1);return w}
       var LEN=60000,mode='vi',words=[],res=[],wi=0,started=false,done=false,t0=0,tm=0,typed=0,okW=0,okC=0;
-      var show=$('tshow'),inp=$('tin'),go=$('tgo'),nw=$('tnew'),cu=$('tcustom'),msg=$('tmsg'),wpm=$('twpm'),cpm=$('tcpm'),acc=$('tacc'),tt=$('ttime'),bst=$('tbest'),M0=msg.textContent;
+      var show=$('tshow'),inp=$('ttin'),go=$('tgo'),nw=$('tnew'),cu=$('tcustom'),msg=$('tmsg'),wpm=$('twpm'),cpm=$('tcpm'),acc=$('tacc'),tt=$('ttime'),bst=$('tbest'),M0=msg.textContent;
       if(!show||!inp)return;
       function best(){try{return +localStorage.getItem('typebest60')||0}catch(e){return 0}}
       function own(){return (cu.value||'').split(/\s+/).filter(Boolean)}
@@ -3635,7 +3635,7 @@ try{
       var ln=null,done=function(){r.classList.remove('vtl','vtlr');if(ln)ln.remove()};
       try{
         var vt=document.startViewTransition(function(){applyLang(next,true);ln=document.createElement('i');ln.id='lgln';ln.setAttribute('aria-hidden','true');document.body.appendChild(ln)});
-        vt.finished.then(done,done);return;
+        vt.ready.catch(function(){});vt.finished.then(done,done);return;
       }catch(e){done()}
     }
     applyLang(next,true);
@@ -4301,7 +4301,7 @@ document.addEventListener('click',function(e){
 var lk=0;
 document.addEventListener('keydown',function(e){
  if(!on||e.ctrlKey||e.metaKey||e.altKey)return;
- var t=e.target,kb=document.getElementById('lab-kb'),typing=t&&t.id==='tin',inKb=false;
+ var t=e.target,kb=document.getElementById('lab-kb'),typing=t&&t.id==='ttin',inKb=false;
  if(!typing&&!inKb)return;
  var k=e.key;if(k==='Shift'||k==='Control'||k==='Alt'||k==='Meta'||k==='CapsLock')return;
  var now=performance.now();if(now-lk<22)return;lk=now;
@@ -4975,7 +4975,7 @@ try{
     if(motionOk()&&!weak()&&document.startViewTransition&&!document.hidden&&!busyVT()){
       R.classList.add('vtc');
       var band=null,done=function(){R.classList.remove('vtc');if(band)band.remove()};
-      try{var vt=document.startViewTransition(function(){apply();band=document.createElement('i');band.id='acband';band.setAttribute('aria-hidden','true');document.body.appendChild(band)});vt.finished.then(done,done);return}catch(e){done()}
+      try{var vt=document.startViewTransition(function(){apply();band=document.createElement('i');band.id='acband';band.setAttribute('aria-hidden','true');document.body.appendChild(band)});vt.ready.catch(function(){});vt.finished.then(done,done);return}catch(e){done()}
     }
     apply();
   }

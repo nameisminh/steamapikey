@@ -40,7 +40,9 @@ window.cancelAnimationFrame=function(id){var it=m[id];if(it){it.c=true;delete m[
 })();</script>
 <script>/* CUỘN LIỀN MẠCH: lúc đầu chỉ hiện nhóm "Về Ming"; cuộn gần hết thì nhóm sau tự hiện tiếp bên dưới (data-upto = số nhóm đã mở thêm, 0–4).
    Chân trang chỉ hiện khi đã mở hết. Nhớ trong phiên để tải lại trang không phải mở lại từ đầu. */
-(function(){var R=document.documentElement,u=0;R.classList.add('flow');try{var s=+sessionStorage.getItem('upto');if(s>=0&&s<=4)u=s}catch(e){}R.setAttribute('data-upto',u)})();</script>
+(function(){var R=document.documentElement,u=0;R.classList.add('flow');try{var s=+sessionStorage.getItem('upto');if(s>=0&&s<=4)u=s}catch(e){}R.setAttribute('data-upto',u);
+/* an toàn: app.js không tải được / bị lỗi (chưa có window.__reveal sau 10 giây) thì hiện hết, không để nội dung bị ẩn mãi */
+addEventListener('load',function(){setTimeout(function(){if(!window.__reveal)R.classList.remove('flow')},10000)})})();</script>
 <script>document.documentElement.classList.add('js');try{history.scrollRestoration='manual'}catch(e){}try{var _n=navigator,_c=_n.connection;if((_n.hardwareConcurrency||8)<=4||(_n.deviceMemory||8)<=4||(_c&&_c.saveData))document.documentElement.classList.add('lite')}catch(e){}try{var _l=localStorage.getItem('lite');if(_l==='1')document.documentElement.classList.add('lite');else if(_l==='0')document.documentElement.classList.remove('lite')}catch(e){}</script>
 <script>try{var _t=localStorage.getItem('theme');if(_t==='light'||_t==='dark')document.documentElement.setAttribute('data-theme',_t);else if(matchMedia('(prefers-color-scheme: light)').matches)document.documentElement.setAttribute('data-theme','light');try{localStorage.removeItem('colors')}catch(_){};if(document.documentElement.getAttribute('data-theme')==='light'){var _mc=document.querySelector('meta[name="color-scheme"]'),_tc=document.querySelector('meta[name="theme-color"]');if(_mc)_mc.content='only light';if(_tc)_tc.content='#fafafa'}var _m=localStorage.getItem('motion');if(_m==='auto'){localStorage.removeItem('motion');_m=null}if(_m===null&&(document.documentElement.classList.contains('lite')||sessionStorage.getItem('motionauto')==='1'))_m='off';if(_m==='off')document.documentElement.setAttribute('data-motion','off')}catch(e){}try{if(_m!=='off'&&!sessionStorage.getItem('seen')&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('pre-on')}catch(e){}</script>
 <script>try{if(localStorage.getItem('gifoff')==='1')document.documentElement.classList.add('nogif')}catch(e){}</script>
@@ -640,7 +642,7 @@ window.__autoLang=function(){
               <div><b id="tbest">0</b><span>WPM cao nhất</span></div>
             </div>
             <div class="tshow" id="tshow" aria-live="off"></div>
-            <input type="text" id="tin" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Bấm Bắt đầu rồi gõ từng từ vào đây, bấm cách để sang từ mới" aria-label="Ô gõ chữ" disabled>
+            <input type="text" id="ttin" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Bấm Bắt đầu rồi gõ từng từ vào đây, bấm cách để sang từ mới" aria-label="Ô gõ chữ" disabled>
             <div class="lrow"><button class="btn" id="tgo" type="button">Bắt đầu</button><button class="btn line" id="tnew" type="button">Chữ mới</button></div>
             <p class="cmsg" id="tmsg">Bấm Bắt đầu, đồng hồ chạy 60 giây. Gõ từng từ rồi bấm cách để sang từ tiếp theo, chữ cứ hiện tiếp cho tới khi đủ 1 phút.</p>
           </div>

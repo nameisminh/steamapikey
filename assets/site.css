@@ -2950,7 +2950,8 @@ body.bgm-on .dock:not(.open) .dkh{opacity:0;pointer-events:none}
    Minecraft: tiêu đề Tiny5 (pixel khối), chữ thường VT323 (pixel dễ đọc, phóng to cho bằng cỡ)
    Elden Ring: tiêu đề Cormorant SC (chữ khắc kiểu cổ), chữ thường Cormorant Garamond */
 :root.ff-valo{--body:"Chakra Petch","Be Vietnam Pro",system-ui,sans-serif;--head:"Anton","Chakra Petch",Impact,sans-serif}
-:root.ff-valo :is(h1,h2,.ghd h2,footer::after){text-transform:uppercase;letter-spacing:.01em;font-family:var(--head)!important;font-weight:400!important}
+:root.ff-valo footer::after{text-transform:uppercase;font-family:var(--head)!important;font-weight:400!important}
+:root.ff-valo :is(h1,h2,.ghd h2){text-transform:uppercase;letter-spacing:.01em;font-family:var(--head)!important;font-weight:400!important}
 :root.ff-mc{--body:"VT323",ui-monospace,Consolas,monospace;--head:"Tiny5","VT323",monospace;font-size-adjust:ex-height .66}
 :root.ff-mc :is(h1,h2,h3,.ghd h2){font-family:var(--head)!important;font-weight:400!important;letter-spacing:0!important}
 :root.ff-mc :is(img,canvas){image-rendering:auto}
@@ -3309,3 +3310,5 @@ html.flow[data-upto="4"] footer{display:block}
 :root[data-motion="off"] .flowmore .ar{animation:none}
 .flowmore:hover b,.flowmore:focus-visible b{text-decoration:underline;text-underline-offset:.25em}
 html:not(.flow) .flowmore{display:none}
+/* in trang: in đủ mọi nhóm và chân trang, bỏ thanh "cuộn tiếp" */
+@media print{html.flow #home>.grp,html.flow #home>.band.alt,html.flow footer{display:block!important}.flowmore{display:none!important}}
