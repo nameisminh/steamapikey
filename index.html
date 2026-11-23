@@ -375,7 +375,21 @@ window.__autoLang=function(){
 #dcp.lt .sr:hover{background:#e3e5e8}
 #dcp .g,#dcp .nt b{color:#fff}
 @media(max-width:760px){#dcp{grid-template-columns:1fr}#dcp .l,#dcp .bn,#dcp .l::before{border-radius:14px 14px 0 0}#dcp .r{max-height:none}#dcp .gr{grid-template-columns:repeat(3,1fr)}#dcp.hf .r{margin-top:var(--fb,62px)}}
-</style><div id="dcp"></div></template>
+/* ---- giống Discord hơn ---- */
+#dcp .tg{display:inline-flex;align-items:center;gap:4px;vertical-align:1px;font-weight:600;letter-spacing:.02em}
+#dcp .tgb{width:14px;height:14px;object-fit:contain;image-rendering:auto}
+/* kiểu tên hiển thị (màu + hiệu ứng lấy từ Discord) */
+#dcp h3.ns{color:var(--nc)}
+#dcp h3.ne2{background:linear-gradient(90deg,var(--nc),var(--nc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+#dcp h3.ne3{text-shadow:0 0 6px var(--nc),0 0 14px color-mix(in srgb,var(--nc) 60%,transparent)}
+#dcp h3.ne4{-webkit-text-stroke:1px color-mix(in srgb,var(--nc) 55%,#000);paint-order:stroke fill}
+#dcp h3.ne5{text-shadow:2px 2px 0 color-mix(in srgb,var(--nc) 45%,#000)}
+#dcp h3.ne6{text-shadow:0 0 10px color-mix(in srgb,var(--nc) 75%,transparent)}
+/* dấu trạng thái đúng hình như Discord: trực tuyến tròn đặc, vắng mặt trăng khuyết, đừng làm phiền có gạch, ngoại tuyến vòng rỗng */
+#dcp .dot::after{content:"";position:absolute;background:var(--bg);display:none}
+#dcp .dot[data-st=idle]::after{display:block;left:-1px;top:-1px;width:62%;height:62%;border-radius:50%}
+#dcp .dot[data-st=dnd]::after{display:block;left:22%;right:22%;top:50%;height:22%;margin-top:-11%;border-radius:2px}
+#dcp .dot[data-st=offline]::after{display:block;inset:28%;border-radius:50%}</style><div id="dcp"></div></template>
 <div class="wrap">
   <div class="rv">
     <p class="eyebrow ei"><i data-ic="radio"></i><span>Ngay lúc này</span></p>
