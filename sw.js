@@ -5,12 +5,13 @@
    - music/tracks.js và các file lời .lrc: ưu tiên mạng và luôn bỏ qua cache cũ (thêm bài mới là thấy ngay), mất mạng thì dùng bản đã lưu.
    - Ảnh, font, steam.json: cho xem bản đã lưu ngay, đồng thời tải bản mới ngầm.
    - Nhạc, video, API (thời tiết, Discord, lời bài hát, thống kê): không lưu, để trình duyệt tự xử lý. */
-const VERSION = 'v5'; /* v4: chỉ lưu trang chủ vào bộ nhớ offline. v5: mạng chậm vẫn lưu bản mới khi tải xong và báo trang "có bản mới" (trước đây cứ quá 4,5 giây là bản mới bị bỏ, khách thấy bản cũ mãi) */
+const VERSION = 'v6'; /* v4: chỉ lưu trang chủ vào bộ nhớ offline. v5: mạng chậm vẫn lưu bản mới khi tải xong và báo trang "có bản mới" (trước đây cứ quá 4,5 giây là bản mới bị bỏ, khách thấy bản cũ mãi). v6: CSS/JS tách ra assets/, luôn lấy bản khớp với trang */
 const CORE = 'ming-core-' + VERSION;
 const RT = 'ming-rt-' + VERSION;
 const MAX_RT = 300;
 const ROOT = new URL('./', self.registration.scope).href;
-const PRECACHE = ['./', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png'];
+const ASSETS = ['assets/site.css', 'assets/ascii.js', 'assets/config.js', 'assets/app.js'];
+const PRECACHE = ['./', ...ASSETS, 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png'];
 const STATIC_HOSTS = [
   'fonts.googleapis.com', 'fonts.gstatic.com',
   'ddragon.leagueoflegends.com',
@@ -51,6 +52,7 @@ self.addEventListener('fetch', (e) => {
     if (url.pathname.endsWith('/sw.js')) return;
     if (req.mode === 'navigate') { e.respondWith(navigate(e, req)); return; }
     if (/\/music\/(tracks\.js|[^/]+\.lrc)$/i.test(url.pathname)) { e.respondWith(netFirst(req)); return; }
+    if (/\/assets\/[^/]+\.(css|js)$/i.test(url.pathname)) { e.respondWith(assetFirst(e, req)); return; }
     e.respondWith(swr(e, req));
     return;
   }
@@ -109,6 +111,22 @@ async function netFirst(req) {
   }
 }
 
+/* CSS/JS của trang (assets/): phải luôn khớp với bản HTML vừa tải, nên hỏi mạng trước.
+   Không ép tải lại: trình duyệt tự gửi If-None-Match, file không đổi thì máy chủ trả 304 (vài trăm byte), không tải lại cả file.
+   Mất mạng thì dùng bản đã lưu (khớp với trang chủ đã lưu offline). */
+async function assetFirst(e, req) {
+  const c = await caches.open(CORE);
+  const key = new URL(req.url); key.search = '';
+  try {
+    const res = await fetch(req);
+    if (res && res.ok) e.waitUntil(c.put(key.href, res.clone()).catch(() => {}));
+    return res;
+  } catch (_) {
+    const hit = await c.match(key.href);
+    return hit || Response.error();
+  }
+}
+
 async function swr(e, req) {
   const c = await caches.open(RT);
   const hit = await c.match(req);
@@ -133,7 +151,10 @@ async function warm() {
   try {
     const conn = self.navigator && self.navigator.connection;
     if (conn && conn.saveData) return;
-    const html = await (await fetch(ROOT, { cache: 'no-cache' })).text();
+    /* đường dẫn ảnh giờ nằm cả trong JS/CSS đã tách ra assets/, nên đọc cả các file đó */
+    const texts = await Promise.all([ROOT, ...ASSETS.map((a) => new URL(a, ROOT).href)].map((u) =>
+      fetch(u).then((r) => (r.ok ? r.text() : '')).catch(() => '')));
+    const html = texts.join('\n');
     const found = Array.from(new Set(html.match(/images\/[A-Za-z0-9_\-./%]+\.(?:jpe?g|png|webp|avif|svg|gif)/g) || []));
     found.sort((a, b) => (/\.gif$/i.test(a) ? 1 : 0) - (/\.gif$/i.test(b) ? 1 : 0));
     found.push('steam.json');

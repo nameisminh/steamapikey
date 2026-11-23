@@ -29,6 +29,11 @@
   Clear-Site-Data: "cache"
   Cache-Control: no-store
 
+# CSS/JS của trang (tách từ index.html): trình duyệt giữ file, mỗi lần mở chỉ hỏi lại máy chủ.
+# File không đổi thì nhận 304 (vài trăm byte) thay vì tải lại cả trăm KB; đổi file thì bản mới lên ngay.
+/assets/*
+  Cache-Control: public, max-age=0, must-revalidate
+
 # HTML: luôn kiểm tra lại để bản mới lên ngay
 /*.html
   Cache-Control: public, max-age=0, must-revalidate
