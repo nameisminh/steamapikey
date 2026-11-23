@@ -72,7 +72,9 @@ window.__sfast=function(){return on&&v>1.5};
 <link rel="dns-prefetch" href="https://api.open-meteo.com">
 
 <!-- MÀU TRANG: đọc màu đã chọn trước khi vẽ trang để không bị chớp màu cũ -->
-<script>try{var _a=localStorage.getItem('accent');if(!/^(lam|tim|hong|amber|reu|mono|mint|coral|lime|sunset|aurora|candy)$/.test(_a||''))_a='lam';document.documentElement.setAttribute('data-accent',_a);localStorage.removeItem('fz');localStorage.removeItem('dkbm');if(localStorage.getItem('zen')==='1')document.documentElement.classList.add('zen');var _f=localStorage.getItem('ff');if(_f==='mono'||_f==='serif')document.documentElement.classList.add('ff-'+_f)}catch(e){document.documentElement.setAttribute('data-accent','lam')}</script>
+<script>/* tải font của kiểu chữ game khi được chọn (một lần) */
+window.ffLoad=function(k){var F={valo:'family=Anton&family=Chakra+Petch:wght@400;500;600;700',mc:'family=Tiny5&family=VT323',elden:'family=Cormorant+SC:wght@500;600;700&family=Cormorant+Garamond:wght@500;600;700'}[k];if(!F||document.getElementById('ff-'+k))return;var l=document.createElement('link');l.id='ff-'+k;l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?'+F+'&display=swap';document.head.appendChild(l)};
+try{var _a=localStorage.getItem('accent');if(!/^(lam|tim|hong|amber|reu|mono|mint|coral|lime|sunset|aurora|candy)$/.test(_a||''))_a='lam';document.documentElement.setAttribute('data-accent',_a);localStorage.removeItem('fz');localStorage.removeItem('dkbm');if(localStorage.getItem('zen')==='1')document.documentElement.classList.add('zen');var _f=localStorage.getItem('ff');if(/^(mono|serif|valo|mc|elden)$/.test(_f||'')){window.ffLoad(_f);document.documentElement.classList.add('ff-'+_f)}}catch(e){document.documentElement.setAttribute('data-accent','lam')}</script>
 
 </head>
 <body>
@@ -204,10 +206,8 @@ window.__autoLang=function(){
               <li title="Chơi game mỗi ngày"><i data-ic="gamepad"></i><span>Game thủ</span></li>
               <li title="Nhạc là bạn đồng hành"><i data-ic="notes"></i><span>Mê nhạc</span></li>
               <li title="Đọc truyện không đếm được"><i data-ic="book"></i><span>Mọt truyện</span></li>
-                            <li title="Thư viện Steam toàn game chưa chơi"><i data-ic="gamepad"></i><span>Nhà sưu tầm</span></li>
+              <li title="Thư viện Steam toàn game chưa chơi"><i data-ic="gamepad"></i><span>Nhà sưu tầm</span></li>
               <li title="Tự mày mò làm trang này"><i data-ic="terminal"></i><span>Dev tay ngang</span></li>
-              <li title="Đang đi thực tập"><i data-ic="id"></i><span>Thực tập sinh</span></li>
-              <li title="Hay xem phim siêu anh hùng"><i data-ic="film"></i><span>Fan Marvel và DC</span></li>
             </ul>
             <button type="button" class="foldbtn sm" id="bdfold" aria-controls="pbl" aria-expanded="true">Ẩn huy hiệu</button>
           </div>

@@ -2945,6 +2945,18 @@ body.bgm-on .dock:not(.open) .dkh{opacity:0;pointer-events:none}
 /* KIỂU CHỮ: đổi font chung của trang */
 :root.ff-mono{--body:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace}
 :root.ff-serif{--body:"Iowan Old Style","Palatino Linotype","Book Antiqua",Georgia,serif}
+/* kiểu chữ theo game (font Google có tiếng Việt, chỉ tải khi chọn):
+   Valorant: tiêu đề Anton (cao, đứng, viết hoa), chữ thường Chakra Petch (góc cạnh kiểu máy móc)
+   Minecraft: tiêu đề Tiny5 (pixel khối), chữ thường VT323 (pixel dễ đọc, phóng to cho bằng cỡ)
+   Elden Ring: tiêu đề Cormorant SC (chữ khắc kiểu cổ), chữ thường Cormorant Garamond */
+:root.ff-valo{--body:"Chakra Petch","Be Vietnam Pro",system-ui,sans-serif;--head:"Anton","Chakra Petch",Impact,sans-serif}
+:root.ff-valo :is(h1,h2,.ghd h2,footer::after){text-transform:uppercase;letter-spacing:.01em;font-family:var(--head)!important;font-weight:400!important}
+:root.ff-mc{--body:"VT323",ui-monospace,Consolas,monospace;--head:"Tiny5","VT323",monospace;font-size-adjust:ex-height .66}
+:root.ff-mc :is(h1,h2,h3,.ghd h2){font-family:var(--head)!important;font-weight:400!important;letter-spacing:0!important}
+:root.ff-mc :is(img,canvas){image-rendering:auto}
+:root.ff-elden{--body:"Cormorant Garamond",Georgia,serif;--head:"Cormorant SC","Cormorant Garamond",Georgia,serif;font-size-adjust:ex-height .5}
+:root.ff-elden :is(h1,h2,h3,.ghd h2){font-family:var(--head)!important;font-weight:600!important;letter-spacing:.04em}
+:root.ff-elden body{font-weight:500}
 /* IN: chỉ in nội dung, bỏ các nút nổi và lớp trang trí */
 @media print{.dock,.dkq,.dkdraw,.dkconf,.bgm,.bgq,.bgmp,#totop,.rndf,.fpsb,.fpsn,.dots,#bgic,.dd,.acpop{display:none!important}}
 :root[data-motion="off"] .dkp>*,:root[data-motion="off"] .dkb svg{transition:none!important;animation:none!important}
@@ -3154,3 +3166,108 @@ body.bgm-on .orbtab{opacity:0!important;pointer-events:none}
 .sky .skypop .go[hidden]{display:none}
 :root[data-motion="off"] .sky .skypop{transition:none}
 .sky .skypop .im img[hidden]{display:none}
+
+/* =====================================================================
+   GIAO DIỆN HUD (kiểu menu game): lớp phủ cuối cùng, đè lên mọi thứ phía trên.
+   - Thẻ: vát góc trên-trái và dưới-phải (corner-shape: bevel; trình duyệt chưa hỗ trợ thì bo nhẹ 6px),
+     hai góc còn lại có vạch ngoặc màu nhấn, rê chuột thì viền sáng màu nhấn.
+   - Nút, nhãn, thanh menu: vát góc nhỏ, chữ in hoa giãn chữ.
+   - Đầu mỗi nhóm: dải sọc chéo + nhãn "SECTOR 0x" chữ máy.
+   Muốn bỏ hết: xoá từ dòng này tới cuối file.
+   ===================================================================== */
+:root{
+  --hud:color-mix(in srgb,var(--acc) 75%,transparent);
+  --hud-lo:color-mix(in srgb,var(--acc) 24%,var(--line));
+  --hud-bg:color-mix(in srgb,var(--acc) 7%,var(--card));
+  --hcut:14px;--hcut-s:8px;
+}
+/* ---- hình khối: vát góc ---- */
+:root :is(.card,.lk,.hob,.idc,.stats>div,.panel,.tkb-list li,.faq>*,.g3d-stage,.skyc,.gbn,#contact .final,.log .lgph,.skypop){border-radius:6px!important}
+:root :is(.btn,.ql,.foldbtn,.labtabs button,.hello,.lk .la,.lk .li,.ghd .gic,.pbadges li,.card small .ic2,.brand i,.bar nav,.bar .acts,.bar:not(.mini) nav a.on,.bar .tgl:not(.sw)){border-radius:4px!important}
+@supports (corner-shape:bevel){
+  :root :is(.card,.lk,.hob,.idc,.stats>div,.panel,.tkb-list li,.faq>*,.g3d-stage,.skyc,.gbn,#contact .final,.log .lgph,.skypop){border-radius:var(--hcut) 3px!important;corner-shape:bevel}
+  :root :is(.btn,.ql,.foldbtn,.labtabs button,.hello,.lk .la,.lk .li,.ghd .gic,.pbadges li,.card small .ic2,.brand i,.bar nav,.bar .acts,.bar:not(.mini) nav a.on,.bar .tgl:not(.sw)){border-radius:var(--hcut-s) 2px!important;corner-shape:bevel}
+}
+/* ---- thẻ: viền ánh màu nhấn + vạch ngoặc ở góc trên-phải và dưới-trái ---- */
+:root :is(.card,.lk,.hob,.idc,.stats>div,.panel,.tkb-list li,.faq>*){
+  border-color:var(--hud-lo)!important;
+  background-image:linear-gradient(var(--hud),var(--hud)),linear-gradient(var(--hud),var(--hud)),linear-gradient(var(--hud),var(--hud)),linear-gradient(var(--hud),var(--hud))!important;
+  background-position:100% 0,100% 0,0 100%,0 100%!important;
+  background-size:12px 2px,2px 12px,12px 2px,2px 12px!important;
+  background-repeat:no-repeat!important;
+  transition:border-color .2s,box-shadow .25s,transform .25s!important;
+}
+:root :is(.card,.lk,.hob,.idc,.stats>div,.tkb-list li,.faq>*):hover{
+  border-color:var(--hud)!important;
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--acc) 30%,transparent),0 14px 34px -20px var(--acc)!important;
+}
+/* khung terminal: thêm vạch quét ngang rất mờ như màn hình */
+:root .panel{
+  background-image:linear-gradient(var(--hud),var(--hud)),linear-gradient(var(--hud),var(--hud)),linear-gradient(var(--hud),var(--hud)),linear-gradient(var(--hud),var(--hud)),repeating-linear-gradient(0deg,rgba(var(--fx),.03) 0 1px,transparent 1px 3px)!important;
+  background-position:100% 0,100% 0,0 100%,0 100%,0 0!important;
+  background-size:12px 2px,2px 12px,12px 2px,2px 12px,100% 100%!important;
+}
+:root .panel .head{background:color-mix(in srgb,var(--acc) 6%,transparent);border-bottom-color:var(--hud-lo);text-transform:uppercase;letter-spacing:.12em;font-size:.68rem}
+:root .panel .head i{border-radius:1px;width:.5rem;height:.5rem;background:var(--hud-lo)}
+:root .panel .head i:first-child{background:var(--acc)}
+/* chữ nhỏ dạng nhãn máy */
+:root :is(.card small,.lk .lt small,.ptitle .pk,.clock-label){letter-spacing:.08em}
+/* ---- nút ---- */
+:root .btn{text-transform:uppercase;letter-spacing:.08em;font-size:.8rem;font-weight:700;padding:.7rem 1.3rem}
+:root .btn:hover{box-shadow:0 0 0 1px var(--acc),0 0 22px -4px var(--acc)!important}
+:root :is(.ql,.foldbtn,.labtabs button,.hello){border-color:var(--hud-lo)!important;background:var(--hud-bg)!important;letter-spacing:.03em}
+:root :is(.ql,.foldbtn,.labtabs button):hover{border-color:var(--acc)!important;color:var(--acc)!important}
+:root .labtabs button[aria-selected="true"]{background:var(--acc)!important;border-color:var(--acc)!important;color:var(--bg)!important}
+:root .labtabs button[aria-selected="true"] .ic2{stroke:var(--bg)}
+:root .foldbtn{text-transform:uppercase;font-size:.7rem;letter-spacing:.1em;font-family:var(--mono)}
+:root .lk .li,.ghd .gic{background:color-mix(in srgb,var(--acc) 10%,transparent)!important;border-color:var(--hud-lo)!important}
+:root .lk .la{border-color:var(--hud-lo)!important;text-transform:uppercase;letter-spacing:.06em;font-size:.66rem}
+/* ---- thanh menu trên cùng ---- */
+:root .bar nav,:root .bar .acts{border-color:var(--hud-lo)!important;background:color-mix(in srgb,var(--acc) 5%,rgba(var(--bgrgb),.6))!important}
+:root .bar:not(.mini) nav a.on,:root:not([data-color="off"]) .bar:not(.mini) nav a.on{background:var(--acc)!important;color:var(--bg)!important;-webkit-text-fill-color:var(--bg)!important;box-shadow:0 0 18px -4px var(--acc)}
+:root .bar nav a{text-transform:uppercase;letter-spacing:.06em;font-size:.76rem}
+:root .bar .prog{background:var(--acc);box-shadow:0 0 10px var(--acc)}
+/* ---- đầu nhóm (Về Ming, Sở thích…): dải sọc chéo + nhãn SECTOR ---- */
+#home{counter-reset:grp}
+:root .ghd{counter-increment:grp}
+:root .ghd::before{background:repeating-linear-gradient(-45deg,color-mix(in srgb,var(--ga,var(--acc)) 16%,transparent) 0 2px,transparent 2px 12px) 100% 0/min(42%,30rem) 100% no-repeat,color-mix(in srgb,var(--ga,var(--acc)) 7%,transparent)!important}
+:root .ghd>div{position:relative}
+:root .ghd>div::after{content:"SECTOR " counter(grp,decimal-leading-zero) " //";position:absolute;right:0;top:-1.5rem;font:500 .68rem/1 var(--mono);letter-spacing:.22em;color:var(--ga,var(--acc));opacity:.85}
+:root .ghd h2{text-transform:uppercase;letter-spacing:0;font-size:clamp(2rem,4.6vw,3.3rem)}
+:root .sxh h2{letter-spacing:-.01em}
+/* ---- thẻ hồ sơ + huy hiệu: ảnh bên trái, tên/trạng thái/danh hiệu bên phải, huy hiệu xếp lưới 2 cột ở dưới ---- */
+:root .pc{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:1.1rem;row-gap:.15rem;align-items:center}
+:root .pc>.avf{grid-row:1/span 3}
+:root .pci{display:contents}
+:root .pci>*{grid-column:2;min-width:0}
+:root .pci>b{align-self:end}
+:root .pci>.ptitle{align-self:start;margin-top:.35rem}
+:root .pci>.pbadges,:root .pci>#bdfold{grid-column:1/-1}
+:root .pci>#bdfold{justify-self:start;margin:.6rem 0 0}
+:root .pbadges{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:.4rem;margin:1rem 0 0;padding:.75rem;border:1px solid var(--hud-lo);border-radius:6px;background:repeating-linear-gradient(-45deg,color-mix(in srgb,var(--acc) 5%,transparent) 0 1px,transparent 1px 9px),color-mix(in srgb,var(--card) 70%,transparent)}
+@supports (corner-shape:bevel){:root .pbadges{border-radius:var(--hcut) 3px;corner-shape:bevel}}
+:root .pbadges[hidden]{display:none!important}
+:root .pbadges li{justify-content:flex-start;gap:.55rem;min-width:0;padding:.35rem .55rem .35rem .35rem;border-color:var(--hud-lo);background:var(--card);font-size:.78rem;font-weight:600;color:var(--text);white-space:nowrap}
+:root .pbadges li span{overflow:hidden;text-overflow:ellipsis}
+:root .pbadges li>:first-child{flex:none;display:grid;place-items:center;width:1.6rem;height:1.6rem;padding:.3rem;border:1px solid var(--hud-lo);border-radius:3px;background:color-mix(in srgb,var(--acc) 12%,transparent);box-sizing:border-box}
+:root .pbadges li:hover{border-color:var(--acc);transform:translateY(-2px);box-shadow:0 8px 18px -12px var(--acc)}
+:root .pbadges li:last-child:nth-child(odd){grid-column:1/-1}
+@media (max-width:22rem){:root .pbadges{grid-template-columns:1fr}}
+/* ---- số liệu, dòng thời gian, chân trang ---- */
+:root .stats b{font-variant-numeric:tabular-nums;text-shadow:0 0 18px color-mix(in srgb,var(--acc) 35%,transparent)}
+:root .log li::before{border-radius:1px!important;transform:rotate(45deg)}
+:root footer{border-top-color:var(--hud-lo);background:repeating-linear-gradient(-45deg,color-mix(in srgb,var(--acc) 5%,transparent) 0 1px,transparent 1px 12px) 0 0/100% 7rem no-repeat,linear-gradient(180deg,color-mix(in srgb,var(--acc) 5%,transparent),transparent 40%)}
+:root .fgrid h4{text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;color:var(--acc)}
+:root .copy{border-top-style:dashed;border-top-color:var(--hud-lo);font-family:var(--mono);font-size:.78rem}
+/* tắt hiệu ứng / máy yếu: bỏ phát sáng */
+:root[data-motion="off"] :is(.card,.lk,.hob,.idc,.stats>div,.tkb-list li,.faq>*,.pbadges li):hover,.lite :is(.card,.lk,.hob,.idc,.stats>div,.tkb-list li,.faq>*):hover{box-shadow:none!important;transform:none!important}/* HUD: thêm các khối riêng của từng mục (kệ game, Góc chơi, sự thật thú vị, QR, nhật ký, thời khoá biểu, chân trang) */
+:root :is(.gc,.sartw,.shelf li,.ffs,.ffshow,.labp,.tshow,.log .now,.shot,#play .ph:not(.avatar),#photos .ph,.gsk,.fmap,.wx,.mapfr,.devsb,.wxtest,.qrst,.qrhint,.lgph){border-radius:6px!important}
+:root :is(.shtabs,.shtabs button,.ffchip,#lab button:not(.btn),#qr button:not(.btn),.wxch,.cpid,#tkb button:not(.btn):not(.foldbtn),.pn){border-radius:4px!important}
+@supports (corner-shape:bevel){
+  :root :is(.gc,.sartw,.shelf li,.ffs,.ffshow,.labp,.tshow,.log .now,.shot,#play .ph:not(.avatar),#photos .ph,.gsk,.fmap,.wx,.mapfr,.devsb,.wxtest,.qrst,.qrhint,.lgph){border-radius:var(--hcut) 3px!important;corner-shape:bevel}
+  :root :is(.shtabs,.shtabs button,.ffchip,#lab button:not(.btn),#qr button:not(.btn),.wxch,.cpid,#tkb button:not(.btn):not(.foldbtn),.pn){border-radius:var(--hcut-s) 2px!important;corner-shape:bevel}
+}
+:root :is(.sartw,.ffs,.labp,.fmap,.wx){border-color:var(--hud-lo)!important}
+:root :is(.ffchip,.wxch,.shtabs button)[aria-pressed="true"],:root :is(.ffchip,.wxch).on,:root .shtabs button[aria-selected="true"]{box-shadow:0 0 16px -6px var(--acc)}
+:root .gc:hover{box-shadow:0 0 0 1px var(--acc),0 18px 40px -18px var(--acc)}:root :is(.labtabs,footer input[type="text"],footer input[type="search"],#qr input,#lab input[type="text"],.tin){border-radius:4px!important}
+@supports (corner-shape:bevel){:root :is(.labtabs,footer input[type="text"],footer input[type="search"],#qr input,#lab input[type="text"]){border-radius:var(--hcut-s) 2px!important;corner-shape:bevel}}
