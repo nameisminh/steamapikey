@@ -150,12 +150,14 @@ async function trim(c) {
 async function warm() {
   try {
     const conn = self.navigator && self.navigator.connection;
-    if (conn && conn.saveData) return;
+    if (conn && (conn.saveData || /(^|-)(2g|3g)$/.test(conn.effectiveType || ''))) return; /* tiết kiệm dữ liệu hoặc mạng chậm: không tải sẵn */
     /* đường dẫn ảnh giờ nằm cả trong JS/CSS đã tách ra assets/, nên đọc cả các file đó */
     const texts = await Promise.all([ROOT, ...ASSETS.map((a) => new URL(a, ROOT).href)].map((u) =>
       fetch(u).then((r) => (r.ok ? r.text() : '')).catch(() => '')));
     const html = texts.join('\n');
-    const found = Array.from(new Set(html.match(/images\/[A-Za-z0-9_\-./%]+\.(?:jpe?g|png|webp|avif|svg|gif)/g) || []));
+    /* bỏ images/effects/ (ảnh hiệu ứng 3–4 MB mỗi file): trang chỉ tải khi máy đủ khoẻ và đang bật hiệu ứng */
+    const found = Array.from(new Set(html.match(/images\/[A-Za-z0-9_\-./%]+\.(?:jpe?g|png|webp|avif|svg|gif)/g) || []))
+      .filter((u) => !/^images\/effects\//.test(u));
     found.sort((a, b) => (/\.gif$/i.test(a) ? 1 : 0) - (/\.gif$/i.test(b) ? 1 : 0));
     found.push('steam.json');
     const c = await caches.open(RT);

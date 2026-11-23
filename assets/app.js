@@ -3041,8 +3041,9 @@ try{
       mo.observe(sec);
     }else lazy();
   })();
-  /* GIF: bỏ file vào images/gif/ (gif-1.gif ... gif-8.gif). Ba khung ngang giữa các mục dùng images/gif/banner-1.webp, banner-2.webp, banner-3.webp */
-  var GIFS=[{src:'images/gif/gif-1.gif',w:1},{src:'images/gif/gif-2.gif'},{src:'images/gif/gif-3.gif'},{src:'images/gif/gif-4.gif'},{src:'images/gif/gif-5.gif'},{src:'images/gif/gif-6.gif',w:1},{src:'images/gif/gif-7.gif'},{src:'images/gif/gif-8.gif'}];
+  /* GIF: bỏ file vào images/gif/ (gif-1 ... gif-8, .webp hoặc .gif, nhớ sửa đuôi trong danh sách dưới). Ba khung ngang giữa các mục dùng images/gif/banner-1.webp, banner-2.webp, banner-3.webp */
+  /* bài nào có bản .webp thì dùng .webp (nhẹ hơn .gif 2–9 lần, vẫn chuyển động) */
+  var GIFS=[{src:'images/gif/gif-1.webp',w:1},{src:'images/gif/gif-2.gif'},{src:'images/gif/gif-3.webp'},{src:'images/gif/gif-4.webp'},{src:'images/gif/gif-5.webp'},{src:'images/gif/gif-6.gif',w:1},{src:'images/gif/gif-7.gif'},{src:'images/gif/gif-8.webp'}];
   /* khi tắt hiệu ứng, ảnh động chỉ hiện khung hình đầu */
   function still(img){
     if(!img||img.src.indexOf('data:')===0)return;
@@ -4890,7 +4891,7 @@ try{
 try{
 (function(){
   /* bảng dịch riêng (từ điển EN của trang nằm trong khối khác, không dùng chung được): đổi ngôn ngữ thì dịch lại các chữ dưới đây */
-  var R=document.documentElement,D={"Đổi màu trang":"Change page colour","Màu của trang":"Page colour","Lam":"Blue","Tím":"Violet","Hồng":"Rose","Hổ phách":"Amber","Rêu":"Moss","Đơn sắc":"Mono","Bạc hà":"Mint","San hô":"Coral","Chanh":"Lime","Bật hoặc tắt nhạc":"Music on or off","Bài tiếp theo":"Next track","Màu được nhớ trên máy này. Tìm nhanh: phím / hoặc Ctrl + K.":"Colour is remembered on this device. Quick search: / or Ctrl + K.","Tiện ích (kéo lên xuống để dời chỗ)":"Tools (drag up or down to move)","Lên đầu trang":"Back to top","Xuống cuối trang":"Go to bottom","Tìm nhanh":"Quick search","Sáng hoặc tối":"Light or dark","Tiếng Việt / English":"Vietnamese / English","Chép liên kết trang":"Copy page link","Tắt hoặc bật hiệu ứng":"Effects on or off","Đã chép liên kết":"Link copied","Không chép được":"Could not copy","Một màu":"Solid","Trộn màu":"Mixed","Hoàng hôn":"Sunset","Cực quang":"Aurora","Thập cẩm":"Candy mix","Màu được nhớ trên máy này. Phím tắt: C.":"Colour is remembered on this device. Shortcut: C.","Thước đọc: bấm hoặc kéo để tua trang":"Reading ruler: click or drag to scrub the page","Mục trước":"Previous section","Mục tiếp theo":"Next section","Đánh dấu chỗ đang đọc":"Bookmark this spot","Về chỗ đã đánh dấu":"Back to bookmark","Tự cuộn trang":"Auto-scroll","Chế độ tập trung":"Focus mode","Cỡ chữ":"Text size","Toàn màn hình":"Full screen","Chia sẻ trang":"Share page","Đã đánh dấu chỗ này":"Spot bookmarked","Mưa mã":"Code rain","Màu trang":"Page colour","Trắng":"White","Đỏ":"Red","Cam":"Orange","Vàng":"Yellow","Xanh lá":"Green","Xanh dương":"Blue","Cầu vồng":"Rainbow","Tự chọn màu":"Pick a colour","Nhỏ":"Thin","Vừa":"Medium","To":"Thick","Giữ nét (không tự mờ)":"Keep strokes (no fade)","Xoá hết nét":"Clear drawing","Thoát bút vẽ (Esc)":"Exit pen (Esc)","Vẽ lên trang · Esc để thoát":"Draw on the page · Esc to exit","Bút vẽ nháp lên trang":"Doodle on the page","Đèn pin":"Flashlight","Bắn pháo giấy":"Confetti","Kiểu chữ":"Font style","Ẩn trang trí":"Hide decorations","Mã QR của trang":"Page QR code","In hoặc lưu PDF":"Print or save PDF","Quét để mở trang này trên điện thoại":"Scan to open this page on your phone","Vẽ lên trang · nét tự mờ · Esc để thoát":"Draw on the page · strokes fade · Esc to exit","Rê chuột để soi · Esc để tắt":"Move to light up · Esc to turn off","Đang tắt hiệu ứng":"Effects are off","Kiểu chữ: Mono":"Font: Mono","Kiểu chữ: Serif":"Font: Serif","Kiểu chữ: mặc định":"Font: default","Đã ẩn trang trí":"Decorations hidden","Đã hiện lại trang trí":"Decorations back","Tất cả":"All","Việt Nam":"Vietnamese","Quốc tế":"International","bài":"tracks","Sắp xếp":"Sort"};
+  var R=document.documentElement,D={"Đổi màu trang":"Change page colour","Màu của trang":"Page colour","Lam":"Blue","Tím":"Violet","Hồng":"Rose","Hổ phách":"Amber","Rêu":"Moss","Đơn sắc":"Mono","Bạc hà":"Mint","San hô":"Coral","Chanh":"Lime","Bật hoặc tắt nhạc":"Music on or off","Bài tiếp theo":"Next track","Màu được nhớ trên máy này. Tìm nhanh: phím / hoặc Ctrl + K.":"Colour is remembered on this device. Quick search: / or Ctrl + K.","Tiện ích (kéo lên xuống để dời chỗ)":"Tools (drag up or down to move)","Lên đầu trang":"Back to top","Xuống cuối trang":"Go to bottom","Tìm nhanh":"Quick search","Sáng hoặc tối":"Light or dark","Tiếng Việt / English":"Vietnamese / English","Chép liên kết trang":"Copy page link","Tắt hoặc bật hiệu ứng":"Effects on or off","Đã chép liên kết":"Link copied","Không chép được":"Could not copy","Một màu":"Solid","Trộn màu":"Mixed","Hoàng hôn":"Sunset","Cực quang":"Aurora","Thập cẩm":"Candy mix","Màu được nhớ trên máy này. Phím tắt: C.":"Colour is remembered on this device. Shortcut: C.","Thước đọc: bấm hoặc kéo để tua trang":"Reading ruler: click or drag to scrub the page","Mục trước":"Previous section","Mục tiếp theo":"Next section","Đánh dấu chỗ đang đọc":"Bookmark this spot","Về chỗ đã đánh dấu":"Back to bookmark","Tự cuộn trang":"Auto-scroll","Chế độ tập trung":"Focus mode","Cỡ chữ":"Text size","Toàn màn hình":"Full screen","Chia sẻ trang":"Share page","Đã đánh dấu chỗ này":"Spot bookmarked","Mưa mã":"Code rain","Màu trang":"Page colour","Trắng":"White","Đỏ":"Red","Cam":"Orange","Vàng":"Yellow","Xanh lá":"Green","Xanh dương":"Blue","Cầu vồng":"Rainbow","Tự chọn màu":"Pick a colour","Nhỏ":"Thin","Vừa":"Medium","To":"Thick","Giữ nét (không tự mờ)":"Keep strokes (no fade)","Xoá hết nét":"Clear drawing","Thoát bút vẽ (Esc)":"Exit pen (Esc)","Vẽ lên trang · Esc để thoát":"Draw on the page · Esc to exit","Bút vẽ nháp lên trang":"Doodle on the page","Bắn pháo giấy":"Confetti","Kiểu chữ":"Font style","Ẩn trang trí":"Hide decorations","Mã QR của trang":"Page QR code","In hoặc lưu PDF":"Print or save PDF","Quét để mở trang này trên điện thoại":"Scan to open this page on your phone","Vẽ lên trang · nét tự mờ · Esc để thoát":"Draw on the page · strokes fade · Esc to exit","Đang tắt hiệu ứng":"Effects are off","Kiểu chữ: Mono":"Font: Mono","Kiểu chữ: Serif":"Font: Serif","Kiểu chữ: mặc định":"Font: default","Đã ẩn trang trí":"Decorations hidden","Đã hiện lại trang trí":"Decorations back","Tất cả":"All","Việt Nam":"Vietnamese","Quốc tế":"International","bài":"tracks","Sắp xếp":"Sort"};
   function T(s){return (R.lang==='en'&&D.hasOwnProperty(s))?D[s]:s}
   /* phần tử có data-v7 (chữ) / data-v7a (aria-label + title) được dịch lại mỗi lần đổi ngôn ngữ */
   function tr(){
@@ -4950,11 +4951,10 @@ try{
 
   /* ===== THANH TIỆN ÍCH MÉP TRÁI (thay cho menu vòng tròn) ===== */
   /* Chỉ gồm thứ CHƯA có ở thanh menu, bảng mũi tên giữa trang hay các nút nổi:
-     bút vẽ nháp, đèn pin, pháo giấy, kiểu chữ, ẩn trang trí, mã QR của trang, in / lưu PDF.
+     bút vẽ nháp, pháo giấy, kiểu chữ, ẩn trang trí, mã QR của trang, in / lưu PDF.
      Không có vòng lặp nào chạy khi không dùng: bút vẽ và pháo giấy chỉ vẽ khi đang có nét/hạt, xong là dừng. */
   var I={
     draw:'<path d="M4 20l1.2-4.6L15.6 5a2.1 2.1 0 0 1 3 3L8.2 18.4z"/><path d="M13.8 6.8l3 3"/>',
-    light:'<path d="M9 3h6l-1 5.5h-4z"/><path d="M10 8.5h4v3.2a2 2 0 0 1-4 0z"/><path d="M12 15v6M8.5 17.5l-1.5 1.5M15.5 17.5l1.5 1.5"/>',
     confetti:'<path d="M4 20l4.5-11.5 7 7z"/><path d="M14 4.5v2M19.5 10h-2M17 6.5l1.4-1.4M11 3l.6 1.5M20.5 13.5l-1.5-.4"/>',
     font:'<path d="M4 19l5-14h.6L15 19M6 14h7"/><path d="M17 19v-6.5M15 12.5h4"/>',
     zen:'<path d="M12 21c-4-2.5-6.5-5.8-6.5-9.5A6.5 6.5 0 0 1 12 5a6.5 6.5 0 0 1 6.5 6.5c0 3.7-2.5 7-6.5 9.5z"/><path d="M12 5v16"/>',
@@ -4963,7 +4963,7 @@ try{
   };
   function sv(p,c){return '<svg viewBox="0 0 24 24" aria-hidden="true"'+(c?' class="'+c+'"':'')+'>'+p+'</svg>'}
   /* [khoá, nhãn, phím tắt, icon] — null = vạch ngăn nhóm */
-  var DK=[['draw','Bút vẽ nháp lên trang','',sv(I.draw)],['light','Đèn pin','',sv(I.light)],['confetti','Bắn pháo giấy','',sv(I.confetti)],null,
+  var DK=[['draw','Bút vẽ nháp lên trang','',sv(I.draw)],['confetti','Bắn pháo giấy','',sv(I.confetti)],null,
     ['font','Kiểu chữ','',sv(I.font)],['zen','Ẩn trang trí','',sv(I.zen)],null,
     ['qr','Mã QR của trang','',sv(I.qr)],['rain','Mưa mã','',sv(I.rain)]];
   var dock=document.createElement('div');dock.className='dock';dock.id='dock';dock.setAttribute('translate','no');
@@ -4989,7 +4989,7 @@ try{
   }
   dkh.addEventListener('click',function(e){e.stopPropagation();dOpen(!dock.classList.contains('open'))});
   document.addEventListener('click',function(e){if(dock.classList.contains('open')&&!dock.contains(e.target)&&!pop.contains(e.target)&&!(drawCv&&e.target===drawCv)&&!(pen&&pen.contains(e.target)))dOpen(false)});
-  document.addEventListener('keydown',function(e){if(e.key!=='Escape')return;if(drawOn){setDraw(false);return}if(lightOn){setLight(false);return}if(dock.classList.contains('open')){dOpen(false);dkh.focus()}});
+  document.addEventListener('keydown',function(e){if(e.key!=='Escape')return;if(drawOn){setDraw(false);return}if(dock.classList.contains('open')){dOpen(false);dkh.focus()}});
   function B(d){return dkp.querySelector('[data-d="'+d+'"]')}
   function say(b,vi){var tip=b.getAttribute('data-tip');b.setAttribute('data-tip',T(vi));b.classList.add('say');setTimeout(function(){b.classList.remove('say');b.setAttribute('data-tip',tip)},1600)}
   function acc(){return getComputedStyle(R).getPropertyValue('--acc').trim()||'#8ec5ff'}
@@ -5065,7 +5065,6 @@ try{
   function setDraw(on){
     drawOn=on;B('draw').classList.toggle('on',on);
     if(on){
-      if(lightOn)setLight(false);
       drawCv=document.createElement('canvas');drawCv.className='dkdraw';drawCv.setAttribute('aria-hidden','true');document.body.appendChild(drawCv);
       dcx=drawCv.getContext('2d');dResize();strokes=[];
       drawCv.addEventListener('pointerdown',function(e){
@@ -5081,23 +5080,6 @@ try{
       if(dRaf){cancelAnimationFrame(dRaf);dRaf=0}
       removeEventListener('resize',dResize);if(drawCv){drawCv.remove();drawCv=null;dcx=null}strokes=[];dCur=null;
       if(pen){pen.classList.remove('on');var pp=pen;setTimeout(function(){if(!drawOn)pp.hidden=true},250)}
-    }
-  }
-  /* ---- ĐÈN PIN: tối cả trang, chỉ sáng một vòng quanh con trỏ (hoặc ngón tay) ---- */
-  var lightOn=false,spot=null,sRaf=0,sx=innerWidth/2,sy=innerHeight/2;
-  function sMove(e){sx=e.clientX;sy=e.clientY;if(!sRaf)sRaf=requestAnimationFrame(function(){sRaf=0;if(spot){spot.style.setProperty('--x',sx+'px');spot.style.setProperty('--y',sy+'px')}})}
-  function setLight(on){
-    lightOn=on;B('light').classList.toggle('on',on);
-    if(on){
-      if(drawOn)setDraw(false);
-      spot=document.createElement('div');spot.className='dkspot';spot.setAttribute('aria-hidden','true');
-      spot.style.setProperty('--x',sx+'px');spot.style.setProperty('--y',sy+'px');document.body.appendChild(spot);
-      addEventListener('pointermove',sMove,{passive:true});addEventListener('pointerdown',sMove,{passive:true});
-      requestAnimationFrame(function(){if(spot)spot.classList.add('on')});
-      say(B('light'),'Rê chuột để soi · Esc để tắt');
-    }else{
-      removeEventListener('pointermove',sMove);removeEventListener('pointerdown',sMove);
-      if(spot){var s=spot;spot=null;s.classList.remove('on');setTimeout(function(){s.remove()},300)}
     }
   }
   /* ---- PHÁO GIẤY: một lần bắn ~1,8 giây bằng dải màu đang chọn, xong tự dọn ---- */
@@ -5139,7 +5121,7 @@ try{
   function syncDock(){
     B('zen').classList.toggle('on',R.classList.contains('zen'));
     var f=ffCur(),fb=B('font');fb.classList.toggle('on',!!f);fb.querySelector('.bd').textContent=f?(f==='mono'?'M':'S'):'';
-    B('draw').classList.toggle('on',drawOn);B('light').classList.toggle('on',lightOn);
+    B('draw').classList.toggle('on',drawOn);
   }
   /* ---- MƯA MÃ: ký tự rơi kiểu màn hình terminal, màu theo dải màu trang, ~4 giây rồi tự tắt (bấm / Esc để dừng sớm) ---- */
   var rainStop=null;
@@ -5179,7 +5161,6 @@ try{
     var b=e.target.closest('.dkb');if(!b||b.disabled)return;e.stopPropagation();var d=b.getAttribute('data-d');
     if(d!=='qr')qrShow(false);
     if(d==='draw')setDraw(!drawOn);
-    else if(d==='light')setLight(!lightOn);
     else if(d==='confetti')confetti(b);
     else if(d==='font'){var k=FF[(FF.indexOf(ffCur())+1)%FF.length];setFF(k);say(b,k?('Kiểu chữ: '+FFN[k]):'Kiểu chữ: mặc định')}
     else if(d==='zen'){var z=!R.classList.contains('zen');R.classList.toggle('zen',z);try{localStorage.setItem('zen',z?'1':'0')}catch(x){}syncDock();say(b,z?'Đã ẩn trang trí':'Đã hiện lại trang trí')}
@@ -5336,7 +5317,15 @@ filter:'<path d="M4 5h16l-6.2 7.4V19l-3.6 1.8v-8.4z"/>',
 rain:'<path d="M7 14.5a4.5 4.5 0 0 1-.6-9 6 6 0 0 1 11.5 1.6 3.8 3.8 0 0 1-.6 7.4zM8 18l-1 2.5M12 18l-1 2.5M16 18l-1 2.5"/>',
 snow:'<path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M9.5 4.5L12 7l2.5-2.5M9.5 19.5L12 17l2.5 2.5"/>',
 ban:'<circle cx="12" cy="12" r="8.5"/><path d="M6 6l12 12"/>',
-eye:'<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="2.8"/>'
+eye:'<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="2.8"/>',
+/* icon cho lớp nền vẽ nét */
+rocket:'<path d="M12 2.5c3.2 2.2 4.8 5.6 4.5 10.5l-2.3 2.5H9.8L7.5 13C7.2 8.1 8.8 4.7 12 2.5z"/><circle cx="12" cy="9" r="1.7"/><path d="M7.6 12.5L5 15.5l2.8.8M16.4 12.5l2.6 3-2.8.8M10.5 18.5L12 21l1.5-2.5"/>',
+planet:'<circle cx="12" cy="12" r="5.5"/><path d="M6.8 14.1C3.6 16 2.3 17.8 3 18.8c1 1.6 6.3-.4 11.8-4.3S23.1 6.4 22 4.9c-.6-.9-2.6-.6-5.2.6"/>',
+cat:'<path d="M5 20v-9.5L4 4l4.5 3.2a9 9 0 0 1 7 0L20 4l-1 6.5V20z"/><path d="M9 12.5h.01M15 12.5h.01M10.8 15.5h2.4M12 15.5v1.2"/>',
+sword:'<path d="M20 4l-9.5 9.5M20 4h-3.5L7.8 12.7M20 4v3.5l-8.7 8.7M6 12l6 6M8.2 15.8L4 20"/>',
+potion:'<path d="M9.5 3h5M10.5 3v5.2L5.8 16.1A3.2 3.2 0 0 0 8.6 21h6.8a3.2 3.2 0 0 0 2.8-4.9L13.5 8.2V3M7.5 14h9"/>',
+ufo:'<path d="M8 10.5a4 4 0 0 1 8 0"/><ellipse cx="12" cy="12.5" rx="9" ry="3"/><path d="M8 17l-1.5 3M16 17l1.5 3M12 15.5V19"/>',
+mushroom:'<path d="M3.5 12.5a8.5 8.5 0 0 1 17 0z"/><path d="M9 12.5V18a3 3 0 0 0 6 0v-5.5M9 7.5h.01M14.5 6.5h.01M17 10h.01"/>'
 };
 var cache={},pool=['star','sparkle','gem','zap','heart','target','flame','crown','ghost','disc','sun','moon'],n=0;
 function uri(k){
@@ -5380,8 +5369,9 @@ function scan(){
     mark(b,b.classList.contains('foldbtn')?'chevd':guess(b.textContent,'arrowr'),'hib');
   });
 }
-/* NỀN TRANG: bầu trời đêm nhẹ, đồng bộ với bản đồ sao (thay cho 12 icon lẫn lộn trước đây).
-   Lớp xa: chấm sao li ti + vài chòm sao nối nét mảnh. Lớp gần: sao 4 cánh, dấu +, vòng nhỏ, lấp lánh rất chậm.
+/* NỀN TRANG: bầu trời đêm nhẹ, đồng bộ với bản đồ sao.
+   Lớp xa: chấm sao li ti + vài chòm sao nối nét mảnh. Lớp giữa: icon vẽ nét (game, nhạc, vũ trụ…) rải thưa.
+   Lớp gần: sao 4 cánh, dấu +, vòng nhỏ, lấp lánh rất chậm.
    Hình vẽ là mặt nạ (mask), màu lấy từ màu nhấn của trang nên đổi bảng màu / sáng tối là nền đổi theo.
    Nhẹ máy: mỗi lớp là một ảnh lặp vẽ sẵn; cuộn trang chỉ dịch chuyển (transform), lấp lánh chỉ đổi độ mờ. */
 function bg(){
@@ -5403,11 +5393,15 @@ function bg(){
   for(i=0;i<16;i++){var s1=spot(110,24);near+=sparkle(s1[0],s1[1],4.5+rnd()*5)}
   for(i=0;i<10;i++){var s2=spot(110,24),z=3+rnd()*2.5;near+='<path d="M'+f(s2[0]-z)+' '+f(s2[1])+'H'+f(s2[0]+z)+'M'+f(s2[0])+' '+f(s2[1]-z)+'V'+f(s2[1]+z)+'" stroke="#000" stroke-width="1.3" stroke-linecap="round"/>'}
   for(i=0;i<7;i++){var s3=spot(110,24);near+='<circle cx="'+f(s3[0])+'" cy="'+f(s3[1])+'" r="'+f(2.6+rnd()*1.6)+'" stroke="#000" stroke-width="1.1" fill="none"/>'}
+  /* lớp icon vẽ nét: đồ chơi, nhạc, vũ trụ… rải thưa giữa các vì sao, mỗi cái nghiêng một chút, cỡ to nhỏ khác nhau */
+  var DOO=['gamepad','headphones','music','rocket','planet','cat','sword','potion','dice','ghost','crown','keyboard','disc','ufo','heart','book','coffee','mushroom'],mid='';
+  for(i=0;i<DOO.length;i++){var s4=spot(120,40),sz=(26+rnd()*14)/24,rot=Math.round((rnd()-.5)*40);
+    mid+='<g transform="translate('+f(s4[0])+' '+f(s4[1])+') rotate('+rot+') scale('+sz.toFixed(2)+') translate(-12 -12)" fill="none" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">'+P[DOO[i]]+'</g>'}
   function u(body){return "url('data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+T+' '+T+'">'+body+'</svg>')+"')"}
   var d=document.createElement('div');
   d.id='bgic';d.setAttribute('aria-hidden','true');
-  d.innerHTML='<i class="bgf"></i><i class="bgn"></i>';
-  d.style.setProperty('--m1',u(far));d.style.setProperty('--m2',u(near));
+  d.innerHTML='<i class="bgf"></i><i class="bgd"></i><i class="bgn"></i>';
+  d.style.setProperty('--m1',u(far));d.style.setProperty('--m2',u(near));d.style.setProperty('--m3',u(mid));
   document.body.appendChild(d);
 }
 
@@ -5423,8 +5417,9 @@ addEventListener('scroll',function(){
     if(!e||mqr.matches||document.documentElement.getAttribute('data-motion')==='off')return;
     var w=Math.sin((window.scrollY||0)/700),v=Math.round(w*28);
     if(v===ly)return;ly=v;
-    var a=e.firstChild,b=e.lastChild;
+    var a=e.firstChild,b=e.lastChild,c=a.nextSibling;
     a.style.translate='0 '+v+'px';b.style.translate='0 '+Math.round(w*62)+'px';  /* trượt qua lại trong ±28 / ±62 px, không có cú giật */
+    if(c&&c!==b)c.style.translate=Math.round(w*-14)+'px '+Math.round(w*44)+'px'; /* lớp icon: trôi chéo nhẹ ±14 / ±44 px */
   });
 },{passive:true});bg();scan();
 var bpe=document.getElementById('bgmp');

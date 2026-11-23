@@ -2721,6 +2721,9 @@ li.hic::after{top:50%;right:.4rem;margin-top:-.75rem}
 #bgic .bgf{opacity:.2}
 #bgic .bgn{-webkit-mask-image:var(--m2);mask-image:var(--m2);-webkit-mask-position:310px 170px;mask-position:310px 170px;opacity:.26;animation:bgtw 9s ease-in-out infinite alternate}
 @keyframes bgtw{0%{opacity:.14}100%{opacity:.3}}
+/* lớp icon vẽ nét (tay cầm, tai nghe, tên lửa, mèo…): mờ hơn sao, lệch ô lặp so với 2 lớp kia để không xếp thẳng hàng */
+#bgic .bgd{-webkit-mask-image:var(--m3);mask-image:var(--m3);-webkit-mask-position:520px 380px;mask-position:520px 380px;opacity:.24}
+:root[data-theme="light"] #bgic .bgd{opacity:.18}
 :root[data-theme="light"] #bgic{--bgc:color-mix(in srgb,var(--acc) 70%,var(--text))}
 :root[data-theme="light"] #bgic .bgf{opacity:.16}
 :root[data-theme="light"] #bgic .bgn{opacity:.2}
@@ -2896,7 +2899,6 @@ body.bgm-on .dock:not(.open) .dkh{opacity:0;pointer-events:none}
 .dkb:active svg{scale:.86}
 .dkb svg{transition:scale .2s cubic-bezier(.3,1.6,.5,1),rotate .3s}
 .dkb[data-d="confetti"]:hover svg{rotate:-12deg}
-.dkb[data-d="light"].on svg{filter:drop-shadow(0 0 4px var(--acc))}
 /* BÚT VẼ NHÁP: lớp vẽ phủ cả màn hình (chỉ có khi đang bật) */
 .dkdraw{position:fixed;inset:0;z-index:35;width:100vw;height:100vh;cursor:crosshair;touch-action:none}
 /* THANH BÚT: nổi giữa đáy màn hình khi đang vẽ — màu, cỡ nét, giữ nét, xoá, thoát */
@@ -2933,9 +2935,6 @@ body.bgm-on .dock:not(.open) .dkh{opacity:0;pointer-events:none}
 /* MƯA MÃ: tắt dần khi hết giờ hoặc khi bấm */
 .dkrain{cursor:pointer;transition:opacity .4s}
 .dkrain.out{opacity:0}
-/* ĐÈN PIN: một lớp tối có vòng sáng quanh con trỏ */
-.dkspot{position:fixed;inset:0;z-index:34;pointer-events:none;background:radial-gradient(circle 150px at var(--x,50%) var(--y,50%),transparent 0 55%,rgba(0,0,0,.86) 100%);opacity:0;transition:opacity .3s}
-.dkspot.on{opacity:1}
 /* MÃ QR: thẻ trắng hiện bên phải cột nút (nền trắng để camera đọc được cả ở giao diện tối) */
 .dkq{position:fixed;left:94px;z-index:37;width:12.5rem;padding:.75rem .75rem .6rem;border-radius:1rem;background:#fff;color:#111;box-shadow:0 24px 50px -20px rgba(0,0,0,.6),0 0 0 1px color-mix(in srgb,var(--acc) 40%,transparent);opacity:0;translate:-8px 0;scale:.96;transform-origin:left center;transition:opacity .18s,translate .25s cubic-bezier(.2,.9,.3,1.2),scale .25s cubic-bezier(.2,.9,.3,1.2)}
 .dkq.on{opacity:1;translate:0 0;scale:1}
@@ -2947,7 +2946,7 @@ body.bgm-on .dock:not(.open) .dkh{opacity:0;pointer-events:none}
 :root.ff-mono{--body:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace}
 :root.ff-serif{--body:"Iowan Old Style","Palatino Linotype","Book Antiqua",Georgia,serif}
 /* IN: chỉ in nội dung, bỏ các nút nổi và lớp trang trí */
-@media print{.dock,.dkq,.dkdraw,.dkspot,.dkconf,.bgm,.bgq,.bgmp,#totop,.rndf,.fpsb,.fpsn,.dots,#bgic,.dd,.acpop{display:none!important}}
+@media print{.dock,.dkq,.dkdraw,.dkconf,.bgm,.bgq,.bgmp,#totop,.rndf,.fpsb,.fpsn,.dots,#bgic,.dd,.acpop{display:none!important}}
 :root[data-motion="off"] .dkp>*,:root[data-motion="off"] .dkb svg{transition:none!important;animation:none!important}
 @media (prefers-reduced-motion:reduce){.dkp>*{transition:none!important}.dkb svg{animation:none!important}}
 /* CHẾ ĐỘ TẬP TRUNG: ẩn lớp icon nền, dải GIF, nhãn dán, mẹo, nút FPS và đảo thông tin trên cùng; chỉ còn nội dung */
