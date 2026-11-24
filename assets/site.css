@@ -3448,3 +3448,7 @@ html[data-w="wide"] :is(main,footer) .wrap,html[data-w="wide"] .flowmore{max-wid
 /* CUỘN NHANH ĐỠ TỤT FPS: chữ chuyển màu (background-clip:text) và các hiệu ứng lặp phải vẽ lại mỗi khung hình, nên tạm dừng trong lúc đang cuộn (html.scrolling do script đầu index.html gắn, bỏ ~150 ms sau khi ngừng cuộn). */
 html.scrolling :is(h1,h2,.bye-t,#greet,.bar nav a.on,.brand,#steamn,#steamname,.pci>b,.pci .ptitle b,.run,#bgic .bgn,.gsk.in,.dot){animation-play-state:paused}
 html.scrolling :is(.avf,.dot,#orb .mk)::before,html.scrolling :is(.dot,#orb .mk)::after{animation-play-state:paused}
+
+/* GIAO DIỆN TỐI GIẢN (nền "không" + khung viền): ẩn thanh cuộn của trang, vẫn cuộn bình thường bằng chuột, phím và cảm ứng */
+:root[data-bg="none"][data-surface="outline"],:root[data-bg="none"][data-surface="outline"] body{scrollbar-width:none}
+:root[data-bg="none"][data-surface="outline"]::-webkit-scrollbar,:root[data-bg="none"][data-surface="outline"] body::-webkit-scrollbar{display:none;width:0;height:0}
