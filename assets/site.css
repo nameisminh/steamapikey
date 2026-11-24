@@ -3449,9 +3449,6 @@ html[data-w="wide"] :is(main,footer) .wrap,html[data-w="wide"] .flowmore{max-wid
 html.scrolling :is(h1,h2,.bye-t,#greet,.bar nav a.on,.brand,#steamn,#steamname,.pci>b,.pci .ptitle b,.run,#bgic .bgn,.gsk.in,.dot){animation-play-state:paused}
 html.scrolling :is(.avf,.dot,#orb .mk)::before,html.scrolling :is(.dot,#orb .mk)::after{animation-play-state:paused}
 
-/* GIAO DIỆN TỐI GIẢN (nền "không" + khung viền): ẩn thanh cuộn của trang, vẫn cuộn bình thường bằng chuột, phím và cảm ứng */
-:root[data-bg="none"][data-surface="outline"],:root[data-bg="none"][data-surface="outline"] body{scrollbar-width:none}
-:root[data-bg="none"][data-surface="outline"]::-webkit-scrollbar,:root[data-bg="none"][data-surface="outline"] body::-webkit-scrollbar{display:none;width:0;height:0}
 
 /* THANH CUỘN NGANG XẤU TRONG CÁC KHUNG: khung terminal "cat now.txt" tự xuống dòng thay vì cuộn ngang; các vùng cuộn ngang còn lại dùng thanh mảnh, nền trong suốt */
 .panel pre{white-space:pre-wrap;overflow-wrap:anywhere;overflow-x:hidden}
@@ -3522,3 +3519,12 @@ html.pre-on .dkw{display:none}
 .u041-tab[aria-selected="true"] .u041-lab{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.u460 *,.u460 *::before,.u041 *,.u041 *::before{transition-duration:.001ms!important;animation-duration:.001ms!important}}
 html[data-motion="off"] :is(.u460,.u041) *{transition-duration:.001ms!important}
+
+/* ===== THANH CUỘN TRANG ĐẸP: mảnh, bo tròn, màu theo màu chủ đạo; sáng hơn khi rê chuột hoặc kéo ===== */
+html{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--acc) 55%,transparent) transparent}
+html::-webkit-scrollbar{width:10px;height:10px}
+html::-webkit-scrollbar-track{background:transparent}
+html::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--acc) 45%,transparent);border-radius:99px;border:3px solid transparent;background-clip:padding-box;min-height:56px}
+html::-webkit-scrollbar-thumb:hover{background:color-mix(in srgb,var(--acc) 75%,transparent);background-clip:padding-box}
+html::-webkit-scrollbar-thumb:active{background:var(--acc);background-clip:padding-box}
+html::-webkit-scrollbar-corner{background:transparent}
