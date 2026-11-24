@@ -3560,3 +3560,12 @@ html.pv .dkw,html.pv .pvb,html.pv .bgm,html.pv .bgq{display:none!important}
 @media (max-width:50rem){.u257-dv span{display:none}}
 @media (prefers-reduced-motion:reduce){.u257-fr,.u257-hd{transition:none}.u257-ru i.is-flash{animation:none}}
 html[data-motion="off"] :is(.u257-fr,.u257-hd){transition:none}
+
+/* ===== ĐIỆN THOẠI: thu nhỏ giao diện cho đỡ phải kéo lâu. Chữ và mọi cỡ tính bằng rem nhỏ lại ~12%, khoảng cách giữa các mục và băng ảnh gọn hơn ===== */
+@media (max-width:40rem){
+  html{font-size:87.5%}
+  html:root #home .s{padding-block:clamp(1.3rem,5vw,1.8rem)}
+  html:root .ghd{margin-top:1rem;padding-block:1.2rem}
+  html:root .gbar .gbn{max-height:8.5rem}
+  html:root #home .band{margin-block:.2rem}
+}
