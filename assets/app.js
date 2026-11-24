@@ -7016,3 +7016,68 @@ fit();mark(0);sync();
 })();
 })();
 }catch(e){console.error('[khối 70 dock]',e)}
+
+
+/* ===================== [khối 71: xem thử kích thước] ===================== */
+/* Mẫu #257 của Lucian UX/UI Prompt, MIT License (c) 2026 Seokwoooo. Khung chỉ dựng khi mở và gỡ hẳn khi đóng (không giữ trang thứ hai trong bộ nhớ). */
+try{
+(function(){
+var btn=document.getElementById('pvb');if(!btn||document.documentElement.classList.contains('pv'))return;
+var root=null,fr,frame,st,hd,px,ru,sg,B=[],R=[],v=0,zone=-1,drag=null,prevFocus=null;
+var MIN=320,DV=[['Máy tính','Desktop',0,'<rect x="1.5" y="2.5" width="12" height="8" rx="1.3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5 13.5h5M7.5 10.5v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>'],['Máy tính bảng','Tablet',768,'<rect x="3" y="1.5" width="9" height="12" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6.5 11.5h2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>'],['Điện thoại','Mobile',390,'<rect x="4.5" y="1.5" width="6" height="12" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6.8 11.5h1.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>']];
+var BP=[[640,'sm'],[768,'md'],[1024,'lg'],[1280,'xl']];
+var rm=function(){return matchMedia('(prefers-reduced-motion: reduce)').matches||document.documentElement.getAttribute('data-motion')==='off'};
+function maxW(){return Math.floor(st.clientWidth-24)}
+function zoneOf(x){var z=0;BP.forEach(function(b,i){if(x>=b[0])z=i+1});return z}
+function set(nv){
+  var M=maxW();v=Math.max(MIN,Math.min(M,Math.round(nv)));
+  fr.style.width=v+'px';hd.style.left=v+'px';
+  px.textContent=v+'px';hd.setAttribute('aria-valuenow',v);hd.setAttribute('aria-valuemax',M);
+  B.forEach(function(b,i){var t=DV[i][2]||M;b.setAttribute('aria-pressed',String(Math.abs(v-Math.min(t,M))<2))});
+  var z=zoneOf(v);
+  if(zone>=0&&z!==zone&&!rm()){var t=R[Math.min(z,zone)];if(t){t.classList.remove('is-flash');void t.offsetWidth;t.classList.add('is-flash')}}
+  zone=z;
+}
+function build(){
+  root=document.createElement('div');root.className='pvw';root.hidden=true;root.setAttribute('role','dialog');root.setAttribute('aria-modal','true');root.setAttribute('aria-label','Xem thử các kích thước màn hình');
+  root.innerHTML='<div class="u257-tb"><div class="u257-sg" role="group" aria-label="Thiết bị"></div><span class="u257-px" aria-live="polite"></span><button type="button" class="u257-x" aria-label="Đóng xem thử (Esc)" title="Đóng (Esc)">×</button></div><div class="u257-ru" aria-hidden="true"></div><div class="u257-st"><div class="u257-fr"></div><span class="u257-hd" role="slider" tabindex="0" aria-label="Chiều rộng khung xem thử" aria-valuemin="'+MIN+'" aria-valuemax="1440"></span></div>';
+  document.body.appendChild(root);
+  sg=root.querySelector('.u257-sg');px=root.querySelector('.u257-px');ru=root.querySelector('.u257-ru');st=root.querySelector('.u257-st');fr=root.querySelector('.u257-fr');hd=root.querySelector('.u257-hd');
+  B=DV.map(function(d){var b=document.createElement('button');b.type='button';b.className='u257-dv';b.setAttribute('aria-label',d[0]);b.innerHTML='<svg viewBox="0 0 15 15" aria-hidden="true">'+d[3]+'</svg><span>'+d[0]+'</span>';b.addEventListener('click',function(){set(d[2]||maxW())});sg.appendChild(b);return b});
+  R=BP.map(function(b){var t=document.createElement('i');t.style.left=b[0]+'px';t.textContent=b[1]+' '+b[0];ru.appendChild(t);return t});
+  root.querySelector('.u257-x').addEventListener('click',close);
+  hd.addEventListener('pointerdown',function(e){drag={left:fr.getBoundingClientRect().left};fr.classList.add('is-drag');hd.classList.add('is-drag');try{hd.setPointerCapture(e.pointerId)}catch(er){}});
+  hd.addEventListener('pointermove',function(e){if(drag)set(e.clientX-drag.left)});
+  function up(){drag=null;fr.classList.remove('is-drag');hd.classList.remove('is-drag')}
+  hd.addEventListener('pointerup',up);hd.addEventListener('pointercancel',up);
+  hd.addEventListener('keydown',function(e){var d=e.key==='ArrowRight'?40:e.key==='ArrowLeft'?-40:0;if(d){e.preventDefault();set(v+d)}});
+  root.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){e.preventDefault();e.stopPropagation();close();return}
+    if(e.key==='Tab'){var f=[].slice.call(root.querySelectorAll('button,[tabindex="0"]'));var i=f.indexOf(document.activeElement);if(e.shiftKey&&i<=0){e.preventDefault();f[f.length-1].focus()}else if(!e.shiftKey&&i===f.length-1){e.preventDefault();f[0].focus()}}
+  });
+  addEventListener('resize',function(){if(!root.hidden)set(Math.min(v,maxW()))});
+}
+function open(){
+  if(!root)build();
+  prevFocus=document.activeElement;root.hidden=false;document.documentElement.style.overflow='hidden';
+  var f=document.createElement('iframe');f.title='Bản xem thử của trang';f.src=location.pathname+'?pv=1';frame=f;fr.appendChild(f);
+  fr.classList.add('is-drag');hd.classList.add('is-drag');set(maxW());
+  requestAnimationFrame(function(){fr.classList.remove('is-drag');hd.classList.remove('is-drag');root.querySelector('.u257-x').focus()});
+  btn.setAttribute('aria-expanded','true');
+}
+function close(){
+  if(!root||root.hidden)return;
+  root.hidden=true;document.documentElement.style.overflow='';
+  if(frame){frame.remove();frame=null}
+  btn.setAttribute('aria-expanded','false');
+  if(prevFocus&&prevFocus.focus)try{prevFocus.focus({preventScroll:true})}catch(e){}
+}
+btn.setAttribute('aria-expanded','false');
+btn.addEventListener('click',function(){if(root&&!root.hidden)close();else open()});
+document.addEventListener('keydown',function(e){
+  if(e.metaKey||e.ctrlKey||e.altKey||e.repeat)return;
+  var tg=e.target;if(tg&&(tg.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(tg.tagName)))return;
+  if((e.key||'').toLowerCase()==='v'&&matchMedia('(min-width:40.01rem)').matches){if(root&&!root.hidden)close();else open()}
+});
+})();
+}catch(e){console.error('[khối 71 xem thử]',e)}

@@ -3528,3 +3528,35 @@ html::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--acc) 45%,transp
 html::-webkit-scrollbar-thumb:hover{background:color-mix(in srgb,var(--acc) 75%,transparent);background-clip:padding-box}
 html::-webkit-scrollbar-thumb:active{background:var(--acc);background-clip:padding-box}
 html::-webkit-scrollbar-corner{background:transparent}
+
+
+/* ===== XEM THỬ KÍCH THƯỚC MÀN HÌNH (nút trên thanh menu hoặc phím V). Mẫu #257 của Lucian UX/UI Prompt, MIT License (c) 2026 Seokwoooo.
+   Khung hiện chính trang này trong iframe: kéo tay nắm bên phải hoặc chọn máy tính / máy tính bảng / điện thoại. ===== */
+html.pv .dkw,html.pv .pvb,html.pv .bgm,html.pv .bgq{display:none!important}
+@media (max-width:40rem){.pvb{display:none}}
+.pvw{--ux-surface:var(--card);--ux-surface-2:color-mix(in srgb,var(--card) 70%,var(--bg));--ux-ink:var(--text);--ux-ink-3:var(--muted);--ux-line:var(--line-hi);--ux-accent:var(--acc);--ux-shadow-strong:rgba(0,0,0,.6);position:fixed;inset:0;z-index:90;display:flex;flex-direction:column;background:var(--bg);color:var(--text);font-family:var(--body);padding:12px 18px 18px;gap:8px}
+.pvw[hidden]{display:none}
+.pvw *,.pvw *::before,.pvw *::after{box-sizing:border-box}
+.u257-tb{display:flex;align-items:center;gap:8px}
+.u257-sg{display:flex;padding:3px;border-radius:11px;background:var(--ux-surface);box-shadow:inset 0 0 0 1px var(--ux-line)}
+.u257-dv{height:32px;padding:0 12px;border:0;border-radius:8px;background:none;color:var(--ux-ink-3);display:flex;align-items:center;gap:6px;font:700 12px/1 var(--body);cursor:pointer;transition:background .2s,color .2s}
+.u257-dv[aria-pressed="true"]{background:var(--ux-ink);color:var(--ux-surface)}
+.u257-dv svg{width:16px;height:16px}
+.u257-px{margin-left:auto;padding:6px 11px;border-radius:8px;background:var(--ux-surface);box-shadow:inset 0 0 0 1px var(--ux-line);font:800 12px/1 var(--mono);font-variant-numeric:tabular-nums}
+.u257-x{width:36px;height:36px;border:0;border-radius:10px;background:var(--ux-surface);box-shadow:inset 0 0 0 1px var(--ux-line);color:var(--text);font-size:20px;line-height:1;cursor:pointer}
+.u257-ru{position:relative;height:18px;flex:none}
+.u257-ru i{position:absolute;top:0;height:18px;border-left:1.5px solid var(--ux-ink-3);font-style:normal;font:800 9px/11px var(--mono);color:var(--ux-ink-3);padding-left:3px;transition:color .2s,border-color .2s}
+.u257-ru i.is-flash{animation:u257-fl .7s ease}
+@keyframes u257-fl{30%{color:var(--ux-accent);border-color:var(--ux-accent);transform:scaleY(1.3)}}
+.u257-st{position:relative;flex:1;min-height:0}
+.u257-fr{position:relative;height:100%;border-radius:12px;background:var(--ux-surface);box-shadow:0 0 0 1px var(--ux-line),0 12px 24px -16px var(--ux-shadow-strong);overflow:hidden;transition:width .5s cubic-bezier(.3,1.1,.4,1);max-width:100%}
+.u257-fr.is-drag{transition:none}
+.u257-fr iframe{display:block;width:100%;height:100%;border:0;background:var(--bg)}
+.u257-fr.is-drag iframe{pointer-events:none}
+.u257-hd{position:absolute;top:50%;width:14px;height:56px;margin:-28px 0 0 4px;border-radius:7px;background:var(--ux-surface);box-shadow:0 0 0 1px var(--ux-line),0 2px 6px -2px var(--ux-shadow-strong);cursor:ew-resize;touch-action:none;display:grid;place-items:center;transition:left .5s cubic-bezier(.3,1.1,.4,1)}
+.u257-hd.is-drag{transition:none}
+.u257-hd::before{content:"";width:4px;height:20px;border-left:1.5px solid var(--ux-ink-3);border-right:1.5px solid var(--ux-ink-3)}
+.pvw :is(button,.u257-hd):focus-visible{outline:2px solid var(--ux-accent);outline-offset:2px}
+@media (max-width:50rem){.u257-dv span{display:none}}
+@media (prefers-reduced-motion:reduce){.u257-fr,.u257-hd{transition:none}.u257-ru i.is-flash{animation:none}}
+html[data-motion="off"] :is(.u257-fr,.u257-hd){transition:none}
