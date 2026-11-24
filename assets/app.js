@@ -5181,7 +5181,7 @@ try{
     rainStop=end;
     function f(t){
       raf=0;if(stop)return;var age=t-t0;
-      if(t-last>=33){ /* ~30 lần/giây là đủ mượt cho chữ rơi, đỡ tốn máy */
+      if(t-last>=8){ /* ~120 lần/giây cho chữ rơi mượt */
         last=t;
         /* phủ một lớp trong suốt mờ dần để để lại vệt đuôi (dùng destination-out nên trang phía sau vẫn thấy) */
         cx.globalCompositeOperation='destination-out';cx.fillStyle='rgba(0,0,0,.16)';cx.fillRect(0,0,W,H);
@@ -6078,8 +6078,8 @@ function frame(t){
   if(tilt)telev=Math.max(ELMIN,Math.min(ELMAX,telev+tilt*Math.min(0.05,acc)*1.2));
   var pDiff=Math.abs(tpitch-pitch),yDiff=Math.abs(tyaw-yaw),qDiff=Math.abs(tQrProg-qrProg),eDiff=Math.abs(telev-elev),fDiff=Math.abs(tfm-fm);
   var busy=anim||pDiff>=0.002||yDiff>=0.001||qDiff>=0.002||eDiff>=0.002||fDiff>=0.002||spin!==0||tilt!==0;
-  /* đứng yên chỉ còn hạt rơi: ~30 khung/giây (máy yếu ~22); đang chuyển động: máy yếu giới hạn ~30 khung/giây */
-  if(acc<(busy?(lowQ?0.032:0):(lowQ?0.045:0.03))){raf=requestAnimationFrame(frame);return}
+  /* mở khoá ~120 khung/giây (máy yếu ~60) cho cả lúc đứng yên lẫn lúc chuyển động */
+  if(acc<(busy?(lowQ?0.016:0):(lowQ?0.033:0.008))){raf=requestAnimationFrame(frame);return}
   if(busy&&!lowQ){fN++;fEma=fN>1?fEma*0.85+(t-prevT)*0.15:0}
   prevT=t;
   var d=acc,dirty=false;acc=0;
@@ -6767,7 +6767,7 @@ try{
   var lastM=0;
   function loop(t){raf=0;if(!visible||document.hidden)return;
     var dt=lastM?Math.min(100,t-lastM):16.7;lastM=t;var k=1-Math.pow(.92,dt/16.7);mx+=(tmx-mx)*k;my+=(tmy-my)*k;
-    var gap=(weak()||R.classList.contains('scrolling'))?32:7;
+    var gap=weak()?16:7;
     if(t-last>=gap){last=t;draw(t)}
     if(!still()||fk>0&&fk<1)raf=requestAnimationFrame(loop)}
   function kick(){if(!raf&&visible)raf=requestAnimationFrame(loop)}
