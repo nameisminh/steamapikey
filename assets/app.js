@@ -3953,9 +3953,9 @@ function stopP(){cancelAnimationFrame(raf);raf=0;cur='';if(cv)cv.style.display='
 function tick(ts){
   raf=requestAnimationFrame(tick);
   var raw=ts-last;if(!last||raw>250){last=ts;return}
-  /* tối đa ~60 khung/giây (màn 144 Hz không cần vẽ 144 lần) và đứng yên khi đang cuộn nhanh */
+  /* tối đa ~120 khung/giây (màn 144/240 Hz không cần vẽ hết) và đứng yên khi đang cuộn nhanh */
   if(window.__sfast&&window.__sfast()){last=ts;return}
-  if(raw<15)return;
+  if(raw<7)return;
   /* vẽ mọi khung hình theo đúng nhịp màn hình (trước đây giới hạn ~30 khung/giây nên vệt mưa nhanh bị giật dù fps trang vẫn cao); chuyển động tính theo thời gian thật nên không phụ thuộc tần số quét */
   last=ts;var dt=Math.min(.05,raw/1000);
   acc+=raw;fc++;
@@ -6767,7 +6767,7 @@ try{
   var lastM=0;
   function loop(t){raf=0;if(!visible||document.hidden)return;
     var dt=lastM?Math.min(100,t-lastM):16.7;lastM=t;var k=1-Math.pow(.92,dt/16.7);mx+=(tmx-mx)*k;my+=(tmy-my)*k;
-    var gap=(weak()||R.classList.contains('scrolling'))?32:15;
+    var gap=(weak()||R.classList.contains('scrolling'))?32:7;
     if(t-last>=gap){last=t;draw(t)}
     if(!still()||fk>0&&fk<1)raf=requestAnimationFrame(loop)}
   function kick(){if(!raf&&visible)raf=requestAnimationFrame(loop)}
