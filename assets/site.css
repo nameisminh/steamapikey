@@ -3452,3 +3452,10 @@ html.scrolling :is(.avf,.dot,#orb .mk)::before,html.scrolling :is(.dot,#orb .mk)
 /* GIAO DIỆN TỐI GIẢN (nền "không" + khung viền): ẩn thanh cuộn của trang, vẫn cuộn bình thường bằng chuột, phím và cảm ứng */
 :root[data-bg="none"][data-surface="outline"],:root[data-bg="none"][data-surface="outline"] body{scrollbar-width:none}
 :root[data-bg="none"][data-surface="outline"]::-webkit-scrollbar,:root[data-bg="none"][data-surface="outline"] body::-webkit-scrollbar{display:none;width:0;height:0}
+
+/* THANH CUỘN NGANG XẤU TRONG CÁC KHUNG: khung terminal "cat now.txt" tự xuống dòng thay vì cuộn ngang; các vùng cuộn ngang còn lại dùng thanh mảnh, nền trong suốt */
+.panel pre{white-space:pre-wrap;overflow-wrap:anywhere;overflow-x:hidden}
+#now .grid,.kbd,.tout{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--muted) 40%,transparent) transparent}
+#now .grid::-webkit-scrollbar,.kbd::-webkit-scrollbar,.tout::-webkit-scrollbar{height:5px;width:5px}
+#now .grid::-webkit-scrollbar-track,.kbd::-webkit-scrollbar-track,.tout::-webkit-scrollbar-track{background:transparent}
+#now .grid::-webkit-scrollbar-thumb,.kbd::-webkit-scrollbar-thumb,.tout::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--muted) 40%,transparent);border-radius:99px}
