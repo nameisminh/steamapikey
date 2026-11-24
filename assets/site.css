@@ -3462,3 +3462,10 @@ html.scrolling :is(.avf,.dot,#orb .mk)::before,html.scrolling :is(.dot,#orb .mk)
 
 /* TỐI ƯU FPS: chữ gradient chạy liên tục (background-clip:text) bắt trình duyệt vẽ lại mỗi khung hình. Tiêu đề mục (h2) đứng yên, chỉ giữ chuyển màu ở h1, logo và lời chào. */
 :root:not([data-color="off"]) :is(h2,.bye-t){animation:none}
+
+/* ===== CHỈNH LẠI THEO HƯỚNG THƯ VIỆN MẪU UI (lucianlabs): căn chữ gọn, viền focus rõ, thẻ tách lớp để cuộn nhẹ hơn ===== */
+h1,h2,h3,.final>h2{text-wrap:balance}
+p,li,figcaption,.lead{text-wrap:pretty}
+:is(a,button,summary,input,select,textarea,[tabindex]):focus-visible{outline:2px solid var(--acc);outline-offset:3px;border-radius:8px}
+:is(.card,.hob,.idc,.stats>div,.faq>*,.tkb-list li){contain:layout style}
+html{-webkit-font-smoothing:antialiased;text-size-adjust:100%}
