@@ -3459,3 +3459,6 @@ html.scrolling :is(.avf,.dot,#orb .mk)::before,html.scrolling :is(.dot,#orb .mk)
 #now .grid::-webkit-scrollbar,.kbd::-webkit-scrollbar,.tout::-webkit-scrollbar{height:5px;width:5px}
 #now .grid::-webkit-scrollbar-track,.kbd::-webkit-scrollbar-track,.tout::-webkit-scrollbar-track{background:transparent}
 #now .grid::-webkit-scrollbar-thumb,.kbd::-webkit-scrollbar-thumb,.tout::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--muted) 40%,transparent);border-radius:99px}
+
+/* TỐI ƯU FPS: chữ gradient chạy liên tục (background-clip:text) bắt trình duyệt vẽ lại mỗi khung hình. Tiêu đề mục (h2) đứng yên, chỉ giữ chuyển màu ở h1, logo và lời chào. */
+:root:not([data-color="off"]) :is(h2,.bye-t){animation:none}
