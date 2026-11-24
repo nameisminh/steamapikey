@@ -3445,3 +3445,6 @@ html[data-w="wide"] :is(main,footer) .wrap,html[data-w="wide"] .flowmore{max-wid
 .uipop .pv-glass{border-radius:.7rem;background:radial-gradient(circle at 20% 20%,color-mix(in srgb,var(--c1) 55%,transparent),transparent 60%),radial-gradient(circle at 85% 80%,color-mix(in srgb,var(--c5) 55%,transparent),transparent 60%),var(--bg)}
 .uipop .pv-glass b{border-radius:4px;background:rgba(255,255,255,.16);box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
 @media (max-width:26rem){.uipop .uim{grid-template-columns:repeat(4,minmax(0,1fr))}.uipop .uim .pv{width:2.6rem;height:2rem}}
+/* CUỘN NHANH ĐỠ TỤT FPS: chữ chuyển màu (background-clip:text) và các hiệu ứng lặp phải vẽ lại mỗi khung hình, nên tạm dừng trong lúc đang cuộn (html.scrolling do script đầu index.html gắn, bỏ ~150 ms sau khi ngừng cuộn). */
+html.scrolling :is(h1,h2,.bye-t,#greet,.bar nav a.on,.brand,#steamn,#steamname,.pci>b,.pci .ptitle b,.run,#bgic .bgn,.gsk.in,.dot){animation-play-state:paused}
+html.scrolling :is(.avf,.dot,#orb .mk)::before,html.scrolling :is(.dot,#orb .mk)::after{animation-play-state:paused}

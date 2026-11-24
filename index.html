@@ -89,6 +89,18 @@ addEventListener('scroll',function(){
 },{passive:true});
 window.__sfast=function(){return on&&v>1.5};
 })();</script>
+<script>/* GIỚI HẠN ~120 FPS: màn hình 165/240 Hz không cần chạy mọi vòng animation ở tần số quét tối đa (tốn CPU/GPU, dễ tụt khi cuộn nhanh).
+   Bọc requestAnimationFrame: nếu khung hình đến sớm hơn ~6,3 ms kể từ lần chạy trước thì dời sang khung sau. Màn 60/75/120/144 Hz không bị ảnh hưởng. */
+(function(){var raf=window.requestAnimationFrame,caf=window.cancelAnimationFrame;if(!raf||!caf)return;
+raf=raf.bind(window);caf=caf.bind(window);
+var q=[],id=0,last=0,h=0,MIN=6.3;
+function run(ts){h=0;if(ts-last<MIN){h=raf(run);return}last=ts;
+  var c=cur=q;q=[];for(var i=0;i<c.length;i++){if(c[i].fn){try{c[i].fn(ts)}catch(e){setTimeout(function(x){throw x}.bind(null,e))}}}
+  cur=[];if(q.length&&!h)h=raf(run)}
+var cur=[];
+window.requestAnimationFrame=function(fn){var o={id:++id,fn:fn};q.push(o);if(!h)h=raf(run);return o.id};
+window.cancelAnimationFrame=function(i){var a=[q,cur];for(var j=0;j<2;j++)for(var k=0;k<a[j].length;k++)if(a[j][k].id===i){a[j][k].fn=null;return}};
+})();</script>
 <script src="assets/ascii.js"></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='white'/><text x='50' y='68' font-size='56' text-anchor='middle' fill='black' font-family='sans-serif' font-weight='700'>M</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
