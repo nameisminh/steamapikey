@@ -3469,3 +3469,56 @@ p,li,figcaption,.lead{text-wrap:pretty}
 :is(a,button,summary,input,select,textarea,[tabindex]):focus-visible{outline:2px solid var(--acc);outline-offset:3px;border-radius:8px}
 :is(.card,.hob,.idc,.stats>div,.faq>*,.tkb-list li){contain:layout style}
 html{-webkit-font-smoothing:antialiased;text-size-adjust:100%}
+
+/* ===== DOCK: menu giọt nước (#460) ở giữa đáy trang trên máy tính + thanh tab khuyết (#041) trên điện thoại. Mẫu của Lucian UX/UI Prompt (MIT), đổi màu sang biến của trang ===== */
+.u460,.u041{--ux-accent:var(--acc);--ux-accent-ink:var(--bg);--ux-surface:var(--card);--ux-ink:var(--text);--ux-ink-3:var(--muted);--ux-line:var(--line-hi);--ux-shadow:rgba(0,0,0,.45);--ux-shadow-strong:rgba(0,0,0,.7);--ux-ease:cubic-bezier(.2,.8,.2,1);--ux-spring:cubic-bezier(.34,1.45,.64,1);--ux-grad:linear-gradient(120deg,var(--acc),color-mix(in srgb,var(--acc) 55%,#4d8bff));box-sizing:border-box;font-family:var(--body);-webkit-tap-highlight-color:transparent}
+.u460 *,.u460 *::before,.u460 *::after,.u041 *,.u041 *::before,.u041 *::after{box-sizing:border-box}
+.dkw{position:fixed;z-index:12;pointer-events:none}
+.dkw button{pointer-events:auto}
+html.pre-on .dkw{display:none}
+@media print{.dkw{display:none}}
+.dkw.g{left:50%;margin-left:-170px;bottom:-63px;width:340px;height:300px}
+.dkw.t{display:none}
+.u460{position:relative;width:340px;height:300px}
+.u460-defs{position:absolute;width:0;height:0;overflow:hidden}
+.u460-st{position:absolute;left:170px;top:190px;width:0;height:0}
+.u460-sh{position:absolute;left:-140px;top:-140px;width:280px;height:280px;filter:drop-shadow(0 10px 14px var(--ux-shadow));pointer-events:none}
+.u460-goo{position:absolute;inset:0}
+.u460-bb{position:absolute;left:140px;top:140px;width:52px;height:52px;margin:-26px;border-radius:50%;background:var(--ux-accent);transform:translate(var(--u460-tx,0px),var(--u460-ty,0px)) scale(var(--u460-sc,.5));transition:transform .5s cubic-bezier(.55,-.35,.4,1);transition-delay:calc((3 - var(--u460-i,0)) * 35ms)}
+.u460-bb.is-fab{width:62px;height:62px;margin:-31px;transform:none;transition:none}
+.u460.is-open .u460-bb:not(.is-fab){--u460-sc:1;transition:transform .7s cubic-bezier(.3,1.45,.45,1);transition-delay:calc(var(--u460-i,0) * 45ms)}
+.u460.is-open .u460-bb.is-hov{--u460-sc:1.12;transition:transform .45s cubic-bezier(.34,1.6,.5,1)}
+.u460-ic{position:absolute;left:0;top:0;width:0;height:0}
+.u460-a{position:absolute;left:-26px;top:-26px;width:52px;height:52px;padding:0;border:0;border-radius:50%;display:grid;place-items:center;background:none;color:var(--ux-accent-ink);opacity:0;visibility:hidden;transform:translate(var(--u460-tx,0px),var(--u460-ty,0px)) scale(.5);transition:transform .5s cubic-bezier(.55,-.35,.4,1),opacity .14s var(--ux-ease),visibility 0s linear .5s;transition-delay:calc((3 - var(--u460-i,0)) * 35ms),0s,0s}
+.u460.is-open .u460-a{opacity:1;visibility:visible;transform:translate(var(--u460-tx,0px),var(--u460-ty,0px));transition:transform .7s cubic-bezier(.3,1.45,.45,1),opacity .25s var(--ux-ease),visibility 0s;transition-delay:calc(var(--u460-i,0) * 45ms),calc(var(--u460-i,0) * 45ms + .16s),0s}
+.u460-a svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.u460 :focus-visible{outline:2px solid var(--ux-accent);outline-offset:4px;border-radius:50%}
+.u460-fab{position:absolute;left:-31px;top:-31px;width:62px;height:62px;padding:0;border:0;border-radius:50%;display:grid;place-items:center;background:none;color:var(--ux-accent-ink);cursor:pointer}
+.u460-fab svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;transition:transform .55s cubic-bezier(.34,1.6,.5,1)}
+.u460.is-open .u460-fab svg{transform:rotate(135deg)}
+.u460-a{cursor:pointer}
+@media (max-width:40rem){.dkw.g{display:none}}
+
+@media (max-width:40rem){
+  .dkw.t{display:block;left:max(10px,env(safe-area-inset-left,0px));right:max(10px,env(safe-area-inset-right,0px));bottom:calc(8px + env(safe-area-inset-bottom,0px));height:119px;max-width:440px;margin-inline:auto}
+  .bgm,.bgq,.totop{bottom:calc(138px + env(safe-area-inset-bottom,0px))!important}
+  .rndf{bottom:calc(192px + env(safe-area-inset-bottom,0px))!important}
+  .fpsb{bottom:calc(256px + env(safe-area-inset-bottom,0px))!important}
+}
+.u041{--x:34px;position:relative;width:100%;height:119px;display:flex;align-items:flex-end}
+.u041-bar{position:relative;width:100%;height:84px;border-radius:28px;background:var(--ux-surface);-webkit-mask:radial-gradient(circle 42px at var(--x) -4px,transparent 96%,#000 100%);mask:radial-gradient(circle 42px at var(--x) -4px,transparent 96%,#000 100%);box-shadow:0 0 0 1px var(--ux-line)}
+.u041-shadow{position:absolute;left:0;right:0;bottom:0;height:84px;border-radius:28px;box-shadow:0 24px 40px -24px var(--ux-shadow-strong);pointer-events:none}
+.u041-bub{position:absolute;left:var(--x);top:calc(100% - 84px - 35px);width:62px;height:62px;margin-left:-31px;border-radius:50%;background:var(--ux-grad);box-shadow:0 14px 26px -12px color-mix(in srgb,var(--acc) 70%,transparent)}
+.u041-tabs{position:absolute;left:0;right:0;bottom:0;height:84px;display:flex;margin:0;padding:0 8px;list-style:none}
+.u041-tabs>li{flex:1;display:flex}
+.u041-tab{position:relative;flex:1;height:100%;border:0;padding:0;background:none;color:var(--ux-ink-3);cursor:pointer}
+.u041-tab:hover .u041-ic{color:var(--ux-ink)}
+.u041-tab:focus-visible{outline:2px solid var(--ux-accent);outline-offset:-6px;border-radius:18px}
+.u041-ic{position:absolute;left:50%;top:22px;width:26px;height:26px;margin-left:-13px;transition:transform .55s var(--ux-spring),color .3s}
+.u041-ic svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.u041-lab{position:absolute;left:0;right:0;bottom:12px;font-size:11.5px;font-weight:700;color:var(--ux-ink);opacity:0;transform:translateY(6px);transition:opacity .3s,transform .45s var(--ux-spring)}
+.u041-tab[aria-selected="true"] .u041-ic{transform:translateY(-39px);color:var(--ux-accent-ink)}
+.u041-tab[aria-selected="true"] .u041-ic svg{stroke-width:2.2}
+.u041-tab[aria-selected="true"] .u041-lab{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.u460 *,.u460 *::before,.u041 *,.u041 *::before{transition-duration:.001ms!important;animation-duration:.001ms!important}}
+html[data-motion="off"] :is(.u460,.u041) *{transition-duration:.001ms!important}

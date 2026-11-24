@@ -6930,3 +6930,89 @@ function lab(){btn.title=L('Đổi giao diện (U)','Change layout (U)');btn.set
 lab();document.addEventListener('langchange',function(){lab();if(pop.classList.contains('on'))render()});
 })();
 }catch(e){console.error('[ui-switch]',e)}
+
+/* ===================== [khối 70: dock] ===================== */
+/* Menu giọt nước (máy tính) và thanh tab khuyết (điện thoại). Mẫu #460 và #041 của Lucian UX/UI Prompt, MIT License (c) 2026 Seokwoooo.
+   Các nút bấm gọi lại đúng nút có sẵn của trang nên không có logic trùng. */
+try{
+(function(){
+var rm=function(){return matchMedia('(prefers-reduced-motion: reduce)').matches||document.documentElement.getAttribute('data-motion')==='off'};
+var $=function(s){return document.querySelector(s)};
+/* ---- #460 menu giọt nước ---- */
+(function(){
+var root=$('.u460');if(!root)return;
+var q=function(s){return root.querySelector(s)};
+var fab=q('.u460-fab'),group=q('.u460-ic'),filt=q('.u460-f'),goo=q('.u460-goo'),fabBlob=q('.u460-bb.is-fab');
+var blobs=[].slice.call(root.querySelectorAll('.u460-bb:not(.is-fab)')),acts=[].slice.call(root.querySelectorAll('.u460-a'));
+var uid='u460'+Math.random().toString(36).slice(2,7);filt.id=uid+'g';group.id=uid+'m';fab.setAttribute('aria-controls',group.id);
+var gooT=0,open=false,R=94;
+function gooOn(v){clearTimeout(gooT);if(v)goo.style.filter='url(#'+uid+'g)';else gooT=setTimeout(function(){if(!open)goo.style.filter=''},rm()?0:900)}
+[-157.5,-112.5,-67.5,-22.5].forEach(function(deg,i){var a=deg*Math.PI/180;acts[i].dataset.x=(Math.cos(a)*R).toFixed(1)+'px';acts[i].dataset.y=(Math.sin(a)*R).toFixed(1)+'px'});
+function squish(k){if(rm()||!fabBlob.animate)return;fabBlob.animate([{transform:'scale(1)'},{transform:'scale('+k+')',offset:.3},{transform:'scale(1.06)',offset:.65},{transform:'scale(1)'}],{duration:560,easing:'ease-out'})}
+function setOpen(v,focusFab){
+  if(open===v)return;open=v;gooOn(v);
+  root.classList.toggle('is-open',v);fab.setAttribute('aria-expanded',v?'true':'false');
+  fab.setAttribute('aria-label',v?'Đóng menu nhanh':'Mở menu nhanh');
+  [blobs,acts].forEach(function(list){list.forEach(function(el,i){el.style.setProperty('--u460-tx',v?acts[i].dataset.x:'0px');el.style.setProperty('--u460-ty',v?acts[i].dataset.y:'0px')})});
+  acts.forEach(function(b){b.tabIndex=v?0:-1});
+  blobs.forEach(function(b){b.classList.remove('is-hov')});
+  squish(v?.86:.9);
+  if(!v&&focusFab)fab.focus({preventScroll:true});
+}
+var DO={
+  theme:function(){var b=$('#theme');if(b)b.click()},
+  ui:function(){var b=$('#uib');if(b)b.click()},
+  music:function(){var b=$('#bgmtop')||$('#bgmq');if(b)b.click()},
+  search:function(){document.dispatchEvent(new KeyboardEvent('keydown',{key:'/',bubbles:true,cancelable:true}))}
+};
+fab.addEventListener('click',function(){setOpen(!open)});
+acts.forEach(function(b,i){
+  var on=function(){if(open)blobs[i].classList.add('is-hov')},off=function(){blobs[i].classList.remove('is-hov')};
+  b.addEventListener('pointerenter',on);b.addEventListener('pointerleave',off);b.addEventListener('focus',on);b.addEventListener('blur',off);
+  b.addEventListener('click',function(){
+    if(!open)return;var had=document.activeElement===b;
+    if(!rm()&&blobs[i].animate){var t='translate('+b.dataset.x+','+b.dataset.y+') ';blobs[i].animate([{transform:t+'scale(1.1)'},{transform:t+'scale(1.28)'},{transform:t+'scale(1)'}],{duration:260,easing:'ease-out'})}
+    setTimeout(function(){setOpen(false,had&&b.dataset.do!=='search');var f=DO[b.dataset.do];if(f)f()},rm()?0:200);
+  });
+});
+root.addEventListener('keydown',function(e){
+  if(!open)return;
+  if(e.key==='Escape'){e.preventDefault();e.stopPropagation();setOpen(false,true);return}
+  var i=acts.indexOf(document.activeElement);
+  if(/^Arrow(Left|Up|Right|Down)$/.test(e.key)){e.preventDefault();var d=(e.key==='ArrowRight'||e.key==='ArrowDown')?1:-1;acts[i<0?(d>0?0:3):(i+d+4)%4].focus({preventScroll:true})}
+});
+root.addEventListener('focusout',function(e){if(open&&e.relatedTarget&&!root.contains(e.relatedTarget))setOpen(false)});
+document.addEventListener('pointerdown',function(e){if(open&&!(e.target.closest&&e.target.closest('.u460-fab,.u460-a')))setOpen(false)},{passive:true});
+})();
+/* ---- #041 thanh tab khuyết: bấm tab = bấm đúng mục tương ứng trên thanh menu; tab sáng theo mục đang xem ---- */
+(function(){
+var root=$('.u041');if(!root)return;
+var tabs=[].slice.call(root.querySelectorAll('.u041-tab'));
+var x=0,v=0,target=0,raf=0,cur=0;
+function center(t){return t.parentNode.offsetLeft+t.offsetWidth/2}
+function step(){
+  var a=(target-x)*.16-v*.42;v+=a;x+=v;root.style.setProperty('--x',x.toFixed(2)+'px');
+  if(Math.abs(target-x)>.3||Math.abs(v)>.3)raf=requestAnimationFrame(step);else{x=target;v=0;root.style.setProperty('--x',x+'px');raf=0}
+}
+function mark(i,focus){
+  cur=i;tabs.forEach(function(t,k){t.setAttribute('aria-selected',String(k===i));t.tabIndex=k===i?0:-1});
+  if(focus)tabs[i].focus();
+  target=center(tabs[i]);
+  if(rm()||!root.offsetWidth){x=target;root.style.setProperty('--x',x+'px');return}
+  if(!raf)raf=requestAnimationFrame(step);
+}
+function go(i){var a=$('.bar nav a[href="#'+tabs[i].dataset.g+'"]');if(a)a.click();else{var g=document.getElementById(tabs[i].dataset.g);if(g)g.scrollIntoView({behavior:rm()?'auto':'smooth'})}}
+tabs.forEach(function(t,i){
+  t.addEventListener('click',function(){mark(i);go(i)});
+  t.addEventListener('keydown',function(e){var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;if(d){e.preventDefault();mark((i+d+tabs.length)%tabs.length,true)}});
+});
+/* theo dõi mục đang xem: thanh menu trên tự gắn class "on" cho mục hiện tại */
+var nav=$('.bar nav');
+function sync(){var a=nav&&nav.querySelector('a.on');if(!a)return;var h=(a.getAttribute('href')||'').slice(1);for(var i=0;i<tabs.length;i++)if(tabs[i].dataset.g===h){if(i!==cur)mark(i);return}}
+if(nav&&window.MutationObserver)new MutationObserver(sync).observe(nav,{subtree:true,attributes:true,attributeFilter:['class']});
+function fit(){x=target=center(tabs[cur]);root.style.setProperty('--x',x+'px')}
+addEventListener('resize',fit);addEventListener('load',function(){fit();sync()});
+fit();mark(0);sync();
+})();
+})();
+}catch(e){console.error('[khối 70 dock]',e)}
