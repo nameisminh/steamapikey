@@ -513,7 +513,7 @@ function prog(fs){var v=sh(gl.VERTEX_SHADER,VS),f=sh(gl.FRAGMENT_SHADER,fs);if(!
 function start(canvas){if(gl)return true;if(typeof canvas.getContext!=='function')return false;gl=canvas.getContext('webgl2',{antialias:false,alpha:false,powerPreference:'high-performance'});if(!gl)return false;gc=canvas;
  vbo=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,vbo);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,2,gl.FLOAT,false,0,0);
  var P2f=P2.replace('void main','vec3 hsv(float h){return clamp(abs(mod(h*6.+vec3(0.,4.,2.),6.)-3.)-1.,0.,1.);}\nvoid main');pp=prog(P2f);if(!pp){gl=null;return false}return true}
-function setup(){dpr=Math.min(1.5,window.devicePixelRatio||1);gc.width=Math.round(W*dpr);gc.height=Math.round(H*dpr);cell=Math.max(4,Math.round(4.4*dpr));emaDt=16;hold=30;rebuild()}
+function setup(){dpr=Math.min(1.5,window.devicePixelRatio||1);gc.width=Math.round(W*dpr);gc.height=Math.round(H*dpr);cell=Math.max(4,Math.round(4.4*dpr));emaDt=34;hold=30;rebuild()}
 function rebuild(){lw=Math.ceil(gc.width/cell);lh=Math.ceil(gc.height/cell);
  if(tex)gl.deleteTexture(tex);if(fbo)gl.deleteFramebuffer(fbo);tex=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,tex);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA8,lw,lh,0,gl.RGBA,gl.UNSIGNED_BYTE,null);
  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
@@ -526,7 +526,7 @@ function frame(t){if(!gl||!cur)return;
  var q=loc.p2;gl.uniform1i(q.uTex,0);gl.uniform2f(q.uLow,lw,lh);gl.uniform1f(q.uCell,cell);gl.uniform1f(q.uT,t);gl.uniform1i(q.uPart,meta.part||0);gl.uniform1i(q.uBg,meta.bg||0);gl.uniform2f(q.uPx,gc.width,gc.height);gl.drawArrays(gl.TRIANGLE_STRIP,0,4)}
 /* máy yếu thì tự thưa ô chấm lại một chút, máy khỏe thì mịn lại; giữ ổn định vài giây mới đổi để không bị nhấp nháy */
 function tune(dt){if(hold>0){hold--;return}emaDt=emaDt*.9+Math.min(dt,80)*.1;var base=Math.max(4,Math.round(4.4*dpr));
- if(emaDt>30&&cell<base*3){cell=Math.round(cell*1.18);rebuild();hold=90;emaDt=22}else if(emaDt<19&&cell>base){cell=Math.max(base,Math.round(cell/1.12));rebuild();hold=240;emaDt=22}}
+ if(emaDt>40&&cell<base*5){cell=Math.round(cell*1.25);rebuild();hold=45;emaDt=34}else if(emaDt<35&&cell>base){cell=Math.max(base,Math.round(cell/1.1));rebuild();hold=300;emaDt=34}}
 function dispose(){on=false;if(!gl)return;try{for(var k in progs)if(progs[k])gl.deleteProgram(progs[k]);if(pp)gl.deleteProgram(pp);if(tex)gl.deleteTexture(tex);if(fbo)gl.deleteFramebuffer(fbo);if(vbo)gl.deleteBuffer(vbo);var x=gl.getExtension('WEBGL_lose_context');if(x)x.loseContext()}catch(e){}
  gl=null;gc=null;progs={};cur=null;pp=null;tex=null;fbo=null;vbo=null}
 return{start:start,setup:setup,use:use,frame:frame,tune:tune,dispose:dispose,get on(){return on},set on(v){on=v}}})();

@@ -5,7 +5,7 @@
    - music/tracks.js và các file lời .lrc: ưu tiên mạng và luôn bỏ qua cache cũ (thêm bài mới là thấy ngay), mất mạng thì dùng bản đã lưu.
    - Ảnh, font, steam.json: cho xem bản đã lưu ngay, đồng thời tải bản mới ngầm.
    - Nhạc, video, API (thời tiết, Discord, lời bài hát, thống kê): không lưu, để trình duyệt tự xử lý. */
-const VERSION = 'v5';
+const VERSION = 'v6';
 const CORE = 'ming-core-' + VERSION;
 const RT = 'ming-rt-' + VERSION;
 const MAX_RT = 300;
