@@ -1,5 +1,8 @@
 /* Ming · JS chính của trang (tách từ index.html). Các khối giữ đúng thứ tự cũ; mỗi khối ghi tên khối gốc. */
 
+/* bộ xử lý cuộn riêng (xem window.__sq ở đầu index.html); phòng khi trang cũ chưa có thì dùng bản dự phòng, mỗi việc tự chạy riêng */
+if(!window.__sq)window.__sq=function(read){var f=0;function k(){if(!f)f=requestAnimationFrame(function(){f=0;var w=read();if(w)w()})}addEventListener('scroll',k,{passive:true});return k};
+
 /* ===================== [khối 41] ===================== */
 try{
 (function(){
@@ -119,19 +122,21 @@ try{
   var progEl=document.querySelector('.prog'),totopEl=document.getElementById('totop'),scR=0,pmax=0,chH=0;
   function measure(){pmax=document.documentElement.scrollHeight-innerHeight;chH=(clk&&clk.offsetHeight)||1}
   function doScroll(){
-    scR=0;
-    var v=(pmax>0?Math.min(1,scrollY/pmax):0).toFixed(4);
-    if(progEl)progEl.style.setProperty('--p',v);
-    if(totopEl)totopEl.style.setProperty('--p',v);
-    sp=Math.min(1,Math.max(0,scrollY/(chH*.7)));
-    kick();
+    var y=scrollY; /* pha đọc */
+    return function(){ /* pha ghi */
+      var v=(pmax>0?Math.min(1,y/pmax):0).toFixed(4);
+      if(progEl)progEl.style.setProperty('--p',v);
+      if(totopEl)totopEl.style.setProperty('--p',v);
+      sp=Math.min(1,Math.max(0,y/(chH*.7)));
+      kick();
+    };
   }
-  function onScroll(){if(!scR)scR=requestAnimationFrame(doScroll)}
+  var onScroll=window.__sq(doScroll);
   addEventListener('resize',function(){measure();onScroll()});
   addEventListener('load',function(){measure();onScroll()});
   if('ResizeObserver' in window)new ResizeObserver(function(){measure()}).observe(document.body);
   measure();
-  addEventListener('scroll',onScroll,{passive:true});onScroll();
+  onScroll();
 
   /* nút lên đầu trang */
   var totop=document.getElementById('totop');
@@ -141,17 +146,18 @@ try{
   /* gộp vào 1 lần mỗi khung hình và chỉ ghi DOM khi trạng thái đổi (trước đây mỗi sự kiện cuộn đều đọc scrollHeight và ghi lại thuộc tính, gây giật khi cuộn) */
   var s2R=0,s2Up=null,s2Lang=null;
   function doScroll2(){
-    s2R=0;
-    var up=atBottom(),lg=document.documentElement.lang;
-    if(up===s2Up&&lg===s2Lang)return;
-    s2Up=up;s2Lang=lg;
-    totop.classList.add('show');
-    totop.classList.toggle('dn',!up);
-    var lb=up?'Lên đầu trang':'Xuống mục tiếp theo';
-    totop.setAttribute('aria-label',tdTxt(lb));totop.setAttribute('title',tdTxt(lb));
+    var up=atBottom(),lg=document.documentElement.lang; /* pha đọc */
+    if(up===s2Up&&lg===s2Lang)return null;
+    return function(){ /* pha ghi */
+      s2Up=up;s2Lang=lg;
+      totop.classList.add('show');
+      totop.classList.toggle('dn',!up);
+      var lb=up?'Lên đầu trang':'Xuống mục tiếp theo';
+      totop.setAttribute('aria-label',tdTxt(lb));totop.setAttribute('title',tdTxt(lb));
+    };
   }
-  function onScroll2(){if(!s2R)s2R=requestAnimationFrame(doScroll2)}
-  addEventListener('scroll',onScroll2,{passive:true});addEventListener('resize',onScroll2);doScroll2();
+  var onScroll2=window.__sq(doScroll2);
+  addEventListener('resize',onScroll2);onScroll2();
   function nextSection(){
     var hb=document.querySelector('header'),hh=hb?hb.getBoundingClientRect().height:0,list=document.querySelectorAll('main section[id]'),y=null;
     for(var i=0;i<list.length;i++){
@@ -266,17 +272,15 @@ try{
   if(!calm){
     var band=document.querySelector('.band'),lastY=scrollY,skT=0,homeEl=document.getElementById('home');
     var s3=0;
-    function onScroll3(){if(!s3)s3=requestAnimationFrame(doScroll3)}
     function doScroll3(){
-      s3=0;
-      if(homeEl.hidden)return;
-      if(band){
-        var v=scrollY-lastY;lastY=scrollY;
+      if(homeEl.hidden||!band)return null;
+      var v=scrollY-lastY;lastY=scrollY; /* pha đọc */
+      return function(){ /* pha ghi */
         band.style.setProperty('--sk',Math.max(-10,Math.min(10,-v*.35)).toFixed(1)+'deg');
         clearTimeout(skT);skT=setTimeout(function(){band.style.setProperty('--sk','0deg')},120);
-      }
+      };
     }
-    addEventListener('scroll',onScroll3,{passive:true});onScroll3();
+    var onScroll3=window.__sq(doScroll3);onScroll3();
   }
 
   if(!calm&&clk){
@@ -3681,11 +3685,10 @@ try{
 (function(){var bar=document.querySelector('.bar');if(!bar)return;
 var mq=matchMedia('(min-width:80rem)'),on=false,tk=false;
 function hold(){if(on)return;bar.style.minHeight='';if(mq.matches)bar.style.minHeight=bar.offsetHeight+'px'}
-function t(){tk=false;var y=window.scrollY||0,w=mq.matches&&(on?y>60:y>160);if(w!==on){on=w;bar.classList.toggle('mini',on)}}
-function q(){if(!tk){tk=true;requestAnimationFrame(t)}}
-addEventListener('scroll',q,{passive:true});
+function t(){var y=window.scrollY||0,w=mq.matches&&(on?y>60:y>160);if(w===on)return null;return function(){on=w;bar.classList.toggle('mini',on)}}
+var q=window.__sq(t);
 addEventListener('resize',function(){if(!mq.matches&&on){on=false;bar.classList.remove('mini')}hold();q()});
-addEventListener('load',hold);hold();t();})();
+addEventListener('load',hold);hold();q();})();
 }catch(e){console.error('[khối 43]',e)}
 
 /* ===================== [khối 44] ===================== */
@@ -3783,17 +3786,19 @@ try{
 /* theo dõi lướt: thêm class "scrolling" lúc đang lướt, và ẩn thanh trên khi lướt xuống trên điện thoại */
 var root=document.documentElement,bar=document.querySelector('.bar'),idle=0,idle2=0,last=window.scrollY||0,tk=0,mq=matchMedia('(max-width:40rem)');
 function step(){
-  tk=0;var y=window.scrollY||0,d=y-last;
-  if(Math.abs(d)>2){root.classList.add('scrolling','scrolling2');clearTimeout(idle);clearTimeout(idle2);
-    idle=setTimeout(function(){root.classList.remove('scrolling')},1000);
-    idle2=setTimeout(function(){root.classList.remove('scrolling2')},3000)}
-  if(bar){
-    if(!mq.matches||y<80||d<-6)bar.classList.remove('hide');
-    else if(y>140&&d>6)bar.classList.add('hide');
-  }
+  var y=window.scrollY||0,d=y-last,small=mq.matches; /* pha đọc */
   last=y;
+  return function(){ /* pha ghi */
+    if(Math.abs(d)>2){root.classList.add('scrolling','scrolling2');clearTimeout(idle);clearTimeout(idle2);
+      idle=setTimeout(function(){root.classList.remove('scrolling')},1000);
+      idle2=setTimeout(function(){root.classList.remove('scrolling2')},3000)}
+    if(bar){
+      if(!small||y<80||d<-6)bar.classList.remove('hide');
+      else if(y>140&&d>6)bar.classList.add('hide');
+    }
+  };
 }
-addEventListener('scroll',function(){if(!tk)tk=requestAnimationFrame(step)},{passive:true});
+window.__sq(step);
 })();
 }catch(e){console.error('[khối 47]',e)}
 
@@ -5455,18 +5460,14 @@ var q=0;
 function sched(){if(q)return;q=setTimeout(function(){q=0;scan()},150)}
 var pt=0,ly=-1,mqr=matchMedia('(prefers-reduced-motion:reduce)');
 /* cuộn trang: lớp xa trôi chậm, lớp gần trôi nhanh hơn một chút (chiều sâu); chỉ dịch chuyển nên không vẽ lại */
-addEventListener('scroll',function(){
-  if(pt)return;
-  pt=requestAnimationFrame(function(){
-    pt=0;
-    var e=document.getElementById('bgic');
-    if(!e||mqr.matches||document.documentElement.getAttribute('data-motion')==='off')return;
-    var w=Math.sin((window.scrollY||0)/700),v=Math.round(w*28);
-    if(v===ly)return;ly=v;
-    /* trượt qua lại theo data-y / data-x của từng lớp (±28…±62 px), không có cú giật */
-    [].forEach.call(e.children,function(l){l.style.translate=Math.round(w*(+l.getAttribute('data-x')||0))+'px '+Math.round(w*(+l.getAttribute('data-y')||0))+'px'});
-  });
-},{passive:true});bg();scan();
+window.__sq(function(){
+  var e=document.getElementById('bgic');
+  if(!e||mqr.matches||document.documentElement.getAttribute('data-motion')==='off')return null;
+  var w=Math.sin((window.scrollY||0)/700),v=Math.round(w*28);
+  if(v===ly)return null;ly=v;
+  /* trượt qua lại theo data-y / data-x của từng lớp (±28…±62 px), không có cú giật */
+  return function(){[].forEach.call(e.children,function(l){l.style.translate=Math.round(w*(+l.getAttribute('data-x')||0))+'px '+Math.round(w*(+l.getAttribute('data-y')||0))+'px'})};
+});bg();scan();
 var bpe=document.getElementById('bgmp');
 if(bpe)new MutationObserver(syncState).observe(bpe,{attributes:true,attributeFilter:['hidden','class']});
 var SEL='h2,.hob,.card,.idgrid>*,.pls>*,.stats>div,.rows li,.log li,.tkb-list li,#gallery .ph,.faq summary .sq,.btn,.ffs button,.tkb-tabs button,.mapbar button,.fgrid li a,.cta a,.more a,.more button';
@@ -7116,3 +7117,15 @@ function done(){
 addEventListener('scroll',function(){if(!run&&R.classList.contains('scrolling')){run=true;n=0;t0=0;last=0;requestAnimationFrame(frame)}},{passive:true});
 })();
 }catch(e){console.error('[khối 72 perf]',e)}
+
+
+/* ===================== [khối 73: ẩn thứ ngoài khung nhìn] ===================== */
+/* Mục nào cách màn hình hơn một màn hình thì gắn class "cull": CSS dừng mọi animation trong mục đó (cùng với content-visibility:auto sẵn có là trình duyệt bỏ qua vẽ và dựng nó).
+   Vào lại gần khung nhìn thì tự gỡ class và chạy tiếp từ chỗ đang dừng. Video và canvas đã tự dừng riêng khi ra khỏi màn hình. */
+try{
+(function(){
+if(!('IntersectionObserver' in window))return;
+var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('cull',!e.isIntersecting)})},{rootMargin:'100% 0px 100% 0px'});
+document.querySelectorAll('main section[id],main .band,main .gbar,footer').forEach(function(el){io.observe(el)});
+})();
+}catch(e){console.error('[khối 73 cull]',e)}

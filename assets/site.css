@@ -3589,3 +3589,6 @@ html.perf2 #bgic{display:none!important}
 .dot,.avatar.on{animation:none}
 /* chữ chuyển màu (h1, logo, lời chào, mục đang chọn, tên Steam): chạy theo bước ~6–14 lần/giây thay vì vẽ lại 60–144 lần/giây; dải màu trôi chậm nên mắt không thấy khác */
 :root:not([data-color="off"]) :is(h1,#greet,.bar nav a.on,.brand),#steamn,#steamname,.pci>b{animation-timing-function:steps(60)!important}
+
+/* ===== ẨN THỨ NGOÀI KHUNG NHÌN: mục cách màn hình hơn một màn hình (class cull do khối 73 gắn) thì dừng mọi animation bên trong ===== */
+.cull,.cull *,.cull *::before,.cull *::after{animation-play-state:paused!important}

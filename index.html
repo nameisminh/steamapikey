@@ -90,6 +90,15 @@ addEventListener('scroll',function(){
   clearTimeout(tm);tm=setTimeout(off,150);
 },{passive:true});
 window.__sfast=function(){return on&&v>1.5};
+})();
+/* BỘ XỬ LÝ CUỘN RIÊNG: mọi việc cần làm khi cuộn đăng ký vào đây. Một sự kiện scroll duy nhất → một khung hình duy nhất: ĐỌC hết (scrollY, kích thước) rồi mới GHI hết (style, class),
+   nên không còn cảnh ghi style rồi đọc layout xen kẽ giữa các đoạn code (buộc trình duyệt tính lại layout nhiều lần mỗi khung hình).
+   window.__sq(read) → trả về hàm kick(). read() chạy ở pha đọc và trả về một hàm ghi (hoặc không trả gì nếu không có gì để ghi). */
+(function(){var L=[],f=0;
+function run(){f=0;var i,r,W=[];for(i=0;i<L.length;i++){try{r=L[i]();if(r)W.push(r)}catch(e){console.error('[sq read]',e)}}for(i=0;i<W.length;i++){try{W[i]()}catch(e){console.error('[sq write]',e)}}}
+function kick(){if(!f)f=requestAnimationFrame(run)}
+addEventListener('scroll',kick,{passive:true});
+window.__sq=function(read){L.push(read);return kick};
 })();</script>
 <script>/* GIỚI HẠN ~120 FPS: màn hình 165/240 Hz không cần chạy mọi vòng animation ở tần số quét tối đa (tốn CPU/GPU, dễ tụt khi cuộn nhanh).
    Bọc requestAnimationFrame: nếu khung hình đến sớm hơn ~6,3 ms kể từ lần chạy trước thì dời sang khung sau. Màn 60/75/120/144 Hz không bị ảnh hưởng. */
