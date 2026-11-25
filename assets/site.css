@@ -3569,3 +3569,7 @@ html[data-motion="off"] :is(.u257-fr,.u257-hd){transition:none}
   html:root .gbar .gbn{max-height:8.5rem}
   html:root #home .band{margin-block:.2rem}
 }
+
+/* ===== NỀN LƯỚI NHẸ HƠN: bản cũ dùng mask phủ cả màn hình + 2 lớp sao có mask và animation chạy suốt, nặng khi cuộn. Giờ chỉ là 1 lớp nền tĩnh, mép lưới mờ dần bằng lớp màu nền chồng lên (không cần mask) ===== */
+html[data-bg="grid"] #bgic{-webkit-mask-image:none;mask-image:none;background-image:radial-gradient(ellipse 85% 75% at 50% 35%,transparent 35%,var(--bg) 100%),linear-gradient(color-mix(in srgb,var(--acc) 9%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--acc) 9%,transparent) 1px,transparent 1px);background-size:auto,46px 46px,46px 46px}
+html[data-bg="grid"] #bgic>i{display:none}
