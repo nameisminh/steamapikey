@@ -582,4 +582,7 @@ function vis(){cancelAnimationFrame(raf);if(!document.hidden&&!reduce)raf=reques
 /* đóng là gỡ hẳn: dừng vòng vẽ, bỏ sự kiện, xoá khung và canvas khỏi bộ nhớ */
 function close(){if(!o)return;cancelAnimationFrame(raf);raf=0;removeEventListener('keydown',esc);document.removeEventListener('visibilitychange',vis);GLX.dispose();o.remove();o=cv=gcv=c=S=GC=GX=null;document.documentElement.style.overflow='';if(b)b.focus()}
 window.__ascOpen=open;
+/* làm nóng lúc rảnh: biên dịch sẵn shader cảnh mặc định trên khung 64x64 rồi bỏ ngay (trình duyệt giữ bản đã dịch), lúc bấm nút khỏi bị khựng. Không giữ gì lại trong bộ nhớ. */
+window.__ascWarm=function(){if(o||window.__ascWarmed)return;window.__ascWarmed=1;try{var s=scene(pick());if(!s||!s.gl)return;var w=W,h=H,cx=document.createElement('canvas');cx.width=cx.height=64;
+ if(GLX.start(cx)){W=H=64;GLX.setup();if(GLX.use(s.gl,s.glm))GLX.frame(0);GLX.dispose()}W=w;H=h}catch(e){try{GLX.dispose()}catch(x){}}};
 })();
