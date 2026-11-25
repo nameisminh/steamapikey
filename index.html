@@ -3343,6 +3343,10 @@ html.scrolling :is(.cull,.cull *){transition:none!important}
 
 :root[data-motion="off"] .tgl .play{display:block}
 
+@keyframes sway{from{transform:rotate(-7deg)}to{transform:rotate(7deg)}}
+
+@keyframes swing{25%{transform:rotate(-14deg)}75%{transform:rotate(14deg)}}
+
 .tgl.lang,.bar .tgl.lang{width:auto;padding:0 .25rem;gap:.1rem;display:inline-flex;align-items:center;font:500 .7rem var(--mono)}
 
 .tgl.lang:hover{transform:none}
@@ -3636,6 +3640,8 @@ html.vtt::view-transition-new(root){z-index:1}
 
 :root:not([data-motion="off"]) .tgl.lang.pl.mv::after{animation:lgSq .42s cubic-bezier(.3,1.2,.45,1)}
 
+@keyframes lgSq{45%{scale:1.22 .84}}
+
 :root[data-motion="off"] .tgl.lang.pl::after{transition:none}
 
 /* ĐỔI NGÔN NGỮ: một đường kẻ sáng chạy dọc trang, quét tới đâu chữ đổi tới đó (VI→EN trái sang phải, EN→VI phải sang trái).
@@ -3652,6 +3658,16 @@ html.vtl::view-transition-group(lgln){animation:none;z-index:2}
 html.vtl::view-transition-new(lgln){animation:lgLn .75s cubic-bezier(.55,0,.25,1) both,lgLnF .75s linear both}
 
 html.vtl.vtlr::view-transition-new(lgln){animation-name:lgLnR,lgLnF}
+
+@keyframes lgClip{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+
+@keyframes lgClipR{from{clip-path:inset(0 0 0 100%)}to{clip-path:inset(0 0 0 0)}}
+
+@keyframes lgLn{from{transform:translateX(-60px)}to{transform:translateX(calc(100vw - 59px))}}
+
+@keyframes lgLnR{from{transform:translateX(calc(100vw - 1px))}to{transform:translateX(-1px)}}
+
+@keyframes lgLnF{0%{opacity:0}8%,86%{opacity:1}100%{opacity:0}}
 @media (prefers-reduced-motion:reduce){:is(.bar,.morep) .tgl>:is(svg,.gt),.tgl.lang span.on{animation:none!important}}
 
 .bar .morep .tgl{width:2.5rem;height:2.5rem}
@@ -4279,7 +4295,7 @@ body.bgm-on .orbtab{opacity:0!important;pointer-events:none}
 /* ===== XEM THỬ KÍCH THƯỚC MÀN HÌNH (nút trên thanh menu hoặc phím V). Mẫu #257 của Lucian UX/UI Prompt, MIT License (c) 2026 Seokwoooo.
    Khung hiện chính trang này trong iframe: kéo tay nắm bên phải hoặc chọn máy tính / máy tính bảng / điện thoại. ===== */
 html.pv .dkw,html.pv .pvb,html.pv .bgm,html.pv .bgq{display:none!important}
-.tgl.asb{width:auto!important;min-width:3.4rem;flex:none;padding:0 .6rem;overflow:visible;font:700 .62rem var(--mono)}.tgl.asb .gt{font:inherit}</style>
+.tgl.asb{width:auto!important;min-width:3rem;flex:none;padding:0 .55rem;overflow:visible;font:700 .65rem var(--mono)}.tgl.asb .gt{font:inherit}#dock,#orb,.orbtab{display:none!important}</style>
 </head>
 <body>
 <div id="ldr" role="presentation" aria-hidden="true"><div class="ldrg z"><div class="ldgl"><div class="ldring ldtr"></div><div class="ldring ldpg" id="ldp2"></div><i class="lddot ldd1"></i><i class="lddot ldd2"></i></div><div class="ldnm"><span id="ldn">0</span><small>%</small></div></div></div>
@@ -4351,7 +4367,7 @@ window.__autoLang=function(){
     </nav>
     <button class="nvb next" type="button" aria-label="Cuộn mục sang phải" title="Sang phải">›</button></div>
     <div class="acts">
-      <button type="button" id="asb" class="tgl asb" aria-haspopup="dialog" aria-label="ASCII" title="ASCII"><span class="gt" aria-hidden="true">ASCII</span></button>
+      <button type="button" id="asb" class="tgl asb" aria-haspopup="dialog" aria-label="ASC" title="ASC"><span class="gt" aria-hidden="true">ASC</span></button>
       <button class="tgl" id="bgmlist" type="button" aria-label="Mở danh sách nhạc" aria-expanded="false" aria-controls="bgmp" title="Danh sách nhạc"><svg class="g" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="11" height="2.6" rx="1.3"/><rect x="3.5" y="10.7" width="11" height="2.6" rx="1.3"/><rect x="3.5" y="16.4" width="7" height="2.6" rx="1.3"/><rect x="17.2" y="6" width="2.4" height="11" rx="1.2"/><circle cx="16.4" cy="17" r="3"/></svg></button>
       <button class="tgl" id="bgmtop" type="button" aria-label="Bật nhạc" aria-pressed="false" title="Bật hoặc tắt nhạc"><svg class="g" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6.8" cy="17.5" r="3"/><circle cx="17.6" cy="15.5" r="3"/><path d="M8 17.5V6.1L20.6 3.5V15.5H18.8V6L9.8 7.9V17.5Z"/><path class="sl" d="M3 3l18 18"/></svg></button>
       <button class="tgl" id="sfx" type="button" aria-label="Âm thanh khi nhấn" aria-pressed="true" title="Âm thanh khi nhấn (bật/tắt)"><svg class="g" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 8.5l10.5 4.2-4.7 1.8-1.8 4.7z"/><path class="ln" d="M6.2 6.2L4.8 4.8M9.5 4.5V2.8M4.5 9.5H2.8"/><path class="sl" d="M3 3l18 18"/></svg></button>
@@ -5281,7 +5297,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
 </style>
 <script>
 /* Tranh ASCII 3D nằm ở ascii3d.js, chỉ tải và chạy khi bấm nút; đóng là gỡ hết */
-(function(){var b=document.getElementById('asb'),l=0;if(!b)return;b.addEventListener('click',function(){if(window.__ascOpen)return window.__ascOpen();if(l)return;l=1;var s=document.createElement('script');s.src='ascii3d.js?v=17811';s.onload=function(){l=0;window.__ascOpen&&window.__ascOpen()};s.onerror=function(){l=0};document.head.appendChild(s)})})();
+(function(){var b=document.getElementById('asb'),l=0;if(!b)return;b.addEventListener('click',function(){if(window.__ascOpen)return window.__ascOpen();if(l)return;l=1;var s=document.createElement('script');s.src='ascii3d.js?v=37331';s.onload=function(){l=0;window.__ascOpen&&window.__ascOpen()};s.onerror=function(){l=0};document.head.appendChild(s)})})();
 </script>
 </footer>
 
@@ -5543,9 +5559,27 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
   /* chưa tự chọn sáng/tối thì đi theo cài đặt của máy, máy đổi thì trang đổi theo */
   try{var mqT=matchMedia('(prefers-color-scheme: light)'),onSys=function(e){var sv=null;try{sv=localStorage.getItem('theme')}catch(x){}if(sv!=='light'&&sv!=='dark')applyTheme(e.matches?'light':'dark',false)};
     if(mqT.addEventListener)mqT.addEventListener('change',onSys);else if(mqT.addListener)mqT.addListener(onSys)}catch(e){}
+  /* thấu kính: chép cảnh pixel vào trong kính để phóng to phần nằm bên dưới */
+  (function(){var s=tgl.querySelector('.sc svg'),m=tgl.querySelector('.kn .mg');if(s&&m&&!m.firstChild)m.appendChild(s.cloneNode(true))})();
+  Object.assign(EN,{"Chế độ sáng":"Light mode","Chế độ tối":"Dark mode","Đổi giao diện sáng hoặc tối (T)":"Switch light or dark theme (T)"});
+  function swTitle(){var d=new Date(),l=rootEl.getAttribute('data-theme')==='light';tgl.title=T(l?'Chế độ sáng':'Chế độ tối')+' · '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+' (T)'}
+  tgl.addEventListener('pointerenter',swTitle);tgl.addEventListener('focus',swTitle);
+  var swT=0,motionOk=function(){return !calm&&rootEl.getAttribute('data-motion')!=='off'&&!matchMedia('(prefers-reduced-motion: reduce)').matches};
   tgl.addEventListener('click',function(){
-    if(!calm){rootEl.classList.add('tt');setTimeout(function(){rootEl.classList.remove('tt')},450)}
-    applyTheme(rootEl.getAttribute('data-theme')==='light'?'dark':'light',true);
+    var next=rootEl.getAttribute('data-theme')==='light'?'dark':'light';
+    if(motionOk()){tgl.classList.remove('mv');void tgl.offsetWidth;tgl.classList.add('mv');clearTimeout(swT);swT=setTimeout(function(){tgl.classList.remove('mv')},760)}
+    /* trang mới loang ra thành vòng tròn từ công tắc; trình duyệt không hỗ trợ thì đổi ngay */
+    if(motionOk()&&document.startViewTransition&&!document.hidden){
+      var r=tgl.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2,rad=Math.ceil(Math.hypot(Math.max(x,innerWidth-x),Math.max(y,innerHeight-y)));
+      rootEl.classList.add('vtt');
+      try{
+        var vt=document.startViewTransition(function(){applyTheme(next,true);swTitle()});
+        vt.ready.then(function(){rootEl.animate({clipPath:['circle(0px at '+x+'px '+y+'px)','circle('+rad+'px at '+x+'px '+y+'px)']},{duration:620,easing:'cubic-bezier(.45,0,.2,1)',pseudoElement:'::view-transition-new(root)'})}).catch(function(){});
+        vt.finished.then(function(){rootEl.classList.remove('vtt')},function(){rootEl.classList.remove('vtt')});
+        return;
+      }catch(e){rootEl.classList.remove('vtt')}
+    }
+    applyTheme(next,true);swTitle();
   });
 
   /* ===== thêm chi tiết chuyển động ===== */
@@ -8932,7 +8966,27 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     });
     document.dispatchEvent(new Event('langchange'));
   }
-  if(LBTN)LBTN.addEventListener('click',function(){applyLang(LANG==='vi'?'en':'vi',true)});
+  var lgT=0;
+  function lgMotion(){var r=document.documentElement;return !calm&&r.getAttribute('data-motion')!=='off'&&!matchMedia('(prefers-reduced-motion: reduce)').matches}
+  if(LBTN)LBTN.addEventListener('click',function(){
+    var next=LANG==='vi'?'en':'vi',r=document.documentElement;
+    if(!lgMotion()){applyLang(next,true);return}
+    LBTN.classList.remove('mv');void LBTN.offsetWidth;LBTN.classList.add('mv');clearTimeout(lgT);lgT=setTimeout(function(){LBTN.classList.remove('mv')},460);
+    /* đường kẻ quét dọc trang, chữ đổi theo đường kẻ. Máy yếu (≤2 nhân, ≤2 GB RAM, tiết kiệm dữ liệu) hoặc trình duyệt chưa hỗ trợ
+       View Transitions thì bỏ đường quét, chữ mới chỉ hiện mờ dần (rẻ nhất) */
+    var nv=navigator,weak=(nv.hardwareConcurrency&&nv.hardwareConcurrency<=2)||(nv.deviceMemory&&nv.deviceMemory<=2)||(nv.connection&&nv.connection.saveData);
+    if(!weak&&document.startViewTransition&&!document.hidden&&!r.classList.contains('vtt')&&!r.classList.contains('vtl')){
+      r.classList.add('vtl');r.classList.toggle('vtlr',next==='vi');
+      var ln=null,done=function(){r.classList.remove('vtl','vtlr');if(ln)ln.remove()};
+      try{
+        var vt=document.startViewTransition(function(){applyLang(next,true);ln=document.createElement('i');ln.id='lgln';ln.setAttribute('aria-hidden','true');document.body.appendChild(ln)});
+        vt.ready.catch(function(){});vt.finished.then(done,done);return;
+      }catch(e){done()}
+    }
+    applyLang(next,true);
+    var m=document.querySelector('main')||document.body;
+    if(m.animate)m.animate([{opacity:.35},{opacity:1}],{duration:320,easing:'ease-out'});
+  });
   document.addEventListener('langchange',function(){
     gLast='';tick();
     if(STEAMD)applySteam(STEAMD,true);

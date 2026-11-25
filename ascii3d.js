@@ -1,7 +1,7 @@
 /* Tranh ASCII 3D theo ngày. File này chỉ được tải khi bấm nút ở chân trang (xem đoạn nhỏ trong index.html): vật thể dựng bằng hình khối, có ánh sáng, đổ bóng, tối góc và viền sáng; mỗi ô chữ lấy độ sáng của điểm trên vật. Chỉ dựng khi bấm, đóng là dừng hẳn. Xem thử: thêm ?asc=sn | noel | tet | hoa vào địa chỉ trang */
 (function(){var b=document.getElementById('asb');
 var BM=11,BD=8; /* ngày sinh: tháng, ngày */
-var PICK=true; /* true: hiện các nút chọn hình để xem thử; đổi thành false để ẩn đi */
+var PICK=false; /* true: hiện các nút chọn hình để xem thử; đổi thành false để ẩn đi */
 var o,cv,gcv,c,raf=0,t0=0,last=0,S,cur,W,H,fs,cw,cols,rows,CH,CL,DL=0,reduce=false;
 var BD=[0,1.5,0,4],TYS=-1,CA=1,SA=0,D=0,MT=0,OX=0,OY=0,OZ=0,AN=0,RR=0,RX=0,RZ=0,IDX=0,MH=0,MS=0,MB=1,ME=0,LX=-.446,LY=.714,LZ=-.535;
 function hs(h,l){return'hsl('+h+',90%,'+l+'%)'}
