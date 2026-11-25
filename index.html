@@ -4195,6 +4195,37 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
     <div class="copy"><span>© <span id="year">2026</span> Ming</span><span id="visits"></span><span id="upd">Cập nhật lần cuối: 28/10/26 · 17:35:00</span></div>
     <div class="bye rv"><p class="bye-t">Cảm ơn bạn đã ghé qua</p><p class="bye-s">Hẹn gặp lại ở lần cập nhật sau.</p></div>
   </div>
+<button type="button" id="asb" class="asb" aria-haspopup="dialog" title="Bấm thử xem">‹ASCII›</button>
+<style id="as-css">
+.asb{display:block;margin:1rem auto 0;padding:.3rem .8rem;border:1px dashed var(--line-hi);border-radius:99px;background:none;color:var(--muted);font:600 .75rem var(--mono);cursor:pointer}
+.asb:hover{color:var(--text);border-color:var(--white)}
+#aso{position:fixed;inset:0;z-index:300;background:#05070a;cursor:pointer}
+#aso[hidden]{display:none}
+#aso canvas{display:block;width:100%;height:100%}
+#aso button{position:absolute;top:.8rem;right:.8rem;width:44px;height:44px;border-radius:50%;border:1px solid #fff4;background:#0008;color:#fff;font-size:1.4rem;cursor:pointer}
+#aso p{position:absolute;left:0;right:0;bottom:.8rem;margin:0;text-align:center;font:.75rem var(--mono);color:#fff8;pointer-events:none}
+</style>
+<script>
+/* Tranh ASCII bó hoa (chỉ dựng khi bấm, đóng là dừng hẳn, không tốn FPS lúc đứng yên) */
+(function(){var b=document.getElementById('asb');if(!b)return;
+var o,cv,c,raf=0,t0=0,last=0,R=' .,:;i1tfLCG08@',F=[[.0,.30,.15,0,1],[-.2,.45,.11,120,-1],[.2,.42,.12,240,1]];
+function draw(t){var W=cv.width,H=cv.height,fs=Math.max(9,Math.round(H/85)),cw=fs*.6,x0=W/2/H,g=Math.min(1,t/2.5);g=1-Math.pow(1-g,3);
+c.fillStyle='#05070a';c.fillRect(0,0,W,H);c.font='700 '+fs+'px ui-monospace,Consolas,monospace';c.textBaseline='top';
+for(var y=0;y<H;y+=fs){var v=(y+fs/2)/H;for(var x=0;x<W;x+=cw){var u=(x+cw/2)/H,ch=0,col=0;
+for(var i=0;i<3;i++){var f=F[i],sw=Math.sin(t*.8+i)*.012*g,fx=x0+f[0]+sw,fy=f[1]+(1-g)*.3,s=f[2]*g,dx=u-fx,dy=v-fy,r=Math.hypot(dx,dy),a=Math.atan2(dy,dx)+t*.15*f[4],Rr=s*(.55+.45*Math.abs(Math.cos(2.5*a)));
+if(r<Rr){var n=1-r/Rr*.75;ch=R[Math.min(R.length-1,n*R.length|0)];col='hsl('+((f[3]+a*57+t*30)%360+360)%360+',90%,'+(45+n*25|0)+'%)';break}
+if(v>fy+s*.6&&v<.93){var k=(v-fy)/(.93-fy),sx=fx+(x0-fx)*k;if(Math.abs(u-sx)<.005){ch='|';col='hsl(130,55%,'+(35+i*5)+'%)'}}}
+if(!col&&v>.88&&v<.97&&Math.abs(u-x0)<.05+(v-.88)*.35&&(Math.abs(u-x0)>.04+(v-.88)*.35||v<.9||v>.96)){ch='#';col='hsl(200,40%,45%)'}
+if(col){c.fillStyle=col;c.fillText(ch,x,y)}}}}
+function loop(ts){raf=requestAnimationFrame(loop);if(ts-last<33)return;last=ts;draw((ts-t0)/1000)}
+function open(){if(!o){o=document.createElement('div');o.id='aso';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-label','Tranh ASCII bó hoa');o.innerHTML='<canvas></canvas><button type="button" aria-label="Đóng">×</button><p>Bấm bất kỳ đâu hoặc Esc để đóng</p>';document.body.appendChild(o);cv=o.querySelector('canvas');c=cv.getContext('2d');o.addEventListener('click',close)}
+cv.width=innerWidth;cv.height=innerHeight;o.hidden=false;document.documentElement.style.overflow='hidden';o.querySelector('button').focus();
+if(matchMedia('(prefers-reduced-motion: reduce)').matches){draw(9);return}
+t0=performance.now();raf=requestAnimationFrame(loop)}
+function close(){if(!o||o.hidden)return;cancelAnimationFrame(raf);o.hidden=true;document.documentElement.style.overflow='';b.focus()}
+b.addEventListener('click',open);addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+})();
+</script>
 </footer>
 
 <div class="idm gm" id="gm" hidden role="dialog" aria-modal="true" aria-labelledby="gmt">
