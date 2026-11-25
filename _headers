@@ -23,3 +23,11 @@
 # HTML: luôn kiểm tra lại để bản mới lên ngay
 /*.html
   Cache-Control: public, max-age=0, must-revalidate
+
+# Trang làm mới
+/reset
+  Clear-Site-Data: "cache"
+  Cache-Control: no-store
+/reset.html
+  Clear-Site-Data: "cache"
+  Cache-Control: no-store
