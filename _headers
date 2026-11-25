@@ -20,20 +20,6 @@
 /audio/*
   Cache-Control: public, max-age=31536000, immutable
 
-# Trang làm mới: máy kẹt ở bản cũ mở /reset một lần -> trình duyệt xoá cache HTTP của trang
-# (service worker và CacheStorage do script trong reset.html xoá; localStorage giữ nguyên)
-/reset
-  Clear-Site-Data: "cache"
-  Cache-Control: no-store
-/reset.html
-  Clear-Site-Data: "cache"
-  Cache-Control: no-store
-
-# CSS/JS của trang (tách từ index.html): trình duyệt giữ file, mỗi lần mở chỉ hỏi lại máy chủ.
-# File không đổi thì nhận 304 (vài trăm byte) thay vì tải lại cả trăm KB; đổi file thì bản mới lên ngay.
-/assets/*
-  Cache-Control: public, max-age=0, must-revalidate
-
 # HTML: luôn kiểm tra lại để bản mới lên ngay
 /*.html
   Cache-Control: public, max-age=0, must-revalidate

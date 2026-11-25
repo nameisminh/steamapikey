@@ -1,7 +1,6 @@
-/* DANH SÁCH NHẠC NỀN — mở tools/them-nhac.html bằng Chrome/Edge để thêm bài (tự chép mp3, tự ghi file này, làm lời .lrc).
+/* DANH SÁCH NHẠC NỀN — tool tools/add-music.mjs (them-nhac.bat) tự cập nhật file này.
    Bạn cũng có thể sửa tay: mỗi bài một dòng, t = tên bài, a = ca sĩ, src = đường dẫn file.
-   g = thể loại: 'vn' = nhạc Việt Nam, 'en' = nhạc nước ngoài (bỏ trống thì tính là 'vn').
-   Lời bài hát: file .lrc cùng tên với file mp3 trong music/. Hoặc thêm lrc:'music/ten-file.lrc' hay q:'tên bài ca sĩ' vào dòng bài đó. */
+   Muốn có lời bài hát thì thêm lrc:'music/ten-file.lrc' hoặc q:'tên bài ca sĩ' vào dòng bài đó. */
 window.TRACKS=[
   {t:'Dành hết xuân thì để chờ nhau',a:'Vũ ft. Hà Anh Tuấn',src:'music/danh-het-xuan-thi-de-cho-nhau-vu-ft-ha-anh-tuan-tu-album-bao-tang-cua-nuoi-tiec-vu-official.mp3'},
   {t:'Đánh Đổi',a:'OBITO ft. MCK',src:'music/obito-danh-doi-ft-mck-obito-official.mp3'},

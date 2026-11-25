@@ -1,37 +1,37 @@
-# Ming
+<div align="center">
 
-Trang cá nhân của Ming: game đang chơi, nhạc hay nghe, góc setup và vài công cụ nhỏ (test bàn phím, chuột, loa, micro, tốc độ gõ).
+# ⚡ MING
 
-Xem trang: https://ming-dev.id.vn (bản phụ: https://lmingl.pages.dev)
+**Một trang web nhỏ, một file duy nhất, đủ thứ để chơi.**
 
-## Cấu trúc
+Nghe nhạc · Đọc truyện · Xem Ming đang làm gì · Đập phím lấy combo
 
-| Đường dẫn | Dùng để |
-|---|---|
-| `index.html` | Nội dung trang |
-| `assets/site.css` | Toàn bộ giao diện |
-| `assets/app.js` | Chức năng chính (nhạc, Góc chơi, menu, đổi màu, ngôn ngữ…) |
-| `assets/config.js` | Cấu hình: game, ảnh bìa, liên kết |
-| `assets/ascii.js` | Hiệu ứng chữ/ảnh ASCII khi cuộn |
-| `music/` | Nhạc nền; danh sách bài ở `music/tracks.js` |
-| `images/` | Ảnh |
-| `sw.js` | Cho trang mở được khi mất mạng |
-| `reset.html` | Xoá bộ nhớ đệm khi máy bị kẹt ở bản cũ (mở `/reset`) |
-| `404.html` | Trang không tìm thấy |
-| `_headers` | Cách trình duyệt lưu đệm từng loại file |
+[**🌐 Xem trực tiếp → lmingl.pages.dev**](https://lmingl.pages.dev)
 
-Không có bước build: sửa file, đẩy lên GitHub là Cloudflare tự triển khai.
+</div>
 
-## Thêm nhạc
+---
 
-Cách dễ nhất: mở `tools/them-nhac.html` bằng Chrome/Edge (bấm đúp), chọn thư mục web, kéo thả mp3 vào rồi bấm Lưu. Tool tự đọc tên bài và ca sĩ trong file, đổi tên file cho gọn, chép vào `music/`, ghi `music/tracks.js`, báo bài trùng, và có tab làm lời `.lrc` chạy theo nhạc. Xong thì commit và đẩy lên GitHub. (`tools/` không bị đưa lên web.)
+## 🧠 Đây là gì?
 
-Sửa tay cũng được: mỗi bài là một dòng trong `music/tracks.js`: `t` tên bài, `a` ca sĩ, `src` đường dẫn file. Nhạc nước ngoài thêm `g:'en'` để hiện ở mục Quốc tế. Lời bài hát là file `.lrc` cùng tên với file mp3.
+Một góc nhỏ trên mạng để bạn bè biết dạo này Ming chơi gì, dịch gì, nghe gì. Không bán gì, không quảng cáo, ghé xem cho vui.
 
-## Quyền riêng tư
+Toàn bộ trang nằm trong **một file `index.html`**: không framework, không build, không npm.
 
-Các bài test chạy ngay trên máy người xem, kỷ lục chỉ lưu trên máy đó, không gửi đi đâu. Cài đặt (sáng/tối, màu, ngôn ngữ) lưu trong trình duyệt.
+## 🔥 Có gì hay
 
-## Ghi chú
+- 🎮 **Góc chơi:** test chuột, test bàn phím, tốc độ gõ, phản xạ, bắn bia, nhớ dãy
+- 💥 **COMBO:** bấm chuột, chạm hay gõ phím là chữ COMBO hiện ra, tối đa x9999
+- 📡 **Trạng thái trực tiếp:** xem Ming đang làm gì trên Discord
+- 🎵 **Trình phát nhạc:** nghe ngay tại trang, không bao giờ tự phát
+- 🌦️ **Thời tiết thật:** mưa hoặc tuyết rơi theo thời tiết nơi Ming ở
+- 📴 **Mất mạng vẫn lướt:** cài được như một app
+- 🌗 **Sáng / Tối** và 🌏 **Tiếng Việt / English**
 
-Trang không liên kết với Riot Games. League of Legends và ảnh tướng thuộc về Riot Games.
+## 🔒 Quyền riêng tư
+
+Mọi bài test chạy ngay trên máy bạn, không gửi đi đâu. Điểm cao và cài đặt chỉ lưu trong trình duyệt của bạn.
+
+## ⚖️ Ghi chú
+
+Đây là trang của người hâm mộ, không liên kết với Riot Games. League of Legends và ảnh tướng thuộc Riot Games.
