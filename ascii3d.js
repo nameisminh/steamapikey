@@ -437,11 +437,11 @@ var MAIN='#ifndef LD\n#define LD vec3(-.72,.68,-.22)\n#endif\nfloat map(vec3 p){
 'void main(){\n vec2 uv=(gl_FragCoord.xy-.5*uRes)/(.5*uRes.y);float asp=uRes.x/uRes.y;float Zs=max(1.,1./asp);uv*=Zs;float T=.42*Zs;\n'+
 ' float a=spin(uT);cA=cos(a);sA=sin(a);\n float cy=CAM.x,cd=CAM.y,ty=CAM.z;float l=length(vec2(ty-cy,cd));float fy=(ty-cy)/l,fz=cd/l;\n'+
 ' vec3 rd=normalize(vec3(uv.x*T,fy+uv.y*T*fz,fz-uv.y*T*fy));vec3 ro=vec3(0.,cy,-cd);\n float tt=0.;bool hit=false;\n'+
-' for(int i=0;i<110;i++){float d=map(ro+rd*tt);if(d<.003+.0007*tt){hit=true;break;}tt+=d;if(tt>34.)break;}\n'+
+' for(int i=0;i<72;i++){float d=map(ro+rd*tt);if(d<.003+.0007*tt){hit=true;break;}tt+=d;if(tt>34.)break;}\n'+
 ' if(!hit){oc=vec4(0.);return;}\n vec3 p=ro+rd*tt;map(p);float mt=gM;vec3 q=vec3(p.x*cA+p.z*sA,p.y,p.z*cA-p.x*sA);vec4 mc=matc(mt,q);\n'+
 ' vec2 e=vec2(1.,-1.)*.005;vec3 n=normalize(e.xyy*map(p+e.xyy)+e.yyx*map(p+e.yyx)+e.yxy*map(p+e.yxy)+e.xxx*map(p+e.xxx));\n'+
 ' vec3 L=normalize(LD);float dif=max(0.,dot(n,L));float res=1.;\n'+
-' if(dif>0.){float st=.05;vec3 so=p+n*.03;for(int k=0;k<30;k++){float h=map(so+L*st);if(h<.002){res=0.;break;}res=min(res,16.*h/st);st+=h;if(st>9.)break;}}\n'+
+' if(dif>0.){float st=.05;vec3 so=p+n*.03;for(int k=0;k<18;k++){float h=map(so+L*st);if(h<.002){res=0.;break;}res=min(res,16.*h/st);st+=h;if(st>9.)break;}}\n'+
 ' float ao=1.;for(int k=1;k<4;k++){float hh=.13*float(k);ao-=max(0.,hh-map(p+n*hh))*2.2/(1.+float(k));}ao=max(.22,ao);\n'+
 ' vec3 hv=normalize(L-rd);float sp=pow(max(0.,dot(n,hv)),30.)*.4;float rim=pow(1.-max(0.,-dot(n,rd)),3.)*.3;\n'+
 ' float dif2=max(0.,dot(n,normalize(vec3(.5,.1,-.85))));float lsh=min(1.,((.1+.08*n.y+.14*dif2)*ao+1.05*dif*res)*mc.z+(sp*res+rim)*ao);float lum=(mc.w>3.5)?min(1.,.5+.6*lsh):(mc.w>2.5)?min(1.,mc.z):(mc.w>.5&&mc.w<1.5)?1.:min(1.,((.1+.08*n.y+.14*dif2)*ao+1.05*dif*res)*mc.z+(sp*res+rim)*ao);\n'+
@@ -513,7 +513,7 @@ function prog(fs){var v=sh(gl.VERTEX_SHADER,VS),f=sh(gl.FRAGMENT_SHADER,fs);if(!
 function start(canvas){if(gl)return true;if(typeof canvas.getContext!=='function')return false;gl=canvas.getContext('webgl2',{antialias:false,alpha:false,powerPreference:'high-performance'});if(!gl)return false;gc=canvas;
  vbo=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,vbo);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,2,gl.FLOAT,false,0,0);
  var P2f=P2.replace('void main','vec3 hsv(float h){return clamp(abs(mod(h*6.+vec3(0.,4.,2.),6.)-3.)-1.,0.,1.);}\nvoid main');pp=prog(P2f);if(!pp){gl=null;return false}return true}
-function setup(){dpr=Math.min(2,window.devicePixelRatio||1);gc.width=Math.round(W*dpr);gc.height=Math.round(H*dpr);cell=Math.max(4,Math.round(3.8*dpr));emaDt=16;hold=30;rebuild()}
+function setup(){dpr=Math.min(1.5,window.devicePixelRatio||1);gc.width=Math.round(W*dpr);gc.height=Math.round(H*dpr);cell=Math.max(4,Math.round(4.4*dpr));emaDt=16;hold=30;rebuild()}
 function rebuild(){lw=Math.ceil(gc.width/cell);lh=Math.ceil(gc.height/cell);
  if(tex)gl.deleteTexture(tex);if(fbo)gl.deleteFramebuffer(fbo);tex=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,tex);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA8,lw,lh,0,gl.RGBA,gl.UNSIGNED_BYTE,null);
  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
@@ -525,7 +525,7 @@ function frame(t){if(!gl||!cur)return;
  gl.bindFramebuffer(gl.FRAMEBUFFER,null);gl.viewport(0,0,gc.width,gc.height);gl.useProgram(pp);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,tex);
  var q=loc.p2;gl.uniform1i(q.uTex,0);gl.uniform2f(q.uLow,lw,lh);gl.uniform1f(q.uCell,cell);gl.uniform1f(q.uT,t);gl.uniform1i(q.uPart,meta.part||0);gl.uniform1i(q.uBg,meta.bg||0);gl.uniform2f(q.uPx,gc.width,gc.height);gl.drawArrays(gl.TRIANGLE_STRIP,0,4)}
 /* máy yếu thì tự thưa ô chấm lại một chút, máy khỏe thì mịn lại; giữ ổn định vài giây mới đổi để không bị nhấp nháy */
-function tune(dt){if(hold>0){hold--;return}emaDt=emaDt*.9+Math.min(dt,80)*.1;var base=Math.max(4,Math.round(3.8*dpr));
+function tune(dt){if(hold>0){hold--;return}emaDt=emaDt*.9+Math.min(dt,80)*.1;var base=Math.max(4,Math.round(4.4*dpr));
  if(emaDt>30&&cell<base*3){cell=Math.round(cell*1.18);rebuild();hold=90;emaDt=22}else if(emaDt<19&&cell>base){cell=Math.max(base,Math.round(cell/1.12));rebuild();hold=240;emaDt=22}}
 function dispose(){on=false;if(!gl)return;try{for(var k in progs)if(progs[k])gl.deleteProgram(progs[k]);if(pp)gl.deleteProgram(pp);if(tex)gl.deleteTexture(tex);if(fbo)gl.deleteFramebuffer(fbo);if(vbo)gl.deleteBuffer(vbo);var x=gl.getExtension('WEBGL_lose_context');if(x)x.loseContext()}catch(e){}
  gl=null;gc=null;progs={};cur=null;pp=null;tex=null;fbo=null;vbo=null}
@@ -566,7 +566,7 @@ function draw(t){if(GLX.on&&S.gl){GLX.frame(t);return}
 var ema=24,fb=0,fr=0;
 function grid(f){fs=f;cw=f;cols=Math.ceil(W/cw);rows=Math.ceil(H/fs)}
 /* máy yếu thì tự thưa ô chữ lại, máy khỏe thì mịn lại */
-function loop(ts){raf=requestAnimationFrame(loop);var isgl=GLX.on&&S&&S.gl;if(ts-last<(isgl?14:42))return;var dt=ts-last;last=ts;var a=performance.now();draw((ts-t0)/1000);if(isgl){GLX.tune(dt);return}if(S.r)return;if(fr++<5)return;ema=ema*.8+(performance.now()-a)*.2;if(ema>34&&fs<fb*2.4){grid(fs*1.12);ema=26;fr=-40}else if(ema<19&&fs>fb*1.01){grid(Math.max(fb,fs/1.1));ema=26;fr=-40}}
+function loop(ts){raf=requestAnimationFrame(loop);var isgl=GLX.on&&S&&S.gl;if(ts-last<(isgl?32:42))return;var dt=ts-last;last=ts;var a=performance.now();draw((ts-t0)/1000);if(isgl){GLX.tune(dt);return}if(S.r)return;if(fr++<5)return;ema=ema*.8+(performance.now()-a)*.2;if(ema>34&&fs<fb*2.4){grid(fs*1.12);ema=26;fr=-40}else if(ema<19&&fs>fb*1.01){grid(Math.max(fb,fs/1.1));ema=26;fr=-40}}
 function show(k){cur=scene(k)?k:'dai';S=scene(cur);var g=false;if(S.gl&&gcv){g=GLX.start(gcv);if(g){GLX.setup();g=GLX.use(S.gl,S.glm)}}if(!g&&S.fb){cur=S.fb;S=scene(cur)}GLX.on=g;cv.style.visibility=g?'hidden':'visible';gcv.style.display=g?'block':'none';if(!g&&S.init)S.init();t0=performance.now();[].forEach.call(o.querySelectorAll('.pk button'),function(x){x.classList.toggle('on',x.dataset.k===cur)});if(reduce)draw(S.still||1.5)}
 function open(){if(!o){o=document.createElement('div');o.id='aso';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-label','Tranh ASCII 3D');
  o.innerHTML='<canvas></canvas><canvas class="gl" style="position:absolute;left:0;top:0;display:none"></canvas><div class="pk"></div><button type="button" class="x" aria-label="Đóng">×</button><p>Bấm bất kỳ đâu hoặc Esc để đóng</p>';document.body.appendChild(o);cv=o.querySelector('canvas');gcv=o.querySelector('canvas.gl');c=cv.getContext('2d');o.addEventListener('click',close);
