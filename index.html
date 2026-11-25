@@ -3214,6 +3214,12 @@ li.hic::after{top:50%;right:.4rem;margin-top:-.75rem}
 html.scrolling :is(h1,h2,.bye-t,#greet,.bar nav a.on,.brand,#steamn,#steamname,.pci>b,.pci .ptitle b,.run,.gsk.in,.dot,#dcp .in>h3){animation-play-state:paused}
 html.scrolling :is(.avf,.dot,#orb .mk)::before,html.scrolling :is(.avf,.dot,#orb .mk)::after{animation-play-state:paused}
 .cull,.cull *,.cull *::before,.cull *::after{animation-play-state:paused!important}
+html{scrollbar-width:thin;scrollbar-color:var(--line-hi,rgba(255,255,255,.25)) transparent}
+html::-webkit-scrollbar{width:8px;height:8px}
+html::-webkit-scrollbar-track{background:transparent}
+html::-webkit-scrollbar-thumb{background:var(--line-hi,rgba(255,255,255,.25));border-radius:99px;border:2px solid transparent;background-clip:padding-box;min-height:48px}
+html::-webkit-scrollbar-thumb:hover{background:var(--muted,rgba(255,255,255,.5));background-clip:padding-box}
+html.scrolling :is(.cull,.cull *){transition:none!important}
 </style>
 </head>
 <body>
@@ -9849,6 +9855,6 @@ if('IntersectionObserver' in window){new IntersectionObserver(function(es){vis=e
 
 </script>
 <script>/* ẩn thứ ngoài khung nhìn: mục cách màn hình hơn một màn hình thì dừng animation bên trong (CSS .cull) */
-(function(){if(!('IntersectionObserver' in window))return;var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('cull',!e.isIntersecting)})},{rootMargin:'100% 0px 100% 0px'});document.querySelectorAll('main section[id],main .band,main .gbar,footer').forEach(function(el){io.observe(el)})})();</script>
+(function(){if(!('IntersectionObserver' in window))return;var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('cull',!e.isIntersecting)})},{rootMargin:'5% 0px 5% 0px'});document.querySelectorAll('main section[id],main .band,main .gbar,footer').forEach(function(el){io.observe(el)})})();</script>
 </body>
 </html>
