@@ -3583,3 +3583,9 @@ html.perf1 .gsk{animation:none!important}
 html.perf1 :is(h1,h2,.bye-t,.brand,#greet,.bar nav a.on,#steamn,#steamname,.pci>b,.run){animation:none!important}
 html.perf2 *,html.perf2 *::before,html.perf2 *::after{box-shadow:none!important;text-shadow:none!important;filter:none!important;animation-iteration-count:1!important}
 html.perf2 #bgic{display:none!important}
+
+/* ===== RÀ SOÁT FPS BẰNG CODE: các animation lặp vô hạn đổi thuộc tính phải vẽ lại mỗi khung hình (box-shadow, background-position) ===== */
+/* chấm trạng thái: đã có vòng sóng ::after chạy bằng transform nên bỏ vòng box-shadow trùng; avatar đang online đã có viền tĩnh */
+.dot,.avatar.on{animation:none}
+/* chữ chuyển màu (h1, logo, lời chào, mục đang chọn, tên Steam): chạy theo bước ~6–14 lần/giây thay vì vẽ lại 60–144 lần/giây; dải màu trôi chậm nên mắt không thấy khác */
+:root:not([data-color="off"]) :is(h1,#greet,.bar nav a.on,.brand),#steamn,#steamname,.pci>b{animation-timing-function:steps(60)!important}
