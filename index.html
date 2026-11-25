@@ -4495,7 +4495,7 @@ addEventListener('load',function(){(window.requestIdleCallback||function(f){setT
   Object.assign(EN,{"Chế độ sáng":"Light mode","Chế độ tối":"Dark mode","Đổi giao diện sáng hoặc tối (T)":"Switch light or dark theme (T)"});
   function swTitle(){var d=new Date(),l=rootEl.getAttribute('data-theme')==='light';tgl.title=T(l?'Chế độ sáng':'Chế độ tối')+' · '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+' (T)'}
   tgl.addEventListener('pointerenter',swTitle);tgl.addEventListener('focus',swTitle);
-  var swT=0,motionOk=function(){return !calm&&rootEl.getAttribute('data-motion')!=='off'&&!matchMedia('(prefers-reduced-motion: reduce)').matches};
+  var swT=0,motionOk=function(){return !matchMedia('(prefers-reduced-motion: reduce)').matches};
   tgl.addEventListener('click',function(){
     var next=rootEl.getAttribute('data-theme')==='light'?'dark':'light';
     if(motionOk()){tgl.classList.remove('mv');void tgl.offsetWidth;tgl.classList.add('mv');clearTimeout(swT);swT=setTimeout(function(){tgl.classList.remove('mv')},760)}
@@ -7906,7 +7906,7 @@ addEventListener('load',function(){(window.requestIdleCallback||function(f){setT
   if(LBTN&&window.ResizeObserver)new ResizeObserver(function(){lgPill()}).observe(LBTN);
   setTimeout(lgPill,300);
   var lgT=0;
-  function lgMotion(){var r=document.documentElement;return !calm&&r.getAttribute('data-motion')!=='off'&&!matchMedia('(prefers-reduced-motion: reduce)').matches}
+  function lgMotion(){return !matchMedia('(prefers-reduced-motion: reduce)').matches}
   if(LBTN)LBTN.addEventListener('click',function(){
     var next=LANG==='vi'?'en':'vi',r=document.documentElement;
     if(!lgMotion()){applyLang(next,true);return}
@@ -13649,6 +13649,6 @@ html.perf2 #bgic{display:none!important}
 /* ===== ẨN THỨ NGOÀI KHUNG NHÌN: mục cách màn hình hơn một màn hình (class cull do khối 73 gắn) thì dừng mọi animation bên trong ===== */
 .cull,.cull *,.cull *::before,.cull *::after{animation-play-state:paused!important}
 
-.tgl.asb{width:auto!important;min-width:3rem;flex:none;padding:0 .55rem;overflow:visible;font:700 .65rem var(--mono)}.tgl.asb .gt{font:inherit}#theme.sw .kn,:root[data-theme="light"] #theme.sw .kn{left:var(--p)!important;top:var(--p)!important;background-color:transparent!important;transform:translateX(var(--px))!important;transition:scale .35s cubic-bezier(.3,1.5,.5,1)!important;box-shadow:0 .06em .14em rgba(0,0,0,.38),0 .015em .03em rgba(0,0,0,.3)!important}#theme.sw .kn::before,:root[data-theme="light"] #theme.sw .kn::before{opacity:1!important;width:auto!important;height:auto!important;transition:none!important}#theme.sw .kn::after,:root[data-theme="light"] #theme.sw .kn::after{opacity:.7!important;box-shadow:none!important;transition:none!important}#dock,#orb,.orbtab,#isl,#isl-panel,.dd,.dd-panel{display:none!important}.bar.mini .wrap{border-color:transparent!important;background:transparent!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}</style>
+.tgl.asb{width:auto!important;min-width:3rem;flex:none;padding:0 .55rem;overflow:visible;font:700 .65rem var(--mono)}.tgl.asb .gt{font:inherit}#theme.sw .kn,:root[data-theme="light"] #theme.sw .kn{left:var(--p)!important;top:var(--p)!important;background-color:transparent!important;transform:translateX(var(--px))!important;transition:scale .35s cubic-bezier(.3,1.5,.5,1)!important;box-shadow:0 .06em .14em rgba(0,0,0,.38),0 .015em .03em rgba(0,0,0,.3)!important}#theme.sw .kn::before,:root[data-theme="light"] #theme.sw .kn::before{opacity:1!important;width:auto!important;height:auto!important;transition:none!important}#theme.sw .kn::after,:root[data-theme="light"] #theme.sw .kn::after{opacity:.7!important;box-shadow:none!important;transition:none!important}:root[data-motion="off"] #theme.tgl.sw{transition:--px .72s cubic-bezier(.6,-.28,.26,1.26),box-shadow .5s,scale .3s!important}:root[data-motion="off"] #theme.sw .day,:root[data-motion="off"] #theme.sw .tint,:root[data-motion="off"] #theme.sw .lit{transition:opacity .6s ease!important}:root[data-motion="off"] #theme.sw .sky{transition:fill .6s ease!important}:root[data-motion="off"] #theme.sw.mv .kn{animation:pxsq .72s cubic-bezier(.3,.7,.3,1)!important}:root[data-motion="off"] .tgl.lang.pl::after{transition:translate .42s cubic-bezier(.3,1.2,.45,1)!important}#dock,#orb,.orbtab,#isl,#isl-panel,.dd,.dd-panel{display:none!important}.bar.mini .wrap{border-color:transparent!important;background:transparent!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}</style>
 </body>
 </html>
