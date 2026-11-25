@@ -3206,6 +3206,15 @@ li.hic::after{top:50%;right:.4rem;margin-top:-.75rem}
   html:not(.orb-show) #orb{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
 }
 <style id="qrfreecss">#qr .qse button[hidden]{display:none}#qr .qse button#qrfree[aria-pressed="true"]{border-color:var(--acc);background:rgba(var(--fx),.1)}</style>
+<style id="opt-fps">
+/* TỐI ƯU KHUNG HÌNH: bỏ/giảm các animation phải vẽ lại mỗi khung hình, dừng animation khi đang cuộn hoặc ở xa màn hình */
+:root:not([data-color="off"]) :is(h2,.bye-t){animation:none}
+.dot,.avatar.on{animation:none}
+:root:not([data-color="off"]) :is(h1,#greet,.bar nav a.on,.brand),#steamn,#steamname,.pci>b,#dcp .in>h3{animation-timing-function:steps(60)!important}
+html.scrolling :is(h1,h2,.bye-t,#greet,.bar nav a.on,.brand,#steamn,#steamname,.pci>b,.pci .ptitle b,.run,.gsk.in,.dot,#dcp .in>h3){animation-play-state:paused}
+html.scrolling :is(.avf,.dot,#orb .mk)::before,html.scrolling :is(.avf,.dot,#orb .mk)::after{animation-play-state:paused}
+.cull,.cull *,.cull *::before,.cull *::after{animation-play-state:paused!important}
+</style>
 </head>
 <body>
 <div id="ldr" role="presentation" aria-hidden="true"><div class="ldrg z"><div class="ldgl"><div class="ldring ldtr"></div><div class="ldring ldpg" id="ldp2"></div><i class="lddot ldd1"></i><i class="lddot ldd2"></i></div><div class="ldnm"><span id="ldn">0</span><small>%</small></div></div></div>
@@ -9839,5 +9848,7 @@ if('IntersectionObserver' in window){new IntersectionObserver(function(es){vis=e
 })();
 
 </script>
+<script>/* ẩn thứ ngoài khung nhìn: mục cách màn hình hơn một màn hình thì dừng animation bên trong (CSS .cull) */
+(function(){if(!('IntersectionObserver' in window))return;var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('cull',!e.isIntersecting)})},{rootMargin:'100% 0px 100% 0px'});document.querySelectorAll('main section[id],main .band,main .gbar,footer').forEach(function(el){io.observe(el)})})();</script>
 </body>
 </html>
