@@ -7897,6 +7897,14 @@ addEventListener('load',function(){(window.requestIdleCallback||function(f){setT
     });
     document.dispatchEvent(new Event('langchange'));
   }
+  function lgPill(){
+    if(!LBTN)return;var s=LBTN.querySelector('span.on');if(!s||!s.offsetWidth)return;
+    var st=LBTN.style;st.setProperty('--lx',s.offsetLeft+'px');st.setProperty('--lt',s.offsetTop+'px');st.setProperty('--lw',s.offsetWidth+'px');st.setProperty('--lh',s.offsetHeight+'px');
+    LBTN.classList.add('pl');
+  }
+  document.addEventListener('langchange',lgPill);
+  if(LBTN&&window.ResizeObserver)new ResizeObserver(function(){lgPill()}).observe(LBTN);
+  setTimeout(lgPill,300);
   var lgT=0;
   function lgMotion(){var r=document.documentElement;return !calm&&r.getAttribute('data-motion')!=='off'&&!matchMedia('(prefers-reduced-motion: reduce)').matches}
   if(LBTN)LBTN.addEventListener('click',function(){
@@ -13641,6 +13649,6 @@ html.perf2 #bgic{display:none!important}
 /* ===== ẨN THỨ NGOÀI KHUNG NHÌN: mục cách màn hình hơn một màn hình (class cull do khối 73 gắn) thì dừng mọi animation bên trong ===== */
 .cull,.cull *,.cull *::before,.cull *::after{animation-play-state:paused!important}
 
-.tgl.asb{width:auto!important;min-width:3rem;flex:none;padding:0 .55rem;overflow:visible;font:700 .65rem var(--mono)}.tgl.asb .gt{font:inherit}#theme.sw .kn,:root[data-theme="light"] #theme.sw .kn{left:var(--p)!important;top:var(--p)!important;background-color:transparent!important;transform:translateX(var(--px))!important;transition:scale .35s cubic-bezier(.3,1.5,.5,1)!important;box-shadow:0 .06em .14em rgba(0,0,0,.38),0 .015em .03em rgba(0,0,0,.3)!important}#theme.sw .kn::before,:root[data-theme="light"] #theme.sw .kn::before{opacity:1!important;width:auto!important;height:auto!important;transition:none!important}#theme.sw .kn::after,:root[data-theme="light"] #theme.sw .kn::after{opacity:.7!important;box-shadow:none!important;transition:none!important}#dock,#orb,.orbtab,#isl,#isl-panel,.dd,.dd-panel{display:none!important}</style>
+.tgl.asb{width:auto!important;min-width:3rem;flex:none;padding:0 .55rem;overflow:visible;font:700 .65rem var(--mono)}.tgl.asb .gt{font:inherit}#theme.sw .kn,:root[data-theme="light"] #theme.sw .kn{left:var(--p)!important;top:var(--p)!important;background-color:transparent!important;transform:translateX(var(--px))!important;transition:scale .35s cubic-bezier(.3,1.5,.5,1)!important;box-shadow:0 .06em .14em rgba(0,0,0,.38),0 .015em .03em rgba(0,0,0,.3)!important}#theme.sw .kn::before,:root[data-theme="light"] #theme.sw .kn::before{opacity:1!important;width:auto!important;height:auto!important;transition:none!important}#theme.sw .kn::after,:root[data-theme="light"] #theme.sw .kn::after{opacity:.7!important;box-shadow:none!important;transition:none!important}#dock,#orb,.orbtab,#isl,#isl-panel,.dd,.dd-panel{display:none!important}.bar.mini .wrap{border-color:transparent!important;background:transparent!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}</style>
 </body>
 </html>
