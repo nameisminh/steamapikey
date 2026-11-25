@@ -116,11 +116,53 @@ function cTet(m,x,y,z){MS=80;MB=1;ME=0;
  else{MH=2;MB=(Math.floor(Math.atan2(z,x-(x<0?-1.9:1.9))*5/Math.PI)&1)?1:.8}}
 function petal(i,j,t){var h=hash(i*3,j-Math.floor(t*(4+i%3)));if(h>.011)return 0;return put(h<.005?'•':'·',hs(335+h*5000%25|0,72))}
 function tet(d){try{var mo,da;new Intl.DateTimeFormat('en-u-ca-chinese',{month:'numeric',day:'numeric'}).formatToParts(d).forEach(function(x){if(x.type==='month')mo=x.value;if(x.type==='day')da=+x.value});return mo==='1'&&da<=5}catch(e){return false}}
+/* hố đen: hạt rơi vào đĩa vật chất rồi xoắn thành thiên hà, cuối cùng chỉ còn vòng sáng (giống video mẫu) */
+function sm(a,b,x){x=Math.max(0,Math.min(1,(x-a)/(b-a)));return x*x*(3-2*x)}
+var BHN=4800,BP=null,BA=[190,330,48,275];
+function bhInit(){BP=[];for(var i=0;i<BHN;i++)BP.push([1.15+Math.pow(hash(i,1),1.6)*3.3,hash(i,2)*6.2832,Math.floor(hash(i,3)*4),hash(i,4)-.5,(hash(i,5)-.5)*.16,hash(i,6)*W,hash(i,7)*H,.6+hash(i,8)*.9])}
+function bhDraw(t){
+ var T=t%27,W2=W/2,H2=H/2,U=Math.min(W,H)/9.4,HR=.95,e=sm(0,3.2,T),m=sm(8,12.5,T),dr=sm(19,23.5,T),ra=1-sm(24.5,26.5,T),el=.24+1.2*m+.03*Math.sin(t*.6),se=Math.sin(el),ce=Math.cos(el),
+  i,p,r,th,x,z,sx,sy,al,h,l,d,fr=[],n,hv=0,tw=1-m;
+ c.fillStyle='#05070a';c.fillRect(0,0,W,H);
+ for(i=0;i<BHN;i++){p=BP[i];r=p[0]*(1-dr*.97);if(r<.2)continue;
+  th=p[1]+t*1.05/Math.pow(p[0],1.5);if(m>0)th=th*(1-m)+(p[2]*1.5708+1.4*Math.log(p[0])+t*1.05/Math.pow(p[0],1.5)+p[3]*.55)*m;
+  x=r*Math.cos(th);z=r*Math.sin(th);sx=W2+x*U;sy=H2+(z*se+p[4]*ce*r)*U;
+  if(e<1){sx=p[5]+(sx-p[5])*e;sy=p[6]+(sy-p[6])*e}
+  if(z<0&&e>=1){d=Math.sqrt(x*x+z*z*se*se);if(d<HR)continue}
+  al=(.45+.55*e)*(1-dr*.9);var k=(p[0]-1.15)/3.3;h=(48-32*k)*(1-m)+BA[p[2]]*m;l=(80-30*k)*(1-m)+62*m;l+=(1-m)*(-Math.cos(th))*8;
+  var s=Math.max(.9,U*.03*p[7]),col='hsla('+(h|0)+',85%,'+(l|0)+'%,'+al.toFixed(2)+')';
+  if(z<0||e<1){c.fillStyle=col;c.beginPath();c.arc(sx,sy,s,0,6.2832);c.fill()}else fr.push(sx,sy,s,col);
+  if(tw>.05&&z<0&&i%3===0&&e>=1){var ph=Math.cos(th)*1.25,rho=HR*(1.07+.7*k);
+   c.fillStyle='hsla('+(h|0)+',85%,'+(l|0)+'%,'+(al*tw*.8).toFixed(2)+')';c.beginPath();c.arc(W2+rho*Math.sin(ph)*U,H2-rho*Math.cos(ph)*U*(1-m*.5),s*.8,0,6.2832);c.fill();
+   if(i%2===0){c.beginPath();c.arc(W2+rho*Math.sin(ph)*U*.95,H2+rho*Math.cos(ph)*U*.5,s*.7,0,6.2832);c.fill()}}}
+ if(e>=.6){c.fillStyle='#000';c.beginPath();c.arc(W2,H2,HR*U,0,6.2832);c.fill()}
+ for(i=0;i<fr.length;i+=4){c.fillStyle=fr[i+3];c.beginPath();c.arc(fr[i],fr[i+1],fr[i+2],0,6.2832);c.fill()}
+ if(e>=.6){for(i=0;i<260;i++){th=i/260*6.2832;n=1.05+.02*Math.sin(th*7+t*2);c.fillStyle='hsla(45,75%,'+(80+10*Math.sin(th*3-t)|0)+'%,'+(.85*ra*Math.min(1,e)).toFixed(2)+')';c.beginPath();c.arc(W2+Math.cos(th)*HR*n*U,H2+Math.sin(th)*HR*n*U,Math.max(.9,U*.022),0,6.2832);c.fill()}}}
+/* trái tim ghép từ chữ "anh yêu em" bằng nhiều ngôn ngữ (giống video mẫu) */
+var LV=['I love you','Ich liebe dich','Te amo','Je t\'aime','Ti amo','Eu te amo','Seni seviyorum','Anh yêu em','Aku cinta kamu','Kocham cię','Ik hou van jou','Jag älskar dig','Jeg elsker deg','Rakastan sinua','Szeretlek','Te iubesc','Miluji tě','Mahal kita','Σ\'αγαπώ','Я тебя люблю','愛してる','사랑해','我爱你','Te quiero','Volim te','Mīlu tevi','Aš tave myliu','Armastan sind','Ya te yubi','Ndiyakuthanda','Nakupenda','Ek is lief vir jou','Mo nifẹ rẹ','Ana behibak','Ami tomake bhalobashi','Main tumse pyar karta hoon'],HW=[];
+function hin(nx,ny){var a=nx*nx+ny*ny-1;return a*a*a-nx*nx*ny*ny*ny<=0}
+function heartInit(){
+ HW=[];var hh=Math.min(H*.74,W*.82),Sx=hh/2.35,cx=W/2,cy=H/2,fb=Math.max(9,hh*.024),n=0,at,box=[],k,w,sz,nx,ny,px,py,hw,hhf,ok,j,B,s;
+ c.textAlign='center';c.textBaseline='middle';
+ for(at=0;at<7000&&n<330;at++){s=LV[Math.floor(hash(at,11)*LV.length)];sz=fb*(.8+.5*hash(at,12));c.font='600 '+sz+'px system-ui,Arial,sans-serif';w=c.measureText(s).width;
+  nx=hash(at,13)*2.3-1.15;ny=hash(at,14)*2.4-1.1;px=cx+nx*Sx;py=cy-(ny-.075)*Sx;hw=w/2+2;hhf=sz*.55;
+  ok=hin(nx-hw/Sx,ny-hhf/Sx)&&hin(nx+hw/Sx,ny-hhf/Sx)&&hin(nx-hw/Sx,ny+hhf/Sx)&&hin(nx+hw/Sx,ny+hhf/Sx);if(!ok)continue;
+  for(j=0;j<box.length;j++){B=box[j];if(Math.abs(px-B[0])<hw+B[2]&&Math.abs(py-B[1])<hhf+B[3]){ok=false;break}}if(!ok)continue;
+  box.push([px,py,hw,hhf]);
+  var ang=Math.atan2(ny-.075,nx),rr=Math.hypot(nx,ny-.075),lo=0,hi=1.8;for(j=0;j<14;j++){var mid=(lo+hi)/2;if(hin(Math.cos(ang)*mid,.075+Math.sin(ang)*mid))lo=mid;else hi=mid}
+  var o=rr/lo,a01=((ang+Math.PI/2)%6.2832+6.2832)%6.2832/6.2832;
+  HW.push([s,px,py,sz,45+hash(at,15)*20,o>.8?a01*5.5:5+hash(at,16)*7]);n++}}
+function heartDraw(t){
+ var T=t%26,pul=1+.012*Math.sin(t*2.2),fo=T>21?1-(T-21)/3.5:1,i,q,a;
+ c.fillStyle='#05070a';c.fillRect(0,0,W,H);c.textAlign='center';c.textBaseline='middle';
+ if(fo<=0)return;
+ for(i=0;i<HW.length;i++){q=HW[i];a=Math.min(1,(T-q[5])/.8);if(a<=0)continue;a*=fo;
+  c.font='600 '+(q[3]*pul).toFixed(1)+'px system-ui,Arial,sans-serif';c.fillStyle='hsla(0,85%,'+(q[4]|0)+'%,'+a.toFixed(2)+')';c.fillText(q[0],q[1],q[2])}}
 function pick(){var q=(location.search.match(/[?&]asc=(\w+)/)||[])[1];if(q)return q;var d=new Date(),m=d.getMonth()+1,n=d.getDate();
  if(m===BM&&n===BD)return'sn';if(m===3&&n===8)return'hoa';if(m===12&&n>=20&&n<=26)return'noel';if(tet(d))return'tet';return'hoa'}
-var LIST=[['sn','Bánh kem'],['hoa','Hoa'],['noel','Giáng sinh'],['tet','Tết']];
+var LIST=[['sn','Bánh kem'],['hoa','Hoa'],['noel','Giáng sinh'],['tet','Tết'],['lo','Hố đen'],['tim','Trái tim']];
 function scene(k){var sw=function(t){return Math.sin(t*.6)*.55};
- return{hoa:{m:mFlow,c:cFlow,ng:1,pol:1,thr:1,bd:function(){return[0,2.4+GY,0,2.5]},cam:[3.2,7.2,2.5],spin:sw,pre:function(t){var e=Math.min(1,t/4);e=1-Math.pow(1-e,3);GY=(1-e)*3.4+Math.sin(t*.9)*.05;var f=Math.min(1,Math.max(0,(t-.8)/4));BL=.3+.7*(1-Math.pow(1-f,3))}},
+ return{lo:{r:bhDraw,init:bhInit,still:12},tim:{r:heartDraw,init:heartInit,still:30},hoa:{m:mFlow,c:cFlow,ng:1,pol:1,thr:1,bd:function(){return[0,2.4+GY,0,2.5]},cam:[3.2,7.2,2.5],spin:sw,pre:function(t){var e=Math.min(1,t/4);e=1-Math.pow(1-e,3);GY=(1-e)*3.4+Math.sin(t*.9)*.05;var f=Math.min(1,Math.max(0,(t-.8)/4));BL=.3+.7*(1-Math.pow(1-f,3))}},
  sn:{m:mCake,c:cCake,pol:1,cam:[3.2,7.6,1.2],spin:function(t){return t*.5},bg:function(i,j,t){return fall(i,j,t,0)}},
  noel:{m:mNoel,c:cNoel,cam:[3.2,8.5,1.5],spin:function(t){return t*.45},bg:function(i,j,t){return fall(i,j,t,1)}},
  tet:{m:mTet,c:cTet,cam:[3.2,7.4,2.1],spin:function(t){return Math.sin(t*.7)*.45},bg:function(i,j,t,xc,yc){return petal(i,j,t)}}}[k]||0}
@@ -141,7 +183,8 @@ function trace(sx,sy,fy,fz,T,cy,cd){
   rim=Math.pow(1-Math.max(0,-(nx*dx+ny*dy+nz*dz)),3)*.3,
   lum=ME?1:Math.min(1,((.15+.08*ny)*ao+.85*dif*res)*MB+(sp*res+rim)*ao);
  DL=MT?lum:lum*.55;CL='hsl('+MH+','+(MS*.75|0)+'%,'+(8+lum*62|0)+'%)';return 1}
-function draw(t){c.fillStyle='#05070a';c.fillRect(0,0,W,H);c.font='700 '+fs+'px ui-monospace,Consolas,monospace';c.textBaseline='middle';c.textAlign='center';
+function draw(t){if(S.r){S.r(t);return}
+ c.fillStyle='#05070a';c.fillRect(0,0,W,H);c.font='700 '+fs+'px ui-monospace,Consolas,monospace';c.textBaseline='middle';c.textAlign='center';
  if(S.pre)S.pre(t);var a=S.spin(t);CA=Math.cos(a);SA=Math.sin(a);
  var cm=S.cam,cy=cm[0],cd=cm[1],ty=cm[2],l=Math.hypot(ty-cy,cd),fy=(ty-cy)/l,fz=cd/l,Zs=Math.max(1,.8/(W/H)),T=.42*Zs;
  BD=S.bd?S.bd():[0,1.5,0,4];TYS=-1;
@@ -152,8 +195,8 @@ function draw(t){c.fillStyle='#05070a';c.fillRect(0,0,W,H);c.font='700 '+fs+'px 
 var ema=24,fb=0,fr=0;
 function grid(f){fs=f;cw=f;cols=Math.ceil(W/cw);rows=Math.ceil(H/fs)}
 /* máy yếu thì tự thưa ô chữ lại, máy khỏe thì mịn lại */
-function loop(ts){raf=requestAnimationFrame(loop);if(ts-last<42)return;last=ts;var a=performance.now();draw((ts-t0)/1000);if(fr++<5)return;ema=ema*.8+(performance.now()-a)*.2;if(ema>34&&fs<fb*2.4){grid(fs*1.12);ema=26}else if(ema<19&&fs>fb*1.01){grid(Math.max(fb,fs/1.1));ema=26}}
-function show(k){cur=scene(k)?k:'hoa';S=scene(cur);t0=performance.now();[].forEach.call(o.querySelectorAll('.pk button'),function(x){x.classList.toggle('on',x.dataset.k===cur)});if(reduce)draw(1.5)}
+function loop(ts){raf=requestAnimationFrame(loop);if(ts-last<42)return;last=ts;var a=performance.now();draw((ts-t0)/1000);if(S.r)return;if(fr++<5)return;ema=ema*.8+(performance.now()-a)*.2;if(ema>34&&fs<fb*2.4){grid(fs*1.12);ema=26}else if(ema<19&&fs>fb*1.01){grid(Math.max(fb,fs/1.1));ema=26}}
+function show(k){cur=scene(k)?k:'hoa';S=scene(cur);if(S.init)S.init();t0=performance.now();[].forEach.call(o.querySelectorAll('.pk button'),function(x){x.classList.toggle('on',x.dataset.k===cur)});if(reduce)draw(S.still||1.5)}
 function open(){if(!o){o=document.createElement('div');o.id='aso';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-label','Tranh ASCII 3D');
  o.innerHTML='<canvas></canvas><div class="pk"></div><button type="button" class="x" aria-label="Đóng">×</button><p>Bấm bất kỳ đâu hoặc Esc để đóng</p>';document.body.appendChild(o);cv=o.querySelector('canvas');c=cv.getContext('2d');o.addEventListener('click',close);
  var pk=o.querySelector('.pk');pk.hidden=!PICK;pk.addEventListener('click',function(e){e.stopPropagation()});
