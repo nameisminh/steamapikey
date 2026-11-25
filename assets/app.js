@@ -7081,3 +7081,38 @@ document.addEventListener('keydown',function(e){
 });
 })();
 }catch(e){console.error('[khối 71 xem thử]',e)}
+
+
+/* ===================== [khối 72: tự giảm hiệu ứng để FPS luôn xanh] ===================== */
+/* Mọi phong cách giao diện đều dùng chung cơ chế này: đo FPS thật lúc người xem cuộn trang. Cuộn xong mà FPS trung bình dưới 50 hai lần liền thì hạ một mức:
+   mức 1 = bỏ kính mờ, vạch quét, lớp sao nền, ảnh động nổi và chữ chuyển màu; mức 2 = thêm bỏ bóng đổ, filter và ẩn hẳn nền động.
+   Chỉ nhớ trong phiên này (sessionStorage). Tắt hẳn cơ chế: localStorage.setItem('perf','off'). */
+try{
+(function(){
+var R=document.documentElement,lv=0,bad=0,run=false,n=0,t0=0,last=0,mxGap=0;
+try{lv=+sessionStorage.getItem('perflv')||0}catch(e){}
+function off(){if(window.__perfOff)return true;try{return localStorage.getItem('perf')==='off'}catch(e){return false}}
+function show(){
+  R.classList.toggle('perf1',lv>=1);R.classList.toggle('perf2',lv>=2);
+  if(lv)R.setAttribute('data-perf',lv);else R.removeAttribute('data-perf');
+  var b=document.getElementById('fpsb');if(b){var t=b.getAttribute('data-t0');if(t===null){t=b.title||'';b.setAttribute('data-t0',t)}b.title=lv?t+' · đã tự giảm hiệu ứng (mức '+lv+')':t}
+}
+if(off())lv=0;show();
+function frame(ts){
+  if(!R.classList.contains('scrolling')){run=false;done();return}
+  if(last){var d=ts-last;if(d<250){n++;t0+=d}}
+  last=ts;requestAnimationFrame(frame);
+}
+function done(){
+  var ok=n>=20&&t0>=400;
+  if(ok&&!off()&&!document.hidden){
+    var fps=1000*n/t0;
+    if(fps<48){bad++;if(bad>=2&&lv<2){lv++;bad=0;show();try{sessionStorage.setItem('perflv',String(lv))}catch(e){}}}
+    else bad=Math.max(0,bad-1);
+  }
+  n=0;t0=0;last=0;
+}
+/* chỉ đo khi đang cuộn (class "scrolling" do script đầu trang gắn); không có vòng lặp chạy lúc đứng yên */
+addEventListener('scroll',function(){if(!run&&R.classList.contains('scrolling')){run=true;n=0;t0=0;last=0;requestAnimationFrame(frame)}},{passive:true});
+})();
+}catch(e){console.error('[khối 72 perf]',e)}
