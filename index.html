@@ -4225,7 +4225,7 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
 </style>
 <script>
 /* Tranh ASCII 3D nằm ở ascii3d.js, chỉ tải và chạy khi bấm nút; đóng là gỡ hết */
-(function(){var b=document.getElementById('asb'),l=0,go=0;if(!b)return;function ld(){if(l||window.__ascOpen)return;l=1;var s=document.createElement('script');s.src='ascii3d.js?v=23960';s.onload=function(){l=0;if(go){go=0;window.__ascOpen&&window.__ascOpen()}else{(window.requestIdleCallback||function(f){setTimeout(f,1500)})(function(){window.__ascWarm&&window.__ascWarm()},{timeout:5000})}};s.onerror=function(){l=0;go=0};document.head.appendChild(s)}
+(function(){var b=document.getElementById('asb'),l=0,go=0;if(!b)return;function ld(){if(l||window.__ascOpen)return;l=1;var s=document.createElement('script');s.src='ascii3d.js?v=7831';s.onload=function(){l=0;if(go){go=0;window.__ascOpen&&window.__ascOpen()}else{(window.requestIdleCallback||function(f){setTimeout(f,1500)})(function(){window.__ascWarm&&window.__ascWarm()},{timeout:5000})}};s.onerror=function(){l=0;go=0};document.head.appendChild(s)}
 b.addEventListener('click',function(){if(window.__ascOpen)return window.__ascOpen();go=1;ld()});
 /* tải sẵn mã ASC lúc rảnh để bấm vào là mở ngay */
 addEventListener('load',function(){(window.requestIdleCallback||function(f){setTimeout(f,2500)})(ld,{timeout:6000})})})();
@@ -10331,13 +10331,7 @@ if(tin&&tcmd&&tout){
     var a=(d.activities||[]).filter(function(x){return x.type!==4})[0];
     return a?{k:KT[a.type]||'Đang chơi',n:a.name||'',s:a.details||a.state||''}:null;
   }
-  function disc(){
-    var d=window.LANY,st=d&&STL[d.discord_status]?d.discord_status:'offline',a=act(),cs=d&&(d.activities||[]).filter(function(x){return x.type===4})[0];
-    F('dd').style.background=SC[st];F('ds').textContent=T(STL[st]);
-    F('dn').textContent=a?a.n:T('Không làm gì cả');
-    F('dx').textContent=a?a.s:(cs&&cs.state||'');
-    F('dk').textContent=a?T(a.k):'';
-  }
+  function disc(){/* thẻ Discord đã bỏ */}
   function pr(el,on){el.setAttribute('aria-pressed',on?'true':'false')}
   function row(a){return dd.querySelector('[data-act="'+a+'"]')}
   function sync(){
