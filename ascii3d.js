@@ -117,7 +117,7 @@ function cTet(m,x,y,z){MS=80;MB=1;ME=0;
 function petal(i,j,t){var h=hash(i*3,j-Math.floor(t*(4+i%3)));if(h>.011)return 0;return put(h<.005?'•':'·',hs(335+h*5000%25|0,72))}
 function tet(d){try{var mo,da;new Intl.DateTimeFormat('en-u-ca-chinese',{month:'numeric',day:'numeric'}).formatToParts(d).forEach(function(x){if(x.type==='month')mo=x.value;if(x.type==='day')da=+x.value});return mo==='1'&&da<=5}catch(e){return false}}
 /* trái tim ghép từ chữ "anh yêu em" bằng nhiều ngôn ngữ (giống video mẫu) */
-var LV=['Anh yêu em','Em yêu anh','Yêu em nhiều','Thương em','Mãi yêu em','I love you','Love you','Forever yours','我爱你','愛してる','사랑해'],HW=[];
+var LV=["Anh yêu em","I love you","Te amo","Je t'aime","Ti amo","Ich liebe dich","Eu te amo","Te quiero","Seni seviyorum","Aku cinta kamu","Kocham cię","Ik hou van jou","Jag älskar dig","Jeg elsker deg","Rakastan sinua","Szeretlek","Te iubesc","Miluji tě","Mahal kita","S'agapó","Ya tebya lyublyu","Aishiteru","Saranghae","Wo ai ni","Ana behibak","Main tumse pyar karta hoon","Chan rak khun","Ami tomake bhalobashi","Ndiyakuthanda","Nakupenda","Ek is lief vir jou","Volim te","Mīlu tevi","Aš tave myliu","Armastan sind","Sevgilim seni seviyorum","Mo nifẹ rẹ","Ua aloha au ia 'oe","Ke a go rata","Ngiyakuthanda"],HW=[];
 function hin(nx,ny){var a=nx*nx+ny*ny-1;return a*a*a-nx*nx*ny*ny*ny<=0}
 function heartInit(){
  HW=[];var hh=Math.min(H*.88,W*.95),Sx=hh/2.35,cx=W/2,cy=H/2,fsz=Math.max(10,hh*.036),lh=fsz*1.3,top=cy-1.17*Sx,bot=cy+1.17*Sx,i,y,x,w,n=0,rowN=0;
@@ -132,7 +132,11 @@ function heartInit(){
    while(tries++<40){var s=LV[Math.floor(hash(n*7+tries+rowN*131,21)*LV.length)],ww=c.measureText(s).width;if(sum+ww+(ws.length)*gmin>avail){if(ws.length&&sum+(ws.length-1)*gmin>avail*.8)break;continue}ws.push([s,ww]);sum+=ww;if(sum+ws.length*gmin>avail*.97)break}
    if(!ws.length)return;var gap=ws.length>1?Math.min(fsz*2.2,(avail-sum)/(ws.length-1)):0,px=ws.length>1?sg[0]+pad:(sg[0]+sg[1])/2-ws[0][1]/2;
    for(i=0;i<ws.length;i++){var cxw=px+ws[i][1]/2,nx=(cxw-cx)/Sx,ny=.075-(y-cy)/Sx,edge=(i===0||i===ws.length-1)||rowN<2||y>bot-lh*2.5,ang=Math.atan2(ny-.075,nx),a01=(((ang+Math.PI/2)%6.2832)+6.2832)%6.2832/6.2832,dn=Math.hypot(nx,ny-.075);
-    var lit=.5+.5*((nx*-.55+(ny-.075)*.7)/Math.max(.6,dn+.35)),lg=34+30*Math.max(0,Math.min(1,lit))+(edge?10:0)+hash(n,22)*5;HW.push([ws[i][0],cxw,y,fsz,lg,.25+dn*3.4+hash(n,23)*.9,348+14*(ny-.075)+hash(n,24)*8,edge?1:0]);n++;px+=ws[i][1]+gap}})}}
+    var lit=.5+.5*((nx*-.55+(ny-.075)*.7)/Math.max(.6,dn+.35)),lg=34+30*Math.max(0,Math.min(1,lit))+(edge?10:0)+hash(n,22)*5;HW.push([ws[i][0],cxw,y,fsz,lg,.25+dn*3.4+hash(n,23)*.9,348+14*(ny-.075)+hash(n,24)*8,edge?1:0]);n++;px+=ws[i][1]+gap}})}
+ /* "Anh yêu em" to ở chính giữa trái tim, các chữ khác chừa chỗ ra */
+ var cf=fsz*1.3;c.font='700 '+cf+'px system-ui,Arial,sans-serif';var cwid=c.measureText('Anh yêu em').width;
+ HW=HW.filter(function(q){return !(Math.abs(q[2]-cy)<lh*.6&&Math.abs(q[1]-cx)<cwid*.5+fsz*1.6)});
+ HW.push(['Anh yêu em',cx,cy+.02*Sx,cf,92,0,350,1]);}
 function heartDraw(t){
  var T=t%26,ph=t%1.15,bt=Math.exp(-Math.pow(ph/.1,2))+.65*Math.exp(-Math.pow((ph-.24)/.1,2)),pul=1+.034*bt,fo=T>21?1-(T-21)/3.5:1,i,q,a,cx=W/2,cy=H/2,g;
  g=c.createRadialGradient(cx,cy,0,cx,cy,Math.max(W,H)*.65);g.addColorStop(0,'rgb('+(26+22*bt|0)+',6,14)');g.addColorStop(1,'#05070a');c.fillStyle=g;c.fillRect(0,0,W,H);
@@ -785,7 +789,7 @@ function trace(sx,sy,fy,fz,T,cy,cd){
   rim=Math.pow(1-Math.max(0,-(nx*dx+ny*dy+nz*dz)),3)*.3,
   lum=ME?1:Math.min(1,((.15+.08*ny)*ao+.85*dif*res)*MB+(sp*res+rim)*ao);
  DL=MT?lum:lum*.55;CL='hsl('+MH+','+(MS*.75|0)+'%,'+(8+lum*62|0)+'%)';return 1}
-function draw(t){if(GLX.on&&S.gl){GLX.frame(t);return}
+function draw(t){if(!S)return;if(GLX.on&&S.gl){GLX.frame(t);return}
  if(S.r){S.r(t);return}
  if(S.gbg){c.fillStyle='#05070a';c.fillRect(0,0,W,H);var g2=c.createRadialGradient(W/2,H*.5,0,W/2,H*.5,H*.75);g2.addColorStop(0,S.gbg);g2.addColorStop(1,'rgba(5,7,10,0)');c.fillStyle=g2;c.fillRect(0,0,W,H)}
  if(!S.gbg){c.fillStyle='#05070a';c.fillRect(0,0,W,H)}c.font='700 '+fs+'px ui-monospace,Consolas,monospace';c.textBaseline='middle';c.textAlign='center';
