@@ -790,56 +790,12 @@ function draw(t0){if(!ready)init();if(!Dd)Dd=new Float32Array(N);var T=t0%LOOP;i
 return{draw:draw,init:init}})();
 
 
-/* ---- Bình hoa: bình sọc thả dây xuống, bó hoa nhiều màu bung ra (dựng bằng hạt + bộ vẽ ký tự PXE) ---- */
-var VASE=(function(){
-var ready=0,last=0,CFG,HEADS=[],LEAVES=[],NH=16,HU=26,HV=16,VU=46,VV=56,STR=70,SN=30;
-var PAL=[[1,.13,.2],[1,.45,.66],[.86,.2,.6],[.28,.45,1],[1,.84,.24],[1,.5,.16],[.62,.32,.96],[.96,.94,1],[1,.3,.35],[.45,.75,1]];
-function ss(a,b,x){return PXE.ss(a,b,x)}
-function norm(a,b,c){var m=Math.hypot(a,b,c)+1e-9;return[a/m,b/m,c/m]}
-function vr(y){/* bán kính thân bình theo chiều cao: đáy, bụng phình, cổ thắt, miệng loe */
- var P=[[-1.15,.2],[-1.05,.3],[-.82,.38],[-.6,.3],[-.44,.17],[-.3,.2],[-.18,.3]];if(y<=P[0][0])return P[0][1];for(var i=0;i<P.length-1;i++)if(y<=P[i+1][0]){var f=(y-P[i][0])/(P[i+1][0]-P[i][0]);f=f*f*(3-2*f);return P[i][1]+(P[i+1][1]-P[i][1])*f}return P[P.length-1][1]}
-function init(){PXE.setup('flower ',.5);var r=PXE.rng(23),i;HEADS=[];LEAVES=[];
- for(i=0;i<NH;i++){var a=i*2.39996+r()*.4,ring=Math.sqrt((i+.5)/NH),el=.95-.75*ring,dx=Math.cos(a)*Math.sin(1.25*ring),dz=Math.sin(a)*Math.sin(1.25*ring),dy=Math.cos(1.25*ring);
-  HEADS.push({dir:norm(dx,dy,dz),R:.15+.06*r(),col:PAL[(i*7+((r()*3)|0))%PAL.length],ph:r()*6.28,dl:r()*.8,dist:.62+.1*r()+.12*(1-ring)})}
- for(i=0;i<11;i++){var a2=i*.571+r()*.3;LEAVES.push({a:a2,tilt:.55+.35*r(),L:.32+.12*r(),y0:-.12+.1*r(),dl:r()*.6})}
- var l=norm(-.5,.6,.75);CFG={d:[0,0,1],u:[0,1,0],l:l,h:norm(l[0],l[1],l[2]+1),ao0:.45,cm0:.75,aoSp:1,ej:.3};PXE.cfgSet(CFG);PXE.resetOn();ready=1;last=0}
-function draw(t0){if(!ready)init();var t=t0%13,i,j,k;if(t<last)PXE.resetOn();last=t;PXE.cfgSet(CFG);PXE.clear();
- var fo=1-ss(12,12.9,t),drop=ss(1,3.6,t),bnc=Math.sin(Math.max(0,t-3.6)*9)*Math.exp(-Math.max(0,t-3.6)*3.2)*.06*(t>3.6?1:0),oy=(1-drop)*2.6+bnc,
-  grow=ss(3.4,7.2,t),yaw=.6*Math.sin(t*.32)+.25*t*ss(6,9,t),cy=Math.cos(yaw),sy=Math.sin(yaw),tilt=.18,ct=Math.cos(tilt),st=Math.sin(tilt),sway=.05*Math.sin(t*1.3)*(1-drop*.6);
- if(fo<=0){PXE.paint(t,0);return}
- function P(x,y,z,nx,ny,nz,r,g,b,ao,pid){/* xoay quanh trục đứng + nghiêng nhẹ về phía người xem */
-  var X=x*cy+z*sy,Z=-x*sy+z*cy,Y=y,Nx=nx*cy+nz*sy,Nz=-nx*sy+nz*cy,Ny=ny;
-  X+=sway*(y+1.2);var Y2=Y*ct-Z*st,Z2=Y*st+Z*ct,Ny2=Ny*ct-Nz*st,Nz2=Ny*st+Nz*ct;
-  PXE.splat(X*.86,(Y2+oy)*.86+.12,Z2*.86,Nx,Ny2,Nz2,r,g,b,ao,fo,false,pid,0)}
- /* dây treo lúc đang thả xuống */
- if(drop<1){for(k=0;k<STR;k++){var yy=-.18+k*.06;if(yy+oy>3.2)break;PXE.splat(sway*.2,yy+oy,0,0,0,1,.55,.6,.7,.8,fo*(1-ss(3.2,3.8,t)),false,k,0)}}
- /* thân bình: sọc ngang trắng / xanh tím */
- for(i=0;i<VU;i++){var y=-1.15+.97*i/(VU-1),rr=vr(y),dr=(vr(y+.01)-vr(y-.01))/.02,band=Math.floor((y+1.2)*11)%2,
-   cr=band?.95:.18,cg=band?.93:.32,cb=band?1:1;if(y>-.26){cr=.95;cg=.82;cb=.4}
-  for(j=0;j<VV;j++){var a=6.2832*j/VV,ca=Math.cos(a),sa=Math.sin(a),n=norm(ca,-dr,sa);P(rr*ca,y,rr*sa,n[0],n[1],n[2],cr,cg,cb,.55+.45*(i/(VU-1)),i*VV+j)}}
- /* cuống + lá + hoa mọc lên khỏi miệng bình */
- if(grow>0){
-  for(i=0;i<LEAVES.length;i++){var Lf=LEAVES[i],gl=ss(0,1,(grow-Lf.dl*.4)/.6);if(gl<=0)continue;var ca=Math.cos(Lf.a),sa=Math.sin(Lf.a),L=Lf.L*gl;
-   for(var u=0;u<14;u++)for(var v=0;v<7;v++){var uu=u/13,vv=v/6-.5,w=.12*Math.sin(Math.PI*uu)*gl,rad=.2+uu*L*Math.cos(Lf.tilt),hy=Lf.y0+uu*L*Math.sin(Lf.tilt)-.25*uu*uu*L,
-     px=ca*rad-sa*vv*w,pz=sa*rad+ca*vv*w,n=norm(-ca*Math.sin(Lf.tilt),Math.cos(Lf.tilt),-sa*Math.sin(Lf.tilt));
-    P(px,hy,pz,n[0],n[1],n[2],.16+.1*uu,.62+.2*(1-Math.abs(vv)*2),.28,.7+.3*uu,9000+i*100+u*7+v)}}
-  for(i=0;i<NH;i++){var Hd=HEADS[i],gh=ss(0,1,(grow-Hd.dl*.35)/.65);if(gh<=0)continue;var d=Hd.dir,dist=.05+Hd.dist*gh,
-    hx=d[0]*dist,hy=-.2+d[1]*dist+.15*gh,hz=d[2]*dist,R=Hd.R*(.25+.75*gh);
-   for(k=0;k<SN;k++){var f=k/(SN-1),bx=hx*f,by=-.32+(hy+.32)*f,bz=hz*f;P(bx,by,bz,0,0,1,.2,.55,.25,.7,12000+i*40+k)}
-   /* đầu hoa: chỏm cầu gợn cánh, hướng ra ngoài bó */
-   var ux=norm(-d[2],0,d[0]);if(Math.abs(d[1])>.98)ux=[1,0,0];var vx=[d[1]*ux[2]-d[2]*ux[1],d[2]*ux[0]-d[0]*ux[2],d[0]*ux[1]-d[1]*ux[0]],op=.55+.45*gh;
-   for(var a1=0;a1<HU;a1++)for(var b1=0;b1<HV;b1++){var th=6.2832*a1/HU,ph=1.75*op*(b1+.5)/HV,rip=1+.16*Math.sin(5*th+7*ph+Hd.ph)+.08*Math.sin(11*th-4*ph),rr2=R*rip,
-     sp=Math.sin(ph),cp=Math.cos(ph),lx=Math.cos(th)*sp,ly=Math.sin(th)*sp,lz=cp,
-     nx=ux[0]*lx+vx[0]*ly+d[0]*lz,ny=ux[1]*lx+vx[1]*ly+d[1]*lz,nz=ux[2]*lx+vx[2]*ly+d[2]*lz,sh=.55+.45*(b1/HV),c=Hd.col;
-    P(hx+nx*rr2-d[0]*R*.35,hy+ny*rr2-d[1]*R*.35,hz+nz*rr2-d[2]*R*.35,nx,ny,nz,c[0]*sh,c[1]*sh,c[2]*sh,.45+.55*(1-b1/HV),20000+i*500+a1*HV+b1)}}}
- PXE.paint(t,4.5);PXE.typed(t,'arrange()',.9,1.3,.5,function(v){return'rgb('+v+','+(v*.75|0)+','+(v*.85|0)+')'});glow(.5)}
-return{draw:draw,init:init}})();
 
 function pick(){var q=(location.search.match(/[?&]asc=(\w+)/)||[])[1];if(q)return q;var d=new Date(),m=d.getMonth()+1,n=d.getDate();
  if(m===12&&n>=20&&n<=26)return'noel';return'tim'}
-var LIST=[['tim','Trái tim'],['noel','Giáng sinh'],['lo','Hố đen'],['mat','Con mắt'],['bloom','Hoa nở'],['bfly','Bướm'],['rosa','Hoa hồng'],['vase','Bình hoa']];
+var LIST=[['tim','Trái tim'],['noel','Giáng sinh'],['lo','Hố đen'],['mat','Con mắt'],['bloom','Hoa nở'],['bfly','Bướm'],['rosa','Hoa hồng']];
 function scene(k){
- return{vase:{r:VASE.draw,init:VASE.init,still:9},rosa:{r:ROSA.draw,init:ROSA.init,still:30},bloom:{r:BLOOM.draw,init:BLOOM.init,still:9},bfly:{r:BFLY.draw,init:BFLY.init,still:9.5},lo:{r:BHX.draw,init:BHX.init,still:12},mat:{r:EYE.draw,init:EYE.init,still:10},tim:{r:heartDraw,init:heartInit,still:30},noel:{gl:'noel',glm:{part:1,bg:1},r:SNOWX.draw,init:SNOWX.init,still:7}}[k]||0}
+ return{rosa:{r:ROSA.draw,init:ROSA.init,still:30},bloom:{r:BLOOM.draw,init:BLOOM.init,still:9},bfly:{r:BFLY.draw,init:BFLY.init,still:9.5},lo:{r:BHX.draw,init:BHX.init,still:12},mat:{r:EYE.draw,init:EYE.init,still:10},tim:{r:heartDraw,init:heartInit,still:30},noel:{gl:'noel',glm:{part:1,bg:1},r:SNOWX.draw,init:SNOWX.init,still:7}}[k]||0}
 function M(x,y,z){D=1e9;var ox=x*CA+z*SA,oz=z*CA-x*SA;OX=ox;OY=y;OZ=oz;RR=Math.sqrt(ox*ox+oz*oz);if(S.pol)AN=Math.atan2(oz,ox);if(!S.ng)u(Math.max(y,RR-3.4),0);S.m(ox,y,oz);return D}
 function trace(sx,sy,fy,fz,T,cy,cd){
  var dx=sx*T,dy=fy+sy*T*fz,dz=fz-sy*T*fy,q=1/Math.sqrt(dx*dx+dy*dy+dz*dz);dx*=q;dy*=q;dz*=q;
