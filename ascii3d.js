@@ -117,46 +117,53 @@ function cTet(m,x,y,z){MS=80;MB=1;ME=0;
 function petal(i,j,t){var h=hash(i*3,j-Math.floor(t*(4+i%3)));if(h>.011)return 0;return put(h<.005?'•':'·',hs(335+h*5000%25|0,72))}
 function tet(d){try{var mo,da;new Intl.DateTimeFormat('en-u-ca-chinese',{month:'numeric',day:'numeric'}).formatToParts(d).forEach(function(x){if(x.type==='month')mo=x.value;if(x.type==='day')da=+x.value});return mo==='1'&&da<=5}catch(e){return false}}
 /* trái tim ghép từ chữ "anh yêu em" bằng nhiều ngôn ngữ (giống video mẫu) */
-var LV=["I love you","Saranghae","Aishiteru","Aku cinta kamu","Saya cintakan awak","Wo ai ni","Te quiero","Je t'aime","Ich liebe dich","Ti amo","Eu te amo","Ya tebya lyublyu","Uhibbuka","Main tumse pyar karta hoon","Chan rak khun","Seni seviyorum","Mahal kita","Ik hou van jou","Kocham cię","Jag älskar dig","S'agapo","Ani ohev otach","Dooset daram","Ya tebe kokhayu","Ami tomake bhalobashi","Miluji tě","Te iubesc","Szeretlek","Rakastan sinua","Jeg elsker dig","Jeg elsker deg","Nakupenda","T'estimo","Volim te","Obicham te","Ľúbim ťa","Ek is lief vir jou","Ég elska þig","Mīlu tevi","Aš tave myliu","Armastan sind","Të dua"],HW=[];
+var LV=["I love you","Saranghae","Aishiteru","Aku cinta kamu","Saya cintakan awak","Wo ai ni","Te quiero","Je t'aime","Ich liebe dich","Ti amo","Eu te amo","Ya tebya lyublyu","Uhibbuka","Main tumse pyar karta hoon","Chan rak khun","Seni seviyorum","Mahal kita","Ik hou van jou","Kocham cię","Jag älskar dig","S'agapo","Ani ohev otach","Dooset daram","Ya tebe kokhayu","Ami tomake bhalobashi","Miluji tě","Te iubesc","Szeretlek","Rakastan sinua","Jeg elsker dig","Jeg elsker deg","Nakupenda","T'estimo","Volim te","Obicham te","Ľúbim ťa","Ek is lief vir jou","Ég elska þig","Mīlu tevi","Aš tave myliu","Armastan sind","Të dua","Ngo oi nei","Wa ai li","Bi chamd khairtai","Naan unnai kaadhalikkiren","Nenu ninnu premistunnanu","Mi tujhyavar prem karto","Hu tane prem karu chu","Main tenu pyar karda haan","Ma timilai maya garchu","Mama oyata adarei","Bong srolanh oun","Khoy hak jao","Chit pa de","Aloha au ia 'oe","Au domoni iko","Ou te alofa ia te oe","Ofa atu","Aroha ahau ki a koe","Mi amas vin","Te amo","Maite zaitut","Quérote","Tá grá agam duit","Tha gaol agam ort","Dw i'n dy garu di","Me a'th kar","Da garout a ran","Ech hunn dech gär","Ik hâld fan dy","Eg elski teg","Inħobbok","Te sakam","Ljubim te","Ya tsyabe kakhayu","Miqvarkhar","Yes kez sirum em","Səni sevirəm","Men seni zhaqsy köremin","Men seni sevaman","Men seni süyöm","Min sine yaratam","Man turo dust medoram","Za ta sara mina kawom","Ez ji te hez dikim","Mujhe tumse mohabbat hai","Ewedishalehu","Waan ku jeclahay","Ina son ka","Mo nifẹ rẹ","A hụrụ m gị n'anya","Ngiyakuthanda","Ndiyakuthanda","Ndinokuda","Ndagukunda","Nalingi yo","Tiako ianao","Dama la nob","Ke a o rata","Me dɔ wo","Mwen renmen ou","Munakuyki","Rohayhu","Nimitztlazohtla","Aku tresno marang kowe","Abdi bogoh ka anjeun","Kuv hlub koj","Asavakkit","Ikh hob dikh lib","Aham tvam kamayami","Men seni söyimen","Mi lavem yu","Mi laikim yu","Njan ninne snehikkunnu","Naanu ninnannu preetisuttene","Mu tumaku bhala pae","Moi tumak bhal pau","Ti tengu caru","Deo t'amo","Ti vogghiu beni","Te voglio bene","T'aimi","Jau t'am","Quiérote","Mahal ta ka","Mon amour"],HW=[];
 function hin(nx,ny){var a=nx*nx+ny*ny-1;return a*a*a-nx*nx*ny*ny*ny<=0}
+var HP=[],HPC=[0,0];
 function heartInit(){
- /* "Anh yêu em" ở giữa hiện đầu tiên; các thứ tiếng còn lại (viết bằng chữ La-tinh) lần lượt hiện theo đúng thứ tự trong LV, chạy theo nét vẽ quanh trái tim, từng lớp từ ngoài vào trong */
- HW=[];var hh=Math.min(H*.84,W*.92),Sx=hh/2.35,cx=W/2,cy=H/2,fsz=Math.max(11,hh*.042),lh=fsz*1.3,top=cy-1.2*Sx,bot=cy+1.15*Sx,wc={},CTR='Anh yêu em',gmin=fsz*.75;
- c.font='600 '+fsz+'px system-ui,Arial,sans-serif';
- function wd(s){return wc[s]||(wc[s]=c.measureText(s).width)}
- function ins(px,py){var nx=(px-cx)/Sx,ny=.075-(py-cy)/Sx;if(ny>.6&&Math.abs(nx)<(ny-.6)*.3+.03)return false;return hin(nx,ny)}
- var cwid=wd(CTR)*1.15,rows=[],y,avg=0,i,k;
- for(y=top+lh*.5;y<bot-lh*.2;y+=lh)rows.push(y);
- var cr=0,cd=1e9;rows.forEach(function(yy,q){var d=Math.abs(yy-cy);if(d<cd){cd=d;cr=q}});
- LV.forEach(function(s){avg+=wd(s)});avg/=LV.length;
- var segs=[];
- rows.forEach(function(y,ri){
-  var seg=[],a=null,step=Sx/200,x;
-  for(x=cx-1.25*Sx;x<=cx+1.25*Sx;x+=step){var ok=ins(x,y)&&ins(x,y-lh*.4)&&ins(x,y+lh*.4);if(ok&&a===null)a=x;if(!ok&&a!==null){seg.push([a,x-step]);a=null}}
-  if(a!==null)seg.push([a,cx+1.25*Sx]);
-  if(ri===cr){var s2=[];seg.forEach(function(sg){if(sg[0]<cx&&sg[1]>cx){s2.push([sg[0],cx-cwid/2-fsz*.9,'L']);s2.push([cx+cwid/2+fsz*.9,sg[1],'R'])}else s2.push(sg)});seg=s2;HW.push([CTR,cx,y,fsz*1.15,93,0,352,1])}
-  seg.forEach(function(sg){var pad=fsz*.3,avail=sg[1]-sg[0]-2*pad;if(avail<fsz*3.5)return;
-   var n=Math.max(1,Math.floor((avail+gmin)/(avg+gmin)));segs.push({y:y,ri:ri,sa:sg[0]+pad,avail:avail,n:n,slotW:(avail-(n-1)*gmin)/n,side:sg[2],words:[],times:[]})})});
- /* các ô chữ, xếp theo thứ tự nét vẽ: lớp ngoài trước; trong mỗi lớp xuất phát từ mũi tim, lên bên trái, qua hai thuỳ, xuống bên phải */
- var slots=[];
- segs.forEach(function(s){for(i=0;i<s.n;i++){var xs=s.sa+(i+.5)*s.avail/s.n;slots.push({s:s,i:i,ring:(s.ri<1||s.ri>=rows.length-2)?0:(s.side==='L'?i:s.side==='R'?s.n-1-i:Math.min(i,s.n-1-i)),phi:(Math.atan2(-(xs-cx),s.y-(cy+.15*Sx))+6.2832)%6.2832})}});
- slots.sort(function(p,q){return p.ring-q.ring||p.phi-q.phi});
- var used={},t0=1.2,cnt=0,lastRing=-1;
- slots.forEach(function(sl){if(sl.ring!==lastRing){if(lastRing>=0)t0+=cnt*.17+.5;cnt=0;lastRing=sl.ring}
-  var pick=-1,bw=1e9;for(k=0;k<LV.length;k++)if(!used[k]&&wd(LV[k])<=sl.s.slotW){pick=k;break}
-  if(pick<0)for(k=0;k<LV.length;k++)if(!used[k]&&wd(LV[k])<bw){bw=wd(LV[k]);pick=k}
-  if(pick<0)return;used[pick]=1;sl.s.words[sl.i]=LV[pick];sl.s.times[sl.i]=t0+cnt*.17;cnt++});
- segs.forEach(function(s){var ws=[];for(i=0;i<s.n;i++)if(s.words[i])ws.push([s.words[i],wd(s.words[i]),s.times[i]]);if(!ws.length)return;
-  var sum=0;ws.forEach(function(w){sum+=w[1]});
-  while(ws.length>1&&sum+(ws.length-1)*gmin*.6>s.avail){var mi=0;ws.forEach(function(w,q){if(w[1]>ws[mi][1])mi=q});sum-=ws[mi][1];ws.splice(mi,1)}
-  var gap=ws.length>1?Math.max(gmin*.6,(s.avail-sum)/(ws.length-1)):0,tot=sum+gap*(ws.length-1),px=ws.length>1?s.sa+(s.avail-tot)/2:s.sa+(s.avail-sum)/2;
-  ws.forEach(function(w,q){var cxw=px+w[1]/2,nx=(cxw-cx)/Sx,ny=.075-(s.y-cy)/Sx,dn=Math.hypot(nx,ny-.075),lit=.5+.5*((nx*-.55+(ny-.075)*.7)/Math.max(.6,dn+.35)),lg=36+30*Math.max(0,Math.min(1,lit))+((q===0||q===ws.length-1)?9:0)+hash(cxw,22)*4;
-   HW.push([w[0],cxw,s.y,fsz,lg,w[2],350+12*(ny-.075)+hash(cxw,24)*6,(q===0||q===ws.length-1)?1:0]);px+=w[1]+gap})})}
+ /* hình tim theo đường cong cổ điển x=16sin³t, y=13cos t−5cos2t−2cos3t−cos4t: hai thuỳ tròn đầy, khe giữa nông, mũi nhọn.
+    Viền tim được vẽ như nét bút trước, rồi chữ lấp đầy bên trong. "Anh yêu em" ở giữa hiện đầu tiên; các thứ tiếng khác hiện theo thứ tự trong LV, chạy theo nét vẽ, từng lớp từ ngoài vào. */
+ HW=[];HP=[];var hh=Math.min(H*.8,W*.9),s=Math.min(hh/29,W*.88/32),cx=W/2,cy=H/2+.4*s-H*.035,M=260,k,i,CTR='Anh yêu em';HPC=[cx,cy];
+ function pt(t){var x=16*Math.pow(Math.sin(t),3),y=13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t);return[cx+x*s,cy-(y+2.6)*s]}
+ var IN=[];for(k=0;k<=M;k++)IN.push(pt(Math.PI+k/M*6.2832));
+ function iv(y){var xs=[];for(var q=0;q<IN.length-1;q++){var p1=IN[q],p2=IN[q+1];if((p1[1]<=y&&p2[1]>y)||(p2[1]<=y&&p1[1]>y))xs.push(p1[0]+(y-p1[1])/(p2[1]-p1[1])*(p2[0]-p1[0]))}xs.sort(function(u,v){return u-v});var r=[];for(q=0;q+1<xs.length;q+=2)r.push([xs[q],xs[q+1]]);return r}
+ function inter(A,B){var r=[];A.forEach(function(p){B.forEach(function(q){var l=Math.max(p[0],q[0]),h=Math.min(p[1],q[1]);if(h>l)r.push([l,h])})});return r}
+ var ys=IN.map(function(p){return p[1]}),top=Math.min.apply(0,ys),bot=Math.max.apply(0,ys);
+ function build(fsz,commit){var lh=fsz*1.22,gmin=fsz*.85,wc={},rows=[],y,avg=0,segs=[];c.font='600 '+fsz+'px system-ui,Arial,sans-serif';
+  var wd=function(z){return wc[z]||(wc[z]=c.measureText(z).width)},cwid=wd(CTR)*1.15;LV.forEach(function(z){avg+=wd(z)});avg/=LV.length;
+  for(y=top+lh*.55;y<bot-lh*.45;y+=lh)rows.push(y);
+  var cr=0,cd=1e9;rows.forEach(function(yy,q){var d=Math.abs(yy-cy);if(d<cd){cd=d;cr=q}});
+  rows.forEach(function(y,ri){var seg=inter(inter(iv(y-lh*.42),iv(y)),iv(y+lh*.42));
+   if(ri===cr){var s2=[];seg.forEach(function(sg){if(sg[0]<cx&&sg[1]>cx){s2.push([sg[0],cx-cwid/2-fsz*.9,'L']);s2.push([cx+cwid/2+fsz*.9,sg[1],'R'])}else s2.push(sg)});seg=s2;if(commit)HW.push([CTR,cx,y,fsz*1.15,93,0,352,1])}
+   seg.forEach(function(sg){var avail=sg[1]-sg[0];if(avail<fsz*3.2)return;var n=Math.max(1,Math.floor((avail+gmin)/(avg+gmin)));segs.push({y:y,ri:ri,sa:sg[0],avail:avail,n:n,slotW:(avail-(n-1)*gmin)/n,side:sg[2],words:[],times:[]})})});
+  var cnt=0;segs.forEach(function(z){cnt+=z.n});if(!commit)return cnt;
+  var slots=[];
+  segs.forEach(function(z){for(i=0;i<z.n;i++){var xs=z.sa+(i+.5)*z.avail/z.n;slots.push({s:z,i:i,ring:(z.ri<1||z.ri>=rows.length-1)?0:(z.side==='L'?i:z.side==='R'?z.n-1-i:Math.min(i,z.n-1-i)),phi:(Math.atan2(-(xs-cx),z.y-(cy+3*s))+6.2832)%6.2832})}});
+  slots.sort(function(p,q){return p.ring-q.ring||p.phi-q.phi});
+  var used={},t0=1.1,n2=0,lr=-1,stp=Math.min(.17,7.5/Math.max(1,slots.length));
+  slots.forEach(function(sl){if(sl.ring!==lr){if(lr>=0)t0+=n2*stp+.35;n2=0;lr=sl.ring}
+   var pick=-1,bw=1e9,ah=0;for(k=0;k<LV.length&&ah<4;k++)if(!used[k]){ah++;if(wd(LV[k])<=sl.s.slotW*1.12){pick=k;break}}
+   if(pick<0)for(k=0;k<LV.length;k++)if(!used[k]&&wd(LV[k])<=sl.s.slotW){pick=k;break}
+   if(pick<0)for(k=0;k<LV.length;k++)if(!used[k]&&wd(LV[k])<bw){bw=wd(LV[k]);pick=k}
+   if(pick<0)return;used[pick]=1;sl.s.words[sl.i]=LV[pick];sl.s.times[sl.i]=t0+n2*stp;n2++});
+  segs.forEach(function(z){var ws=[];for(i=0;i<z.n;i++)if(z.words[i])ws.push([z.words[i],wd(z.words[i]),z.times[i]]);if(!ws.length)return;
+   var sum=0;ws.forEach(function(w){sum+=w[1]});
+   while(ws.length>1&&sum+(ws.length-1)*gmin*.85>z.avail){var mi=0;ws.forEach(function(w,q){if(w[1]>ws[mi][1])mi=q});sum-=ws[mi][1];ws.splice(mi,1)}
+   var gap=ws.length>1?Math.max(gmin*.85,(z.avail-sum)/(ws.length-1)):0,tot=sum+gap*(ws.length-1),px=z.sa+(z.avail-tot)/2;
+   ws.forEach(function(w,q){var cxw=px+w[1]/2,nx=(cxw-cx)/(16*s),ny=(cy-z.y)/(14*s),lit=.5+.5*Math.max(-1,Math.min(1,-.6*nx+.75*ny)),ed=(q===0||q===ws.length-1);
+    HW.push([w[0],cxw,z.y,fsz,36+30*lit+(ed?8:0)+hash(cxw,22)*4,w[2],348+10*ny+hash(cxw,24)*6,ed?1:0]);px+=w[1]+gap})});return cnt}
+ /* chọn cỡ chữ lớn nhất mà số ô chữ vẫn không vượt quá số thứ tiếng (để không chữ nào bị lặp) */
+ var lo=hh*.02,hi=hh*.07;for(k=0;k<12;k++){var md=(lo+hi)/2;if(build(md,false)>LV.length)lo=md;else hi=md}
+ build(Math.max(10,hi),true)}
 function heartDraw(t){
  var T=t%26,ph=t%1.15,bt=Math.exp(-Math.pow(ph/.1,2))+.65*Math.exp(-Math.pow((ph-.24)/.1,2)),pul=1+.034*bt,fo=T>21?1-(T-21)/3.5:1,i,q,a,cx=W/2,cy=H/2,g;
  g=c.createRadialGradient(cx,cy,0,cx,cy,Math.max(W,H)*.65);g.addColorStop(0,'rgb('+(26+22*bt|0)+',6,14)');g.addColorStop(1,'#05070a');c.fillStyle=g;c.fillRect(0,0,W,H);
  c.textAlign='center';c.textBaseline='middle';
  if(fo<=0)return;
+ if(HP.length){var pr=Math.max(0,Math.min(1,(T-.5)/3.2)),m=Math.max(1,Math.round(pr*(HP.length-1))),hx=HPC[0],hy=HPC[1],P=function(p){return[hx+(p[0]-hx)*pul,hy+(p[1]-hy)*pul]};
+  if(pr>0){c.lineJoin='round';c.lineCap='round';for(var pass=0;pass<2;pass++){c.beginPath();for(var e=0;e<=m;e++){var pp=P(HP[e]);if(e)c.lineTo(pp[0],pp[1]);else c.moveTo(pp[0],pp[1])}
+   c.strokeStyle=pass?'rgba(255,150,185,'+(.95*fo).toFixed(2)+')':'rgba(255,40,100,'+(.22*fo).toFixed(2)+')';c.lineWidth=pass?Math.max(1.6,H*.0035):Math.max(6,H*.016);c.stroke()}
+   if(pr<1){var hp=P(HP[m]);c.fillStyle='rgba(255,235,245,'+fo.toFixed(2)+')';c.beginPath();c.arc(hp[0],hp[1],Math.max(2.5,H*.006),0,6.2832);c.fill()}}}
  for(i=0;i<HW.length;i++){q=HW[i];a=Math.min(1,(T-q[5])/.7);if(a<=0)continue;a*=fo;
   var k=a<1?1+.1*(1-a):1;
   c.font='600 '+(q[3]*pul*k).toFixed(1)+'px system-ui,Arial,sans-serif';c.fillStyle='hsla('+(q[6]|0)+','+(q[7]?92:84)+'%,'+Math.min(92,q[4]+9*bt|0)+'%,'+a.toFixed(2)+')';c.fillText(q[0],cx+(q[1]-cx)*pul,cy+(q[2]-cy)*pul)}
