@@ -117,11 +117,11 @@ function cTet(m,x,y,z){MS=80;MB=1;ME=0;
 function petal(i,j,t){var h=hash(i*3,j-Math.floor(t*(4+i%3)));if(h>.011)return 0;return put(h<.005?'•':'·',hs(335+h*5000%25|0,72))}
 function tet(d){try{var mo,da;new Intl.DateTimeFormat('en-u-ca-chinese',{month:'numeric',day:'numeric'}).formatToParts(d).forEach(function(x){if(x.type==='month')mo=x.value;if(x.type==='day')da=+x.value});return mo==='1'&&da<=5}catch(e){return false}}
 /* trái tim ghép từ chữ "anh yêu em" bằng nhiều ngôn ngữ (giống video mẫu) */
-var LV=["Anh yêu em","I love you","我爱你","愛してる","사랑해","أحبك","Я тебя люблю","Σ'αγαπώ","मैं तुमसे प्यार करता हूँ","ฉันรักเธอ","אני אוהב אותך","Je t'aime","Te quiero","Ich liebe dich","Ti amo","Eu te amo","Seni seviyorum","Aku cinta kamu","Kocham cię","Ik hou van jou","Jag älskar dig","دوستت دارم","Я тебе кохаю","Mahal kita","Rakastan sinua","Szeretlek","আমি তোমাকে ভালোবাসি","Nakupenda","நான் உன்னை காதலிக்கிறேன்","میں تم سے محبت کرتا ہوں","म तिमीलाई माया गर्छु","ខ្ញុំស្រលាញ់អ្នក","ကျွန်တော် မင်းကို ချစ်တယ်","Би чамд хайртай","მიყვარხარ","Ես քեզ սիրում եմ","Miluji tě","Te iubesc","Обичам те","Volim te","Jeg elsker dig","Jeg elsker deg","Ég elska þig","Mīlu tevi","Aš tave myliu","Armastan sind","Ek is lief vir jou","Ngiyakuthanda","Saya cintakan awak","T'estimo"],HW=[];
+var LV=["Anh yêu em","I love you","我爱你","愛してる","사랑해","أحبك","Я тебя люблю","Σ'αγαπώ","मैं तुमसे प्यार करता हूँ","ฉันรักเธอ","אני אוהב אותך","Je t'aime","Te quiero","Ich liebe dich","Ti amo","Eu te amo","Seni seviyorum","Aku cinta kamu","Kocham cię","Ik hou van jou","Jag älskar dig","دوستت دارم","Я тебе кохаю","Mahal kita","Rakastan sinua","Szeretlek","আমি তোমাকে ভালোবাসি","Nakupenda","நான் உன்னை காதலிக்கிறேன்","میں تم سے محبت کرتا ہوں","म तिमीलाई माया गर्छु","ខ្ញុំស្រលាញ់អ្នក","ကျွန်တော် မင်းကို ချစ်တယ်","Би чамд хайртай","მიყვარხარ","Ես քեզ սիրում եմ","Miluji tě","Te iubesc","Обичам те","Volim te","Jeg elsker dig","Jeg elsker deg","Ég elska þig","Mīlu tevi","Aš tave myliu","Armastan sind","Ek is lief vir jou","Ngiyakuthanda","Saya cintakan awak","T'estimo","Aloha au iā 'oe","Dw i'n dy garu di","Tá grá agam duit","Maite zaitut","Mi amas vin","Mo nifẹ rẹ","እወድሃለሁ","මම ඔබට ආදරෙයි","నేను నిన్ను ప్రేమిస్తున్నాను","ຂ້ອຍຮັກເຈົ້າ","Ľúbim ťa","Inħobbok","Të dua","Те сакам","Мен сені жақсы көремін","Səni sevirəm","Waan ku jeclahay","Ina son ka"],HW=[];
 function hin(nx,ny){var a=nx*nx+ny*ny-1;return a*a*a-nx*nx*ny*ny*ny<=0}
 function heartInit(){
  /* mỗi hàng chữ lấp đầy đúng bề rộng trái tim: chọn tổ hợp từ vừa khít nhất rồi chia đều khoảng cách, nên viền trái/phải gọn và hình tim rõ */
- HW=[];var hh=Math.min(H*.84,W*.92),Sx=hh/2.35,cx=W/2,cy=H/2,fsz=Math.max(9,hh*.027),lh=fsz*1.28,top=cy-1.2*Sx,bot=cy+1.15*Sx,n=0,rowN=0,wc={},CTR='Anh yêu em';
+ HW=[];var hh=Math.min(H*.84,W*.92),Sx=hh/2.35,cx=W/2,cy=H/2,fsz=Math.max(11,hh*.042),lh=fsz*1.3,top=cy-1.2*Sx,bot=cy+1.15*Sx,n=0,rowN=0,wc={},G={'Anh yêu em':1},CTR='Anh yêu em';
  c.font='600 '+fsz+'px system-ui,Arial,sans-serif';
  function wd(s){return wc[s]||(wc[s]=c.measureText(s).width)}
  function ins(px,py){var nx=(px-cx)/Sx,ny=.075-(py-cy)/Sx;if(ny>.6&&Math.abs(nx)<(ny-.6)*.3+.03)return false;return hin(nx,ny)}
@@ -137,14 +137,15 @@ function heartInit(){
   if(ri===cr){var s2=[];seg.forEach(function(sg){if(sg[0]<cx&&sg[1]>cx){s2.push([sg[0],cx-cwid/2-fsz*.9]);s2.push([cx+cwid/2+fsz*.9,sg[1]])}else s2.push(sg)});seg=s2;
    HW.push([CTR,cx,y,fsz*1.15,93,0,352,1]);n++}
   seg.forEach(function(sg){var pad=fsz*.3,avail=sg[1]-sg[0]-2*pad,gmin=fsz*.75;if(avail<fsz*3.5)return;
-   var best=null,bs=1e9,t,k;
+   var best=null,bs=1e9,t,k,reuse=0;
+   for(var pass=0;pass<1&&!best;pass++){reuse=pass;
    for(t=0;t<90;t++){var ws=[],sum=0,used={};
-    for(k=0;k<LV.length*2&&ws.length<12;k++){var s=LV[(hash(n*13+t*7+k,ri+5)*LV.length)|0];if(used[s])continue;var w=wd(s);if(sum+w+ws.length*gmin>avail)continue;used[s]=1;ws.push([s,w]);sum+=w}
-    if(!ws.length)continue;var slack=(avail-sum-(ws.length-1)*gmin)/avail+(ws.length===1?.4:0);if(slack<bs){bs=slack;best=[ws,sum]}}
-   if(!best)return;var ws=best[0],sum=best[1],gap=ws.length>1?(avail-sum)/(ws.length-1):0,px=ws.length>1?sg[0]+pad:(sg[0]+sg[1])/2-ws[0][1]/2,i;
+    for(k=0;k<LV.length*2&&ws.length<12;k++){var s=LV[(hash(n*13+t*7+k,ri+5)*LV.length)|0];if(used[s]||(!reuse&&G[s]))continue;var w=wd(s);if(sum+w+ws.length*gmin>avail)continue;used[s]=1;ws.push([s,w]);sum+=w}
+    if(!ws.length)continue;var slack=(avail-sum-(ws.length-1)*gmin)/avail+(ws.length===1?.4:0);if(slack<bs){bs=slack;best=[ws,sum]}}}
+   if(!best)return;best[0].forEach(function(w){G[w[0]]=1});var ws=best[0],sum=best[1],gap=ws.length>1?(avail-sum)/(ws.length-1):0,px=ws.length>1?sg[0]+pad:(sg[0]+sg[1])/2-ws[0][1]/2,i;
    for(i=0;i<ws.length;i++){var cxw=px+ws[i][1]/2,nx=(cxw-cx)/Sx,ny=.075-(y-cy)/Sx,edge=(i===0||i===ws.length-1),dn=Math.hypot(nx,ny-.075),
      lit=.5+.5*((nx*-.55+(ny-.075)*.7)/Math.max(.6,dn+.35)),lg=36+30*Math.max(0,Math.min(1,lit))+(edge?9:0)+hash(n,22)*4;
-    HW.push([ws[i][0],cxw,y,fsz,lg,.9+(((Math.atan2(-(cxw-cx),y-(cy+.15*Sx))+6.2832)%6.2832)/6.2832)*7+depth(cxw,y)/Sx*.9+hash(n,23)*.25,350+12*(ny-.075)+hash(n,24)*6,edge?1:0]);n++;px+=ws[i][1]+gap}});
+    HW.push([ws[i][0],cxw,y,fsz,lg,1+Math.floor(depth(cxw,y)/(lh*1.15))*2.6+(((Math.atan2(-(cxw-cx),y-(cy+.15*Sx))+6.2832)%6.2832)/6.2832)*2.1,350+12*(ny-.075)+hash(n,24)*6,edge?1:0]);n++;px+=ws[i][1]+gap}});
   rowN++})}
 function heartDraw(t){
  var T=t%26,ph=t%1.15,bt=Math.exp(-Math.pow(ph/.1,2))+.65*Math.exp(-Math.pow((ph-.24)/.1,2)),pul=1+.034*bt,fo=T>21?1-(T-21)/3.5:1,i,q,a,cx=W/2,cy=H/2,g;
