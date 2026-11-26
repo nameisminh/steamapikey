@@ -117,7 +117,7 @@ function cTet(m,x,y,z){MS=80;MB=1;ME=0;
 function petal(i,j,t){var h=hash(i*3,j-Math.floor(t*(4+i%3)));if(h>.011)return 0;return put(h<.005?'•':'·',hs(335+h*5000%25|0,72))}
 function tet(d){try{var mo,da;new Intl.DateTimeFormat('en-u-ca-chinese',{month:'numeric',day:'numeric'}).formatToParts(d).forEach(function(x){if(x.type==='month')mo=x.value;if(x.type==='day')da=+x.value});return mo==='1'&&da<=5}catch(e){return false}}
 /* trái tim ghép từ chữ "anh yêu em" bằng nhiều ngôn ngữ (giống video mẫu) */
-var LV=["Anh yêu em","I love you","我爱你","愛してる","사랑해","أحبك","Я тебя люблю","Σ'αγαπώ","मैं तुमसे प्यार करता हूँ","ฉันรักเธอ","אני אוהב אותך","Je t'aime","Te quiero","Ich liebe dich","Ti amo","Eu te amo","Seni seviyorum","Aku cinta kamu","Kocham cię","Ik hou van jou","Jag älskar dig","دوستت دارم","Я тебе кохаю","Mahal kita","Rakastan sinua","Szeretlek"],HW=[];
+var LV=["Anh yêu em","I love you","我爱你","愛してる","사랑해","أحبك","Я тебя люблю","Σ'αγαπώ","मैं तुमसे प्यार करता हूँ","ฉันรักเธอ","אני אוהב אותך","Je t'aime","Te quiero","Ich liebe dich","Ti amo","Eu te amo","Seni seviyorum","Aku cinta kamu","Kocham cię","Ik hou van jou","Jag älskar dig","دوستت دارم","Я тебе кохаю","Mahal kita","Rakastan sinua","Szeretlek","আমি তোমাকে ভালোবাসি","Nakupenda","நான் உன்னை காதலிக்கிறேன்","میں تم سے محبت کرتا ہوں","म तिमीलाई माया गर्छु","ខ្ញុំស្រលាញ់អ្នក","ကျွန်တော် မင်းကို ချစ်တယ်","Би чамд хайртай","მიყვარხარ","Ես քեզ սիրում եմ","Miluji tě","Te iubesc","Обичам те","Volim te","Jeg elsker dig","Jeg elsker deg","Ég elska þig","Mīlu tevi","Aš tave myliu","Armastan sind","Ek is lief vir jou","Ngiyakuthanda","Saya cintakan awak","T'estimo"],HW=[];
 function hin(nx,ny){var a=nx*nx+ny*ny-1;return a*a*a-nx*nx*ny*ny*ny<=0}
 function heartInit(){
  /* mỗi hàng chữ lấp đầy đúng bề rộng trái tim: chọn tổ hợp từ vừa khít nhất rồi chia đều khoảng cách, nên viền trái/phải gọn và hình tim rõ */
@@ -144,7 +144,7 @@ function heartInit(){
    if(!best)return;var ws=best[0],sum=best[1],gap=ws.length>1?(avail-sum)/(ws.length-1):0,px=ws.length>1?sg[0]+pad:(sg[0]+sg[1])/2-ws[0][1]/2,i;
    for(i=0;i<ws.length;i++){var cxw=px+ws[i][1]/2,nx=(cxw-cx)/Sx,ny=.075-(y-cy)/Sx,edge=(i===0||i===ws.length-1),dn=Math.hypot(nx,ny-.075),
      lit=.5+.5*((nx*-.55+(ny-.075)*.7)/Math.max(.6,dn+.35)),lg=36+30*Math.max(0,Math.min(1,lit))+(edge?9:0)+hash(n,22)*4;
-    HW.push([ws[i][0],cxw,y,fsz,lg,.9+depth(cxw,y)/Sx*4.4+hash(n,23)*.35,350+12*(ny-.075)+hash(n,24)*6,edge?1:0]);n++;px+=ws[i][1]+gap}});
+    HW.push([ws[i][0],cxw,y,fsz,lg,.9+(((Math.atan2(-(cxw-cx),y-(cy+.15*Sx))+6.2832)%6.2832)/6.2832)*7+depth(cxw,y)/Sx*.9+hash(n,23)*.25,350+12*(ny-.075)+hash(n,24)*6,edge?1:0]);n++;px+=ws[i][1]+gap}});
   rowN++})}
 function heartDraw(t){
  var T=t%26,ph=t%1.15,bt=Math.exp(-Math.pow(ph/.1,2))+.65*Math.exp(-Math.pow((ph-.24)/.1,2)),pul=1+.034*bt,fo=T>21?1-(T-21)/3.5:1,i,q,a,cx=W/2,cy=H/2,g;
