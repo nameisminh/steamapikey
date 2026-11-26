@@ -120,23 +120,30 @@ function tet(d){try{var mo,da;new Intl.DateTimeFormat('en-u-ca-chinese',{month:'
 var LV=["Anh yêu em","I love you","Te amo","Je t'aime","Ti amo","Ich liebe dich","Eu te amo","Te quiero","Seni seviyorum","Aku cinta kamu","Kocham cię","Ik hou van jou","Jag älskar dig","Jeg elsker deg","Rakastan sinua","Szeretlek","Te iubesc","Miluji tě","Mahal kita","S'agapó","Ya tebya lyublyu","Aishiteru","Saranghae","Wo ai ni","Ana behibak","Main tumse pyar karta hoon","Chan rak khun","Ami tomake bhalobashi","Ndiyakuthanda","Nakupenda","Ek is lief vir jou","Volim te","Mīlu tevi","Aš tave myliu","Armastan sind","Sevgilim seni seviyorum","Mo nifẹ rẹ","Ua aloha au ia 'oe","Ke a go rata","Ngiyakuthanda"],HW=[];
 function hin(nx,ny){var a=nx*nx+ny*ny-1;return a*a*a-nx*nx*ny*ny*ny<=0}
 function heartInit(){
- HW=[];var hh=Math.min(H*.88,W*.95),Sx=hh/2.35,cx=W/2,cy=H/2,fsz=Math.max(10,hh*.036),lh=fsz*1.3,top=cy-1.17*Sx,bot=cy+1.17*Sx,i,y,x,w,n=0,rowN=0;
- c.font='600 '+fsz+'px system-ui,Arial,sans-serif';c.textAlign='center';c.textBaseline='middle';
- function ins(px,py){var nx=(px-cx)/Sx,ny=.075-(py-cy)/Sx;if(ny>.5&&Math.abs(nx)<(ny-.5)*.42+.04)return false;return hin(nx,ny)}
- for(y=top+lh*.6;y<bot-lh*.3;y+=lh,rowN++){
-  var seg=[],a=null,step=Sx/160;
-  for(x=cx-1.2*Sx;x<=cx+1.2*Sx;x+=step){var ok=ins(x,y)&&ins(x,y-lh*.42)&&ins(x,y+lh*.42);if(ok&&a===null)a=x;if(!ok&&a!==null){seg.push([a,x]);a=null}}
-  if(a!==null)seg.push([a,cx+1.2*Sx]);
-  seg.forEach(function(sg){var pad=fsz*.5,avail=sg[1]-sg[0]-2*pad;if(avail<fsz*4)return;
-   var ws=[],sum=0,gmin=fsz*.7,tries=0;
-   while(tries++<40){var s=LV[Math.floor(hash(n*7+tries+rowN*131,21)*LV.length)],ww=c.measureText(s).width;if(sum+ww+(ws.length)*gmin>avail){if(ws.length&&sum+(ws.length-1)*gmin>avail*.8)break;continue}ws.push([s,ww]);sum+=ww;if(sum+ws.length*gmin>avail*.97)break}
-   if(!ws.length)return;var gap=ws.length>1?Math.min(fsz*2.2,(avail-sum)/(ws.length-1)):0,px=ws.length>1?sg[0]+pad:(sg[0]+sg[1])/2-ws[0][1]/2;
-   for(i=0;i<ws.length;i++){var cxw=px+ws[i][1]/2,nx=(cxw-cx)/Sx,ny=.075-(y-cy)/Sx,edge=(i===0||i===ws.length-1)||rowN<2||y>bot-lh*2.5,ang=Math.atan2(ny-.075,nx),a01=(((ang+Math.PI/2)%6.2832)+6.2832)%6.2832/6.2832,dn=Math.hypot(nx,ny-.075);
-    var lit=.5+.5*((nx*-.55+(ny-.075)*.7)/Math.max(.6,dn+.35)),lg=34+30*Math.max(0,Math.min(1,lit))+(edge?10:0)+hash(n,22)*5;HW.push([ws[i][0],cxw,y,fsz,lg,.25+dn*3.4+hash(n,23)*.9,348+14*(ny-.075)+hash(n,24)*8,edge?1:0]);n++;px+=ws[i][1]+gap}})}
- /* "Anh yêu em" to ở chính giữa trái tim, các chữ khác chừa chỗ ra */
- var cf=fsz*1.3;c.font='700 '+cf+'px system-ui,Arial,sans-serif';var cwid=c.measureText('Anh yêu em').width;
- HW=HW.filter(function(q){return !(Math.abs(q[2]-cy)<lh*.6&&Math.abs(q[1]-cx)<cwid*.5+fsz*1.6)});
- HW.push(['Anh yêu em',cx,cy+.02*Sx,cf,92,0,350,1]);}
+ /* mỗi hàng chữ lấp đầy đúng bề rộng trái tim: chọn tổ hợp từ vừa khít nhất rồi chia đều khoảng cách, nên viền trái/phải gọn và hình tim rõ */
+ HW=[];var hh=Math.min(H*.84,W*.92),Sx=hh/2.35,cx=W/2,cy=H/2,fsz=Math.max(9,hh*.027),lh=fsz*1.28,top=cy-1.2*Sx,bot=cy+1.15*Sx,n=0,rowN=0,wc={},CTR='Anh yêu em';
+ c.font='600 '+fsz+'px system-ui,Arial,sans-serif';
+ function wd(s){return wc[s]||(wc[s]=c.measureText(s).width)}
+ function ins(px,py){var nx=(px-cx)/Sx,ny=.075-(py-cy)/Sx;if(ny>.6&&Math.abs(nx)<(ny-.6)*.3+.03)return false;return hin(nx,ny)}
+ var cwid=wd(CTR)*1.15,rows=[],y;
+ for(y=top+lh*.5;y<bot-lh*.2;y+=lh)rows.push(y);
+ var cr=0,cd=1e9;rows.forEach(function(yy,i){var d=Math.abs(yy-cy);if(d<cd){cd=d;cr=i}});
+ rows.forEach(function(y,ri){
+  var seg=[],a=null,step=Sx/200,x;
+  for(x=cx-1.25*Sx;x<=cx+1.25*Sx;x+=step){var ok=ins(x,y)&&ins(x,y-lh*.4)&&ins(x,y+lh*.4);if(ok&&a===null)a=x;if(!ok&&a!==null){seg.push([a,x-step]);a=null}}
+  if(a!==null)seg.push([a,cx+1.25*Sx]);
+  if(ri===cr){var s2=[];seg.forEach(function(sg){if(sg[0]<cx&&sg[1]>cx){s2.push([sg[0],cx-cwid/2-fsz*.9]);s2.push([cx+cwid/2+fsz*.9,sg[1]])}else s2.push(sg)});seg=s2;
+   HW.push([CTR,cx,y,fsz*1.15,93,0,352,1]);n++}
+  seg.forEach(function(sg){var pad=fsz*.3,avail=sg[1]-sg[0]-2*pad,gmin=fsz*.75;if(avail<fsz*3.5)return;
+   var best=null,bs=1e9,t,k;
+   for(t=0;t<90;t++){var ws=[],sum=0,used={};
+    for(k=0;k<LV.length*2&&ws.length<12;k++){var s=LV[(hash(n*13+t*7+k,ri+5)*LV.length)|0];if(used[s])continue;var w=wd(s);if(sum+w+ws.length*gmin>avail)continue;used[s]=1;ws.push([s,w]);sum+=w}
+    if(!ws.length)continue;var slack=(avail-sum-(ws.length-1)*gmin)/avail+(ws.length===1?.4:0);if(slack<bs){bs=slack;best=[ws,sum]}}
+   if(!best)return;var ws=best[0],sum=best[1],gap=ws.length>1?(avail-sum)/(ws.length-1):0,px=ws.length>1?sg[0]+pad:(sg[0]+sg[1])/2-ws[0][1]/2,i;
+   for(i=0;i<ws.length;i++){var cxw=px+ws[i][1]/2,nx=(cxw-cx)/Sx,ny=.075-(y-cy)/Sx,edge=(i===0||i===ws.length-1),dn=Math.hypot(nx,ny-.075),
+     lit=.5+.5*((nx*-.55+(ny-.075)*.7)/Math.max(.6,dn+.35)),lg=36+30*Math.max(0,Math.min(1,lit))+(edge?9:0)+hash(n,22)*4;
+    HW.push([ws[i][0],cxw,y,fsz,lg,.35+dn*3.2+hash(n,23)*.6,350+12*(ny-.075)+hash(n,24)*6,edge?1:0]);n++;px+=ws[i][1]+gap}});
+  rowN++})}
 function heartDraw(t){
  var T=t%26,ph=t%1.15,bt=Math.exp(-Math.pow(ph/.1,2))+.65*Math.exp(-Math.pow((ph-.24)/.1,2)),pul=1+.034*bt,fo=T>21?1-(T-21)/3.5:1,i,q,a,cx=W/2,cy=H/2,g;
  g=c.createRadialGradient(cx,cy,0,cx,cy,Math.max(W,H)*.65);g.addColorStop(0,'rgb('+(26+22*bt|0)+',6,14)');g.addColorStop(1,'#05070a');c.fillStyle=g;c.fillRect(0,0,W,H);
