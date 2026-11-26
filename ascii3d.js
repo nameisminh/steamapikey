@@ -120,7 +120,7 @@ function tet(d){try{var mo,da;new Intl.DateTimeFormat('en-u-ca-chinese',{month:'
 var LV=['I love you','Ich liebe dich','Te amo','Je t\'aime','Ti amo','Eu te amo','Seni seviyorum','Anh yêu em','Aku cinta kamu','Kocham cię','Ik hou van jou','Jag älskar dig','Jeg elsker deg','Rakastan sinua','Szeretlek','Te iubesc','Miluji tě','Mahal kita','Σ\'αγαπώ','Я тебя люблю','愛してる','사랑해','我爱你','Te quiero','Volim te','Mīlu tevi','Aš tave myliu','Armastan sind','Ya te yubi','Ndiyakuthanda','Nakupenda','Ek is lief vir jou','Mo nifẹ rẹ','Ana behibak','Ami tomake bhalobashi','Main tumse pyar karta hoon'],HW=[];
 function hin(nx,ny){var a=nx*nx+ny*ny-1;return a*a*a-nx*nx*ny*ny*ny<=0}
 function heartInit(){
- HW=[];var hh=Math.min(H*.78,W*.9),Sx=hh/2.35,cx=W/2,cy=H/2,fsz=Math.max(10,hh*.036),lh=fsz*1.3,top=cy-1.17*Sx,bot=cy+1.17*Sx,i,y,x,w,n=0,rowN=0;
+ HW=[];var hh=Math.min(H*.88,W*.95),Sx=hh/2.35,cx=W/2,cy=H/2,fsz=Math.max(10,hh*.036),lh=fsz*1.3,top=cy-1.17*Sx,bot=cy+1.17*Sx,i,y,x,w,n=0,rowN=0;
  c.font='600 '+fsz+'px system-ui,Arial,sans-serif';c.textAlign='center';c.textBaseline='middle';
  function ins(px,py){return hin((px-cx)/Sx,.075-(py-cy)/Sx)}
  for(y=top+lh*.6;y<bot-lh*.3;y+=lh,rowN++){
@@ -132,14 +132,19 @@ function heartInit(){
    while(tries++<40){var s=LV[Math.floor(hash(n*7+tries+rowN*131,21)*LV.length)],ww=c.measureText(s).width;if(sum+ww+(ws.length)*gmin>avail){if(ws.length&&sum+(ws.length-1)*gmin>avail*.8)break;continue}ws.push([s,ww]);sum+=ww;if(sum+ws.length*gmin>avail*.97)break}
    if(!ws.length)return;var gap=ws.length>1?Math.min(fsz*2.2,(avail-sum)/(ws.length-1)):0,px=ws.length>1?sg[0]+pad:(sg[0]+sg[1])/2-ws[0][1]/2;
    for(i=0;i<ws.length;i++){var cxw=px+ws[i][1]/2,nx=(cxw-cx)/Sx,ny=.075-(y-cy)/Sx,edge=(i===0||i===ws.length-1)||rowN<2||y>bot-lh*2.5,ang=Math.atan2(ny-.075,nx),a01=(((ang+Math.PI/2)%6.2832)+6.2832)%6.2832/6.2832,dn=Math.hypot(nx,ny-.075);
-    HW.push([ws[i][0],cxw,y,fsz,50+14*(1-Math.min(1,dn))+hash(n,22)*6,edge?a01*5.5:5.5+hash(n,23)*6.5]);n++;px+=ws[i][1]+gap}})}}
+    var lit=.5+.5*((nx*-.55+(ny-.075)*.7)/Math.max(.6,dn+.35)),lg=34+30*Math.max(0,Math.min(1,lit))+(edge?10:0)+hash(n,22)*5;HW.push([ws[i][0],cxw,y,fsz,lg,.25+dn*3.4+hash(n,23)*.9,348+14*(ny-.075)+hash(n,24)*8,edge?1:0]);n++;px+=ws[i][1]+gap}})}}
 function heartDraw(t){
- var T=t%26,pul=1+.012*Math.sin(t*2.2),fo=T>21?1-(T-21)/3.5:1,i,q,a,cx=W/2,cy=H/2;
- c.fillStyle='#05070a';c.fillRect(0,0,W,H);c.textAlign='center';c.textBaseline='middle';
+ var T=t%26,ph=t%1.15,bt=Math.exp(-Math.pow(ph/.1,2))+.65*Math.exp(-Math.pow((ph-.24)/.1,2)),pul=1+.034*bt,fo=T>21?1-(T-21)/3.5:1,i,q,a,cx=W/2,cy=H/2,g;
+ g=c.createRadialGradient(cx,cy,0,cx,cy,Math.max(W,H)*.65);g.addColorStop(0,'rgb('+(26+22*bt|0)+',6,14)');g.addColorStop(1,'#05070a');c.fillStyle=g;c.fillRect(0,0,W,H);
+ c.textAlign='center';c.textBaseline='middle';
  if(fo<=0)return;
- for(i=0;i<HW.length;i++){q=HW[i];a=Math.min(1,(T-q[5])/.8);if(a<=0)continue;a*=fo;
-  c.font='600 '+(q[3]*pul).toFixed(1)+'px system-ui,Arial,sans-serif';c.fillStyle='hsla(355,88%,'+(q[4]|0)+'%,'+a.toFixed(2)+')';c.fillText(q[0],cx+(q[1]-cx)*pul,cy+(q[2]-cy)*pul)}
- glow(.45)}
+ for(i=0;i<HW.length;i++){q=HW[i];a=Math.min(1,(T-q[5])/.7);if(a<=0)continue;a*=fo;
+  var k=a<1?1+.35*(1-a):1;
+  c.font='600 '+(q[3]*pul*k).toFixed(1)+'px system-ui,Arial,sans-serif';c.fillStyle='hsla('+(q[6]|0)+','+(q[7]?92:84)+'%,'+Math.min(92,q[4]+9*bt|0)+'%,'+a.toFixed(2)+')';c.fillText(q[0],cx+(q[1]-cx)*pul,cy+(q[2]-cy)*pul)}
+ /* trái tim nhỏ bay lên quanh trái tim lớn */
+ c.font=Math.max(12,H*.028)+'px system-ui,Arial,sans-serif';
+ for(i=0;i<22;i++){var p=((t*.07+i*.137)%1),hx=cx+(hash(i,31)-.5)*W*.8+Math.sin(t*.8+i)*14,hy=cy+H*.5-p*H*1.05,al=Math.sin(p*3.1416)*.55*fo;if(T<5||al<=0)continue;c.fillStyle='hsla('+(345+hash(i,32)*20|0)+',90%,'+(62+hash(i,33)*20|0)+'%,'+al.toFixed(2)+')';c.fillText('♥',hx,hy)}
+ glow(.5+.3*bt)}
 /* con mắt bằng ký tự (port từ eye.py): mở mắt, liếc, chớp, bay vào đồng tử, trái tim ghép từ chữ, rồi ký tự gom lại thành mắt nhắm (lặp) */
 var GC=null,GX=null;
 function glow(a){var gw=Math.max(16,W>>3),gh=Math.max(16,H>>3);if(!GC){GC=document.createElement('canvas');GX=GC.getContext('2d')}if(GC.width!==gw){GC.width=gw;GC.height=gh}
