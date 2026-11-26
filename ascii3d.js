@@ -117,39 +117,41 @@ function cTet(m,x,y,z){MS=80;MB=1;ME=0;
 function petal(i,j,t){var h=hash(i*3,j-Math.floor(t*(4+i%3)));if(h>.011)return 0;return put(h<.005?'•':'·',hs(335+h*5000%25|0,72))}
 function tet(d){try{var mo,da;new Intl.DateTimeFormat('en-u-ca-chinese',{month:'numeric',day:'numeric'}).formatToParts(d).forEach(function(x){if(x.type==='month')mo=x.value;if(x.type==='day')da=+x.value});return mo==='1'&&da<=5}catch(e){return false}}
 /* trái tim ghép từ chữ "anh yêu em" bằng nhiều ngôn ngữ (giống video mẫu) */
-var LV=["Anh yêu em","I love you","我爱你","我愛你","愛してる","사랑해","أحبك","Я тебя люблю","Te quiero","Te amo","Je t'aime","Ich liebe dich","Ti amo","Eu te amo","मैं तुमसे प्यार करता हूँ","ฉันรักเธอ","Aku cinta kamu","Seni seviyorum","Ik hou van jou","Kocham cię","Jag älskar dig","Σ'αγαπώ","אני אוהב אותך","دوستت دارم","Я тебе кохаю","Mahal kita","Saya cintakan awak","Miluji tě","Te iubesc","Szeretlek","Rakastan sinua","Jeg elsker dig","Jeg elsker deg","আমি তোমাকে ভালোবাসি","میں تم سے محبت کرتا ہوں","Nakupenda","T'estimo","Volim te","Обичам те","Ľúbim ťa","Ek is lief vir jou","Ég elska þig","Mīlu tevi","Aš tave myliu","Armastan sind","Të dua"],HW=[];
+var LV=["I love you","Saranghae","Aishiteru","Aku cinta kamu","Saya cintakan awak","Wo ai ni","Te quiero","Je t'aime","Ich liebe dich","Ti amo","Eu te amo","Ya tebya lyublyu","Uhibbuka","Main tumse pyar karta hoon","Chan rak khun","Seni seviyorum","Mahal kita","Ik hou van jou","Kocham cię","Jag älskar dig","S'agapo","Ani ohev otach","Dooset daram","Ya tebe kokhayu","Ami tomake bhalobashi","Miluji tě","Te iubesc","Szeretlek","Rakastan sinua","Jeg elsker dig","Jeg elsker deg","Nakupenda","T'estimo","Volim te","Obicham te","Ľúbim ťa","Ek is lief vir jou","Ég elska þig","Mīlu tevi","Aš tave myliu","Armastan sind","Të dua"],HW=[];
 function hin(nx,ny){var a=nx*nx+ny*ny-1;return a*a*a-nx*nx*ny*ny*ny<=0}
 function heartInit(){
- /* mỗi hàng chữ lấp đầy đúng bề rộng trái tim: chọn tổ hợp từ vừa khít nhất rồi chia đều khoảng cách, nên viền trái/phải gọn và hình tim rõ */
- HW=[];var hh=Math.min(H*.84,W*.92),Sx=hh/2.35,cx=W/2,cy=H/2,fsz=Math.max(11,hh*.042),lh=fsz*1.3,top=cy-1.2*Sx,bot=cy+1.15*Sx,n=0,rowN=0,wc={},G={'Anh yêu em':1},CTR='Anh yêu em';
+ /* "Anh yêu em" ở giữa hiện đầu tiên; các thứ tiếng còn lại (viết bằng chữ La-tinh) lần lượt hiện theo đúng thứ tự trong LV, chạy theo nét vẽ quanh trái tim, từng lớp từ ngoài vào trong */
+ HW=[];var hh=Math.min(H*.84,W*.92),Sx=hh/2.35,cx=W/2,cy=H/2,fsz=Math.max(11,hh*.042),lh=fsz*1.3,top=cy-1.2*Sx,bot=cy+1.15*Sx,wc={},CTR='Anh yêu em',gmin=fsz*.75;
  c.font='600 '+fsz+'px system-ui,Arial,sans-serif';
  function wd(s){return wc[s]||(wc[s]=c.measureText(s).width)}
  function ins(px,py){var nx=(px-cx)/Sx,ny=.075-(py-cy)/Sx;if(ny>.6&&Math.abs(nx)<(ny-.6)*.3+.03)return false;return hin(nx,ny)}
- var cwid=wd(CTR)*1.15,rows=[],y;
- /* độ sâu của một điểm: khoảng cách tới viền gần nhất, chữ ở viền hiện trước rồi dàn dần vào trong */
- function depth(px,py){var best=1e9,k,s,st=Sx/70;for(k=0;k<16;k++){var an=k*.3927,dx=Math.cos(an),dy=Math.sin(an);for(s=1;s*st<1.3*Sx;s++){if(!ins(px+dx*s*st,py+dy*s*st)){if(s*st<best)best=s*st;break}}}return best<1e9?best:0}
+ var cwid=wd(CTR)*1.15,rows=[],y,avg=0,i,k;
  for(y=top+lh*.5;y<bot-lh*.2;y+=lh)rows.push(y);
- var cr=0,cd=1e9;rows.forEach(function(yy,i){var d=Math.abs(yy-cy);if(d<cd){cd=d;cr=i}});
+ var cr=0,cd=1e9;rows.forEach(function(yy,q){var d=Math.abs(yy-cy);if(d<cd){cd=d;cr=q}});
+ LV.forEach(function(s){avg+=wd(s)});avg/=LV.length;
+ var segs=[];
  rows.forEach(function(y,ri){
   var seg=[],a=null,step=Sx/200,x;
   for(x=cx-1.25*Sx;x<=cx+1.25*Sx;x+=step){var ok=ins(x,y)&&ins(x,y-lh*.4)&&ins(x,y+lh*.4);if(ok&&a===null)a=x;if(!ok&&a!==null){seg.push([a,x-step]);a=null}}
   if(a!==null)seg.push([a,cx+1.25*Sx]);
-  if(ri===cr){var s2=[];seg.forEach(function(sg){if(sg[0]<cx&&sg[1]>cx){s2.push([sg[0],cx-cwid/2-fsz*.9,'L']);s2.push([cx+cwid/2+fsz*.9,sg[1],'R'])}else s2.push(sg)});seg=s2;
-   HW.push([CTR,cx,y,fsz*1.15,93,0,352,1]);n++}
-  seg.forEach(function(sg){var pad=fsz*.3,avail=sg[1]-sg[0]-2*pad,gmin=fsz*.75;if(avail<fsz*3.5)return;
-   var best=null,bs=1e9,t,k,reuse=0;
-   for(var pass=0;pass<1&&!best;pass++){reuse=pass;
-   for(t=0;t<90;t++){var ws=[],sum=0,used={};
-    for(k=0;k<LV.length*2&&ws.length<12;k++){var s=LV[(hash(n*13+t*7+k,ri+5)*LV.length)|0];if(used[s]||(!reuse&&G[s]))continue;var w=wd(s);if(sum+w+ws.length*gmin>avail)continue;used[s]=1;ws.push([s,w]);sum+=w}
-    if(!ws.length)continue;var slack=(avail-sum-(ws.length-1)*gmin)/avail+(ws.length===1?.4:0);if(slack<bs){bs=slack;best=[ws,sum]}}}
-   if(!best)return;best[0].forEach(function(w){G[w[0]]=1});var ws=best[0],sum=best[1],gap=ws.length>1?(avail-sum)/(ws.length-1):0,px=ws.length>1?sg[0]+pad:(sg[0]+sg[1])/2-ws[0][1]/2,i;
-   for(i=0;i<ws.length;i++){var cxw=px+ws[i][1]/2,nx=(cxw-cx)/Sx,ny=.075-(y-cy)/Sx,edge=(i===0||i===ws.length-1),dn=Math.hypot(nx,ny-.075),
-     lit=.5+.5*((nx*-.55+(ny-.075)*.7)/Math.max(.6,dn+.35)),lg=36+30*Math.max(0,Math.min(1,lit))+(edge?9:0)+hash(n,22)*4;
-    HW.push([ws[i][0],cxw,y,fsz,lg,0,350+12*(ny-.075)+hash(n,24)*6,edge?1:0,(ri<1||ri>=rows.length-2)?0:(sg[2]==='L'?i:sg[2]==='R'?ws.length-1-i:Math.min(i,ws.length-1-i)),((Math.atan2(-(cxw-cx),y-(cy+.15*Sx))+6.2832)%6.2832)]);n++;px+=ws[i][1]+gap}});
-  rowN++});
- /* hiện theo nét vẽ: lớp ngoài cùng trước (xuất phát ở mũi tim, lên bên trái, qua hai thuỳ, xuống bên phải), từng chữ một; xong lớp này mới sang lớp trong */
- var rg={},t0=1.2;HW.forEach(function(q){if(q.length>8)(rg[q[8]]=rg[q[8]]||[]).push(q)});
- Object.keys(rg).map(Number).sort(function(p,q){return p-q}).forEach(function(r){var l=rg[r];l.sort(function(p,q){return p[9]-q[9]});l.forEach(function(q,i){q[5]=t0+i*.17});t0+=l.length*.17+.5})}
+  if(ri===cr){var s2=[];seg.forEach(function(sg){if(sg[0]<cx&&sg[1]>cx){s2.push([sg[0],cx-cwid/2-fsz*.9,'L']);s2.push([cx+cwid/2+fsz*.9,sg[1],'R'])}else s2.push(sg)});seg=s2;HW.push([CTR,cx,y,fsz*1.15,93,0,352,1])}
+  seg.forEach(function(sg){var pad=fsz*.3,avail=sg[1]-sg[0]-2*pad;if(avail<fsz*3.5)return;
+   var n=Math.max(1,Math.floor((avail+gmin)/(avg+gmin)));segs.push({y:y,ri:ri,sa:sg[0]+pad,avail:avail,n:n,slotW:(avail-(n-1)*gmin)/n,side:sg[2],words:[],times:[]})})});
+ /* các ô chữ, xếp theo thứ tự nét vẽ: lớp ngoài trước; trong mỗi lớp xuất phát từ mũi tim, lên bên trái, qua hai thuỳ, xuống bên phải */
+ var slots=[];
+ segs.forEach(function(s){for(i=0;i<s.n;i++){var xs=s.sa+(i+.5)*s.avail/s.n;slots.push({s:s,i:i,ring:(s.ri<1||s.ri>=rows.length-2)?0:(s.side==='L'?i:s.side==='R'?s.n-1-i:Math.min(i,s.n-1-i)),phi:(Math.atan2(-(xs-cx),s.y-(cy+.15*Sx))+6.2832)%6.2832})}});
+ slots.sort(function(p,q){return p.ring-q.ring||p.phi-q.phi});
+ var used={},t0=1.2,cnt=0,lastRing=-1;
+ slots.forEach(function(sl){if(sl.ring!==lastRing){if(lastRing>=0)t0+=cnt*.17+.5;cnt=0;lastRing=sl.ring}
+  var pick=-1,bw=1e9;for(k=0;k<LV.length;k++)if(!used[k]&&wd(LV[k])<=sl.s.slotW){pick=k;break}
+  if(pick<0)for(k=0;k<LV.length;k++)if(!used[k]&&wd(LV[k])<bw){bw=wd(LV[k]);pick=k}
+  if(pick<0)return;used[pick]=1;sl.s.words[sl.i]=LV[pick];sl.s.times[sl.i]=t0+cnt*.17;cnt++});
+ segs.forEach(function(s){var ws=[];for(i=0;i<s.n;i++)if(s.words[i])ws.push([s.words[i],wd(s.words[i]),s.times[i]]);if(!ws.length)return;
+  var sum=0;ws.forEach(function(w){sum+=w[1]});
+  while(ws.length>1&&sum+(ws.length-1)*gmin*.6>s.avail){var mi=0;ws.forEach(function(w,q){if(w[1]>ws[mi][1])mi=q});sum-=ws[mi][1];ws.splice(mi,1)}
+  var gap=ws.length>1?Math.max(gmin*.6,(s.avail-sum)/(ws.length-1)):0,tot=sum+gap*(ws.length-1),px=ws.length>1?s.sa+(s.avail-tot)/2:s.sa+(s.avail-sum)/2;
+  ws.forEach(function(w,q){var cxw=px+w[1]/2,nx=(cxw-cx)/Sx,ny=.075-(s.y-cy)/Sx,dn=Math.hypot(nx,ny-.075),lit=.5+.5*((nx*-.55+(ny-.075)*.7)/Math.max(.6,dn+.35)),lg=36+30*Math.max(0,Math.min(1,lit))+((q===0||q===ws.length-1)?9:0)+hash(cxw,22)*4;
+   HW.push([w[0],cxw,s.y,fsz,lg,w[2],350+12*(ny-.075)+hash(cxw,24)*6,(q===0||q===ws.length-1)?1:0]);px+=w[1]+gap})})}
 function heartDraw(t){
  var T=t%26,ph=t%1.15,bt=Math.exp(-Math.pow(ph/.1,2))+.65*Math.exp(-Math.pow((ph-.24)/.1,2)),pul=1+.034*bt,fo=T>21?1-(T-21)/3.5:1,i,q,a,cx=W/2,cy=H/2,g;
  g=c.createRadialGradient(cx,cy,0,cx,cy,Math.max(W,H)*.65);g.addColorStop(0,'rgb('+(26+22*bt|0)+',6,14)');g.addColorStop(1,'#05070a');c.fillStyle=g;c.fillRect(0,0,W,H);
