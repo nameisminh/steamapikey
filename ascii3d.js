@@ -117,7 +117,7 @@ function cTet(m,x,y,z){MS=80;MB=1;ME=0;
 function petal(i,j,t){var h=hash(i*3,j-Math.floor(t*(4+i%3)));if(h>.011)return 0;return put(h<.005?'•':'·',hs(335+h*5000%25|0,72))}
 function tet(d){try{var mo,da;new Intl.DateTimeFormat('en-u-ca-chinese',{month:'numeric',day:'numeric'}).formatToParts(d).forEach(function(x){if(x.type==='month')mo=x.value;if(x.type==='day')da=+x.value});return mo==='1'&&da<=5}catch(e){return false}}
 /* trái tim ghép từ chữ "anh yêu em" bằng nhiều ngôn ngữ (giống video mẫu) */
-var LV=["Anh yêu em","I love you","Te amo","Je t'aime","Ti amo","Ich liebe dich","Eu te amo","Te quiero","Seni seviyorum","Aku cinta kamu","Kocham cię","Ik hou van jou","Jag älskar dig","Jeg elsker deg","Rakastan sinua","Szeretlek","Te iubesc","Miluji tě","Mahal kita","S'agapó","Ya tebya lyublyu","Aishiteru","Saranghae","Wo ai ni","Ana behibak","Main tumse pyar karta hoon","Chan rak khun","Ami tomake bhalobashi","Ndiyakuthanda","Nakupenda","Ek is lief vir jou","Volim te","Mīlu tevi","Aš tave myliu","Armastan sind","Sevgilim seni seviyorum","Mo nifẹ rẹ","Ua aloha au ia 'oe","Ke a go rata","Ngiyakuthanda"],HW=[];
+var LV=["Anh yêu em","I love you","我爱你","愛してる","사랑해","أحبك","Я тебя люблю","Σ'αγαπώ","मैं तुमसे प्यार करता हूँ","ฉันรักเธอ","אני אוהב אותך","Je t'aime","Te quiero","Ich liebe dich","Ti amo","Eu te amo","Seni seviyorum","Aku cinta kamu","Kocham cię","Ik hou van jou","Jag älskar dig","دوستت دارم","Я тебе кохаю","Mahal kita","Rakastan sinua","Szeretlek"],HW=[];
 function hin(nx,ny){var a=nx*nx+ny*ny-1;return a*a*a-nx*nx*ny*ny*ny<=0}
 function heartInit(){
  /* mỗi hàng chữ lấp đầy đúng bề rộng trái tim: chọn tổ hợp từ vừa khít nhất rồi chia đều khoảng cách, nên viền trái/phải gọn và hình tim rõ */
@@ -126,6 +126,8 @@ function heartInit(){
  function wd(s){return wc[s]||(wc[s]=c.measureText(s).width)}
  function ins(px,py){var nx=(px-cx)/Sx,ny=.075-(py-cy)/Sx;if(ny>.6&&Math.abs(nx)<(ny-.6)*.3+.03)return false;return hin(nx,ny)}
  var cwid=wd(CTR)*1.15,rows=[],y;
+ /* độ sâu của một điểm: khoảng cách tới viền gần nhất, chữ ở viền hiện trước rồi dàn dần vào trong */
+ function depth(px,py){var best=1e9,k,s,st=Sx/70;for(k=0;k<16;k++){var an=k*.3927,dx=Math.cos(an),dy=Math.sin(an);for(s=1;s*st<1.3*Sx;s++){if(!ins(px+dx*s*st,py+dy*s*st)){if(s*st<best)best=s*st;break}}}return best<1e9?best:0}
  for(y=top+lh*.5;y<bot-lh*.2;y+=lh)rows.push(y);
  var cr=0,cd=1e9;rows.forEach(function(yy,i){var d=Math.abs(yy-cy);if(d<cd){cd=d;cr=i}});
  rows.forEach(function(y,ri){
@@ -142,7 +144,7 @@ function heartInit(){
    if(!best)return;var ws=best[0],sum=best[1],gap=ws.length>1?(avail-sum)/(ws.length-1):0,px=ws.length>1?sg[0]+pad:(sg[0]+sg[1])/2-ws[0][1]/2,i;
    for(i=0;i<ws.length;i++){var cxw=px+ws[i][1]/2,nx=(cxw-cx)/Sx,ny=.075-(y-cy)/Sx,edge=(i===0||i===ws.length-1),dn=Math.hypot(nx,ny-.075),
      lit=.5+.5*((nx*-.55+(ny-.075)*.7)/Math.max(.6,dn+.35)),lg=36+30*Math.max(0,Math.min(1,lit))+(edge?9:0)+hash(n,22)*4;
-    HW.push([ws[i][0],cxw,y,fsz,lg,.35+dn*3.2+hash(n,23)*.6,350+12*(ny-.075)+hash(n,24)*6,edge?1:0]);n++;px+=ws[i][1]+gap}});
+    HW.push([ws[i][0],cxw,y,fsz,lg,.9+depth(cxw,y)/Sx*4.4+hash(n,23)*.35,350+12*(ny-.075)+hash(n,24)*6,edge?1:0]);n++;px+=ws[i][1]+gap}});
   rowN++})}
 function heartDraw(t){
  var T=t%26,ph=t%1.15,bt=Math.exp(-Math.pow(ph/.1,2))+.65*Math.exp(-Math.pow((ph-.24)/.1,2)),pul=1+.034*bt,fo=T>21?1-(T-21)/3.5:1,i,q,a,cx=W/2,cy=H/2,g;
@@ -810,7 +812,7 @@ function draw(t){if(!S)return;if(GLX.on&&S.gl){GLX.frame(t);return}
 var ema=24,fb=0,fr=0;
 function grid(f){fs=f;cw=f;cols=Math.ceil(W/cw);rows=Math.ceil(H/fs)}
 /* máy yếu thì tự thưa ô chữ lại, máy khỏe thì mịn lại */
-function loop(ts){raf=requestAnimationFrame(loop);var isgl=GLX.on&&S&&S.gl;if(ts-last<(isgl?32:42))return;var dt=ts-last;last=ts;var a=performance.now();draw((ts-t0)/1000);if(isgl){GLX.tune(dt);return}if(S.r)return;if(fr++<5)return;ema=ema*.8+(performance.now()-a)*.2;if(ema>34&&fs<fb*2.4){grid(fs*1.12);ema=26;fr=-40}else if(ema<19&&fs>fb*1.01){grid(Math.max(fb,fs/1.1));ema=26;fr=-40}}
+function loop(ts){raf=requestAnimationFrame(loop);if(!S)return;var isgl=GLX.on&&S&&S.gl;if(ts-last<(isgl?32:42))return;var dt=ts-last;last=ts;var a=performance.now();draw((ts-t0)/1000);if(isgl){GLX.tune(dt);return}if(S.r)return;if(fr++<5)return;ema=ema*.8+(performance.now()-a)*.2;if(ema>34&&fs<fb*2.4){grid(fs*1.12);ema=26;fr=-40}else if(ema<19&&fs>fb*1.01){grid(Math.max(fb,fs/1.1));ema=26;fr=-40}}
 function show(k){cur=scene(k)?k:'tim';S=scene(cur);var g=false;if(S.gl&&gcv){g=GLX.start(gcv);if(g){GLX.setup();g=GLX.use(S.gl,S.glm)}}if(!g&&S.fb){cur=S.fb;S=scene(cur)}GLX.on=g;cv.style.visibility=g?'hidden':'visible';gcv.style.display=g?'block':'none';if(!g&&S.init)S.init();t0=performance.now();[].forEach.call(o.querySelectorAll('.pk button'),function(x){x.classList.toggle('on',x.dataset.k===cur)});if(reduce)draw(S.still||1.5)}
 function open(){if(!o){o=document.createElement('div');o.id='aso';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-label','Tranh ASCII 3D');
  o.innerHTML='<canvas></canvas><canvas class="gl" style="position:absolute;left:0;top:0;display:none"></canvas><div class="pk"></div><button type="button" class="x" aria-label="Đóng">×</button><p>Bấm bất kỳ đâu hoặc Esc để đóng</p>';document.body.appendChild(o);cv=o.querySelector('canvas');gcv=o.querySelector('canvas.gl');c=cv.getContext('2d');o.addEventListener('click',close);
