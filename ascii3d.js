@@ -450,7 +450,7 @@ function draw(t){var T=t%DUR,i,ch;c.fillStyle='#05070a';c.fillRect(0,0,W,H);
 return{init:init,draw:draw}})();
 /* Dựng 3D bằng card đồ họa (WebGL2): mỗi ô chấm là một tia sáng, vẽ ở độ mịn cố định nên không bị mờ dần, chạy 60 khung hình/giây */
 var GLX=(function(){
-var gl=null,gc=null,progs={},cur=null,pp=null,fbo=null,tex=null,vbo=null,lw=0,lh=0,cell=6,dpr=1,on=false,loc={},meta={},emaDt=16,hold=30;
+var PX=null,pend={},gl=null,gc=null,progs={},cur=null,pp=null,fbo=null,tex=null,vbo=null,lw=0,lh=0,cell=6,dpr=1,on=false,loc={},meta={},emaDt=16,hold=30;
 var VS='#version 300 es\nin vec2 a;void main(){gl_Position=vec4(a,0.,1.);}';
 var PRE='#version 300 es\nprecision highp float;\nuniform vec2 uRes;uniform float uT;out vec4 oc;\nfloat gD,gM,gB;float cA=1.,sA=0.;\n'+
 'void u(float d,float m){if(d<gD){gD=d;gM=m;}}\n'+
@@ -543,9 +543,11 @@ var P2='#version 300 es\nprecision highp float;\nuniform sampler2D uTex;uniform 
 ' else{float hh=h21(cell*1.7);if((uBg==1||uBg==4||uBg==5)&&hh>(uBg==5?.972:.985)&&nq.y>(uBg==5?.18:.3)){float tw=.5+.5*sin(uT*3.+hh*400.);col+=vec3(.9,.95,1.)*tw*(1.-smoothstep(uCell*.12,uCell*.3,d));}\n'+
 '  if(uPart>0){vec2 pc=vec2(cell.x,cell.y+floor(uT*(3.+mod(cell.x,4.)*1.3)));float h=h21(pc);if(h<.011){float pr=uCell*(h<.005?.28:.17);float k=1.-smoothstep(pr-.8,pr+.8,d);vec3 pcol=uPart==1?vec3(.92,.95,1.):(uPart==2?vec3(1.,.62,.78):(uPart==4?vec3(1.,.82,.22):hsv(h*90.)));col=mix(col,pcol,k);}}}\n'+
 ' o=vec4(col,1.);}\n';
-function sh(type,src){var s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)){console.error('[ascii gl]',gl.getShaderInfoLog(s));gl.deleteShader(s);return null}return s}
-function prog(fs){var v=sh(gl.VERTEX_SHADER,VS),f=sh(gl.FRAGMENT_SHADER,fs);if(!v||!f)return null;var p=gl.createProgram();gl.attachShader(p,v);gl.attachShader(p,f);gl.bindAttribLocation(p,0,'a');gl.linkProgram(p);if(!gl.getProgramParameter(p,gl.LINK_STATUS)){console.error('[ascii gl]',gl.getProgramInfoLog(p));return null}gl.deleteShader(v);gl.deleteShader(f);return p}
-function start(canvas){if(gl)return true;if(typeof canvas.getContext!=='function')return false;gl=canvas.getContext('webgl2',{antialias:false,alpha:false,powerPreference:'high-performance'});if(!gl)return false;gc=canvas;
+function sh(type,src,asy){var s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(asy&&PX)return s;if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)){console.error('[ascii gl]',gl.getShaderInfoLog(s));gl.deleteShader(s);return null}return s}
+function prog(fs,asy){var v=sh(gl.VERTEX_SHADER,VS,asy),f=sh(gl.FRAGMENT_SHADER,fs,asy);if(!v||!f)return null;var p=gl.createProgram();gl.attachShader(p,v);gl.attachShader(p,f);gl.bindAttribLocation(p,0,'a');gl.linkProgram(p);
+ /* có KHR_parallel_shader_compile: trình duyệt dịch ngầm, không chặn trang; kiểm tra xong ở use() */
+ if(asy&&PX)return p;if(!gl.getProgramParameter(p,gl.LINK_STATUS)){console.error('[ascii gl]',gl.getProgramInfoLog(p));return null}gl.deleteShader(v);gl.deleteShader(f);return p}
+function start(canvas){if(gl)return true;if(typeof canvas.getContext!=='function')return false;gl=canvas.getContext('webgl2',{antialias:false,alpha:false,powerPreference:'high-performance'});if(!gl)return false;gc=canvas;PX=gl.getExtension('KHR_parallel_shader_compile');
  vbo=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,vbo);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,2,gl.FLOAT,false,0,0);
  var P2f=P2.replace('void main','vec3 hsv(float h){return clamp(abs(mod(h*6.+vec3(0.,4.,2.),6.)-3.)-1.,0.,1.);}\nvoid main');pp=prog(P2f);if(!pp){gl=null;return false}return true}
 function setup(){dpr=Math.min(1.5,window.devicePixelRatio||1);gc.width=Math.round(W*dpr);gc.height=Math.round(H*dpr);cell=Math.max(4,Math.round(4.4*dpr));emaDt=34;hold=30;rebuild()}
@@ -553,7 +555,9 @@ function rebuild(){lw=Math.ceil(gc.width/cell);lh=Math.ceil(gc.height/cell);
  if(tex)gl.deleteTexture(tex);if(fbo)gl.deleteFramebuffer(fbo);tex=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,tex);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA8,lw,lh,0,gl.RGBA,gl.UNSIGNED_BYTE,null);
  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
  fbo=gl.createFramebuffer();gl.bindFramebuffer(gl.FRAMEBUFFER,fbo);gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,tex,0);gl.bindFramebuffer(gl.FRAMEBUFFER,null)}
-function use(id,m){if(!gl)return false;if(!(id in progs)){var p=prog(PRE+SC[id]+MAIN);progs[id]=p}cur=progs[id];meta=m||{};if(!cur)return false;loc={uRes:gl.getUniformLocation(cur,'uRes'),uT:gl.getUniformLocation(cur,'uT'),
+function use(id,m){if(!gl)return false;if(!(id in progs)){var p=prog(PRE+SC[id]+MAIN,true);progs[id]=p;if(p&&PX)pend[id]=1}
+ if(pend[id]){var q=progs[id];if(!gl.getProgramParameter(q,PX.COMPLETION_STATUS_KHR))return false;delete pend[id];if(!gl.getProgramParameter(q,gl.LINK_STATUS)){console.error('[ascii gl]',gl.getProgramInfoLog(q));progs[id]=null;return false}}
+ cur=progs[id];meta=m||{};if(!cur)return false;loc={uRes:gl.getUniformLocation(cur,'uRes'),uT:gl.getUniformLocation(cur,'uT'),
   p2:{uTex:gl.getUniformLocation(pp,'uTex'),uLow:gl.getUniformLocation(pp,'uLow'),uCell:gl.getUniformLocation(pp,'uCell'),uT:gl.getUniformLocation(pp,'uT'),uPart:gl.getUniformLocation(pp,'uPart'),uBg:gl.getUniformLocation(pp,'uBg'),uPx:gl.getUniformLocation(pp,'uPx')}};on=true;return true}
 function frame(t){if(!gl||!cur)return;
  gl.bindFramebuffer(gl.FRAMEBUFFER,fbo);gl.viewport(0,0,lw,lh);gl.useProgram(cur);gl.uniform2f(loc.uRes,lw,lh);gl.uniform1f(loc.uT,t);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
@@ -563,8 +567,8 @@ function frame(t){if(!gl||!cur)return;
 function tune(dt){if(hold>0){hold--;return}emaDt=emaDt*.9+Math.min(dt,80)*.1;var base=Math.max(4,Math.round(4.4*dpr));
  if(emaDt>40&&cell<base*5){cell=Math.round(cell*1.25);rebuild();hold=45;emaDt=34}else if(emaDt<35&&cell>base){cell=Math.max(base,Math.round(cell/1.1));rebuild();hold=300;emaDt=34}}
 function dispose(){on=false;if(!gl)return;try{for(var k in progs)if(progs[k])gl.deleteProgram(progs[k]);if(pp)gl.deleteProgram(pp);if(tex)gl.deleteTexture(tex);if(fbo)gl.deleteFramebuffer(fbo);if(vbo)gl.deleteBuffer(vbo);var x=gl.getExtension('WEBGL_lose_context');if(x)x.loseContext()}catch(e){}
- gl=null;gc=null;progs={};cur=null;pp=null;tex=null;fbo=null;vbo=null}
-return{start:start,setup:setup,use:use,frame:frame,tune:tune,dispose:dispose,get on(){return on},set on(v){on=v}}})();
+ gl=null;gc=null;progs={};pend={};PX=null;cur=null;pp=null;tex=null;fbo=null;vbo=null}
+return{ready:function(id){if(!gl||!progs[id])return false;if(!pend[id])return true;return !!gl.getProgramParameter(progs[id],PX.COMPLETION_STATUS_KHR)},start:start,setup:setup,use:use,frame:frame,tune:tune,dispose:dispose,get on(){return on},set on(v){on=v}}})();
 /* Hoa nở và Bướm: port sang JavaScript từ edwardjones7/ascii-art (bloom3d.py, butterfly.py), giấy phép MIT, Copyright (c) 2026 Edward Jones.
    Mỗi hạt vẽ bằng một ký tự; bản gốc dùng numpy, ở đây lưới điểm thưa hơn để chạy nhẹ trên trình duyệt. */
 var PXE=(function(){
@@ -1012,7 +1016,9 @@ function draw(t){if(!S)return;if(GLX.on&&S.gl){GLX.frame(t);return}
 var ema=24,fb=0,fr=0;
 function grid(f){fs=f;cw=f;cols=Math.ceil(W/cw);rows=Math.ceil(H/fs)}
 /* máy yếu thì tự thưa ô chữ lại, máy khỏe thì mịn lại */
-function loop(ts){raf=requestAnimationFrame(loop);if(!S)return;var isgl=GLX.on&&S&&S.gl;if(ts-last<(isgl?32:42))return;var dt=ts-last;last=ts;var a=performance.now();draw((ts-t0)/1000);if(isgl){GLX.tune(dt);return}if(S.r)return;if(fr++<5)return;ema=ema*.8+(performance.now()-a)*.2;if(ema>34&&fs<fb*2.4){grid(fs*1.12);ema=26;fr=-40}else if(ema<19&&fs>fb*1.01){grid(Math.max(fb,fs/1.1));ema=26;fr=-40}}
+function loop(ts){raf=requestAnimationFrame(loop);if(!S)return;
+ /* cảnh card đồ hoạ đang dịch ngầm: tạm chạy bản vẽ bằng CPU, dịch xong thì chuyển sang */
+ if(S.gl&&!GLX.on&&GLX.ready(S.gl)){show(cur);return}var isgl=GLX.on&&S&&S.gl;if(ts-last<(isgl?32:42))return;var dt=ts-last;last=ts;var a=performance.now();draw((ts-t0)/1000);if(isgl){GLX.tune(dt);return}if(S.r)return;if(fr++<5)return;ema=ema*.8+(performance.now()-a)*.2;if(ema>34&&fs<fb*2.4){grid(fs*1.12);ema=26;fr=-40}else if(ema<19&&fs>fb*1.01){grid(Math.max(fb,fs/1.1));ema=26;fr=-40}}
 function show(k){cur=scene(k)?k:'tim';S=scene(cur);var g=false;if(S.gl&&gcv){g=GLX.start(gcv);if(g){GLX.setup();g=GLX.use(S.gl,S.glm)}}if(!g&&S.fb){cur=S.fb;S=scene(cur)}GLX.on=g;cv.style.visibility=g?'hidden':'visible';gcv.style.display=g?'block':'none';if(!g&&S.init)S.init();t0=performance.now();var tq=(location.search.match(/[?&]asct=([0-9.]+)/)||[])[1];if(tq)t0-=tq*1000;[].forEach.call(o.querySelectorAll('.pk button'),function(x){x.classList.toggle('on',x.dataset.k===cur)});if(reduce)draw(S.still||1.5)}
 function open(){if(!o){o=document.createElement('div');o.id='aso';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-label','Tranh ASCII 3D');
  o.innerHTML='<canvas></canvas><canvas class="gl" style="position:absolute;left:0;top:0;display:none"></canvas><div class="pk"></div><button type="button" class="x" aria-label="Đóng">×</button><p>Bấm bất kỳ đâu hoặc Esc để đóng</p>';document.body.appendChild(o);cv=o.querySelector('canvas');gcv=o.querySelector('canvas.gl');c=cv.getContext('2d');o.addEventListener('click',close);
