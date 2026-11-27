@@ -802,21 +802,23 @@ return{draw:draw,init:init}})();
 /* ---- Ảnh → chữ: vẽ cảnh bằng canvas 2D ở độ phân giải thấp (mỗi điểm ảnh = một ô chữ), phóng to rồi phủ lớp mặt nạ chữ cố định:
    chỉ phần nét chữ để lộ màu, nên cả cảnh thành ký tự màu. Mỗi khung chỉ có vài lệnh vẽ ảnh, rất nhẹ. ---- */
 var IMA=(function(){
-var LR,lg,CC,cc,GL,gl,AT,PV,cw,ch,cols,rows,lw=0,lh=0,RAMP=" .'`,:;irsxXA253hkMHG#9B&8@";
+var LR,lg,CC,cc,GL,gl,AT,PV,cw,ch,cols,rows,lw=0,lh=0,RAMP=[" ",".'`",",:;","!|i","rsc","xzv","oeu","anX","52Z","kAh","#%&","8$B","@QM"],DV=null;
 function setup(){var fsz=Math.max(7,Math.round(Math.min(W,H)/100));ch=fsz;cw=Math.max(4,Math.round(fsz*.6));cols=Math.ceil(W/cw);rows=Math.ceil(H/ch);
  if(cols===lw&&rows===lh&&AT&&CC.width===W&&CC.height===H)return;lw=cols;lh=rows;
  LR=document.createElement('canvas');LR.width=cols;LR.height=rows;lg=LR.getContext('2d',{willReadFrequently:true});
  PV=new Int8Array(cols*rows).fill(-1);CC=document.createElement('canvas');CC.width=W;CC.height=H;cc=CC.getContext('2d');GL=document.createElement('canvas');GL.width=W;GL.height=H;gl=GL.getContext('2d');
  /* bảng ký tự trắng: mỗi mức sáng một ký tự, tô sẵn một lần */
- AT=document.createElement('canvas');AT.width=cw*RAMP.length;AT.height=ch;var g=AT.getContext('2d');g.fillStyle='#fff';g.font='700 '+Math.round(fsz*1.1)+'px Consolas,Menlo,"DejaVu Sans Mono",monospace';g.textBaseline='top';g.textAlign='center';
- for(var i=0;i<RAMP.length;i++)g.fillText(RAMP[i],i*cw+cw/2,-1)}
+ AT=document.createElement('canvas');AT.width=cw*RAMP.length;AT.height=ch*3;var g=AT.getContext('2d');g.fillStyle='#fff';g.font='700 '+Math.round(fsz*1.1)+'px Consolas,Menlo,"DejaVu Sans Mono",monospace';g.textBaseline='top';g.textAlign='center';
+ for(var i=0;i<RAMP.length;i++)for(var v=0;v<3;v++)g.fillText(RAMP[i][v%RAMP[i].length],i*cw+cw/2,v*ch-1);
+ /* mỗi ô một biến thể chữ và một chút nhiễu sáng cố định, để vùng màu đều không thành sọc cùng một chữ */
+ var rr=PXE.rng(13);DV=new Float32Array(cols*rows);for(i=0;i<DV.length;i++)DV[i]=rr()}
 /* vẽ: fn(g) vẽ theo toạ độ màn hình W×H vào lưới thấp (mỗi điểm = một ô chữ); ô sáng dùng ký tự đặc, ô tối dùng ký tự thưa */
 function frame(fn){setup();lg.setTransform(1,0,0,1,0,0);lg.globalCompositeOperation='source-over';lg.globalAlpha=1;lg.fillStyle='#000';lg.fillRect(0,0,cols,rows);
  lg.setTransform(cols/W,0,0,rows/H,0,0);fn(lg,LR);lg.setTransform(1,0,0,1,0,0);
  var id=lg.getImageData(0,0,cols,rows),d=id.data,n=RAMP.length-1,x,y,k,q=0;
- for(y=0;y<rows;y++)for(x=0;x<cols;x++,q++){k=q*4;var L=(d[k]*.3+d[k+1]*.55+d[k+2]*.15)/255,lv=L<.035?0:Math.min(n,1+Math.floor(Math.pow(L,.75)*n));
+ for(y=0;y<rows;y++)for(x=0;x<cols;x++,q++){k=q*4;var dv=DV[q],L=(d[k]*.3+d[k+1]*.55+d[k+2]*.15)/255,lv=L<.07?0:Math.max(1,Math.min(n,Math.floor(Math.pow(L,1.05)*n*1.15+(dv-.5)*1.1))),cv2=lv*4+((dv*3)|0);
   d[k]=Math.min(255,d[k]*1.2);d[k+1]=Math.min(255,d[k+1]*1.2);d[k+2]=Math.min(255,d[k+2]*1.2);
-  if(lv!==PV[q]){PV[q]=lv;gl.clearRect(x*cw,y*ch,cw,ch);if(lv)gl.drawImage(AT,lv*cw,0,cw,ch,x*cw,y*ch,cw,ch)}}
+  if(cv2!==PV[q]){PV[q]=cv2;gl.clearRect(x*cw,y*ch,cw,ch);if(lv)gl.drawImage(AT,lv*cw,((dv*3)|0)*ch,cw,ch,x*cw,y*ch,cw,ch)}}
  lg.putImageData(id,0,0);
  /* tô màu ký tự bằng ảnh phóng to, rồi đẩy sáng lên một chút cho rực */
  cc.globalCompositeOperation='source-over';cc.imageSmoothingEnabled=false;cc.clearRect(0,0,W,H);cc.drawImage(LR,0,0,W,H);cc.globalCompositeOperation='destination-in';cc.drawImage(GL,0,0);
@@ -846,40 +848,24 @@ function init(){var r=PXE.rng(77),i;CL=IMA.noise(256,9,5);
  for(i=0;i<340;i++){var z=Math.pow(r(),.9);DZ.push({x:r(),z:z,ph:r()*6.28,bl:r()<.22,s:.75+.5*r()})}DZ.sort(function(a,b){return a.z-b.z});
  FF=[];for(i=0;i<22;i++)FF.push({x:r(),y:.68+r()*.3,ph:r()*6.28,sp:.2+r()*.5});
  TR=[];for(i=0;i<70;i++)TR.push([r(),r()]);BL=[];for(i=0;i<420;i++)BL.push([r(),Math.pow(r(),.7),r()*6.28,r()]);SK=[];for(i=0;i<160;i++)SK.push([r(),r()*.6,r()]);ready=1}
-function draw(t){if(!ready)init();layers();var T=t,hz=H*.6,i,mx=W*.68,my=H*.24,mr=Math.min(W,H)*.042,g=c,wind=Math.sin(T*.7)*.6+Math.sin(T*1.9)*.25;
- g.setTransform(1,0,0,1,0,0);g.globalAlpha=1;g.globalCompositeOperation='source-over';
- /* trời */
- var sk=g.createLinearGradient(0,0,0,hz);sk.addColorStop(0,'#050f3e');sk.addColorStop(.55,'#112c95');sk.addColorStop(1,'#2652d0');g.fillStyle=sk;g.fillRect(0,0,W,hz);
- for(i=0;i<SK.length;i++){var s=SK[i];g.fillStyle='rgba(220,235,255,'+(.25+.5*s[2])+')';g.fillRect(s[0]*W,s[1]*hz,1.5,1.5)}
- g.globalAlpha=.16;g.drawImage(GS,0,0,W,hz,0,0,W,hz);g.globalAlpha=1;
- /* trăng + quầng */
- var hl=g.createRadialGradient(mx,my,mr*.8,mx,my,mr*5);hl.addColorStop(0,'rgba(200,225,255,.6)');hl.addColorStop(1,'rgba(90,140,255,0)');g.fillStyle=hl;g.fillRect(mx-mr*5,my-mr*5,mr*10,mr*10);
+function draw(t){if(!ready)init();var T=t,hz=H*.6,i,mx=W*.68,my=H*.24,mr=Math.min(W,H)*.042,wind=Math.sin(T*.7)*.6+Math.sin(T*1.9)*.25;
+ /* nền (trời, mây, trăng, rặng cây, cỏ) đổi hết sang ký tự trên nền đen: chỗ sáng chữ đặc, chỗ tối chữ thưa */
+ IMA.frame(function(g){
+  var sk=g.createLinearGradient(0,0,0,hz);sk.addColorStop(0,'#020830');sk.addColorStop(.55,'#08206e');sk.addColorStop(1,'#163fa8');g.fillStyle=sk;g.fillRect(0,0,W,hz);
+  for(i=0;i<SK.length;i++){var s=SK[i];g.fillStyle='rgba(230,240,255,'+(.4+.6*s[2])+')';g.fillRect(s[0]*W,s[1]*hz,4,4)}
+  var hl=g.createRadialGradient(mx,my,mr*.8,mx,my,mr*6);hl.addColorStop(0,'rgba(200,225,255,.85)');hl.addColorStop(1,'rgba(90,140,255,0)');g.fillStyle=hl;g.fillRect(mx-mr*6,my-mr*6,mr*12,mr*12);
+  var cs=W*1.6,off=(T*12)%cs,k2;g.globalAlpha=.85;for(k2=-1;k2<2;k2++)g.drawImage(CL,k2*cs-off,-H*.04,cs,hz*.95);g.globalAlpha=1;
+  g.fillStyle='#ffffff';g.beginPath();g.arc(mx,my,mr*1.1,0,6.2832);g.fill();
+  var sp=(T%11)/1.2;if(sp<1){var sx=W*(.12+.25*sp),sy=H*(.2+.06*sp),ln=W*.1;g.strokeStyle='rgba(255,255,255,.95)';g.lineWidth=5;g.beginPath();g.moveTo(sx-ln,sy-ln*.35);g.lineTo(sx,sy);g.stroke()}
+  var fd=g.createLinearGradient(0,hz,0,H);fd.addColorStop(0,'#0a2a30');fd.addColorStop(.25,'#0a3a28');fd.addColorStop(1,'#126030');g.fillStyle=fd;g.fillRect(0,hz,W,H-hz);
+  g.fillStyle='#000000';g.beginPath();g.moveTo(0,hz+H*.012);for(i=0;i<TR.length;i++){var x=W*(i+TR[i][0]*.6)/TR.length,h=H*(.018+.04*TR[i][1]);g.lineTo(x-W*.006,hz-H*.006);g.lineTo(x,hz-h);g.lineTo(x+W*.006,hz-H*.006)}g.lineTo(W,hz-H*.004);g.lineTo(W,hz+H*.012);g.closePath();g.fill();
+  var mist=g.createLinearGradient(0,hz,0,hz+H*.07);mist.addColorStop(0,'rgba(170,200,255,.8)');mist.addColorStop(1,'rgba(170,200,255,0)');g.fillStyle=mist;g.fillRect(0,hz+H*.012,W,H*.07);
+  g.lineCap='round';for(i=0;i<BL.length;i++){var B=BL[i],z=B[1],y=hz+(H-hz)*Math.pow(z,1.5),x2=B[0]*W,hg=H*(.015+.12*z*z),bd=(wind+.3*Math.sin(T*2+B[2]))*hg*.35;
+   g.strokeStyle='rgba('+(40+60*B[3]|0)+','+(150+100*z|0)+','+(80+50*B[3]|0)+',1)';g.lineWidth=2+4*z;g.beginPath();g.moveTo(x2,y);g.lineTo(x2+bd,y-hg);g.stroke()}
+ });
+ var g=c;g.setTransform(1,0,0,1,0,0);g.globalAlpha=1;g.globalCompositeOperation='source-over';
+ /* trăng tròn sáng vẽ mịn đè lên như video */
  var mg=g.createRadialGradient(mx-mr*.2,my-mr*.2,0,mx,my,mr);mg.addColorStop(0,'#ffffff');mg.addColorStop(1,'#dfe9ff');g.fillStyle=mg;g.beginPath();g.arc(mx,my,mr,0,6.2832);g.fill();
- /* mây: bóng tối phía dưới, thân sáng, rồi phần sáng hiện thành chữ */
- var cs=W*1.6,off=(T*12)%cs,cyy=-H*.04,chh=hz*.95;og.setTransform(1,0,0,1,0,0);og.globalCompositeOperation='source-over';og.globalAlpha=1;og.clearRect(0,0,W,H);
- var paint=function(){og.globalCompositeOperation='source-over';og.clearRect(0,0,W,H);for(var k2=-1;k2<2;k2++)og.drawImage(CL,k2*cs-off,cyy,cs,chh)};
- paint();og.globalCompositeOperation='source-atop';og.fillStyle='#0a1650';og.fillRect(0,0,W,H);g.globalAlpha=.5;g.drawImage(OFF,0,H*.014);
- paint();g.globalAlpha=.42;g.drawImage(OFF,0,0);g.globalAlpha=1;
- og.globalCompositeOperation='destination-in';og.drawImage(GC,0,0);og.globalCompositeOperation='source-atop';og.fillStyle='rgba(150,190,255,1)';og.fillRect(0,0,W,hz);og.globalCompositeOperation='source-over';
- g.globalCompositeOperation='lighter';g.globalAlpha=.75;g.drawImage(OFF,0,0,W,hz,0,0,W,hz);g.globalAlpha=1;g.globalCompositeOperation='source-over';
- /* sao băng */
- var sp=(T%11)/1.2;if(sp<1){var sx=W*(.12+.25*sp),sy=H*(.2+.06*sp),ln=W*.1,gr=g.createLinearGradient(sx-ln,sy-ln*.35,sx,sy);gr.addColorStop(0,'rgba(255,255,255,0)');gr.addColorStop(1,'rgba(255,255,255,.95)');g.strokeStyle=gr;g.lineWidth=1.6;g.beginPath();g.moveTo(sx-ln,sy-ln*.35);g.lineTo(sx,sy);g.stroke()}
- /* đồng cỏ */
- var fd=g.createLinearGradient(0,hz,0,H);fd.addColorStop(0,'#123a3a');fd.addColorStop(.25,'#0f4634');fd.addColorStop(1,'#1d6e3e');g.fillStyle=fd;g.fillRect(0,hz,W,H-hz);
- /* rặng thông tối */
- g.fillStyle='#0a1430';g.beginPath();g.moveTo(0,hz+H*.012);for(i=0;i<TR.length;i++){var x=W*(i+TR[i][0]*.6)/TR.length,h=H*(.018+.04*TR[i][1]);g.lineTo(x-W*.006,hz-H*.006);g.lineTo(x,hz-h);g.lineTo(x+W*.006,hz-H*.006)}g.lineTo(W,hz-H*.004);g.lineTo(W,hz+H*.012);g.closePath();g.fill();
- /* dải hoa xa li ti ngay dưới rặng cây */
- var mist=g.createLinearGradient(0,hz,0,hz+H*.06);mist.addColorStop(0,'rgba(140,180,255,.35)');mist.addColorStop(1,'rgba(140,180,255,0)');g.fillStyle=mist;g.fillRect(0,hz,W,H*.06);
- for(i=0;i<240;i++){var dx=((i*97.3)%W),dy=hz+H*(.012+.03*((i*.618)%1));g.fillStyle=i%5?'rgba(225,235,255,.85)':'rgba(255,215,80,.9)';g.fillRect(dx,dy,2,2)}
- /* cỏ + vân chữ xanh */
- g.globalAlpha=.22;g.drawImage(GF,0,hz,W,H-hz,0,hz,W,H-hz);g.globalAlpha=1;g.globalCompositeOperation='source-atop';g.fillStyle='rgba(60,170,90,.0)';g.globalCompositeOperation='source-over';
- g.lineCap='round';for(i=0;i<BL.length;i++){var B=BL[i],z=B[1],y=hz+(H-hz)*Math.pow(z,1.5),x2=B[0]*W,hg=H*(.015+.12*z*z),bd=(wind+.3*Math.sin(T*2+B[2]))*hg*.35;
-  g.strokeStyle='rgba('+(30+50*B[3]|0)+','+(110+100*z|0)+','+(70+50*B[3]|0)+','+(.35+.5*z)+')';g.lineWidth=.6+1.4*z;g.beginPath();g.moveTo(x2,y);g.quadraticCurveTo(x2+bd*.3,y-hg*.6,x2+bd,y-hg);g.stroke()}
- /* lớp chữ phủ toàn cảnh (trời, mây, rặng cây, cỏ): cảnh vẫn mịn bên dưới nhưng nhìn rõ từng ký tự, chỗ sáng chữ sáng */
- og.setTransform(1,0,0,1,0,0);og.globalAlpha=1;og.globalCompositeOperation='source-over';og.clearRect(0,0,W,H);og.drawImage(cv,0,0,W,H);og.globalCompositeOperation='destination-in';og.drawImage(GA,0,0);og.globalCompositeOperation='source-over';
- g.fillStyle='rgba(0,0,0,.3)';g.fillRect(0,0,W,H);g.globalCompositeOperation='lighter';g.globalAlpha=.75;g.drawImage(OFF,0,0);g.globalAlpha=1;g.globalCompositeOperation='source-over';
- /* trăng vẽ lại trên lớp chữ cho tròn sáng */
- var hl2=g.createRadialGradient(mx,my,mr*.8,mx,my,mr*3.2);hl2.addColorStop(0,'rgba(210,230,255,.55)');hl2.addColorStop(1,'rgba(90,140,255,0)');g.fillStyle=hl2;g.fillRect(mx-mr*3.2,my-mr*3.2,mr*6.4,mr*6.4);g.fillStyle=mg;g.beginPath();g.arc(mx,my,mr,0,6.2832);g.fill();
  /* hoa cúc: xa nhỏ, gần to, đung đưa theo gió */
  for(i=0;i<DZ.length;i++){var D=DZ[i],z2=D.z,y2=hz+H*.03+(H-hz)*Math.pow(z2,1.6),sz=(2+H*.034*z2*z2)*D.s,sw=(wind+.4*Math.sin(T*1.6+D.ph))*sz*.5,x3=D.x*W+sw,stem=H*.07*z2*z2;
   if(stem>3){g.strokeStyle='rgba(50,150,80,.85)';g.lineWidth=Math.max(1,sz*.08);g.beginPath();g.moveTo(D.x*W,y2+stem);g.lineTo(x3,y2);g.stroke()}
