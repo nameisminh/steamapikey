@@ -963,7 +963,7 @@ function draw(t0){if(!ready)init();var t=t0%DUR,S=Math.min(W,H),lab='',info='';
    g.restore();
    g.save();g.globalAlpha=fo;g.translate(rx,ry);g.rotate(pitch);if(rs>S*.03)rocket(g,rs,t,t>.6?1:0,ss(6,7.6,t));else{var dg=g.createRadialGradient(0,0,0,0,0,S*.02);dg.addColorStop(0,'rgba(255,245,210,1)');dg.addColorStop(1,'rgba(255,160,60,0)');g.fillStyle=dg;g.fillRect(-S*.02,-S*.02,S*.04,S*.04)}g.restore()}
   /* ngôi sao Mặt Trời khi đã lùi rất xa */
-  var spk=ss(23,25,t);if(spk>0){g.fillStyle='rgba(255,250,225,'+spk+')';var L=S*lerp(.05,.012,ss(25,29,t));g.fillRect(SX-L,SY-1.5,L*2,3);g.fillRect(SX-1.5,SY-L,3,L*2);var sg2=g.createRadialGradient(SX,SY,0,SX,SY,S*.03);sg2.addColorStop(0,'rgba(255,240,200,'+spk+')');sg2.addColorStop(1,'rgba(255,200,120,0)');g.fillStyle=sg2;g.fillRect(SX-S*.03,SY-S*.03,S*.06,S*.06)}
+  var spk=ss(23,25,t),shr=ss(25,29,t);if(spk>0){/* Mặt Trời: từ ngôi sao lấp lánh nhỏ dần thành một chấm mờ lẫn giữa hàng tỉ sao của Ngân Hà */var al=spk*(1-.55*shr),L=S*lerp(.05,.004,shr),th=lerp(3,1,shr);g.fillStyle='rgba(255,250,225,'+al+')';if(shr<.95){g.fillRect(SX-L,SY-th/2,L*2,th);g.fillRect(SX-th/2,SY-L,th,L*2)}var gr2=S*lerp(.03,.006,shr),sg2=g.createRadialGradient(SX,SY,0,SX,SY,gr2);sg2.addColorStop(0,'rgba(255,240,200,'+al+')');sg2.addColorStop(1,'rgba(255,200,120,0)');g.fillStyle=sg2;g.fillRect(SX-gr2,SY-gr2,gr2*2,gr2*2)}
  });
  lab=t<1.4?'ignition':t<6?'lift-off':t<9?'second stage':t<13?'in orbit':t<23?'the solar system':t<26?'the stars':'the Milky Way';
  info=t<13?'altitude '+Math.round(alt/H*8+Math.pow(Math.max(0,t-4),2)*9)+' km   downrange '+Math.round(Math.pow(Math.max(0,t-3),2)*12)+' km':t<23?(AU>S*3?Math.round(4e5+(t-13)*9e5).toLocaleString('en-US')+' km':(S*14/AU).toFixed(1)+' AU')+' from home':t<26?(1.3+(t-23)*300).toFixed(1)+' light-years from home':Math.round(26000+(t-26)*30000).toLocaleString('en-US')+' light-years from home';
@@ -971,7 +971,7 @@ function draw(t0){if(!ready)init();var t=t0%DUR,S=Math.min(W,H),lab='',info='';
  if(t>14.5&&t<23.5){var la=ss(14.5,16,t)*(1-ss(22,23.5,t));c.font='10px Consolas,Menlo,monospace';c.textAlign='left';c.textBaseline='middle';c.fillStyle='rgba(200,210,235,'+(.85*la)+')';
   var NM=['Mercury','Venus','Earth','Mars','Jupiter','Saturn','Uranus','Neptune'];for(var q=0;q<PL.length;q++){var Ro3=AU*PL[q][0],pa3=q===2?ang:ang+.8+q*.9+t*.05,lx=SX+Math.cos(pa3)*Ro3,ly=SY+Math.sin(pa3)*Ro3*.62;if(lx<-50||lx>W+50||ly<-20||ly>H+20)continue;c.fillText(NM[q],lx+Math.max(6,AU*.04),ly)}
   c.fillStyle='rgba(255,220,150,'+(.9*la)+')';c.fillText('Sun',SX+Math.max(8,AU*.13),SY)}
- if(t>26.5){var la2=ss(26.5,28,t);c.font='10px Consolas,Menlo,monospace';c.textAlign='left';c.textBaseline='middle';c.fillStyle='rgba(255,225,160,'+la2+')';c.fillText('← the solar system',SX+10,SY)}
+ if(t>26.5){var la2=ss(26.5,28,t);c.font='10px Consolas,Menlo,monospace';c.textAlign='left';c.textBaseline='middle';c.fillStyle='rgba(220,210,190,'+(.55*la2)+')';c.font='9px Consolas,Menlo,monospace';c.fillText('· the solar system',SX+5,SY)}
  hud(t,lab,info);glow(.5)}
 return{draw:draw,init:init}})();
 
