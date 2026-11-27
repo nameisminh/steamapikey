@@ -980,11 +980,47 @@ function draw(t0){if(!ready)init();var t=t0%DUR,S=Math.min(W,H),lab='',info='';
 return{draw:draw,init:init}})();
 
 
+
+/* ---- Bó hoa ly (theo video mẫu): thân và lá mọc lên, nụ nhú ra, rồi từng bông ly sáu cánh nở bung, nhiều màu; vẽ ảnh rồi đổi sang ký tự (IMA) ---- */
+var LILY=(function(){
+var ready=0,FL=[],LV=[],ST=[],DUR=18;
+var COL=[[230,40,45],[235,90,190],[250,240,235],[250,205,50],[245,170,140],[150,20,40],[255,120,170],[240,225,210],[255,150,60],[200,60,200],[250,250,245],[235,60,70],[255,215,90],[240,160,200],[170,30,50]];
+function ss(a,b,x){return PXE.ss(a,b,x)}
+function init(){var r=PXE.rng(51),i;FL=[];
+ for(i=0;i<12;i++){var a=i*2.39996,rr=Math.sqrt((i+.5)/12);FL.push({u:Math.cos(a)*rr*.95,v:Math.sin(a)*rr,rot:r()*6.28,tilt:.55+.45*r(),sz:.85+.3*r(),col:COL[i%COL.length],dl:(1-rr)*.5+r()*.9,spot:r()<.6,ph:r()*6.28})}
+ FL.sort(function(a,b){return a.v-b.v});LV=[];for(i=0;i<16;i++)LV.push([(r()-.5)*1.4,.55+.5*r(),r()<.5?-1:1,r()*6.28]);ST=[];for(i=0;i<220;i++)ST.push([r(),r(),r()]);ready=1}
+function petal(g,L,w,c,o,spot){var gr=g.createLinearGradient(0,0,L,0);gr.addColorStop(0,'rgb('+(c[0]*.45|0)+','+(c[1]*.4|0)+','+(c[2]*.4|0)+')');gr.addColorStop(.35,'rgb('+c[0]+','+c[1]+','+c[2]+')');gr.addColorStop(1,'rgb('+Math.min(255,c[0]*.8+70|0)+','+Math.min(255,c[1]*.8+70|0)+','+Math.min(255,c[2]*.8+70|0)+')');
+ g.fillStyle=gr;g.beginPath();g.moveTo(0,0);g.bezierCurveTo(L*.3,-w,L*.72,-w*.85,L,0);g.bezierCurveTo(L*.72,w*.85,L*.3,w,0,0);g.fill();g.strokeStyle='rgba(0,0,0,.75)';g.lineWidth=Math.max(2,w*.16);g.stroke();
+ g.strokeStyle='rgba(255,255,255,.35)';g.lineWidth=Math.max(1,w*.12);g.beginPath();g.moveTo(L*.12,0);g.quadraticCurveTo(L*.5,-w*.08,L*.95,0);g.stroke();
+ if(spot){g.fillStyle='rgba(60,0,10,.55)';for(var k=0;k<5;k++){var px=L*(.18+.08*k),py=(k%2?1:-1)*w*.25;g.beginPath();g.arc(px,py,Math.max(1,w*.09),0,6.2832);g.fill()}}}
+function lily(g,x,y,R,F,o,t){g.save();g.translate(x,y);g.scale(1,F.tilt);g.rotate(F.rot+.15*Math.sin(t*.6+F.ph));var L=R*(.28+.72*o),w=R*(.14+.24*o);
+ for(var k=0;k<6;k++){g.save();g.rotate(k*1.0472+(k%2?.08:0));petal(g,L*(k%2?.92:1),w*(k%2?.9:1),F.col,o,F.spot&&F.col[1]<200);g.restore()}
+ var cg=g.createRadialGradient(0,0,0,0,0,L*.32);cg.addColorStop(0,'rgba(40,10,10,.9)');cg.addColorStop(1,'rgba(40,10,10,0)');g.fillStyle=cg;g.beginPath();g.arc(0,0,L*.32,0,6.2832);g.fill();
+ if(o>.5){var so=(o-.5)*2;g.strokeStyle='rgba(120,190,90,'+so+')';g.lineWidth=Math.max(1,R*.025);for(k=0;k<6;k++){var a=k*1.0472+.5,ex=Math.cos(a)*L*.55,ey=Math.sin(a)*L*.55;g.beginPath();g.moveTo(0,0);g.lineTo(ex,ey);g.stroke();g.fillStyle='rgba(150,60,20,'+so+')';g.beginPath();g.ellipse(ex,ey,R*.06,R*.03,a,0,6.2832);g.fill()}}
+ g.restore()}
+function draw(t0){if(!ready)init();var t=t0%DUR,S=Math.min(W,H),cx=W/2,base=H*.86,hx=cx,hy=H*.38,RX=S*.3,RY=S*.32,fo=1-ss(16.8,17.8,t),sw=.012*Math.sin(t*.8);
+ IMA.frame(function(g){var i;
+  for(i=0;i<ST.length;i++){var s=ST[i],tw=.5+.5*Math.sin(t*2+s[2]*20);g.fillStyle='rgba(255,255,255,'+(.25+.6*tw*s[2])*fo+')';g.fillRect(s[0]*W,s[1]*H,3,3)}
+  g.globalAlpha=fo;var grow=ss(.2,3,t);
+  /* lá dài mọc từ gốc */
+  for(i=0;i<LV.length;i++){var l=LV[i],gl=ss(.1+i*.05,2.2+i*.05,t);if(gl<=0)continue;var lx=cx+l[0]*S*.08,len=S*l[1]*.55*gl,bend=l[2]*S*(.08+.06*Math.sin(l[3]))+Math.sin(t*.9+l[3])*S*.01,tx=lx+bend,ty=base-len;
+   g.fillStyle='rgb('+(40+30*Math.sin(l[3])|0)+','+(150+40*Math.cos(l[3])|0)+',60)';g.beginPath();g.moveTo(lx-S*.012,base);g.quadraticCurveTo(lx+bend*.3,base-len*.6,tx,ty);g.quadraticCurveTo(lx+bend*.35,base-len*.55,lx+S*.012,base);g.fill()}
+  /* thân và hoa */
+  for(i=0;i<FL.length;i++){var F=FL[i],x=hx+F.u*RX+sw*S*(1-F.v),y=hy+F.v*RY,gs=ss(.5+F.dl*.3,2.8+F.dl*.3,t),sx2=cx+(F.u*.15)*S,yy=base-(base-y)*gs,xx=sx2+(x-sx2)*gs;
+   g.strokeStyle='rgb(70,165,70)';g.lineWidth=Math.max(2,S*.008);g.beginPath();g.moveTo(sx2,base);g.quadraticCurveTo(sx2,(base+yy)/2,xx,yy);g.stroke()}
+  for(i=0;i<FL.length;i++){var F2=FL[i],x2=hx+F2.u*RX+sw*S*(1-F2.v),y2=hy+F2.v*RY,gs2=ss(.5+F2.dl*.3,2.8+F2.dl*.3,t),sx3=cx+(F2.u*.15)*S,yy2=base-(base-y2)*gs2,xx2=sx3+(x2-sx3)*gs2,R=S*.15*F2.sz,
+    bud=ss(2.4+F2.dl,3.6+F2.dl,t),op=ss(4+F2.dl*1.4,6.4+F2.dl*1.4,t);if(bud<=0)continue;
+   if(op<.05){g.save();g.translate(xx2,yy2);g.rotate(Math.atan2(xx2-sx3,-(yy2-base))*.6);var bc=F2.col,bg=g.createLinearGradient(0,0,0,-R*.7);bg.addColorStop(0,'rgb(70,150,70)');bg.addColorStop(1,'rgb('+(bc[0]*.7|0)+','+(bc[1]*.6|0)+','+(bc[2]*.6|0)+')');g.fillStyle=bg;g.beginPath();g.ellipse(0,-R*.3*bud,R*.1*bud,R*.38*bud,0,0,6.2832);g.fill();g.restore()}
+   else lily(g,xx2,yy2,R,F2,op,t)}
+  g.globalAlpha=1});
+ glow(.45)}
+return{draw:draw,init:init}})();
+
 function pick(){var q=(location.search.match(/[?&]asc=(\w+)/)||[])[1];if(q)return q;var d=new Date(),m=d.getMonth()+1,n=d.getDate();
  if(m===12&&n>=20&&n<=26)return'noel';return'tim'}
-var LIST=[['tim','Trái tim'],['noel','Giáng sinh'],['lo','Hố đen'],['mat','Con mắt'],['bloom','Hoa nở'],['bfly','Bướm'],['rosa','Hoa hồng'],['rkt','Tên lửa'],['field','Cánh đồng']];
+var LIST=[['tim','Trái tim'],['noel','Giáng sinh'],['lo','Hố đen'],['mat','Con mắt'],['bloom','Hoa nở'],['bfly','Bướm'],['rosa','Hoa hồng'],['rkt','Tên lửa'],['field','Cánh đồng'],['lily','Hoa ly']];
 function scene(k){
- return{field:{r:FIELD.draw,init:FIELD.init,still:12},rkt:{r:RKT.draw,init:RKT.init,still:14},rosa:{r:ROSA.draw,init:ROSA.init,still:30},bloom:{r:BLOOM.draw,init:BLOOM.init,still:9},bfly:{r:BFLY.draw,init:BFLY.init,still:9.5},lo:{r:BHX.draw,init:BHX.init,still:12},mat:{r:EYE.draw,init:EYE.init,still:10},tim:{r:heartDraw,init:heartInit,still:30},noel:{gl:'noel',glm:{part:1,bg:1},r:SNOWX.draw,init:SNOWX.init,still:7}}[k]||0}
+ return{lily:{r:LILY.draw,init:LILY.init,still:9},field:{r:FIELD.draw,init:FIELD.init,still:12},rkt:{r:RKT.draw,init:RKT.init,still:14},rosa:{r:ROSA.draw,init:ROSA.init,still:30},bloom:{r:BLOOM.draw,init:BLOOM.init,still:9},bfly:{r:BFLY.draw,init:BFLY.init,still:9.5},lo:{r:BHX.draw,init:BHX.init,still:12},mat:{r:EYE.draw,init:EYE.init,still:10},tim:{r:heartDraw,init:heartInit,still:30},noel:{gl:'noel',glm:{part:1,bg:1},r:SNOWX.draw,init:SNOWX.init,still:7}}[k]||0}
 function M(x,y,z){D=1e9;var ox=x*CA+z*SA,oz=z*CA-x*SA;OX=ox;OY=y;OZ=oz;RR=Math.sqrt(ox*ox+oz*oz);if(S.pol)AN=Math.atan2(oz,ox);if(!S.ng)u(Math.max(y,RR-3.4),0);S.m(ox,y,oz);return D}
 function trace(sx,sy,fy,fz,T,cy,cd){
  var dx=sx*T,dy=fy+sy*T*fz,dz=fz-sy*T*fy,q=1/Math.sqrt(dx*dx+dy*dy+dz*dz);dx*=q;dy*=q;dz*=q;
