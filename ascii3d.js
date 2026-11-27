@@ -614,7 +614,7 @@ return{cell:function(){return Math.min(cw,ch)/SC},setup:setup,clear:clear,splat:
 
 /* ---- Hoa nở ---- */
 var BLOOM=(function(){
-var U=48,V=28,BLOW=7.6,E=55*Math.PI/180,LAY=[[6,1,.34,80,2,5.2,.7,0,1],[6,.8,.3,58,2.3,5.5,.5,Math.PI/6,.95],[5,.62,.27,40,2.6,5.8,.35,.3,.9],[4,.46,.24,26,2.9,6.1,.2,.9,.85]];
+var LOWP=(Math.min(innerWidth,innerHeight)<560||(navigator.hardwareConcurrency||8)<=4),U=LOWP?34:48,V=LOWP?20:28,BLOW=7.6,E=55*Math.PI/180,LAY=[[6,1,.34,80,2,5.2,.7,0,1],[6,.8,.3,58,2.3,5.5,.5,Math.PI/6,.95],[5,.62,.27,40,2.6,5.8,.35,.3,.9],[4,.46,.24,26,2.9,6.1,.2,.9,.85]];
 var P,pet=[],JIT,PID,COL,AO,NC=1100,CR,CA,CJ,CP,ready=0,last=0,CFG;
 var STOPS=[[.7,.02,.2],[1,.12,.38],[1,.42,.62],[1,.8,.84]],WIND=[1.7,0,.75];
 function norm(v){var m=Math.hypot(v[0],v[1],v[2]);return[v[0]/m,v[1]/m,v[2]/m]}
@@ -656,7 +656,7 @@ return{draw:draw,init:init}})();
 
 /* ---- Bướm ---- */
 var BFLY=(function(){
-var CRACK=2.9,HATCH=3.3,OPEN=5.6,FLY=7.7,U=40,V=60,BU=60,BV=30,AN=100,SU=70,SV=80,ready=0,last=0,CFG,WG=[],BODY,BODYN,BCOL,ANT,ACOL,SH,SHN,SCOL,SDEL,SEAM,SOUT,SJIT,SPID,BJIT,BPID,NB;
+var LOWB=(Math.min(innerWidth,innerHeight)<560||(navigator.hardwareConcurrency||8)<=4),CRACK=2.9,HATCH=3.3,OPEN=5.6,FLY=7.7,U=LOWB?30:40,V=LOWB?44:60,BU=LOWB?40:60,BV=LOWB?22:30,AN=100,SU=LOWB?50:70,SV=LOWB?58:80,ready=0,last=0,CFG,WG=[],BODY,BODYN,BCOL,ANT,ACOL,SH,SHN,SCOL,SDEL,SEAM,SOUT,SJIT,SPID,BJIT,BPID,NB;
 var FORE=[[-14,.82],[-4,.9],[10,.95],[24,1.12],[36,1.33],[43,1.36],[50,1.16],[58,.72],[66,.1]],HIND=[[-88,.12],[-78,.62],[-66,.88],[-54,.97],[-42,.96],[-28,.9],[-12,.78],[4,.55],[14,.3]];
 var STOPS=[[.05,.05,.55],[.04,.22,1],[.08,.52,1],[.45,.88,1]],WIND=[.9,.5,.35];
 function ss(a,b,x){return PXE.ss(a,b,x)}
@@ -802,8 +802,8 @@ return{draw:draw,init:init}})();
 /* ---- Ảnh → chữ: vẽ cảnh bằng canvas 2D ở độ phân giải thấp (mỗi điểm ảnh = một ô chữ), phóng to rồi phủ lớp mặt nạ chữ cố định:
    chỉ phần nét chữ để lộ màu, nên cả cảnh thành ký tự màu. Mỗi khung chỉ có vài lệnh vẽ ảnh, rất nhẹ. ---- */
 var IMA=(function(){
-var LR,lg,CC,cc,GL,gl,AT,PV,cw,ch,cols,rows,lw=0,lh=0,RAMP=[" ",".'`",",:;","!|i","rsc","xzv","oeu","anX","52Z","kAh","#%&","8$B","@QM"],DV=null;
-function setup(){var fsz=Math.max(7,Math.round(Math.min(W,H)/100));ch=fsz;cw=Math.max(4,Math.round(fsz*.6));cols=Math.ceil(W/cw);rows=Math.ceil(H/ch);
+var LR,lg,CC,cc,GL,gl,AT,PV,cw,ch,cols,rows,lw=0,lh=0,QS=(Math.min(W||800,H||800)<560||(navigator.hardwareConcurrency||8)<=4)?1.25:1,EM=16,HO=40,RAMP=[" ",".'`",",:;","!|i","rsc","xzv","oeu","anX","52Z","kAh","#%&","8$B","@QM"],DV=null;
+function setup(){var fsz=Math.max(7,Math.round(Math.min(W,H)/100*QS));ch=fsz;cw=Math.max(4,Math.round(fsz*.6));cols=Math.ceil(W/cw);rows=Math.ceil(H/ch);
  if(cols===lw&&rows===lh&&AT&&CC.width===W&&CC.height===H)return;lw=cols;lh=rows;
  LR=document.createElement('canvas');LR.width=cols;LR.height=rows;lg=LR.getContext('2d',{willReadFrequently:true});
  PV=new Int8Array(cols*rows).fill(-1);CC=document.createElement('canvas');CC.width=W;CC.height=H;cc=CC.getContext('2d');GL=document.createElement('canvas');GL.width=W;GL.height=H;gl=GL.getContext('2d');
@@ -813,7 +813,7 @@ function setup(){var fsz=Math.max(7,Math.round(Math.min(W,H)/100));ch=fsz;cw=Mat
  /* mỗi ô một biến thể chữ và một chút nhiễu sáng cố định, để vùng màu đều không thành sọc cùng một chữ */
  var rr=PXE.rng(13);DV=new Float32Array(cols*rows);for(i=0;i<DV.length;i++)DV[i]=rr()}
 /* vẽ: fn(g) vẽ theo toạ độ màn hình W×H vào lưới thấp (mỗi điểm = một ô chữ); ô sáng dùng ký tự đặc, ô tối dùng ký tự thưa */
-function frame(fn){setup();lg.setTransform(1,0,0,1,0,0);lg.globalCompositeOperation='source-over';lg.globalAlpha=1;lg.fillStyle='#000';lg.fillRect(0,0,cols,rows);
+function frame(fn){var T0=performance.now();setup();lg.setTransform(1,0,0,1,0,0);lg.globalCompositeOperation='source-over';lg.globalAlpha=1;lg.fillStyle='#000';lg.fillRect(0,0,cols,rows);
  lg.setTransform(cols/W,0,0,rows/H,0,0);fn(lg,LR);lg.setTransform(1,0,0,1,0,0);
  var id=lg.getImageData(0,0,cols,rows),d=id.data,n=RAMP.length-1,x,y,k,q=0;
  for(y=0;y<rows;y++)for(x=0;x<cols;x++,q++){k=q*4;var dv=DV[q],L=(d[k]*.3+d[k+1]*.55+d[k+2]*.15)/255,lv=L<.07?0:Math.max(1,Math.min(n,Math.floor(Math.pow(L,1.05)*n*1.15+(dv-.5)*1.1))),cv2=lv*4+((dv*3)|0);
@@ -822,7 +822,9 @@ function frame(fn){setup();lg.setTransform(1,0,0,1,0,0);lg.globalCompositeOperat
  lg.putImageData(id,0,0);
  /* tô màu ký tự bằng ảnh phóng to, rồi đẩy sáng lên một chút cho rực */
  cc.globalCompositeOperation='source-over';cc.imageSmoothingEnabled=false;cc.clearRect(0,0,W,H);cc.drawImage(LR,0,0,W,H);cc.globalCompositeOperation='destination-in';cc.drawImage(GL,0,0);
- c.setTransform(1,0,0,1,0,0);c.globalAlpha=1;c.globalCompositeOperation='source-over';c.fillStyle='#000';c.fillRect(0,0,W,H);c.drawImage(CC,0,0)}
+ c.setTransform(1,0,0,1,0,0);c.globalAlpha=1;c.globalCompositeOperation='source-over';c.fillStyle='#000';c.fillRect(0,0,W,H);c.drawImage(CC,0,0);
+ /* máy chậm thì ô chữ to dần (ít ô hơn), máy khoẻ thì mịn lại; đợi ổn định mới đổi để không nháy */
+ EM=EM*.9+(performance.now()-T0)*.1;if(HO>0){HO--;return}if(EM>24&&QS<1.9){QS*=1.15;lw=0;HO=60;EM=16}else if(EM<8&&QS>1){QS=Math.max(1,QS/1.08);lw=0;HO=180;EM=16}}
 function pix(fn){var id=lg.getImageData(0,0,cols,rows),d=id.data;fn(d,cols,rows,W/cols,H/rows);lg.putImageData(id,0,0)}
 function noise(n,seed,oct){/* ảnh nhiễu mây tuần hoàn n×n */var cv=document.createElement('canvas');cv.width=cv.height=n;var g=cv.getContext('2d'),r=PXE.rng(seed),im=g.createImageData(n,n),v=new Float32Array(n*n);
  for(var o=0;o<oct;o++){var f=4<<o,a=1/(1<<o),gr=[];for(var i=0;i<f*f;i++)gr.push(r());for(var y=0;y<n;y++)for(var x=0;x<n;x++){var fx=x/n*f,fy=y/n*f,x0=Math.floor(fx),y0=Math.floor(fy),tx=fx-x0,ty=fy-y0;tx=tx*tx*(3-2*tx);ty=ty*ty*(3-2*ty);
@@ -845,7 +847,7 @@ function daisy(sz,blue){/* một bông cúc: 14 cánh trắng viền xám xanh, 
 function init(){var r=PXE.rng(77),i;CL=IMA.noise(256,9,5);
  /* mây thành từng mảng: tăng tương phản cho có khoảng trời xanh xen giữa */
  var cg=CL.getContext('2d'),im=cg.getImageData(0,0,256,256),dd=im.data;for(i=3;i<dd.length;i+=4)dd[i]=Math.max(0,Math.min(255,(dd[i]/255-.38)*2.4*255));cg.putImageData(im,0,0);DZ=[];
- for(i=0;i<340;i++){var z=Math.pow(r(),.9);DZ.push({x:r(),z:z,ph:r()*6.28,bl:r()<.22,s:.75+.5*r()})}DZ.sort(function(a,b){return a.z-b.z});
+ var nd=Math.min(W,H)<560?200:340;for(i=0;i<nd;i++){var z=Math.pow(r(),.9);DZ.push({x:r(),z:z,ph:r()*6.28,bl:r()<.22,s:.75+.5*r()})}DZ.sort(function(a,b){return a.z-b.z});
  FF=[];for(i=0;i<22;i++)FF.push({x:r(),y:.68+r()*.3,ph:r()*6.28,sp:.2+r()*.5});
  TR=[];for(i=0;i<70;i++)TR.push([r(),r()]);BL=[];for(i=0;i<420;i++)BL.push([r(),Math.pow(r(),.7),r()*6.28,r()]);SK=[];for(i=0;i<160;i++)SK.push([r(),r()*.6,r()]);ready=1}
 function draw(t){if(!ready)init();var T=t,hz=H*.6,i,mx=W*.68,my=H*.24,mr=Math.min(W,H)*.042,wind=Math.sin(T*.7)*.6+Math.sin(T*1.9)*.25;
@@ -926,11 +928,13 @@ function draw(t0){if(!ready)init();var t=t0%DUR,S=Math.min(W,H),lab='',info='';
   AU=lg(S*14,S*.11,ss(13.5,25,t)),ang=-.95,camK=ss(15,22,t),sunX=-Math.cos(ang)*AU,sunY=-Math.sin(ang)*AU*.62,offX=-sunX*camK,offY=-sunY*camK,
   ex=W*.5+offX,ey=eyC+offY,SX=W*.5+sunX+offX,SY=eyC+sunY+offY,
   /* Ngân Hà: lùi ra khỏi đĩa thiên hà, Mặt Trời nằm trên một nhánh */
-  GS=lg(S*7,S*.85,ss(24,30.5,t)),gfo=ss(23.5,27,t),gr7=t*.05;
+  GS=lg(S*7,S*.85,ss(24,30.5,t)),gfo=ss(23.5,27,t),gr7=t*.05,gpan=ss(26,31,t),GT=1.05,GA=-.5,GR=.62,
+  gux=GR*Math.cos(GA),guy=GR*Math.sin(GA)*Math.cos(GT),gcx=W*.5-gux*GS*(1-gpan),gcy=H*.5-guy*GS*(1-gpan),sunGX=gcx+gux*GS,sunGY=gcy+guy*GS;
+ if(t>23){SX=sunGX;SY=sunGY}
  IMA.frame(function(g){var i;
   stars(g,.25+.75*ss(9,28,t),1-.5*gfo);
   /* Ngân Hà (vẽ trước, nằm dưới cùng) */
-  if(gfo>0){var tl=1.05,ct=Math.cos(tl),cr=Math.cos(-.5),sr=Math.sin(-.5),gx=W*.5-.55*GS*Math.cos(-.5),gy=H*.5-.55*GS*Math.sin(-.5)*ct;
+  if(gfo>0){var tl=GT,ct=Math.cos(tl),cr=1,sr=0,gx=gcx,gy=gcy;
    IMA.pix(function(d,cols,rows,sx7,sy7){for(var y=0;y<rows;y++)for(var x=0;x<cols;x++){var X=((x+.5)*sx7-gx)/GS,Y=((y+.5)*sy7-gy)/GS,xr=X*cr+Y*sr,yr=(-X*sr+Y*cr)/ct,r=Math.hypot(xr,yr);if(r>1.25)continue;
      var th=Math.atan2(yr,xr)-gr7,arm=0;for(var a=0;a<2;a++){var dth=((th-a*Math.PI-Math.log(r+.06)*2.6)%Math.PI+Math.PI*2)%Math.PI;dth=Math.min(dth,Math.PI-dth);arm=Math.max(arm,Math.exp(-dth*dth/(.09+.12*r)))}
      var core=Math.exp(-r*r/.035),dust=Math.exp(-Math.pow(((th-Math.log(r+.06)*2.6-.35)%Math.PI+Math.PI)%Math.PI,2)/.01)*(r>.15&&r<.9?.7:0),fall=Math.max(0,1-r/1.25),
@@ -943,10 +947,14 @@ function draw(t0){if(!ready)init();var t=t0%DUR,S=Math.min(W,H),lab='',info='';
    for(i=0;i<PL.length;i++){var Ro=AU*PL[i][0];if(Ro>W*3)continue;g.beginPath();g.ellipse(SX,SY,Ro,Ro*.62,0,0,6.2832);g.stroke()}g.setLineDash([]);
    for(i=0;i<PL.length;i++){if(i===2)continue;var Ro2=AU*PL[i][0],pa=ang+.8+i*.9+t*.05,px=SX+Math.cos(pa)*Ro2,py=SY+Math.sin(pa)*Ro2*.62,pr=Math.max(3,AU*.025*PL[i][1]),pg=g.createRadialGradient(px-pr*.35,py-pr*.35,0,px,py,pr);
     pg.addColorStop(0,'#ffffff');pg.addColorStop(.35,PL[i][2]);pg.addColorStop(1,'rgba(20,20,40,1)');g.fillStyle=pg;g.beginPath();g.arc(px,py,pr,0,6.2832);g.fill();if(i===5){g.strokeStyle='rgba(255,230,170,.9)';g.lineWidth=Math.max(1.5,pr*.3);g.beginPath();g.ellipse(px,py,pr*2.1,pr*.6,-.3,0,6.2832);g.stroke()}}
+   /* vành đai tiểu hành tinh giữa Sao Hoả và Sao Mộc */
+   for(i=0;i<260;i++){var ba=i*2.39996+t*.02,br=AU*(1.95+.35*((i*.618)%1));g.fillStyle='rgba(200,180,150,.9)';g.fillRect(SX+Math.cos(ba)*br,SY+Math.sin(ba)*br*.62,Math.max(2,S*.004),Math.max(2,S*.004))}
    g.globalAlpha=sfo;var co=g.createRadialGradient(SX,SY,sunR*.7,SX,SY,sunR*2.4);co.addColorStop(0,'rgba(255,200,90,.7)');co.addColorStop(1,'rgba(255,140,40,0)');g.fillStyle=co;g.beginPath();g.arc(SX,SY,sunR*2.4,0,6.2832);g.fill();
    var su=g.createRadialGradient(SX-sunR*.15,SY-sunR*.15,0,SX,SY,sunR);su.addColorStop(0,'#ffffff');su.addColorStop(.5,'#fff3b0');su.addColorStop(.85,'#ffc040');su.addColorStop(1,'#ff8a20');g.fillStyle=su;g.beginPath();g.arc(SX,SY,sunR,0,6.2832);g.fill();g.globalAlpha=1}
   /* Trái Đất (từ mép cong dưới chân tên lửa tới chấm xanh trên quỹ đạo) */
   var efo=ss(4.6,6.5,t)*(1-ss(23,25,t));earth(t,ex,ey,RE,efo);
+  /* khi Trái Đất đã nhỏ hơn một ô chữ: vẫn giữ chấm xanh đúng chỗ trên quỹ đạo thứ ba */
+  if(RE<S*.03&&efo>0){var er=Math.max(3,AU*.03),eg=g.createRadialGradient(ex-er*.3,ey-er*.3,0,ex,ey,er);eg.addColorStop(0,'#cfe3ff');eg.addColorStop(.4,'#3f86ff');eg.addColorStop(1,'rgba(10,30,90,1)');g.globalAlpha=efo;g.fillStyle=eg;g.beginPath();g.arc(ex,ey,er,0,6.2832);g.fill();g.globalAlpha=1}
   /* bệ phóng, khói, tên lửa (đi theo máy, nhỏ dần rồi thành chấm sáng) */
   if(t<12){var fo=1-ss(10.5,12,t);g.save();g.translate(0,cam);
    if(cam<H){g.fillStyle='#0c0f18';g.fillRect(0,H*.9,W,H*.1);g.strokeStyle='#3a4254';g.lineWidth=S*.006;var tx=W*.5-S*.13;for(i=0;i<14;i++){g.beginPath();g.moveTo(tx,H*.9-i*S*.05);g.lineTo(tx+S*.05,H*.9-(i+1)*S*.05);g.stroke()}g.fillStyle='#3a4254';g.fillRect(tx,H*.9-S*.7,S*.008,S*.7);g.fillRect(tx+S*.05,H*.9-S*.7,S*.008,S*.7);
@@ -955,10 +963,15 @@ function draw(t0){if(!ready)init();var t=t0%DUR,S=Math.min(W,H),lab='',info='';
    g.restore();
    g.save();g.globalAlpha=fo;g.translate(rx,ry);g.rotate(pitch);if(rs>S*.03)rocket(g,rs,t,t>.6?1:0,ss(6,7.6,t));else{var dg=g.createRadialGradient(0,0,0,0,0,S*.02);dg.addColorStop(0,'rgba(255,245,210,1)');dg.addColorStop(1,'rgba(255,160,60,0)');g.fillStyle=dg;g.fillRect(-S*.02,-S*.02,S*.04,S*.04)}g.restore()}
   /* ngôi sao Mặt Trời khi đã lùi rất xa */
-  var spk=ss(23,25,t)*(1-ss(28,30,t));if(spk>0){g.fillStyle='rgba(255,250,225,'+spk+')';var L=S*.05;g.fillRect(SX-L,SY-1.5,L*2,3);g.fillRect(SX-1.5,SY-L,3,L*2);var sg2=g.createRadialGradient(SX,SY,0,SX,SY,S*.03);sg2.addColorStop(0,'rgba(255,240,200,'+spk+')');sg2.addColorStop(1,'rgba(255,200,120,0)');g.fillStyle=sg2;g.fillRect(SX-S*.03,SY-S*.03,S*.06,S*.06)}
+  var spk=ss(23,25,t);if(spk>0){g.fillStyle='rgba(255,250,225,'+spk+')';var L=S*lerp(.05,.012,ss(25,29,t));g.fillRect(SX-L,SY-1.5,L*2,3);g.fillRect(SX-1.5,SY-L,3,L*2);var sg2=g.createRadialGradient(SX,SY,0,SX,SY,S*.03);sg2.addColorStop(0,'rgba(255,240,200,'+spk+')');sg2.addColorStop(1,'rgba(255,200,120,0)');g.fillStyle=sg2;g.fillRect(SX-S*.03,SY-S*.03,S*.06,S*.06)}
  });
  lab=t<1.4?'ignition':t<6?'lift-off':t<9?'second stage':t<13?'in orbit':t<23?'the solar system':t<26?'the stars':'the Milky Way';
  info=t<13?'altitude '+Math.round(alt/H*8+Math.pow(Math.max(0,t-4),2)*9)+' km   downrange '+Math.round(Math.pow(Math.max(0,t-3),2)*12)+' km':t<23?(AU>S*3?Math.round(4e5+(t-13)*9e5).toLocaleString('en-US')+' km':(S*14/AU).toFixed(1)+' AU')+' from home':t<26?(1.3+(t-23)*300).toFixed(1)+' light-years from home':Math.round(26000+(t-26)*30000).toLocaleString('en-US')+' light-years from home';
+ /* tên các hành tinh (chữ nét, vẽ trên lớp ký tự) */
+ if(t>14.5&&t<23.5){var la=ss(14.5,16,t)*(1-ss(22,23.5,t));c.font='10px Consolas,Menlo,monospace';c.textAlign='left';c.textBaseline='middle';c.fillStyle='rgba(200,210,235,'+(.85*la)+')';
+  var NM=['Mercury','Venus','Earth','Mars','Jupiter','Saturn','Uranus','Neptune'];for(var q=0;q<PL.length;q++){var Ro3=AU*PL[q][0],pa3=q===2?ang:ang+.8+q*.9+t*.05,lx=SX+Math.cos(pa3)*Ro3,ly=SY+Math.sin(pa3)*Ro3*.62;if(lx<-50||lx>W+50||ly<-20||ly>H+20)continue;c.fillText(NM[q],lx+Math.max(6,AU*.04),ly)}
+  c.fillStyle='rgba(255,220,150,'+(.9*la)+')';c.fillText('Sun',SX+Math.max(8,AU*.13),SY)}
+ if(t>26.5){var la2=ss(26.5,28,t);c.font='10px Consolas,Menlo,monospace';c.textAlign='left';c.textBaseline='middle';c.fillStyle='rgba(255,225,160,'+la2+')';c.fillText('← the solar system',SX+10,SY)}
  hud(t,lab,info);glow(.5)}
 return{draw:draw,init:init}})();
 
