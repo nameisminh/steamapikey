@@ -4219,13 +4219,14 @@ setInterval(function(){if(!document.hidden&&tab==='hd')tick()},1000);
 .asb:hover{color:var(--text);border-color:var(--white)}
 #aso{position:fixed;inset:0;z-index:300;background:#05070a;cursor:pointer}
 #aso[hidden]{display:none}
+#aso .pk,#aso .x,#aso p{transition:opacity .4s}#aso.idle{cursor:none}#aso.idle .pk,#aso.idle .x,#aso.idle p{opacity:0;pointer-events:none}
 #aso canvas{display:block;width:100%;height:100%}
 #aso .pk{position:absolute;bottom:2.6rem;left:.6rem;right:.6rem;display:flex;flex-wrap:nowrap;overflow-x:auto;gap:.3rem;scrollbar-width:none}#aso .pk[hidden]{display:none}#aso .pk button{position:static;width:auto;height:auto;padding:.25rem .65rem;border-radius:99px;flex:none;white-space:nowrap;font:600 .68rem var(--mono)}#aso .pk button.on{background:#fff;color:#000}#aso button.x{position:absolute;top:.8rem;right:.8rem;}#aso button{position:absolute;top:.8rem;right:.8rem;width:44px;height:44px;border-radius:50%;border:1px solid #fff4;background:#0008;color:#fff;font-size:1.4rem;cursor:pointer}
 #aso p{position:absolute;left:0;right:0;bottom:.8rem;margin:0;text-align:center;font:.75rem var(--mono);color:#fff8;pointer-events:none}
 </style>
 <script>
 /* Tranh ASCII 3D nằm ở ascii3d.js, chỉ tải và chạy khi bấm nút; đóng là gỡ hết */
-(function(){var b=document.getElementById('asb'),l=0,go=0;if(!b)return;function ld(){if(l||window.__ascOpen)return;l=1;var s=document.createElement('script');s.src='ascii3d.js?v=18707';s.onload=function(){l=0;if(go){go=0;window.__ascOpen&&window.__ascOpen()}else{(window.requestIdleCallback||function(f){setTimeout(f,1500)})(function(){window.__ascWarm&&window.__ascWarm()},{timeout:5000})}};s.onerror=function(){l=0;go=0};document.head.appendChild(s)}
+(function(){var b=document.getElementById('asb'),l=0,go=0;if(!b)return;function ld(){if(l||window.__ascOpen)return;l=1;var s=document.createElement('script');s.src='ascii3d.js?v=12882';s.onload=function(){l=0;if(go){go=0;window.__ascOpen&&window.__ascOpen()}else{(window.requestIdleCallback||function(f){setTimeout(f,1500)})(function(){window.__ascWarm&&window.__ascWarm()},{timeout:5000})}};s.onerror=function(){l=0;go=0};document.head.appendChild(s)}
 b.addEventListener('click',function(){if(window.__ascOpen)return window.__ascOpen();go=1;ld()});
 /* tải sẵn mã ASC lúc rảnh để bấm vào là mở ngay */
 addEventListener('load',function(){(window.requestIdleCallback||function(f){setTimeout(f,2500)})(ld,{timeout:6000})})})();

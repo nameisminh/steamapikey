@@ -794,7 +794,7 @@ function draw(t0){if(!ready)init();if(!Dd)Dd=new Float32Array(N);var T=t0%LOOP;i
  for(k=0;k<n;k++){var q=ord[k],ab=single[q]?ANG_ZERO:Math.max(0,Math.min(NA-1,Math.round((((Ang[q]+rotj[q]+90)%180+180)%180-90)/ANG_STEP)+ANG_ZERO)),key=(((tok[q]*NSZ+size[q])*5+pal[q])*NLV+lv[q])*NA+ab,s=sprite(key,tok[q],size[q],pal[q],lv[q],ab);c.drawImage(s,Math.round(PXa[q])-(s.width>>1),Math.round(PYa[q])-(s.height>>1))}
  if(dt>0){sacc+=dt*(.8+6*ov);while(sacc>=1){sacc-=1;for(var tr=0;tr<6;tr++){var j=iPet[(rr()*iPet.length)|0];if(lv[j]>=3){sparkles.push([PXa[j],PYa[j],0,uni(.7,1.4),uni(4,9)]);break}}}for(k=0;k<sparkles.length;k++)sparkles[k][2]+=dt;sparkles=sparkles.filter(function(s){return s[2]<s[3]})}
  c.lineWidth=1;for(k=0;k<sparkles.length;k++){var s=sparkles[k],sn=Math.sin(Math.PI*s[2]/s[3]),ln=s[4]*(.35+sn),col=function(m){return'rgb('+(SPARK[0]*sn*m|0)+','+(SPARK[1]*sn*m|0)+','+(SPARK[2]*sn*m|0)+')'};c.strokeStyle=col(1);c.beginPath();c.moveTo(s[0]-ln,s[1]);c.lineTo(s[0]+ln,s[1]);c.moveTo(s[0],s[1]-ln);c.lineTo(s[0],s[1]+ln);c.stroke();var dd=ln*.55;c.strokeStyle=col(.5);c.beginPath();c.moveTo(s[0]-dd,s[1]-dd);c.lineTo(s[0]+dd,s[1]+dd);c.moveTo(s[0]-dd,s[1]+dd);c.lineTo(s[0]+dd,s[1]-dd);c.stroke()}
- var a=sm((T-TTEXT)/3);if(a>.003){c.globalAlpha=a;c.fillStyle='rgb(255,205,220)';c.font='italic 27px Georgia,Palatino,serif';c.textAlign='center';c.textBaseline='alphabetic';c.fillText('Có những điều cũng có thể lập trình bằng cả trái tim.',VW/2,780);c.globalAlpha=1}
+
  c.setTransform(1,0,0,1,0,0);glow(.5*(.55+.45*ov)*(.85+.15*bloom))}
 return{draw:draw,init:init}})();
 
@@ -1062,13 +1062,15 @@ function open(){if(!o){o=document.createElement('div');o.id='aso';o.setAttribute
  LIST.forEach(function(l){var x=document.createElement('button');x.type='button';x.dataset.k=l[0];x.textContent=l[1];x.addEventListener('click',function(){show(l[0])});pk.appendChild(x)})}
  W=cv.width=innerWidth;H=cv.height=innerHeight;fb=Math.max(H/125,W/230);grid(fb);ema=24;fr=0;
  reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
- o.hidden=false;document.documentElement.style.overflow='hidden';o.querySelector('.x').focus();addEventListener('keydown',esc);document.addEventListener('visibilitychange',vis);
+ o.hidden=false;document.documentElement.style.overflow='hidden';o.querySelector('.x').focus();addEventListener('keydown',esc);document.addEventListener('visibilitychange',vis);wake();o.addEventListener('pointermove',wake);o.addEventListener('pointerdown',wake);o.addEventListener('touchstart',wake,{passive:true});
  /* khung đen hiện trước, rồi mới dựng cảnh ở khung kế để lúc bấm không bị khựng */
  requestAnimationFrame(function(){requestAnimationFrame(function(){if(!o)return;show(pick());if(!reduce)raf=requestAnimationFrame(loop)})})}
+/* để yên chuột ~2,5 giây thì ẩn nút và dòng chữ để ngắm tranh; động chuột / chạm là hiện lại */
+var idleT=0;function wake(){if(!o)return;o.classList.remove('idle');clearTimeout(idleT);idleT=setTimeout(function(){if(o)o.classList.add('idle')},2500)}
 function esc(e){if(e.key==='Escape')close()}
 function vis(){cancelAnimationFrame(raf);if(!document.hidden&&!reduce)raf=requestAnimationFrame(loop)}
 /* đóng là gỡ hẳn: dừng vòng vẽ, bỏ sự kiện, xoá khung và canvas khỏi bộ nhớ */
-function close(){if(!o)return;cancelAnimationFrame(raf);raf=0;removeEventListener('keydown',esc);document.removeEventListener('visibilitychange',vis);GLX.dispose();o.remove();o=cv=gcv=c=S=GC=GX=null;document.documentElement.style.overflow='';if(b)b.focus()}
+function close(){if(!o)return;clearTimeout(idleT);cancelAnimationFrame(raf);raf=0;removeEventListener('keydown',esc);document.removeEventListener('visibilitychange',vis);GLX.dispose();o.remove();o=cv=gcv=c=S=GC=GX=null;document.documentElement.style.overflow='';if(b)b.focus()}
 window.__ascOpen=open;
 /* làm nóng lúc rảnh: biên dịch sẵn shader cảnh mặc định trên khung 64x64 rồi bỏ ngay (trình duyệt giữ bản đã dịch), lúc bấm nút khỏi bị khựng. Không giữ gì lại trong bộ nhớ. */
 window.__ascWarm=function(){if(o||window.__ascWarmed)return;window.__ascWarmed=1;try{var s=scene(pick());if(!s||!s.gl)return;var w=W,h=H,cx=document.createElement('canvas');cx.width=cx.height=64;
