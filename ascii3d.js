@@ -831,11 +831,11 @@ return{frame:frame,pix:pix,noise:noise}})();
 /* ---- Cánh đồng hoa cúc dưới trăng (theo video mẫu): cảnh vẽ mịn ở độ phân giải đầy đủ, chữ chỉ là lớp vân phủ lên:
    mây thành chữ $8@%#, trời có chấm li ti, cỏ có vân chữ 1 | xanh mờ. Hoa cúc vẽ sẵn thành ảnh nhỏ theo từng cỡ nên mỗi khung rất nhẹ. ---- */
 var FIELD=(function(){
-var ready=0,CL=null,DZ=[],FF=[],TR=[],BL=[],SPR={},GC=null,GS=null,GF=null,OFF=null,og=null,lw=0,lh=0,SK=[];
+var ready=0,CL=null,DZ=[],FF=[],TR=[],BL=[],SPR={},GC=null,GS=null,GF=null,GA=null,OFF=null,og=null,lw=0,lh=0,SK=[];
 function glyphs(set,fs,alpha,seed){var cv=document.createElement('canvas');cv.width=W;cv.height=H;var g=cv.getContext('2d'),r=PXE.rng(seed),cw=Math.round(fs*.62);g.font='700 '+fs+'px Consolas,Menlo,"DejaVu Sans Mono",monospace';g.textBaseline='top';g.fillStyle='rgba(255,255,255,'+alpha+')';
  for(var y=0;y<H;y+=fs)for(var x=0;x<W;x+=cw)g.fillText(set[(r()*set.length)|0],x,y);return cv}
 function layers(){if(lw===W&&lh===H&&GC)return;lw=W;lh=H;var fs=Math.max(8,Math.round(Math.min(W,H)/62));
- GC=glyphs('$8@%#&0QB$%@8&#SZ',fs,1,3);GS=glyphs('..:.:..\'.:',fs,1,4);GF=glyphs('1|l1!|/1i|',fs,1,6);OFF=document.createElement('canvas');OFF.width=W;OFF.height=H;og=OFF.getContext('2d');SPR={}}
+ GC=glyphs('$8@%#&0QB$%@8&#SZ',fs,1,3);GS=glyphs('..:.:..\'.:',fs,1,4);GF=glyphs('1|l1!|/1i|',fs,1,6);GA=glyphs('.:;+=*#%@$&8xoOQ0',Math.max(7,Math.round(Math.min(W,H)/78)),1,8);OFF=document.createElement('canvas');OFF.width=W;OFF.height=H;og=OFF.getContext('2d');SPR={}}
 function daisy(sz,blue){/* một bông cúc: 14 cánh trắng viền xám xanh, nhuỵ vàng có vòng cam */
  var k=(sz|0)+(blue?'b':'w');if(SPR[k])return SPR[k];var n=Math.ceil(sz*2.6),cv=document.createElement('canvas');cv.width=cv.height=n;var g=cv.getContext('2d'),cx=n/2,cy=n/2;
  for(var p=0;p<14;p++){var a=p/14*6.2832;g.save();g.translate(cx,cy);g.scale(1,.62);g.rotate(a);var pg=g.createLinearGradient(0,0,sz,0);pg.addColorStop(0,blue?'#b9c8ff':'#ffffff');pg.addColorStop(1,blue?'#7f97e8':'#d6def0');g.fillStyle=pg;g.beginPath();g.ellipse(sz*.55,0,sz*.5,sz*.15,0,0,6.2832);g.fill();g.restore()}
@@ -875,6 +875,11 @@ function draw(t){if(!ready)init();layers();var T=t,hz=H*.6,i,mx=W*.68,my=H*.24,m
  g.globalAlpha=.22;g.drawImage(GF,0,hz,W,H-hz,0,hz,W,H-hz);g.globalAlpha=1;g.globalCompositeOperation='source-atop';g.fillStyle='rgba(60,170,90,.0)';g.globalCompositeOperation='source-over';
  g.lineCap='round';for(i=0;i<BL.length;i++){var B=BL[i],z=B[1],y=hz+(H-hz)*Math.pow(z,1.5),x2=B[0]*W,hg=H*(.015+.12*z*z),bd=(wind+.3*Math.sin(T*2+B[2]))*hg*.35;
   g.strokeStyle='rgba('+(30+50*B[3]|0)+','+(110+100*z|0)+','+(70+50*B[3]|0)+','+(.35+.5*z)+')';g.lineWidth=.6+1.4*z;g.beginPath();g.moveTo(x2,y);g.quadraticCurveTo(x2+bd*.3,y-hg*.6,x2+bd,y-hg);g.stroke()}
+ /* lớp chữ phủ toàn cảnh (trời, mây, rặng cây, cỏ): cảnh vẫn mịn bên dưới nhưng nhìn rõ từng ký tự, chỗ sáng chữ sáng */
+ og.setTransform(1,0,0,1,0,0);og.globalAlpha=1;og.globalCompositeOperation='source-over';og.clearRect(0,0,W,H);og.drawImage(cv,0,0,W,H);og.globalCompositeOperation='destination-in';og.drawImage(GA,0,0);og.globalCompositeOperation='source-over';
+ g.fillStyle='rgba(0,0,0,.3)';g.fillRect(0,0,W,H);g.globalCompositeOperation='lighter';g.globalAlpha=.75;g.drawImage(OFF,0,0);g.globalAlpha=1;g.globalCompositeOperation='source-over';
+ /* trăng vẽ lại trên lớp chữ cho tròn sáng */
+ var hl2=g.createRadialGradient(mx,my,mr*.8,mx,my,mr*3.2);hl2.addColorStop(0,'rgba(210,230,255,.55)');hl2.addColorStop(1,'rgba(90,140,255,0)');g.fillStyle=hl2;g.fillRect(mx-mr*3.2,my-mr*3.2,mr*6.4,mr*6.4);g.fillStyle=mg;g.beginPath();g.arc(mx,my,mr,0,6.2832);g.fill();
  /* hoa cúc: xa nhỏ, gần to, đung đưa theo gió */
  for(i=0;i<DZ.length;i++){var D=DZ[i],z2=D.z,y2=hz+H*.03+(H-hz)*Math.pow(z2,1.6),sz=(2+H*.034*z2*z2)*D.s,sw=(wind+.4*Math.sin(T*1.6+D.ph))*sz*.5,x3=D.x*W+sw,stem=H*.07*z2*z2;
   if(stem>3){g.strokeStyle='rgba(50,150,80,.85)';g.lineWidth=Math.max(1,sz*.08);g.beginPath();g.moveTo(D.x*W,y2+stem);g.lineTo(x3,y2);g.stroke()}
