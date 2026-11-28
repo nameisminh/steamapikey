@@ -1022,6 +1022,9 @@ function draw(t0){if(!ready)init();var t=t0%DUR,S=Math.min(W,H),cx=W/2,base=H*.9
  IMA.frame(function(g){var i;
   for(i=0;i<ST.length;i++){var s=ST[i],tw=.5+.5*Math.sin(t*2+s[2]*20);g.fillStyle='rgba(255,255,255,'+(.25+.6*tw*s[2])*fo*ss(3,5,t)+')';g.fillRect(s[0]*W,s[1]*H,2.5,2.5)}
   g.globalAlpha=fo;
+  /* 1. bó lá mảnh mọc thẳng lên như cỏ (0–2,4 giây) */
+  for(i=0;i<LV.length;i++){var l=LV[i],gl=ss(.1+i*.012,2+i*.012,t);if(gl<=0)continue;var lx=cx+l[0]*S*.06,len=S*l[1]*.5*gl,bend=l[0]*S*.34+l[2]*S*.03+Math.sin(t*.9+l[3])*S*.008,tx=lx+bend,ty=base-len,lw2=S*(.004+.004*Math.abs(Math.sin(l[3])));
+   var lg2=g.createLinearGradient(lx,base,tx,ty);lg2.addColorStop(0,'rgb(40,120,50)');lg2.addColorStop(1,'rgb('+(110+40*Math.sin(l[3])|0)+',210,90)');g.fillStyle=lg2;g.beginPath();g.moveTo(lx-lw2,base);g.quadraticCurveTo(lx+bend*.25,base-len*.6,tx,ty);g.quadraticCurveTo(lx+bend*.3,base-len*.55,lx+lw2,base);g.fill()}
   /* 2. cuống cao vươn lên mang nụ (1,2–3,6 giây) */
   var rB=0,cB=Math.cos(rB),sB=Math.sin(rB),pos=[];for(i=0;i<FL.length;i++){var F=FL[i],bz=0,zb=F.u*sB;F.bz=bz;var x=hx+F.u*RX*cB+bz*S*.018+sw*S*(1-F.v),y=hy+F.v*RY+zb*S*.02-Math.abs(bz)*S*.006,gs=ss(1.1+F.dl*.35,3.3+F.dl*.35,t),sx2=cx+F.u*S*.05,yy=base-(base-y)*gs,xx=sx2+(x-sx2)*gs;pos.push([xx,yy,sx2,gs]);
    if(gs<=0)continue;g.strokeStyle='rgb(80,175,80)';g.lineWidth=Math.max(1.5,S*.006);g.beginPath();g.moveTo(sx2,base);g.quadraticCurveTo(sx2+(xx-sx2)*.2,(base+yy)/2,xx,yy);g.stroke()}
